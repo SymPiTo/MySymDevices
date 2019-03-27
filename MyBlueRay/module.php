@@ -6,7 +6,7 @@ class MyBlueRay extends IPSModule
 
     public function Create()
     {
-	//Never delete this line!
+	//Never delete this line! ok
         parent::Create();
 		
 		//These lines are parsed on Symcon Startup or Instance creation
