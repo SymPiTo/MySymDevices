@@ -1,0 +1,13 @@
+{
+	"id": "{53CD17E4-1020-711B-3149-C532830AC0FB}",
+	"author": "PiTo",
+	"name": "MyUpnpDevices",
+	"url": "",
+	"compatibility": {
+    "version": "4.2",
+    "date": 1491343200
+	},
+	"version": "0.1",
+	"build": 0,
+	"date": 0
+}
