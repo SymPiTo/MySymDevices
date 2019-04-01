@@ -1,7 +1,7 @@
 <?php
 //zugehoerige TRAIT-Klassen    TEST xxxy
 require_once(__DIR__ . "/SamsungTV_Interface.php");
-require_once(__DIR__ . "/../libs/NetworkTraits.php");
+require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 
 
 
@@ -10,7 +10,7 @@ class MySamsungTV extends IPSModule
     
     //externe Klasse einbinden - ueberlagern mit TRAIT.
     use SamsungUPNP,
-        MyDebugHelper;
+        MyDebugHelper2;
      
     //*****************************************************************************
     /* Function: Standardfunktinen für ein Modul. 

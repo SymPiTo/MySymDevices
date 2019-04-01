@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/UpnpDiscoveryClassTrait.php");
 require_once(__DIR__ . "/UpnpClassTrait.php");
-require_once(__DIR__ . "/../libs/NetworkTraits.php");
+require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 
 require_once(__DIR__ . "/../libs/Array2XML.php");  // diverse Klassen
 
@@ -24,7 +24,7 @@ class MyUpnp extends IPSModule {
          */
     use upnp,
         UpnpDiscoveryClassTrait,
-        MyDebugHelper;
+        MyDebugHelper2;
     
     /* Constructor: 
     Der Konstruktor des Moduls
