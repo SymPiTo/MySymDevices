@@ -297,7 +297,6 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
             else {
                 //Keine Netzwerk-Verbindung zun Client
                 $this->SendDebug("Meldung: ", "Keine Netzwerkverbindung zu Denon Ceol.", 0);
-                $this->SetTimerInterval("Update", 0);
             }
         }
         
@@ -466,12 +465,10 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                     $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
 			$cmd = '1+PowerOn';
 			$power=true;
-                        $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval"));
 		}
 		if ($status == "Standby"){
 			$cmd = '1+PowerStandby';
 			$power=false;
-                        $this->SetTimerInterval("Update", 0);
 		}
 		$xml = $this->curl_get($url, $cmd);
 		$output = XML2Array::createArray($xml);
@@ -1554,7 +1551,6 @@ o                    http://192.168.2.99/img/album%20art_S.png
             curl_close($ch);
 
             $xml = simplexml_load_string($data); 
-            $this->SendDebug("getImageFromLastFM: ", "Data received: ".$data, 0);
             $json = json_encode($xml);
             $array = json_decode($json,TRUE);
             $imageUrl = $array["artist"]["image"][$size];
