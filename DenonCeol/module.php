@@ -271,10 +271,12 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
                             $size = 3;
                             $url = $this->getImageFromLastFM($dispLine2[0], $size);
-                            setvalue($this->GetIDForIdent("CeolArtPicUrl"), strval($url));
-                            setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
-                            if (isset($dispLine2[1])){
-                                setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
+                            if($url != false){
+                                setvalue($this->GetIDForIdent("CeolArtPicUrl"), strval($url));
+                                setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
+                                if (isset($dispLine2[1])){
+                                    setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
+                                }
                             }
                         break;	
                         case "MediaServer":
@@ -1555,9 +1557,14 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $xml = simplexml_load_string($data); 
             $json = json_encode($xml);
             $array = json_decode($json,TRUE);
-            $imageUrl = $array["artist"]["image"][$size];
-            $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
-            return $imageUrl;
+            if(isset($array["artist"]["image"][$size])){
+                $imageUrl = $array["artist"]["image"][$size];
+                $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
+                return $imageUrl;
+            }
+            else{
+                return false;
+            }
         } 
         
     } // Ende Klasse
