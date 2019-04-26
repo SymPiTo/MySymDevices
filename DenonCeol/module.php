@@ -620,7 +620,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/	
-	Public function SetVolumeDB($Volume){
+	Public function SetVolumeDB(int $Volume){
             $VoldB = -79.0 + ($Volume/10);
             $Wert =intval($VoldB);
             $Wert = str_replace(',', '.',$Wert);
@@ -634,7 +634,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	}        
         
 	/*//////////////////////////////////////////////////////////////////////////////
-	Befehl: setBass($value)
+	Befehl: setBass( $value)
 	...............................................................................
 	Erhöht Bass Level (Range: -10 ... +10) (40...60)
         HTTP Befehl: http://192.168.178.29:80/goform/formiPhoneAppDirect.xml?UP
@@ -648,7 +648,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-05-31
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setBass($value){ 
+	Public function setBass(string $value){ 
 		$cmd = 'PSBAS_'.$value;
 		$xml = $this->send_cmd($cmd);
 		return $xml;
@@ -669,7 +669,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-05-31
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setTreble($value){ 
+	Public function setTreble(string $value){ 
 		$cmd = 'PSTRE_'.$value;
 		$xml = $this->send_cmd($cmd);
 		return $xml;
@@ -690,7 +690,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-05-31
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setBalance($value){ 
+	Public function setBalance(string $value){ 
 		$cmd = 'PSBAL_'.$value;
 		$xml = $this->send_cmd($cmd);
 		return $xml;
@@ -739,7 +739,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: funktioniert nicht
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setTimer($mode, $startTime, $endTime, $funct = 'FA', $n = '01', $volT = '03', $state){    
+	Public function setTimer(string $mode, $startTime, $endTime, string $funct = 'FA', $n = '01', $volT = '03', string $state){    
             $mode = strtoupper ($mode);
             $sT= explode(':', $startTime);
             $periodS = '2';
@@ -772,7 +772,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: funktioniert nicht
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function switchTimer($stateTimerOnce,$stateTimerAlways){    
+	Public function switchTimer(string $stateTimerOnce, string $stateTimerAlways){    
             $stateTimerOnce = strtoupper ($stateTimerOnce);
             $stateTimerAlways = strtoupper ($stateTimerAlways);
             $cmd = 'TO'.$stateTimerAlways.' '.$stateTimerAlways;
@@ -799,7 +799,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-05-31
 	//////////////////////////////////////////////////////////////////////////////*/	
-	Public function SetRadioChannel($Channel){
+	Public function SetRadioChannel(string $Channel){
             $this->SendDebug('Switch Radio to Channel:', $Channel, 0);
             $cmd = 'FV'.'%20'.$Channel;
             $this->send_cmd($cmd);
@@ -1537,7 +1537,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	--------------------------------------------------------------------------------
 	Status: 03.10.2018
 	//////////////////////////////////////////////////////////////////////////////*/ 
-        public function getImageFromLastFM($artist, $size){
+        public function getImageFromLastFM(string $artist, int $size){
             $artisDec = urlencode($artist);
             $url    = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist={$artisDec}&api_key=91770645e54b138f5187003fcb830865";
             
