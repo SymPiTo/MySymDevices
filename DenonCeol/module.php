@@ -740,7 +740,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 	--------------------------------------------------------------------------------
 	Status: funktioniert nicht
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setTimer(string $mode, $startTime, $endTime, string $funct = 'FA', $n = '01', $volT = '03', string $state){    
+	Public function setTimer(string $mode, $startTime, $endTime, string $funct = 'FA', string $n = '01', string $volT = '03', string $state){    
             $mode = strtoupper ($mode);
             $sT= explode(':', $startTime);
             $periodS = '2';
@@ -1366,7 +1366,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
         --------------------------------------------------------------------------------
         Status  checked  
         //////////////////////////////////////////////////////////////////////////////*/
-        Protected function search_key($which_key, $which_value, $array){
+        Protected function search_key(string $which_key, string $which_value, array $array){
             foreach ($array as $key => $value){
                 if($value[$which_key] === $which_value){
                     return $key;
