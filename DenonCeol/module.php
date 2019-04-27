@@ -271,13 +271,15 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
                             $size = 3;
                             $url = $this->getImageFromLastFM($dispLine2[0], $size);
-                            if($url != false){
-                        
+                            if($url === false){
+                                $this->SendDebug("error ", "no Image found", 0);
+                            }
+                            else{
                                 SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                                 setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
                                 if (isset($dispLine2[1])){
                                     setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
-                                }
+                                }     
                             }
                         break;	
                         case "MediaServer":
