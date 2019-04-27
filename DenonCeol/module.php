@@ -1556,7 +1556,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $xml = simplexml_load_string($data); 
             $json = json_encode($xml);
             $array = json_decode($json,TRUE);
-            $this->SendDebug("getImageFromLastFM: ", "ARRAY = ".$array, 0);
+            $this->SendDebug("getImageFromLastFM: ", "ARRAY = ".$json, 0);
             if(isset($array["artist"]["image"][$size])){
                 $imageUrl = $array["artist"]["image"][$size];
                 $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
