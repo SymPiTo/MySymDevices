@@ -271,7 +271,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
                             $size = 3;
                             $url = $this->getImageFromLastFM($dispLine2[0], $size);
-                            if($url != false and substr($url,0,4) === "http"){
+                            if($url != false){
                         
                                 setvalue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                                 setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
@@ -1556,6 +1556,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $xml = simplexml_load_string($data); 
             $json = json_encode($xml);
             $array = json_decode($json,TRUE);
+            $this->SendDebug("getImageFromLastFM: ", "ARRAY = ".$array, 0);
             if(isset($array["artist"]["image"][$size])){
                 $imageUrl = $array["artist"]["image"][$size];
                 $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
