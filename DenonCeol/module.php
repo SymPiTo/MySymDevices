@@ -1570,6 +1570,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
                             return $imageUrl;
                         }
                         else{
+                           $this->SendDebug("getImageFromLastFM: ", "keine gültige URL", 0); 
                            return false; 
                         }
                     }
