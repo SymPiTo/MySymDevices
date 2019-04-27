@@ -1565,7 +1565,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
                     if(isset($array["artist"]["image"][$size])){
                         $imageUrl = $array["artist"]["image"][$size];
                         //prüfen ob übergebener Wert ein URL ist.
-                        if (filter_var($url, FILTER_VALIDATE_URL)) {
+                        if (filter_var($url, FILTER_VALIDATE_URL) and $imageUrl != "extralarge") {
                             $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
                             return $imageUrl;
                         }
