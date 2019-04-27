@@ -272,6 +272,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $size = 3;
                             $url = $this->getImageFromLastFM($dispLine2[0], $size);
                             if($url != false and $url != null){
+                                $this->SendDebug("URL ERROR: ", $url, 0);
                                 setvalue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                                 setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
                                 if (isset($dispLine2[1])){
