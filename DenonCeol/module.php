@@ -1558,8 +1558,8 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $array = json_decode($json,TRUE);
             $this->SendDebug("getImageFromLastFM: ", "ARRAY = ".$json, 0);
             
-            $this->SendDebug("getImageFromLastFM: ", "Status = ".$array["status"], 0);       
-            if($array["status"] = "OK"){
+            $this->SendDebug("getImageFromLastFM: ", "Status = ".$array["@attributes"]["status"], 0);       
+            if($array["@attributes"]["status"] = "OK"){
                 if(isset($array["artist"]["image"][$size])){
                     $imageUrl = $array["artist"]["image"][$size];
                     $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
