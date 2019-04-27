@@ -295,8 +295,6 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 5);
                         break;		
                 }
-
-                        
             }
             else {
                 //Keine Netzwerk-Verbindung zun Client
