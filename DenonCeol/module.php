@@ -1564,8 +1564,14 @@ o                    http://192.168.2.99/img/album%20art_S.png
                 if($array["@attributes"]["status"] = "OK"){
                     if(isset($array["artist"]["image"][$size])){
                         $imageUrl = $array["artist"]["image"][$size];
-                        $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
-                        return $imageUrl;
+                        //prüfen ob übergebener Wert ein URL ist.
+                        if (filter_var($url, FILTER_VALIDATE_URL)) {
+                            $this->SendDebug("getImageFromLastFM: ", $imageUrl, 0);
+                            return $imageUrl;
+                        }
+                        else{
+                           return false; 
+                        }
                     }
                     else{
                         return false;
