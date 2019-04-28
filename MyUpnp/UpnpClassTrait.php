@@ -799,7 +799,7 @@ trait upnp {
         17.08.2014 HTTP/1.0 implementiert um die Rückgabe von chunked Responses zu vermeiden !
         /*//////////////////////////////////////////////////////////////////////////////
 
-        $header='POST '.$ServerContentDirectory.' HTTP/1.1
+        $header='POST '.$ServerContentDirectory.' HTTP/1.0
         HOST: '.$ServerIP.':'.$ServerPort.'
         SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
         CONTENT-TYPE: text/xml; charset="utf-8"
