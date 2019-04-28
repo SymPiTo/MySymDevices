@@ -675,9 +675,12 @@ trait upnp {
 	      	if(isset($e->detail->UPnPError->errorCode)){
 	        	$errorCode   = $e->detail->UPnPError->errorCode;
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
-	      	}
+	      	
+                        return false;
+                }
 			else{
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
+                        return false;
 	      	}
 	    }
     
