@@ -820,9 +820,7 @@ trait upnp {
         </s:Envelope>';
 
         $content_ContentDirectory_Browse = $header . '
-        Content-Length: '. strlen($xml) .'
-
-        '. $xml;
+        Content-Length: '. strlen($xml) .' '. $xml;
 
         $fp = fsockopen ($ServerIP, $ServerPort, $errno, $errstr, 10);
 
