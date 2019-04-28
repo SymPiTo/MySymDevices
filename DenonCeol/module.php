@@ -124,6 +124,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
             }
             else {
                 $this->SetTimerInterval("Update", 0);
+                $this->SetTimerInterval("Ceol_PlayInfo", 0);
             }
         }
  
@@ -228,7 +229,8 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                 else{
                         $_power = false;
                         SetValueString($this->GetIDForIdent("CeolSZ2"), 'Denon CEOL Picolo');
-                        SetValueString($this->GetIDForIdent("CeolSZ3"), 'ausgeshaltet');
+                        SetValueString($this->GetIDForIdent("CeolSZ3"), 'ausgeschaltet');
+                        $this->SetTimerInterval("Ceol_PlayInfo", 0);
                 }
                 SetValueBoolean($this->GetIDForIdent("CeolPower"), $_power);
                 SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
@@ -302,6 +304,8 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
             else {
                 //Keine Netzwerk-Verbindung zun Client
                 $this->SendDebug("Meldung: ", "Keine Netzwerkverbindung zu Denon Ceol.", 0);
+                $this->SetTimerInterval("Update", 0);
+                $this->SetTimerInterval("Ceol_PlayInfo", 0);
             }
         }
         
