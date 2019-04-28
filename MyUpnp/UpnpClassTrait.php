@@ -854,25 +854,11 @@ trait upnp {
         /*XML per XPATH auslesen und <Result>, <NumberReturned>, <TotalMatches> und
         <UpdateID> zum Weiterverarbeiten extrahieren*/
 
-        $xml = simplexml_load_string($message);
+        
 
-        $Result = $xml->xpath("////Result");
-        $Result = (string) $Result[0];
-        //echo("\r\nResult:$Result");
 
-        $NumberReturned = $xml->xpath("////NumberReturned");
-        $NumberReturned = (string) $NumberReturned[0];
-        //echo("\r\nNumberReturned:$NumberReturned");
 
-        $TotalMatches = $xml->xpath("////TotalMatches");
-        $TotalMatches = (string) $TotalMatches[0];
-        //echo("\r\nTotalMatches:$TotalMatches");
-
-        $UpdateID = $xml->xpath("////UpdateID");
-        $UpdateID = (string) $UpdateID[0];
-        //echo("\r\nUpdateID:$UpdateID");
-
-        return array($message, $Result, $NumberReturned, $TotalMatches, $UpdateID);
+        return $message;
         }
         
         
