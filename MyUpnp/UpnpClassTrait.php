@@ -660,7 +660,6 @@ trait upnp {
          *      Sofern vorhanden, wird dieses Array mit den Headern des SOAP-Response gefüllt.
          *      Sonst Fehler Meldung  
          */
-        /*
 	Protected function processSoapCall(string $ip, string $port, string $path, string $uri, string $action, array $parameter)
     {
  
@@ -686,15 +685,7 @@ trait upnp {
 	    }
     
     }
-*/
-	Protected function processSoapCall(string $ip, string $port, string $path, string $uri, string $action, array $parameter)
-    {
-	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
-	                                               "uri"        => $uri,
-	                                               "trace"      => true ));
-	      	return $client->__soapCall($action, $parameter);
 
-    }
 
 	//*****************************************************************************
 	/* Function: resolveErrorCode($path,$errorCode)
