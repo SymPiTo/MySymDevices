@@ -1181,7 +1181,7 @@ class MyUpnp extends IPSModule {
 		$n = 0;
 		$i = 0;
 		$SI = 0;
-		// Server spezifische Filter = STammverzeichnis
+		// Server spezifische Filter = Stammverzeichnis
 		if($ServerName == "Plex"){
 			$AuswahlA = "By Folder";
 			$AuswahlB = "Music";
