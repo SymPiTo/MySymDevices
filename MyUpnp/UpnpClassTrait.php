@@ -662,7 +662,9 @@ trait upnp {
          */	
 	Protected function processSoapCall(string $ip, string $port, string $path, string $uri, string $action, array $parameter)
     {
-	    try{
+	if (IPS_SemaphoreEnter("KritischerPunkt", 1000))
+        {
+            try{
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
 	                                               "uri"        => $uri,
 	                                               "trace"      => true ));
@@ -679,6 +681,14 @@ trait upnp {
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
 	      	}
 	    }
+            //Semaphore wieder freigeben!
+            IPS_SemaphoreLeave("KritischerPunkt");
+        }
+else
+{
+    // ...Keine ausführung Möglich. Ein anderes Skript nutzt den "KritischenPunkt" 
+    // für länger als 1 Sekunde, sodass unsere Wartezeit überschritten wird.
+}    
     }
 
 
