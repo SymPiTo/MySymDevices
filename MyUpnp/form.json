@@ -8,7 +8,8 @@
 	"actions":
 	[
 		{ "type": "Button", "label": "Search Upnp Clients.",  "onClick": "UPNP_searchUPNP($id,'client');" },
-                { "type": "Button", "label": "Search Upnp Server.",  "onClick": "UPNP_searchUPNP($id,'server');" }
+                { "type": "Button", "label": "Search Upnp Server.",  "onClick": "UPNP_searchUPNP($id,'server');" },
+                { "type": "Button", "label": "Search Upnp Server.",  "onClick": "UPNP_getContainerServer($id,'Musik');" }
 
         ]
 }
