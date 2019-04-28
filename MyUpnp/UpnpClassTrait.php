@@ -757,6 +757,125 @@ trait upnp {
 
 
 
+        
+
+        /*//////////////////////////////////////////////////////////////////////////////
+        UPNP_Browse_Functions V3.6                                2015 by André Liebmann
+        21.07.2015
+        --------------------------------------------------------------------------------
+        Funktionssammlung für Browsing
+        /*//////////////////////////////////////////////////////////////////////////////
+
+        /*//////////////////////////////////////////////////////////////////////////////
+        function ContentDirectory_Browse
+        --------------------------------------------------------------------------------
+        partielle Website mit Preloader erstellen und Anfrage an Server mit Object-ID
+        (Browseflag: BrowseDirectChildren oder ggf. BrowseMetadata) senden
+        die Response wird als Array von $message, $Result, $NumberReturned,
+        $TotalMatches und $UpdateIDübergeben
+        --------------------------------------------------------------------------------
+        IN:   $ServerContentDirectory
+        IN:   $ServerIP
+        IN:   $ServerPort
+        --------------------------------------------------------------------------------
+        IN:   $ObjectID
+        IN:   $BrowseFlag
+        IN:   $Filter
+        IN:   $StartingIndex
+        IN:   $RequestedCount
+        IN:   $SortCriteria
+        --------------------------------------------------------------------------------
+        OUT:  $message
+        OUT:  $Result
+        OUT:  $NumberReturned
+        OUT:  $TotalMatches
+        OUT:  $TotalMatches
+        /*//////////////////////////////////////////////////////////////////////////////
+
+        public function ContentDirectory_Browse_($Kernel, $ServerContentDirectory, $ServerIP, $ServerPort, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria)
+        {
+
+        /*//////////////////////////////////////////////////////////////////////////////
+        17.08.2014 HTTP/1.0 implementiert um die Rückgabe von chunked Responses zu vermeiden !
+        /*//////////////////////////////////////////////////////////////////////////////
+
+        $header='POST '.$ServerContentDirectory.' HTTP/1.0
+        HOST: '.$ServerIP.':'.$ServerPort.'
+        SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+        CONTENT-TYPE: text/xml; charset="utf-8"
+        connection: close';
+
+        $xml='<?xml version="1.0" encoding="utf-8"?>
+        <s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+           <s:Body>
+              <u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+                 <ObjectID>'.$ObjectID.'</ObjectID>
+                 <BrowseFlag>'.$BrowseFlag.'</BrowseFlag>
+                 <Filter>'.$Filter.'</Filter>
+                 <StartingIndex>'.$StartingIndex.'</StartingIndex>
+                 <RequestedCount>'.$RequestedCount.'</RequestedCount>
+                 <SortCriteria>'.$SortCriteria.'</SortCriteria>
+              </u:Browse>
+           </s:Body>
+        </s:Envelope>';
+
+        $content_ContentDirectory_Browse = $header . '
+        Content-Length: '. strlen($xml) .'
+
+        '. $xml;
+
+        $fp = fsockopen ($ServerIP, $ServerPort, $errno, $errstr, 10);
+
+                if (!$fp)
+                        {
+                Meldung ("$errstr ($errno)<br />\n");
+                        die;
+                        }
+                else
+                        {
+                        fputs ($fp, $content_ContentDirectory_Browse);
+
+                                        //stream_set_timeout($fp, 60);
+
+                                        $buffer = stream_get_contents($fp, -1);
+
+                                        $vars = explode("\r\n\r\n", $buffer); 						//Header abtrennen
+                                        $header = $vars[0];                    					//Header
+                                        $message = $vars[1];                   					//Message
+
+                                        $handle = fopen($Kernel."media/Multimedia/Browse/ContentDirectory_Browse.xml", "w"); 	//XML schreiben
+                                        fwrite($handle, $message);
+                                        fclose($handle);
+
+                        fclose($fp);
+                        }
+                
+
+        /*XML per XPATH auslesen und <Result>, <NumberReturned>, <TotalMatches> und
+        <UpdateID> zum Weiterverarbeiten extrahieren*/
+
+        $xml = simplexml_load_string($message);
+
+        $Result = $xml->xpath("////Result");
+        $Result = (string) $Result[0];
+        //echo("\r\nResult:$Result");
+
+        $NumberReturned = $xml->xpath("////NumberReturned");
+        $NumberReturned = (string) $NumberReturned[0];
+        //echo("\r\nNumberReturned:$NumberReturned");
+
+        $TotalMatches = $xml->xpath("////TotalMatches");
+        $TotalMatches = (string) $TotalMatches[0];
+        //echo("\r\nTotalMatches:$TotalMatches");
+
+        $UpdateID = $xml->xpath("////UpdateID");
+        $UpdateID = (string) $UpdateID[0];
+        //echo("\r\nUpdateID:$UpdateID");
+
+        return array($message, $Result, $NumberReturned, $TotalMatches, $UpdateID);
+        }
+        
+        
 
 }
 
