@@ -1224,7 +1224,7 @@ class MyUpnp extends IPSModule {
 				if ($NumberReturned > 0){
 					for($SI = 0; $NumberReturned*$SI < $TotalMatches; ++$SI){
 						$StartingIndex = $NumberReturned*$SI;
-						IPSLog('StartIndex', $StartingIndex );
+						//IPSLog('StartIndex', $StartingIndex );
 
 						$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
 						$Result_xml = $BrowseResult['Result'] ;
