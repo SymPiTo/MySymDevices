@@ -662,10 +662,11 @@ trait upnp {
          */
 	Protected function processSoapCall(string $ip, string $port, string $path, string $uri, string $action, array $parameter)
     {
- 
+            ini_set('default_socket_timeout', 10);
             try{
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
-	                                               "uri"        => $uri,
+	                                               "connection_timeout"=>300,
+                                                       "uri"        => $uri,
 	                                               "trace"      => true ));
 	      	return $client->__soapCall($action, $parameter);
 	    }
