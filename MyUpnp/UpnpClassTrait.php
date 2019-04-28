@@ -843,9 +843,7 @@ trait upnp {
                                         $header = $vars[0];                    					//Header
                                         $message = $vars[1];                   					//Message
 
-                                        $handle = fopen($Kernel."media/Multimedia/Browse/ContentDirectory_Browse.xml", "w"); 	//XML schreiben
-                                        fwrite($handle, $message);
-                                        fclose($handle);
+       
 
                         fclose($fp);
                         }
