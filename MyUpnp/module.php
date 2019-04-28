@@ -1287,7 +1287,7 @@ class MyUpnp extends IPSModule {
 	--------------------------------------------------------------------------------
 	Status: 
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function BrowseList($Result_xml){
+	public function BrowseList($Result_xml){
 		$xml = simplexml_load_string($Result_xml); //
 		$skip = false;
 		$liste = array();
