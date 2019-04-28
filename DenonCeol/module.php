@@ -277,6 +277,8 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                                 $this->SendDebug("error ", "no Image found", 0);
                             }
                             else{
+                                $Typ = gettype($value);
+                                $this->SendDebug("Variablbele Typ für URL ", $Typ, 0);
                                 SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                                 if (isset($dispLine2[0])){
                                     setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
