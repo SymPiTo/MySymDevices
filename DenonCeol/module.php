@@ -1194,6 +1194,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 		if ( !$fsock ){
                     //nicht erreichbar --> Timer abschalten--------------------------------
                     $this->SendDebug('Send', $host.'ist nicht erreichbar!', 0);
+                    $this->SetTimerInterval('Ceol_PlayInfo', 0);  // DeAktivert Ereignis
 		}
 		else{
 			/*///////////////////////////////////////////////////////////////////////////
