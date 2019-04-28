@@ -834,9 +834,7 @@ trait upnp {
 
                                         $buffer = stream_get_contents($fp, -1);
 
-                                        $vars = explode("\r\n\r\n", $buffer); 						//Header abtrennen
-                                        $header = $vars[0];                    					//Header
-                                        $message = $vars[1];                   					//Message
+
 
        
 
