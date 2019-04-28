@@ -799,25 +799,22 @@ trait upnp {
         17.08.2014 HTTP/1.0 implementiert um die Rückgabe von chunked Responses zu vermeiden !
         /*//////////////////////////////////////////////////////////////////////////////
 
-        $header='POST '.$ServerContentDirectory.' HTTP/1.0
-        HOST: '.$ServerIP.':'.$ServerPort.'
-        SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
-        CONTENT-TYPE: text/xml; charset="utf-8"
-        connection: close';
+        $header='POST '.$ServerContentDirectory.' HTTP/1.0'
+                . 'HOST: '.$ServerIP.':'.$ServerPort.'
+                    SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+                    connection: close';
 
-        $xml='<?xml version="1.0" encoding="utf-8"?>
-        <s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-           <s:Body>
-              <u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
-                 <ObjectID>'.$ObjectID.'</ObjectID>
-                 <BrowseFlag>'.$BrowseFlag.'</BrowseFlag>
-                 <Filter>'.$Filter.'</Filter>
-                 <StartingIndex>'.$StartingIndex.'</StartingIndex>
-                 <RequestedCount>'.$RequestedCount.'</RequestedCount>
-                 <SortCriteria>'.$SortCriteria.'</SortCriteria>
-              </u:Browse>
-           </s:Body>
-        </s:Envelope>';
+        $xml='<?xml version="1.0" encoding="utf-8"?>'
+            .'<s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">'
+            .'<s:Body>'
+            .'<u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">'
+            .'<ObjectID>'.$ObjectID.'</ObjectID>'
+                .'<BrowseFlag>'.$BrowseFlag.'</BrowseFlag>'
+                . '<Filter>'.$Filter.'</Filter>'
+                . '<StartingIndex>'.$StartingIndex.'</StartingIndex>'
+                . '<RequestedCount>'.$RequestedCount.'</RequestedCount>'
+                . '<SortCriteria>'.$SortCriteria.'</SortCriteria>'
+                . '</s:Envelope>';
 
         $content_ContentDirectory_Browse = $header . '
         Content-Length: '. strlen($xml) .' '. $xml;
