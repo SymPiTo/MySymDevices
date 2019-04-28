@@ -849,7 +849,7 @@ trait upnp {
 
 
 
-        return $message;
+        return $buffer;
         }
         
         
