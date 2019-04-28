@@ -107,7 +107,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
             // Timer erstellen
             $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'CEOL_update($_IPS[\'TARGET\']);');
             // Progress Timer erstellen
-            $this->RegisterTimer("Ceol_PlayInfo", 1000,  'CEOL_GetPosInfo(' . $this->InstanceID . ');');
+            $this->RegisterTimer("Ceol_PlayInfo", 0,  'CEOL_GetPosInfo(' . $this->InstanceID . ');');
 
         }
         
