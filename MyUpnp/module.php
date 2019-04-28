@@ -1201,7 +1201,7 @@ class MyUpnp extends IPSModule {
 				$liste = $this->BrowseList($Result_xml);
 				foreach ($liste as $value) {
                                         // nur die storagefolder Container auslesen
-					if($value['class'] === '"object.container"' or $value['class'] == 'object.container.storageFolder'){
+					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder'){
 						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
 							$i = 0;
 							$n = 0;
