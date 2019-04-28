@@ -1175,7 +1175,7 @@ class MyUpnp extends IPSModule {
 		$RequestedCount = "0"; //GetValue();
 		$SortCriteria = ""; //GetValue();
 
-		$Kernel = $this->Kernel();
+		$Kernel = str_replace("\\", "/", IPS_GetKernelDir());
 		 
 		$container[0]['id'] = '0';
 		$n = 0;

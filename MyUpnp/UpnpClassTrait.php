@@ -41,7 +41,7 @@ trait upnp {
          *          */
 
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function ContentDirectory_Browse (string $ServerIP, string $ServerPort, string $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria)
+	Public function ContentDirectory_Browse (string $ServerIP, string $ServerPort, string $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria)
 	{	
 	    return $this->processSoapCall($ServerIP, $ServerPort, $ServerContentDirectory,
 	
