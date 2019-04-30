@@ -55,32 +55,7 @@ trait UpnpDiscoveryClassTrait {
                 socket_close( $sock );
                 return $response;
         }
-        public function parseMSearchResponse( $response )
-        {
-                $responseArr = explode( "\r\n", $response );
-                $parsedResponse = array();
-                foreach( $responseArr as $row ) {
-                        if( stripos( $row, 'http' ) === 0 )
-                                        $parsedResponse['http'] = $row;
-                        if( stripos( $row, 'cach' ) === 0 )
-                                        $parsedResponse['cache-control'] = str_ireplace( 'cache-control: ', '', $row );
-                        if( stripos( $row, 'date') === 0 )
-                                        $parsedResponse['date'] = str_ireplace( 'date: ', '', $row );
-                        if( stripos( $row, 'ext') === 0 )
-                                        $parsedResponse['ext'] = str_ireplace( 'ext: ', '', $row );
-                        if( stripos( $row, 'loca') === 0 )
-                                        $parsedResponse['location'] = str_ireplace( 'location: ', '', $row );
-                        if( stripos( $row, 'serv') === 0 )
-                                        $parsedResponse['server'] = str_ireplace( 'server: ', '', $row );
-                        if( stripos( $row, 'st:') === 0 )
-                                        $parsedResponse['st'] = str_ireplace( 'st: ', '', $row );
-                        if( stripos( $row, 'usn:') === 0 )
-                                        $parsedResponse['usn'] = str_ireplace( 'usn: ', '', $row );
-                        if( stripos( $row, 'cont') === 0 )
-                                        $parsedResponse['content-length'] = str_ireplace( 'content-length: ', '', $row );
-                }
-                return $parsedResponse;
-        }
+ 
 
     //*****************************************************************************
     /* Function: mSearch($ST)
