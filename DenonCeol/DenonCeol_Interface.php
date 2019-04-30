@@ -590,7 +590,7 @@ trait CEOLupnp
  	
 	Rückgabewert: 	none
 	//////////////////////////////////////////////////////////////////////////////*/
-	  Protected function SetMute_AV($mute)
+	  public function SetMute_AV($mute)
 	  {
 	    $this->processSoapCall("/RenderingControl/ctrl",
 
