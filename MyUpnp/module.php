@@ -298,7 +298,7 @@ class MyUpnp extends IPSModule {
 		*/
 		if ($member == "client"){
 			 SetValue($this->GetIDForIdent("upnp_ClientArray"), '');
-			$SSDP_Search_Array = $this->mSearch($ST_MR);
+			$SSDP_Search_Array = $this->mSearchNeu($ST_MR);
 			//IPSLog('mSearch Ergebnis ',$SSDP_Search_Array);
 			
 			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
@@ -313,7 +313,7 @@ class MyUpnp extends IPSModule {
 		}
 		if ($member == "server"){
 			setvalue($this->GetIDForIdent("upnp_ServerArray"), '');
-			$SSDP_Search_Array = $this->mSearch($ST_MS);
+			$SSDP_Search_Array = $this->mSearchNeu($ST_MS);
 			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
 			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
 		 	$UPNP_Server_Array = $this->create_UPNP_Server_Array($SSDP_Array); 
