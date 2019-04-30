@@ -31,7 +31,7 @@ trait UpnpDiscoveryClassTrait {
     --------------------------------------------------------------------------------*/
     //Status: checked 29.6.2018
     /* **************************************************************************** */
-    Protected function mSearch($ST) {
+    public function mSearch($ST) {
         error_reporting(E_ALL | E_STRICT);
 
         //Variablen//////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ trait UpnpDiscoveryClassTrait {
     --------------------------------------------------------------------------------*/
     //Status: checked 29.6.2018
     /* **************************************************************************** */
-    Protected function mSearchNeu($ST) {
+    public function mSearchNeu($ST) {
         //Variablen------------------------------------------------------------------
         $USER_AGENT = 'WINDOWS, UPnP/1.0, Intel MicroStack/1.0.1497';
         $MULTICASTIP = '239.255.255.250';
