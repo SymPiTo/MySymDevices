@@ -23,7 +23,7 @@ class MyUpnp extends IPSModule {
          * UpnpClassTrait.php
          */
     use upnp,
-        UpnpDiscoveryClassTrait,
+        UPnPmSearch,
         MyDebugHelper2;
     
     /* Constructor: 
