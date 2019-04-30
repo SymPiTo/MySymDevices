@@ -91,7 +91,7 @@ trait UpnpDiscoveryClassTrait {
     --------------------------------------------------------------------------------*/
     //Status: checked 29.6.2018
     /* **************************************************************************** */
-    public function mSearch($ST) {
+    public function mSearchOld($ST) {
         error_reporting(E_ALL | E_STRICT);
 
         //Variablen//////////////////////////////////////////////////////////////////
