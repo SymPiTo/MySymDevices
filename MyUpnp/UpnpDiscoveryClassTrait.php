@@ -140,7 +140,7 @@ trait UpnpDiscoveryClassTrait {
         //Variablen------------------------------------------------------------------
         $USER_AGENT = 'WINDOWS, UPnP/1.0, Intel MicroStack/1.0.1497';
         $MULTICASTIP = '239.255.255.250';
-        $MX = 10;
+        $MX = 2;
         $MAN = 'ssdp:discover';
         $sockTimout = '10';
 
