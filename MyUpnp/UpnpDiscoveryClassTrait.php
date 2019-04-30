@@ -1,10 +1,70 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+trait UPnPmSearch {
+
+            /**
+             * Perform an M-SEARCH multicast request for detecting UPnP-devices in network.
+             *
+            
+             */
+            public function mSearch( $st = 'ssdp:all', $mx = 2, $man = 'ssdp:discover', $from = null, $port = null, $sockTimout = '5' )
+            {
+                    $USER_AGENT = 'IP-Symcon, UPnP/1.0, IPSKernelVersion:' . IPS_GetKernelVersion();
+            // BUILD MESSAGE
+                    $msg  = 'M-SEARCH * HTTP/1.1' . "\r\n";
+                    $msg .= 'HOST: 239.255.255.250:1900' ."\r\n";
+                    $msg .= 'MAN: "'. $man .'"' . "\r\n";
+                    $msg .= 'MX: '. $mx ."\r\n";
+                    $msg .= 'ST:' . $st ."\r\n";
+                    $msg .= 'USER-AGENT: '. $USER_AGENT ."\r\n";
+                    $msg .= '' ."\r\n";
+                    // MULTICAST MESSAGE
+                    $sock = socket_create( AF_INET, SOCK_DGRAM, 0 );
+                    $opt_ret = socket_set_option( $sock, 1, 6, TRUE );
+                    $send_ret = socket_sendto( $sock, $msg, strlen( $msg ), 0, '239.255.255.250', 1900);
+                    // SET TIMEOUT FOR RECIEVE
+                    socket_set_option( $sock, SOL_SOCKET, SO_RCVTIMEO, array( 'sec'=>$sockTimout, 'usec'=>'0' ) );
+                    // RECIEVE RESPONSE
+                    $response = array();
+                    do {
+                            $buf = null;
+                            @socket_recvfrom( $sock, $buf, 1024, MSG_WAITALL, $from, $port );
+                            if( !is_null($buf) )$response[] = $this->parseMSearchResponse( $buf );
+                    } while( !is_null($buf) );
+                    // CLOSE SOCKET
+                    socket_close( $sock );
+                    return $response;
+            }
+            public function parseMSearchResponse( $response )
+            {
+                    $responseArr = explode( "\r\n", $response );
+                    $parsedResponse = array();
+                    foreach( $responseArr as $row ) {
+                            if( stripos( $row, 'http' ) === 0 )
+                                            $parsedResponse['http'] = $row;
+                            if( stripos( $row, 'cach' ) === 0 )
+                                            $parsedResponse['cache-control'] = str_ireplace( 'cache-control: ', '', $row );
+                            if( stripos( $row, 'date') === 0 )
+                                            $parsedResponse['date'] = str_ireplace( 'date: ', '', $row );
+                            if( stripos( $row, 'ext') === 0 )
+                                            $parsedResponse['ext'] = str_ireplace( 'ext: ', '', $row );
+                            if( stripos( $row, 'loca') === 0 )
+                                            $parsedResponse['location'] = str_ireplace( 'location: ', '', $row );
+                            if( stripos( $row, 'serv') === 0 )
+                                            $parsedResponse['server'] = str_ireplace( 'server: ', '', $row );
+                            if( stripos( $row, 'st:') === 0 )
+                                            $parsedResponse['st'] = str_ireplace( 'st: ', '', $row );
+                            if( stripos( $row, 'usn:') === 0 )
+                                            $parsedResponse['usn'] = str_ireplace( 'usn: ', '', $row );
+                            if( stripos( $row, 'cont') === 0 )
+                                            $parsedResponse['content-length'] = str_ireplace( 'content-length: ', '', $row );
+                    }
+                    return $parsedResponse;
+            }
+}
+
+
+
 
 /**
  *
