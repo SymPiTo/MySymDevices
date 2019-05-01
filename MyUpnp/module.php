@@ -1833,9 +1833,9 @@ class MyUpnp extends IPSModule {
         $Assoc[3]['value'] = "Right";
         $Name = "UPNP.Browse";
         $Vartype = 1;
-        $Icon = '';
+        $Icon = NULL;
         $Prefix = NULL;
-        $Suffix = ' %';
+        $Suffix = NULL;
         $MinValue = 0;
         $MaxValue = 3;
         $StepSize = 1;
