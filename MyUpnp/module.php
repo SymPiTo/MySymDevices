@@ -267,7 +267,7 @@ class MyUpnp extends IPSModule {
             case "upnp_Browse":
                 switch ($Value){
                     case 0:
-                        
+                        $this->BrowseNav(0);
                         break;
                     case 1:
                     
@@ -311,14 +311,15 @@ class MyUpnp extends IPSModule {
             $SortCriteria = "";
             switch($Direction){
                 case 0;
-                    break;
-                case 1:
                     $ObjectID = $object['ParentID'];
                     $StartingIndex = $object['CurrentNo'] - 1;
                     if ($StartingIndex < 0 ){
                         $StartingIndex = 0;
                     }
                     $RequestedCount = '1';
+                    break;
+                case 1:
+
                     break;
                 case 2:
                     $ObjectID = $object['ObjectID'];
