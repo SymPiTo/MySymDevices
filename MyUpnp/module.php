@@ -290,8 +290,8 @@ class MyUpnp extends IPSModule {
                     
             $object = unserialize(getvalue($this->GetIDForIdent("upnp_BrowseContent")));
             $this->SendDebug('BrowseNav: ', "Starte Funktion ------>   Browse Nav", 0);
-            $this->SendDebug('PREV ID: ', $PrevID, 0);
-            $this->SendDebug('n: ', $n, 0);
+            $this->SendDebug('PREV ID: ', $this->PrevID, 0);
+            $this->SendDebug('n: ', $this->n, 0);
             $this->SendDebug('$object: ', $object, 0);
             $ServerIP = getvalue($this->GetIDForIdent("upnp_ServerIP"));
             $ServerPort = getvalue($this->GetIDForIdent("upnp_ServerPort"));
