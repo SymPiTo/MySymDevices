@@ -315,7 +315,7 @@ class MyUpnp extends IPSModule {
                 case 2:
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex =  "0" ; //$object['CurrentNo'];
-                    $RequestedCount = '1';
+                    $RequestedCount = "*";
                     break;
                 case 3:
                     break;
