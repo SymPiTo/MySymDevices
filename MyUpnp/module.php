@@ -207,7 +207,7 @@ class MyUpnp extends IPSModule {
                 $this->SetTimerInterval("upnp_PlayInfo", 0);
                 
             }   
-
+ $this->RegisterProfiles();
     }
     
     public function RequestAction($Ident, $Value) {
