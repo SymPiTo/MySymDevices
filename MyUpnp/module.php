@@ -353,7 +353,7 @@ class MyUpnp extends IPSModule {
                     "class" => $liste[0]['class'],
                     "Title" => $liste[0]['title'],
                 );
-                if($liste[0]['parentid'] = "leer"){
+                if($liste[0]['parentid'] = ""){
                     $content["ParentID"] = "0";
                 }
                 
