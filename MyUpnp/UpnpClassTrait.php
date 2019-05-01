@@ -51,11 +51,11 @@ trait upnp {
 	
 	                           array( 
 	                                  new SoapParam($ObjectID                ,"ObjectID"         ),
-	                                  new SoapParam($BrowseFlag 			,"BrowseFlag"       ),
+	                                  new SoapParam($BrowseFlag 		,"BrowseFlag"       ),
 	                                  new SoapParam($Filter                 ,"Filter"           ),
 	                                  new SoapParam($StartingIndex          ,"StartingIndex"	),
 	                                  new SoapParam($RequestedCount         ,"RequestedCount"	),
-									  new SoapParam($SortCriteria           ,"SortCriteria"		)	
+					  new SoapParam($SortCriteria           ,"SortCriteria"		)	
 	                                )
 		);
 		
@@ -670,9 +670,11 @@ trait upnp {
 	                                               "trace"      => true ));
 	      	return $client->__soapCall($action, $parameter);
 	    }
-		catch(Exception $e){
+            catch(Exception $e){
 	    	$faultstring = $e->faultstring;
   	      	$faultcode   = $e->faultcode;
+                return $client->__soapCall($action, $parameter);
+                /*
 	      	if(isset($e->detail->UPnPError->errorCode)){
 	        	$errorCode   = $e->detail->UPnPError->errorCode;
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
@@ -683,6 +685,8 @@ trait upnp {
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
                         return false;
 	      	}
+                 
+                 */
 	    }
     
     }
