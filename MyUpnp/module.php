@@ -294,6 +294,7 @@ class MyUpnp extends IPSModule {
             $BrowseFlag = "BrowseDirectChildren";
             $Filter = "*";
             $SortCriteria = "";
+            if($n === NULL){$n=0;}
             switch($Direction){
                 case 0;
                     $ObjectID = $object['ParentID'];
