@@ -346,10 +346,15 @@ class MyUpnp extends IPSModule {
                 $liste = $this->BrowseList($Result_xml);
                 //$this->SendDebug('$liste: ', $liste, 0);
                 if ($liste){
+                    if($n>-1){
+                      $PrevID = $PrevID[($n-1)] ; 
+                    }else{
+                        $PrevID = $PrevID[0] ;
+                    }
                     $content = array(
                         "ObjectID" => $liste[0]['id'],
                         "ParentID" => $liste[0]['parentid'],
-                        "PrevID" => $PrevID[($n-1)] ,
+                        "PrevID" =>  $PrevID,
 
                         "TotalNo" => $TotalMatches,
                         "CurrentNo" => $StartingIndex,
