@@ -300,6 +300,8 @@ class MyUpnp extends IPSModule {
     
         public function BrowseNav($Direction){
             $object = unserialize(getvalue($this->GetIDForIdent("upnp_BrowseContent")));
+            $this->SendDebug('BrowseNav: ', "Starte Funktion ------>   Browse Nav", 0);
+            $this->SendDebug('$object: ', $object, 0);
             $ServerIP = getvalue($this->GetIDForIdent("upnp_ServerIP"));
             $ServerPort = getvalue($this->GetIDForIdent("upnp_ServerPort"));
             $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
