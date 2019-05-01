@@ -1801,7 +1801,7 @@ class MyUpnp extends IPSModule {
                     foreach ($Assoc as $key => $data) {
                         if(is_null($data['icon'])){$data['icon'] = "";}; 
                         if(is_null($data['color'])){$data['color'] = "";}; 
-                        IPS_SetVariableProfileAssociation($Name, $key, $data['value'], $data['icon'], $data['color']);  
+                        IPS_SetVariableProfileAssociation($Name, $data['value'], $data['text'], $data['icon'], $data['color']);  
                     }
                 }
             } 
@@ -1827,10 +1827,14 @@ class MyUpnp extends IPSModule {
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProfiles(){
-        $Assoc[0]['value'] = "Up";
-        $Assoc[1]['value'] = "Select";
-        $Assoc[2]['value'] = "Left";
-        $Assoc[3]['value'] = "Right";
+        $Assoc[0]['value'] = 0;
+        $Assoc[1]['value'] = 1;
+        $Assoc[2]['value'] = 2;
+        $Assoc[3]['value'] = 3;
+        $Assoc[0]['text'] = "Up";
+        $Assoc[1]['text'] = "Select";
+        $Assoc[2]['text'] = "Left";
+        $Assoc[3]['text'] = "Right";
         $Name = "UPNP.Browse";
         $Vartype = 1;
         $Icon = NULL;
