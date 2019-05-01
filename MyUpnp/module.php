@@ -127,6 +127,7 @@ class MyUpnp extends IPSModule {
             $this->RegisterVariableString("upnp_RelTime", "RelTime");
             $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
             
+            $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Browse");
             
             //$this->RegisterVariableString("upnp_TrackDuration", "Pos:TrackDuration [upnp:album]");
             //$this->RegisterVariableString("upnp_TrackMetaData", "Pos:TrackMetaData");
@@ -207,7 +208,7 @@ class MyUpnp extends IPSModule {
                 $this->SetTimerInterval("upnp_PlayInfo", 0);
                 
             }   
- $this->RegisterProfiles();
+
  
     }
     
@@ -1828,10 +1829,10 @@ class MyUpnp extends IPSModule {
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProfiles(){
-        $Assoc[0]['value'] = 0.0;
-        $Assoc[1]['value'] = 1.0;
-        $Assoc[2]['value'] = 2.0;
-        $Assoc[3]['value'] = 3.0;
+        $Assoc[0]['value'] = 0;
+        $Assoc[1]['value'] = 1;
+        $Assoc[2]['value'] = 2;
+        $Assoc[3]['value'] = 3;
         $Assoc[0]['text'] = "Up";
         $Assoc[1]['text'] = "Select";
         $Assoc[2]['text'] = "Left";
