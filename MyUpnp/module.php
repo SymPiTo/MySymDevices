@@ -129,8 +129,8 @@ class MyUpnp extends IPSModule {
             
             $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Browse");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP.Browse");
-            $this->RegisterVariableString("upnp_BroweseTitle", "BroweseTitle");
-            $this->RegisterVariableString("upnp_BroweseContent", "BroweseContent");
+            $this->RegisterVariableString("upnp_BroweseTitle", "BrowseTitle");
+            $this->RegisterVariableString("upnp_BrowseContent", "BrowseContent");
             
             //$this->RegisterVariableString("upnp_TrackDuration", "Pos:TrackDuration [upnp:album]");
             //$this->RegisterVariableString("upnp_TrackMetaData", "Pos:TrackMetaData");
