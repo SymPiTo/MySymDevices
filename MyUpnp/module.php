@@ -248,7 +248,7 @@ class MyUpnp extends IPSModule {
                 }
                 break;
             case "upnp_PlayMode":
-                switch ($value){
+                switch ($Value){
                     case 0:
                         $playmode = "NORMAL";
                         break;
@@ -265,7 +265,7 @@ class MyUpnp extends IPSModule {
                 $this->setPlayMode($playmode);
                 break;
             case "upnp_Browse":
-                switch ($value){
+                switch ($Value){
                     case 0:
                         
                         break;
