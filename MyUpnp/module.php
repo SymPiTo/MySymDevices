@@ -300,6 +300,7 @@ class MyUpnp extends IPSModule {
     
         public function BrowseNav($Direction){
             $object = unserialize(getvalue($this->GetIDForIdent("upnp_BrowseContent")));
+            /*
             $ServerIP = getvalue($this->GetIDForIdent("upnp_ServerIP"));
             $ServerPort = getvalue($this->GetIDForIdent("upnp_ServerPort"));
             $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
@@ -307,6 +308,17 @@ class MyUpnp extends IPSModule {
             $BrowseFlag = "BrowseDirectChildren";
             $Filter = "*";
             $SortCriteria = "";
+            */
+		$BrowseFlag = "BrowseDirectChildren"; //"BrowseMetadata"; //"BrowseDirectChildren";
+		$Filter = "*"; //GetValue();
+		$StartingIndex = 0; //GetValue();
+		$RequestedCount = "*"; //GetValue();
+		$SortCriteria = ""; //GetValue();
+		$ServerContentDirectory = GetValue(33364);
+		$ServerIP= GetValue(59185);
+		$ServerPort = GetValue(38491);
+		$ServerName = GetValue(37365);
+		$Kernel = str_replace("\\", "/", IPS_GetKernelDir());
             switch($Direction){
                 case 0;
                     break;
