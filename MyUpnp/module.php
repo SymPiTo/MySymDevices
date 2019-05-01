@@ -371,6 +371,12 @@ class MyUpnp extends IPSModule {
                     if($liste[0]['parentid'] = ""){
                         $content["ParentID"] = "0";
                     }
+                    //falls class = object.item.audioItem.musicTrack -> dann weiter DIDL abspeichern
+                    if($content['class'] === 'object.item.audioItem.musicTrack'){
+                            setvalue($this->GetIDForIdent("upnp_DIDLRessource"), $liste[0]['resource']);
+                            setvalue($this->GetIDForIdent("upnp_Artist"), $liste[0]['artist']);
+                            setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $liste[0]['albumArtURI']);    
+                    }
                     //falls class = object.container.album.musicAlbum -> nächste Ebene browsen und Cover auslesen
                     $ObjectID = $content["ObjectID"];
                     $StartingIndex = 0;
