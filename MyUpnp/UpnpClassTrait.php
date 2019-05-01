@@ -664,8 +664,9 @@ trait upnp {
     {
              
             try{
+                ini_set("default_socket_timeout", 150);
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
-	                                               "connection_timeout" => 50,
+	                                                
                                                        "uri"        => $uri,
 	                                               "trace"      => true ));
 	      	return $client->__soapCall($action, $parameter);
