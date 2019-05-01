@@ -172,8 +172,8 @@ class MyUpnp extends IPSModule {
             //$this->RegisterPropertyInteger("UpdateInterval", 30);
            
 
-        
-
+        $this->RegisterVariableString("upnp_ObjectID", "ServerContent:ObjectID");
+        $this->RegisterVariableInteger("upnp_SaveAsPlayList", "SaveAsPlayListe", "");
                 
         $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
         $this->RegisterVariableString("upnp_ClientControlURL", "Client:ControlURL");
@@ -203,7 +203,7 @@ class MyUpnp extends IPSModule {
             $this->EnableAction("upnp_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("upnp_Browse");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP_Browse");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP_Direction");
             
             
         // Timer erstellen
