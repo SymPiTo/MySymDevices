@@ -327,7 +327,7 @@ class MyUpnp extends IPSModule {
                 $NumberReturned = intval($BrowseResult['NumberReturned']);
                 $TotalMatches = intval($BrowseResult['TotalMatches']);
                 //vom Server zurückgegebene Liste untersuchen
-                $liste = $this->BrowseList(19824, $Result_xml);
+                $liste = $this->BrowseList($Result_xml);
                 $this->SendDebug('UPNP: ', $liste, 0);
                 $content = array(
                     "ObjectID" => $liste[0]['id'],
