@@ -81,6 +81,8 @@ class MyUpnp extends IPSModule {
         
         $this->RegisterPropertyBoolean("active", false);
 
+        $this->RegisterProfiles();
+        
         // Category anlegen
         // Anlegen einer neuen Kategorie 
        // $KategorieID = @IPS_GetCategoryIDByName("DIDL", $this->InstanceID);
@@ -1763,6 +1765,86 @@ class MyUpnp extends IPSModule {
 		fclose($FileHandle);
         }
         
-        
-	
+
+     /* ----------------------------------------------------------------------------
+     Function: RegisterProfile
+    ...............................................................................
+    Erstellt ein neues Profil und ordnet es einer Variablen zu.
+    ...............................................................................
+    Parameters: 
+        $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype, $VarIdent, $Assoc
+     * $Vartype: 0 boolean, 1 int, 2 float, 3 string,
+     * $Assoc: array mit statustexte
+     *         $assoc[0] = "aus";
+     *         $assoc[1] = "ein";
+     * RegisterProfile("Rollo.Mode", "", "", "", "", "", "", "", 0, "", $Assoc)
+    ..............................................................................
+    Returns:   
+        none
+    ------------------------------------------------------------------------------- */
+    protected function createProfile(string $Name, int $Vartype, $Assoc, $Icon,  $Prefix,  $Suffix,   $MinValue,   $MaxValue,  $StepSize,  $Digits){
+            if (!IPS_VariableProfileExists($Name)) {
+                IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
+                if(!is_Null($Icon)){
+                    IPS_SetVariableProfileIcon($Name, $Icon);
+                }
+                if(!is_Null($Prefix)){
+                    IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+                }
+                if(!is_Null($Digits)){
+                    IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
+                }
+                if(!is_Null($MinValue)){
+                    IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+                }
+                if(!is_Null($Assoc)){
+                    foreach ($Assoc as $key => $data) {
+                        if(is_null($data['icon'])){$data['icon'] = "";}; 
+                        if(is_null($data['color'])){$data['color'] = "";}; 
+                        IPS_SetVariableProfileAssociation($Name, $key, $data['value'], $data['icon'], $data['color']);  
+                    }
+                }
+            } 
+            else {
+                $profile = IPS_GetVariableProfile($Name);
+                if ($profile['ProfileType'] != $Vartype){
+                       // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
+                }
+            }
+    }	
+    
+    
+    
+    /* ----------------------------------------------------------------------------
+     Function: Registerrofiles()
+    ...............................................................................
+        Profile fürVaiable anlegen falls nicht schon vorhanden
+    ...............................................................................
+    Parameters: 
+        $Vartype => 0 boolean, 1 int, 2 float, 3 string
+    ..............................................................................
+    Returns:   
+        $ipsversion
+    ------------------------------------------------------------------------------- */
+    protected function RegisterProfiles(){
+        $Assoc[0]['value'] = "Up";
+        $Assoc[1]['value'] = "Select";
+        $Assoc[2]['value'] = "Left";
+        $Assoc[3]['value'] = "Right";
+        $Name = "UPNP.Browse";
+        $Vartype = 1;
+        $Icon = '';
+        $Prefix = NULL;
+        $Suffix = ' %';
+        $MinValue = 0;
+        $MaxValue = 3;
+        $StepSize = 1;
+        $Digits = 0;
+        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+    }
+    
+    
+    
+    
+    
 }
