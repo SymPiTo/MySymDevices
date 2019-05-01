@@ -81,7 +81,7 @@ class MyUpnp extends IPSModule {
         
         $this->RegisterPropertyBoolean("active", false);
 
-        $this->RegisterProfiles();
+        //$this->RegisterProfiles();
         
         // Category anlegen
         // Anlegen einer neuen Kategorie 
