@@ -356,12 +356,8 @@ class MyUpnp extends IPSModule {
                     if($this->n>0){
                       $this->PrevID = $this->PrevID[($this->n-1)] ; 
                     }else{
-                        if (!$this->PrevID){
-                            $this->PrevID = "0";
-                        }else{
+
                             $this->PrevID = $this->PrevID[0] ;
-                        }
-                        
                     }
                     $content = array(
                         "ObjectID" => $liste[0]['id'],
