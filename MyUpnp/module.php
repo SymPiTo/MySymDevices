@@ -128,8 +128,8 @@ class MyUpnp extends IPSModule {
             $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
             
             $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP_Direction");
-
-            
+          
+            $this->RegisterVariableString("upnp_DIDLRessource", "DIDL_ressource");
             $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
             $this->RegisterVariableString("upnp_BrowseContent", "BrowseContent");
             setvalue($this->GetIDForIdent("upnp_Browse"),2);
@@ -371,7 +371,25 @@ class MyUpnp extends IPSModule {
                     if($liste[0]['parentid'] = ""){
                         $content["ParentID"] = "0";
                     }
-
+                    //falls class = object.container.album.musicAlbum -> nächste Ebene browsen und Cover auslesen
+                    $ObjectID = $content["ObjectID"];
+                    $StartingIndex = 0;
+                    $RequestedCount = '1';
+                    if($content['class'] === 'object.container.album.musicAlbum'){
+                        $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                        // Auswertung des Ergebnisses
+                        $Result_xml = $BrowseResult['Result'] ;
+                        $NumberReturned = intval($BrowseResult['NumberReturned']);
+                        $TotalMatches = intval($BrowseResult['TotalMatches']);
+                        //vom Server zurückgegebene Liste untersuchen
+                        $liste = $this->BrowseList($Result_xml);
+                        //Musik Track gefunden nun Cover holen
+                        if( $liste[0]['class'] === 'object.item.audioItem.musicTrack'){
+                            setvalue($this->GetIDForIdent("upnp_DIDLRessource"), $liste[0]['resource']);
+                            setvalue($this->GetIDForIdent("upnp_Artist"), $liste[0]['artist']);
+                            setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $liste[0]['albumArtURI']);
+                        }
+                    }
                     $this->SendDebug('$content: ', $content, 0);
                     setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
                     setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
