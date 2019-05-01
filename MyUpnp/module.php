@@ -296,12 +296,17 @@ class MyUpnp extends IPSModule {
             $SortCriteria = "";
             switch($Direction){
                 case 0;
-                    $ObjectID = $object['PrevID'];
-                    $StartingIndex = 0;
+                    $ObjectID = $object['ParentID'];
+                    $StartingIndex = $object['CurrentNo'] - 1;
+                    if ($StartingIndex < 0){
+                        $StartingIndex = 0;
+                    }
                     $RequestedCount = '1';
                     break;
                 case 1:
-                        
+                    $ObjectID = $object['PrevID'];
+                    $StartingIndex = 0;
+                    $RequestedCount = '1'; 
                     break;
                 case 2:
                     $ObjectID = $object['ObjectID'];
