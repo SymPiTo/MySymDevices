@@ -230,7 +230,6 @@ class MyUpnp extends IPSModule {
                 
             }   
 
-
     }
     
     public function RequestAction($Ident, $Value) {
