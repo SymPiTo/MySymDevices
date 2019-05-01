@@ -129,8 +129,23 @@ class MyUpnp extends IPSModule {
             
             $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Browse");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP.Browse");
-            $this->RegisterVariableString("upnp_BroweseTitle", "BrowseTitle");
+            $this->EnableAction("upnp_Browse");
+            
+            $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
             $this->RegisterVariableString("upnp_BrowseContent", "BrowseContent");
+            setvalue($this->GetIDForIdent("upnp_Browse"),2);
+            $content = array(
+                "ObjectID" => "0",
+                "ParentID" => "0",
+                "PrevID" => "0",
+                "NextID" => "0",
+                "TotalNo" => 1,
+                "CurrentNo" => 0,
+                "class" => "object",
+                "Title" => "root",
+            );
+            setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
+            setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
             
             //$this->RegisterVariableString("upnp_TrackDuration", "Pos:TrackDuration [upnp:album]");
             //$this->RegisterVariableString("upnp_TrackMetaData", "Pos:TrackMetaData");
@@ -246,6 +261,24 @@ class MyUpnp extends IPSModule {
                 }
                 $this->setPlayMode($playmode);
                 break;
+            case "upnp_Browse":
+                switch ($value){
+                    case 0:
+                        
+                        break;
+                    case 1:
+                    
+                        break;
+                    case 2:
+                    $this->BrowseNav(2);    
+
+                
+                        break;
+                    case 3;
+                    
+                        break;
+                }
+                break;
             default:
                 throw new Exception("Invalid Ident");
         }
@@ -262,7 +295,48 @@ class MyUpnp extends IPSModule {
         *
         */
     
-    
+        public function BrowseNav($Direction){
+            $object = getvalue($this->GetIDForIdent("upnp_BrowseContent"));
+            $ServerIP = getvalue($this->GetIDForIdent("upnp_ServerIP"));
+            $ServerPort = getvalue($this->GetIDForIdent("upnp_ServerPort"));
+            $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
+            $ServerContentDirectory  = getvalue($this->GetIDForIdent("upnp_ServerContentDirectory"));
+            $BrowseFlag = "BrowseDirectChildren";
+            $Filter = "*";
+            $SortCriteria = "";
+            switch($Direction){
+                case 0;
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    $ObjectID = $object['ObjectID'];
+                    $StartingIndex = $object['CurrentNo'];
+                    $RequestedCount = 1;
+                    break;
+                case 3:
+                    break;
+            } 
+                $BrowseResult = $this->$ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                // Auswertung des Ergebnisses
+                $Result_xml = $BrowseResult['Result'] ;
+                $NumberReturned = intval($BrowseResult['NumberReturned']);
+                $TotalMatches = intval($BrowseResult['TotalMatches']);
+                //vom Server zurückgegebene Liste untersuchen
+                $liste = $this->BrowseList(19824, $Result_xml);
+                $content = array(
+                    "ObjectID" => $liste[0]['id'],
+                    "ParentID" => $liste[0]['parentid'],
+                    "PrevID" => $liste[0]['id'],
+                
+                    "TotalNo" => $TotalMatches,
+                    "CurrentNo" => 0,
+                    "class" => $liste[0]['class'],
+                    "Title" => $liste[0]['title'],
+                );
+            setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
+            setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
+        }
 
 	//*****************************************************************************
 	/* Function: searchUPNP($member)
