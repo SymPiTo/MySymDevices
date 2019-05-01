@@ -323,11 +323,12 @@ class MyUpnp extends IPSModule {
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 // Auswertung des Ergebnisses
                 $Result_xml = $BrowseResult['Result'] ;
-                $this->SendDebug('UPNP: ', $Result_xml, 0);
+                
                 $NumberReturned = intval($BrowseResult['NumberReturned']);
                 $TotalMatches = intval($BrowseResult['TotalMatches']);
                 //vom Server zurückgegebene Liste untersuchen
                 $liste = $this->BrowseList(19824, $Result_xml);
+                $this->SendDebug('UPNP: ', $liste, 0);
                 $content = array(
                     "ObjectID" => $liste[0]['id'],
                     "ParentID" => $liste[0]['parentid'],
