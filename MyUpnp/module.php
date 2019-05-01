@@ -1917,7 +1917,7 @@ class MyUpnp extends IPSModule {
         $Assoc[1]['text'] = "Select";
         $Assoc[2]['text'] = "Left";
         $Assoc[3]['text'] = "Right";
-        $Name = "UPNP.Browse";
+        $Name = "UPNP_Browse";
         $Vartype = 1;
         $Icon = NULL;
         $Prefix = NULL;
