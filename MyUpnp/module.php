@@ -309,6 +309,8 @@ class MyUpnp extends IPSModule {
                     $RequestedCount = '1'; 
                     break;
                 case 2:
+                    $n = $n + 1;
+                    $PrevID[$n] = $object['ParentID'];
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex = $object['CurrentNo'];
                     $RequestedCount = '1';
@@ -329,7 +331,7 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('$ObjectID: ', $ObjectID, 0);
             $this->SendDebug('$StartingIndex: ', $StartingIndex, 0);
             $this->SendDebug('$RequestedCount: ', $RequestedCount, 0);
-                $PrevID = $object['ParentID'];
+                
             if ($StartingIndex < $object['TotalNo']){
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 // Auswertung des Ergebnisses
@@ -344,7 +346,7 @@ class MyUpnp extends IPSModule {
                     $content = array(
                         "ObjectID" => $liste[0]['id'],
                         "ParentID" => $liste[0]['parentid'],
-                        "PrevID" => $PrevID,
+                        "PrevID" => $PrevID[($n-1)] ,
 
                         "TotalNo" => $TotalMatches,
                         "CurrentNo" => $StartingIndex,
