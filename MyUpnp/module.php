@@ -173,7 +173,7 @@ class MyUpnp extends IPSModule {
            
 
         $this->RegisterVariableString("upnp_ObjectID", "BrowseContent:ObjectID");
-        $this->RegisterVariableInteger("upnp_SaveAsPlayList", "BrowseSaveAsPlayListe", "");
+        $this->RegisterVariableInteger("upnp_SaveAsPlayList", "BrowseSaveAsPlayList", "");
         $this->EnableAction("upnp_SaveAsPlayList");    
         
         $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
