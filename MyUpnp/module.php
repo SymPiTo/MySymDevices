@@ -335,17 +335,18 @@ class MyUpnp extends IPSModule {
                 $TotalMatches = intval($BrowseResult['TotalMatches']);
                 //vom Server zurückgegebene Liste untersuchen
                 $liste = $this->BrowseList($Result_xml);
-                $this->SendDebug('UPNP: ', $liste, 0);
+                $this->SendDebug('$liste: ', $liste, 0);
                 $content = array(
                     "ObjectID" => $liste[0]['id'],
                     "ParentID" => $liste[0]['parentid'],
                     "PrevID" => $liste[0]['id'],
                 
                     "TotalNo" => $TotalMatches,
-                    "CurrentNo" => 0,
+                    "CurrentNo" => $StartingIndex,
                     "class" => $liste[0]['class'],
                     "Title" => $liste[0]['title'],
                 );
+                $this->SendDebug('$content: ', $content, 0);
             setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
             setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
         }
