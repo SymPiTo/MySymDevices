@@ -283,7 +283,7 @@ class MyUpnp extends IPSModule {
         *
         */
         public $n = 0;
-        public $PrevID = array();
+        public $PrevID = array( 0 => '0');
 
         public function BrowseNav($Direction){
             global $n, $PrevID;
