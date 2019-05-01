@@ -208,6 +208,7 @@ class MyUpnp extends IPSModule {
                 
             }   
  $this->RegisterProfiles();
+ 
     }
     
     public function RequestAction($Ident, $Value) {
