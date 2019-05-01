@@ -227,7 +227,7 @@ class MyUpnp extends IPSModule {
                 
             }   
 
- 
+ $this->EnableAction("upnp_Browse");
     }
     
     public function RequestAction($Ident, $Value) {
