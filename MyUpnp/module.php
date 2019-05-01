@@ -325,7 +325,7 @@ class MyUpnp extends IPSModule {
                     if ($StartingIndex > $object['TotalNo']){
                         $StartingIndex = $object['CurrentNo'] - 1;
                     }
-                    $RequestedCount = '*';
+                    $RequestedCount = '1';
                     break;
             } 
             if ($ObjectID === "leer" or $ObjectID === NULL){
