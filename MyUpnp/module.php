@@ -375,6 +375,7 @@ class MyUpnp extends IPSModule {
                     $this->SendDebug('$content: ', $content, 0);
                     setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
                     setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
+                    setvalue($this->GetIDForIdent("upnp_ObjectID"), $content['ObjectID']);
                 }
             }
         }
