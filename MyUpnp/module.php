@@ -313,6 +313,12 @@ class MyUpnp extends IPSModule {
                 case 0;
                     break;
                 case 1:
+                    $ObjectID = $object['ParentID'];
+                    $StartingIndex = $object['CurrentNo'] - 1;
+                    if ($StartingIndex < 0 ){
+                        $StartingIndex = 0;
+                    }
+                    $RequestedCount = '1';
                     break;
                 case 2:
                     $ObjectID = $object['ObjectID'];
