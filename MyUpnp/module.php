@@ -320,9 +320,13 @@ class MyUpnp extends IPSModule {
                 case 3:
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex = $object['CurrentNo'] + 1;
+                    if ($StartingIndex > $object['TotalNo']){
+                        $StartingIndex = $object['CurrentNo'] - 1;
+                    }
                     $RequestedCount = '1';
                     break;
             } 
+            
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 // Auswertung des Ergebnisses
                 $Result_xml = $BrowseResult['Result'] ;
