@@ -1881,8 +1881,7 @@ class MyUpnp extends IPSModule {
                 }
                 if(!is_Null($Assoc)){
                     foreach ($Assoc as $key => $data) {
-                        if(is_null($data['icon'])){$data['icon'] = "";}; 
-                        if(is_null($data['color'])){$data['color'] = "";}; 
+                            
                         IPS_SetVariableProfileAssociation($Name, $data['value'], $data['text'], $data['icon'], $data['color']);  
                     }
                 }
