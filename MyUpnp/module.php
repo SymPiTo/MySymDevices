@@ -269,7 +269,7 @@ class MyUpnp extends IPSModule {
                 break;
              case "upnp_SaveAsPlayList":
                 $id = getvalue($this->GetIDForIdent("upnp_ObjectID"));
-                $NO = getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+                $No = getvalue($this->GetIDForIdent("upnp_PlaylistName"));
                 $this->createPlaylist($id,$No);
                 break;
             default:
