@@ -352,10 +352,10 @@ class MyUpnp extends IPSModule {
                     if($this->n>0){
                       $PrevID = $PrevID[($this->n-1)] ; 
                     }else{
-                        if ($PrevID){
-                            $PrevID = $PrevID[0] ;
-                        }else{
+                        if (!$PrevID){
                             $PrevID = "0";
+                        }else{
+                            $PrevID = $PrevID[0] ;
                         }
                         
                     }
