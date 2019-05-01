@@ -283,9 +283,10 @@ class MyUpnp extends IPSModule {
         *
         */
         public $n = 0;
+        public $PrevID = array();
 
         public function BrowseNav($Direction){
-            global $n;
+            global $n, $PrevID;
             $object = unserialize(getvalue($this->GetIDForIdent("upnp_BrowseContent")));
             $this->SendDebug('BrowseNav: ', "Starte Funktion ------>   Browse Nav", 0);
             $this->SendDebug('$object: ', $object, 0);
