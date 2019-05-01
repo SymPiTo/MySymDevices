@@ -310,14 +310,14 @@ class MyUpnp extends IPSModule {
                 case 1:
                     $this->n = $this->n - 1;
                     if ($this->n<0){$this->n=0;}
-                    $PrevID[$this->n] = $object['ParentID'];
+                    $this->PrevID[$this->n] = $object['ParentID'];
                     $ObjectID = $object['PrevID'];
                     $StartingIndex = 0;
                     $RequestedCount = '1'; 
                     break;
                 case 2:
                     $this->n = $this->n + 1;
-                    $PrevID[$this->n] = $object['ParentID'];
+                    $this->PrevID[$this->n] = $object['ParentID'];
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex = $object['CurrentNo'];
                     $RequestedCount = '1';
@@ -351,19 +351,19 @@ class MyUpnp extends IPSModule {
                 //$this->SendDebug('$liste: ', $liste, 0);
                 if ($liste){
                     if($this->n>0){
-                      $PrevID = $PrevID[($this->n-1)] ; 
+                      $this->PrevID = $this->PrevID[($this->n-1)] ; 
                     }else{
-                        if (!$PrevID){
-                            $PrevID = "0";
+                        if (!$this->PrevID){
+                            $this->PrevID = "0";
                         }else{
-                            $PrevID = $PrevID[0] ;
+                            $this->PrevID = $this->PrevID[0] ;
                         }
                         
                     }
                     $content = array(
                         "ObjectID" => $liste[0]['id'],
                         "ParentID" => $liste[0]['parentid'],
-                        "PrevID" =>  $PrevID,
+                        "PrevID" =>  $this->PrevID,
 
                         "TotalNo" => $TotalMatches,
                         "CurrentNo" => $StartingIndex,
