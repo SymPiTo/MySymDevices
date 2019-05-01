@@ -203,7 +203,7 @@ class MyUpnp extends IPSModule {
             $this->EnableAction("upnp_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("upnp_Browse");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP.Browse");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP_Playmode");
             
             
         // Timer erstellen
@@ -273,7 +273,7 @@ class MyUpnp extends IPSModule {
                     
                         break;
                     case 2:
-                    $this->BrowseNav(2);    
+                        $this->BrowseNav(2);    
 
                 
                         break;
