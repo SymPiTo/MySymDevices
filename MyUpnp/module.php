@@ -127,7 +127,7 @@ class MyUpnp extends IPSModule {
             $this->RegisterVariableString("upnp_RelTime", "RelTime");
             $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
             
-            $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Browse");
+            $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Direction");
 
             
             $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
