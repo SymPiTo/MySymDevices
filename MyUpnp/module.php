@@ -1952,8 +1952,7 @@ class MyUpnp extends IPSModule {
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProfiles(){
-        
-                            
+                 
         $Assoc[0]['value'] = 0;
         $Assoc[1]['value'] = 1;
         $Assoc[2]['value'] = 2;
