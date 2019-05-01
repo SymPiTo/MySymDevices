@@ -346,6 +346,10 @@ class MyUpnp extends IPSModule {
                     "class" => $liste[0]['class'],
                     "Title" => $liste[0]['title'],
                 );
+                if($liste[0]['parentid'] = null){
+                    $content["ParentID"] = "0";
+                }
+                
                 $this->SendDebug('$content: ', $content, 0);
             setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
             setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
