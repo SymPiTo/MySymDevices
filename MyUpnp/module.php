@@ -265,22 +265,7 @@ class MyUpnp extends IPSModule {
                 $this->setPlayMode($playmode);
                 break;
             case "upnp_Browse":
-                switch ($Value){
-                    case 0:
-                        $this->BrowseNav(0);
-                        break;
-                    case 1:
-                    
-                        break;
-                    case 2:
-                        $this->BrowseNav(2);    
-
-                
-                        break;
-                    case 3;
-                        $this->BrowseNav(3);
-                        break;
-                }
+                $this->BrowseNav($Value);
                 break;
             default:
                 throw new Exception("Invalid Ident");
@@ -311,15 +296,12 @@ class MyUpnp extends IPSModule {
             $SortCriteria = "";
             switch($Direction){
                 case 0;
-                    $ObjectID = $object['ParentID'];
-                    $StartingIndex = $object['CurrentNo'] - 1;
-                    if ($StartingIndex < 0 ){
-                        $StartingIndex = 0;
-                    }
+                    $ObjectID = $object['PrevID'];
+                    $StartingIndex = 0;
                     $RequestedCount = '1';
                     break;
                 case 1:
-
+                        
                     break;
                 case 2:
                     $ObjectID = $object['ObjectID'];
@@ -342,7 +324,7 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('$ObjectID: ', $ObjectID, 0);
             $this->SendDebug('$StartingIndex: ', $StartingIndex, 0);
             $this->SendDebug('$RequestedCount: ', $RequestedCount, 0);
-            
+                $PrevID = $object['ParentID'];
             if ($StartingIndex < $object['TotalNo']){
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 // Auswertung des Ergebnisses
@@ -356,7 +338,7 @@ class MyUpnp extends IPSModule {
                 $content = array(
                     "ObjectID" => $liste[0]['id'],
                     "ParentID" => $liste[0]['parentid'],
-                    "PrevID" => $liste[0]['id'],
+                    "PrevID" => $PrevID,
                 
                     "TotalNo" => $TotalMatches,
                     "CurrentNo" => $StartingIndex,
