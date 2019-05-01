@@ -128,8 +128,7 @@ class MyUpnp extends IPSModule {
             $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
             
             $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP.Browse");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP.Browse");
-            $this->EnableAction("upnp_Browse");
+
             
             $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
             $this->RegisterVariableString("upnp_BrowseContent", "BrowseContent");
@@ -203,6 +202,10 @@ class MyUpnp extends IPSModule {
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Mute"), "~Switch");
             $this->EnableAction("upnp_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_PlayMode"), "UPNP_Playmode");
+            $this->EnableAction("upnp_Browse");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Browse"), "UPNP.Browse");
+            
+            
         // Timer erstellen
         $this->RegisterTimer("upnp_PlayInfo", 0,  'UPNP_GetPosInfo(' . $this->InstanceID . ');');
     }
@@ -227,7 +230,7 @@ class MyUpnp extends IPSModule {
                 
             }   
 
- $this->EnableAction("upnp_Browse");
+
     }
     
     public function RequestAction($Ident, $Value) {
