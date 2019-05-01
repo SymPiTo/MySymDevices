@@ -328,6 +328,10 @@ class MyUpnp extends IPSModule {
                     $RequestedCount = '*';
                     break;
             } 
+            $this->SendDebug('Starte ContentDirectory_Browse: ', "", 0);
+            $this->SendDebug('S$ObjectID: ', $ObjectID, 0);
+            $this->SendDebug('$StartingIndex: ', $StartingIndex, 0);
+            $this->SendDebug('$RequestedCount: ', $RequestedCount, 0);
             
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 // Auswertung des Ergebnisses
