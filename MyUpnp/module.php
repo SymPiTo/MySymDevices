@@ -278,7 +278,7 @@ class MyUpnp extends IPSModule {
                 
                         break;
                     case 3;
-                    
+                        $this->BrowseNav(3);
                         break;
                 }
                 break;
@@ -315,9 +315,12 @@ class MyUpnp extends IPSModule {
                 case 2:
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex = $object['CurrentNo'];
-                    $RequestedCount = '*';
+                    $RequestedCount = '1';
                     break;
                 case 3:
+                    $ObjectID = $object['ObjectID'];
+                    $StartingIndex = $object['CurrentNo'] + 1;
+                    $RequestedCount = '1';
                     break;
             } 
                 $BrowseResult = $this->ContentDirectory_Browse($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
@@ -1902,7 +1905,7 @@ class MyUpnp extends IPSModule {
     /* ----------------------------------------------------------------------------
      Function: Registerrofiles()
     ...............................................................................
-        Profile fürVaiable anlegen falls nicht schon vorhanden
+        Profile für Variable anlegen falls nicht schon vorhanden
     ...............................................................................
     Parameters: 
         $Vartype => 0 boolean, 1 int, 2 float, 3 string
@@ -1911,6 +1914,8 @@ class MyUpnp extends IPSModule {
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProfiles(){
+        
+                            
         $Assoc[0]['value'] = 0;
         $Assoc[1]['value'] = 1;
         $Assoc[2]['value'] = 2;
@@ -1936,7 +1941,9 @@ class MyUpnp extends IPSModule {
         $MaxValue = 3;
         $StepSize = 1;
         $Digits = 0;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+        if (!IPS_VariableProfileExists($Name)){
+            $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+        }
     }
     
     
