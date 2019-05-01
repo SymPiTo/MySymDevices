@@ -665,31 +665,24 @@ trait upnp {
              
             try{
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
-	                                               
+	                                               "connection_timeout" => 15,
                                                        "uri"        => $uri,
 	                                               "trace"      => true ));
 	      	return $client->__soapCall($action, $parameter);
 	    }
-            catch(Exception $e){
+	    catch(Exception $e){
 	    	$faultstring = $e->faultstring;
   	      	$faultcode   = $e->faultcode;
-                $error = $error * 1;
-                if($error <2){
-                    return $client->__soapCall($action, $parameter);
+	      	if(isset($e->detail->UPnPError->errorCode)){
+	        	$errorCode   = $e->detail->UPnPError->errorCode;
+	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
+	      	
+                        return false;
                 }
-                else{
-                    if(isset($e->detail->UPnPError->errorCode)){
-                            $errorCode   = $e->detail->UPnPError->errorCode;
-                            throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
-
-                            return false;
-                    }
-                            else{
-                            throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
-                            return false;
-                    }
-                 
-                }
+			else{
+	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
+                        return false;
+	      	}
 	    }
     
     }
