@@ -328,6 +328,9 @@ class MyUpnp extends IPSModule {
                     $RequestedCount = '*';
                     break;
             } 
+            if ($ObjectID === ""){
+                $ObjectID = "0";
+            }
             $this->SendDebug('Starte ContentDirectory_Browse: ', "", 0);
             $this->SendDebug('S$ObjectID: ', $ObjectID, 0);
             $this->SendDebug('$StartingIndex: ', $StartingIndex, 0);
