@@ -335,23 +335,25 @@ class MyUpnp extends IPSModule {
                 //vom Server zurückgegebene Liste untersuchen
                 $liste = $this->BrowseList($Result_xml);
                 //$this->SendDebug('$liste: ', $liste, 0);
-                $content = array(
-                    "ObjectID" => $liste[0]['id'],
-                    "ParentID" => $liste[0]['parentid'],
-                    "PrevID" => $PrevID,
-                
-                    "TotalNo" => $TotalMatches,
-                    "CurrentNo" => $StartingIndex,
-                    "class" => $liste[0]['class'],
-                    "Title" => $liste[0]['title'],
-                );
-                if($liste[0]['parentid'] = ""){
-                    $content["ParentID"] = "0";
+                if ($liste){
+                    $content = array(
+                        "ObjectID" => $liste[0]['id'],
+                        "ParentID" => $liste[0]['parentid'],
+                        "PrevID" => $PrevID,
+
+                        "TotalNo" => $TotalMatches,
+                        "CurrentNo" => $StartingIndex,
+                        "class" => $liste[0]['class'],
+                        "Title" => $liste[0]['title'],
+                    );
+                    if($liste[0]['parentid'] = ""){
+                        $content["ParentID"] = "0";
+                    }
+
+                    $this->SendDebug('$content: ', $content, 0);
+                    setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
+                    setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
                 }
-                
-                $this->SendDebug('$content: ', $content, 0);
-                setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
-                setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
             }
         }
 
