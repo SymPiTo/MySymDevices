@@ -664,11 +664,16 @@ trait upnp {
     {
              
             try{
-                ini_set("default_socket_timeout", 150);
+                 
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
 	                                                
                                                        "uri"        => $uri,
-	                                               "trace"      => true ));
+	                                               "trace"      => true,
+                                                        'keep_alive' => true,
+                                                        'connection_timeout' => 5000,
+                                                       'compression'   => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE
+                        ));
+                                                       
 	      	return $client->__soapCall($action, $parameter);
 	    }
 	    catch(Exception $e){
