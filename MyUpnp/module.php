@@ -172,9 +172,10 @@ class MyUpnp extends IPSModule {
             //$this->RegisterPropertyInteger("UpdateInterval", 30);
            
 
-        $this->RegisterVariableString("upnp_ObjectID", "ServerContent:ObjectID");
-        $this->RegisterVariableInteger("upnp_SaveAsPlayList", "SaveAsPlayListe", "");
-                
+        $this->RegisterVariableString("upnp_ObjectID", "BrowseContent:ObjectID");
+        $this->RegisterVariableInteger("upnp_SaveAsPlayList", "BrowseSaveAsPlayListe", "");
+        $this->EnableAction("upnp_SaveAsPlayList");    
+        
         $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
         $this->RegisterVariableString("upnp_ClientControlURL", "Client:ControlURL");
         $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
@@ -265,6 +266,11 @@ class MyUpnp extends IPSModule {
                 break;
             case "upnp_Browse":
                 $this->BrowseNav($Value);
+                break;
+             case "upnp_SaveAsPlayList":
+                $id = getvalue($this->GetIDForIdent("upnp_ObjectID"));
+                $NO = getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+                $this->createPlaylist($id,$No);
                 break;
             default:
                 throw new Exception("Invalid Ident");
