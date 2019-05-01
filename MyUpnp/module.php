@@ -282,7 +282,8 @@ class MyUpnp extends IPSModule {
         * CEOL_XYFunktion($Instance_id, ... );
         *
         */
-    
+        public var $n = 0;
+
         public function BrowseNav($Direction){
             $object = unserialize(getvalue($this->GetIDForIdent("upnp_BrowseContent")));
             $this->SendDebug('BrowseNav: ', "Starte Funktion ------>   Browse Nav", 0);
@@ -294,7 +295,7 @@ class MyUpnp extends IPSModule {
             $BrowseFlag = "BrowseDirectChildren";
             $Filter = "*";
             $SortCriteria = "";
-            if($n === NULL){$n=0;}
+                    
             switch($Direction){
                 case 0;
                     $ObjectID = $object['ParentID'];
@@ -305,16 +306,16 @@ class MyUpnp extends IPSModule {
                     $RequestedCount = '1';
                     break;
                 case 1:
-                    $n = $n - 1;
-                    if ($n<0){$n=0;}
-                    $PrevID[$n] = $object['ParentID'];
+                    $this->n = $this->n - 1;
+                    if ($this->n<0){$this->n=0;}
+                    $PrevID[$this->n] = $object['ParentID'];
                     $ObjectID = $object['PrevID'];
                     $StartingIndex = 0;
                     $RequestedCount = '1'; 
                     break;
                 case 2:
-                    $n = $n + 1;
-                    $PrevID[$n] = $object['ParentID'];
+                    $this->n = $this->n + 1;
+                    $PrevID[$this->n] = $object['ParentID'];
                     $ObjectID = $object['ObjectID'];
                     $StartingIndex = $object['CurrentNo'];
                     $RequestedCount = '1';
@@ -347,8 +348,8 @@ class MyUpnp extends IPSModule {
                 $liste = $this->BrowseList($Result_xml);
                 //$this->SendDebug('$liste: ', $liste, 0);
                 if ($liste){
-                    if($n>0){
-                      $PrevID = $PrevID[($n-1)] ; 
+                    if($this->n>0){
+                      $PrevID = $PrevID[($this->n-1)] ; 
                     }else{
                         $PrevID = $PrevID[0] ;
                     }
