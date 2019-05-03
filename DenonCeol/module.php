@@ -289,7 +289,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                                 }     
                             }
                         break;	
-                        case "MediaServer":
+                        case "Server":
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
                         break;	
                         case "USB":
