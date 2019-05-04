@@ -1342,12 +1342,12 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	//////////////////////////////////////////////////////////////////////////////*/
 	Protected function progress(){	
             $PositionInfo = $this->GetPositionInfo_AV();
-             
+            $this->SendDebug("GetPositionInfo_AV ", $PositionInfo , 0); 
             $Duration = (string) $PositionInfo['TrackDuration']; //Duration
             setvalue($this->GetIDForIdent("Ceol_TrackDuration"), (string) $Duration);           
             $RelTime = (string) $PositionInfo['RelTime']; //RelTime
             setvalue($this->GetIDForIdent("Ceol_RelTime"), (string) $RelTime);          
-            $this->SendDebug("progress ", ' GetRelTIME PositionInfo: '.$RelTime, 0);
+            //$this->SendDebug("progress ", ' GetRelTIME PositionInfo: '.$RelTime, 0);
             /*
             $TrackMeta = (string) $GetPositionInfo['TrackMetaData'];
             $b = htmlspecialchars_decode($TrackMeta);
