@@ -35,49 +35,86 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
            
             
             //Status Variable anlegen
-            $this->RegisterVariableInteger("CeolSource", "Source", "");
-            $this->RegisterVariableBoolean("CeolPower", "Power");
-            $this->RegisterVariableInteger("CeolVolume", "Volume", "");
-            $this->RegisterVariableBoolean("CeolMute", "Mute");
-            $this->RegisterVariableString("CeolSZ1", "Line1");
-            $this->RegisterVariableString("CeolSZ2", "Line2");
-            $this->RegisterVariableString("CeolSZ3", "Line3");
-            $this->RegisterVariableString("CeolSZ4", "Line4");      
-            $this->RegisterVariableString("CeolSZ5", "Line5");
-            $this->RegisterVariableString("CeolSZ6", "Line6");
-            $this->RegisterVariableString("CeolSZ7", "Line7");
-            $this->RegisterVariableString("CeolSZ8", "Line8"); 
-            $this->RegisterVariableInteger("CeolFavChannel", "FavChannel", "");
-            $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
+            $variablenID = $this->RegisterVariableInteger("CeolSource", "Source", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableBoolean("CeolPower", "Power");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("CeolVolume", "Volume", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableBoolean("CeolMute", "Mute");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ1", "Line1");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ2", "Line2");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ3", "Line3");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ4", "Line4"); 
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ5", "Line5");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ6", "Line6");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ7", "Line7");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "FavChannel", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
+            IPS_SetInfo ($variablenID, "WSS"); 
             
                 
             //UPNP Variable
             $this->RegisterVariableString("Ceol_ServerArray", "Server:Array");
-            $this->RegisterVariableString("Ceol_ServerContentDirectory", "Server:ContentDirectory");
-            $this->RegisterVariableString("Ceol_ServerIcon", "Server:Icon");
-            $this->RegisterVariableString("Ceol_ServerIP", "Server:IP");
-            $this->RegisterVariableInteger("Ceol_ServerKey", "Server:Key", "");
-            $this->RegisterVariableString("Ceol_ServerName", "Server:Name");
-            $this->RegisterVariableString("Ceol_ServerPort", "Server:Port");
+                
+            $variablenID = $this->RegisterVariableString("Ceol_ServerContentDirectory", "Server:ContentDirectory");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_ServerIcon", "Server:Icon");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_ServerIP", "Server:IP");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("Ceol_ServerKey", "Server:Key", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_ServerName", "Server:Name");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_ServerPort", "Server:Port");
+            IPS_SetInfo ($variablenID, "WSS"); 
 
             
-            $this->RegisterVariableString("Ceol_Artist", "DIDL_Artist [dc:creator]");
-            $this->RegisterVariableString("Ceol_Album", "DIDL_Album [upnp:album]");
-            $this->RegisterVariableString("Ceol_Title", "DIDL_Titel [dc:title]");
-            $this->RegisterVariableString("Ceol_Actor", "DIDL_Actor [upnp:actor]");
-            $this->RegisterVariableString("Ceol_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
-            $this->RegisterVariableString("Ceol_Genre", "DIDL_Genre [upnp:genre]");
-            $this->RegisterVariableString("Ceol_Date", "DIDL_Date [dc:date]");
+            $variablenID = $this->RegisterVariableString("Ceol_Artist", "DIDL_Artist [dc:creator]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Album", "DIDL_Album [upnp:album]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Title", "DIDL_Titel [dc:title]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Actor", "DIDL_Actor [upnp:actor]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Genre", "DIDL_Genre [upnp:genre]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Date", "DIDL_Date [dc:date]");
+            IPS_SetInfo ($variablenID, "WSS"); 
             
-            $this->RegisterVariableInteger("Ceol_PlayMode", "PlayMode", "UPNP_Playmode");
-            $this->RegisterVariableInteger("Ceol_NoTracks", "No of tracks", "");
-            $this->RegisterVariableString("Ceol_PlaylistName", "PlaylistName");
+            $variablenID = $this->RegisterVariableInteger("Ceol_PlayMode", "PlayMode", "UPNP_Playmode");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("Ceol_NoTracks", "No of tracks", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_PlaylistName", "PlaylistName");
+            IPS_SetInfo ($variablenID, "WSS"); 
             $this->RegisterVariableString("Ceol_Playlist_XML", "Playlist_XML");  
-            $this->RegisterVariableInteger("Ceol_Progress", "Progress", "UPNP_Progress");
-            $this->RegisterVariableInteger("Ceol_Track", "Pos:Track", "");
-            $this->RegisterVariableString("Ceol_Transport_Status", "Pos:Transport_Status");
-            $this->RegisterVariableString("Ceol_RelTime", "RelTime");
-            $this->RegisterVariableString("Ceol_TrackDuration", "TrackDuration");
+                
+            $variablenID = $this->RegisterVariableInteger("Ceol_Progress", "Progress", "UPNP_Progress");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("Ceol_Track", "Pos:Track", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_Transport_Status", "Pos:Transport_Status");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_RelTime", "RelTime");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("Ceol_TrackDuration", "TrackDuration");
+            IPS_SetInfo ($variablenID, "WSS"); 
             
             // Aktiviert die Standardaktion der Statusvariable im Webfront
             $this->EnableAction("CeolPower");
