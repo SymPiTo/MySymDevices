@@ -31,17 +31,28 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyInteger("devicetype", 1);
         
         //Variable anlegen.
-        $this->RegisterVariableString("TVchList", "ChannelList");
-        $this->RegisterVariableInteger("TVVolume", "Volume", "");
-        $this->RegisterVariableInteger("TVChannel", "Channel", "");
-        $this->RegisterVariableString("TVchLName", "ChannelName");
-        $this->RegisterVariableString("TVGuide", "Guide");
-        $this->RegisterVariableString("TVSource", "Source");
-        $this->RegisterVariableString("TVSourceList", "SourceList");
-        $this->RegisterVariableString("TVChIcon", "ChannelIcon");
-        $this->RegisterVariableBoolean("TVPower", "Power");
-        $this->RegisterVariableString("TVchProgList", "ChannelProgList");
-        $this->RegisterVariableString("TVProgList", "ProgList");
+        $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("TVVolume", "Volume", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("TVChannel", "Channel", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVchLName", "ChannelName");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVGuide", "Guide");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVSource", "Source");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVSourceList", "SourceList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVChIcon", "ChannelIcon");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableBoolean("TVPower", "Power");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVchProgList", "ChannelProgList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVProgList", "ProgList");
+        IPS_SetInfo ($variablenID, "WSS"); 
         
         //Switch Profil zuordnen 
         IPS_SetVariableCustomProfile($this->GetIDForIdent("TVPower"), "~Switch");
