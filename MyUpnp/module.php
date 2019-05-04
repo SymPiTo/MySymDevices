@@ -91,14 +91,22 @@ class MyUpnp extends IPSModule {
             //IPS_SetName($CatID, "DIDL"); // Kategorie benennen
             //IPS_SetParent($CatID, $this->InstanceID); // Kategorie einsortieren unter dem Objekt mit der ID "12345"  
               //Status Variable anlegen
-            $this->RegisterVariableString("upnp_Artist", "DIDL_Artist [dc:creator]");
-            $this->RegisterVariableString("upnp_Album", "DIDL_Album [upnp:album]");
-            $this->RegisterVariableString("upnp_Title", "DIDL_Titel [dc:title]");
-            $this->RegisterVariableString("upnp_Actor", "DIDL_Actor [upnp:actor]");
-            $this->RegisterVariableString("upnp_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
-            $this->RegisterVariableString("upnp_Genre", "DIDL_Genre [upnp:genre]");
-            $this->RegisterVariableString("upnp_Date", "DIDL_Date [dc:date]");
-            $this->RegisterVariableString("upnp_TrackNo", "DIDL_TrackNumber [upnp:originalTrackNumber]");
+            $variablenID = $this->RegisterVariableString("upnp_Artist", "DIDL_Artist [dc:creator]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Album", "DIDL_Album [upnp:album]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Title", "DIDL_Titel [dc:title]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Actor", "DIDL_Actor [upnp:actor]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Genre", "DIDL_Genre [upnp:genre]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Date", "DIDL_Date [dc:date]");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_TrackNo", "DIDL_TrackNumber [upnp:originalTrackNumber]");
+            IPS_SetInfo ($variablenID, "WSS"); 
             
             //$ID_CatDIDL =  IPS_GetCategoryIDByName("DIDL", $this->InstanceID);
             //Verschieben der Variable unter Ordner DIDL
@@ -118,16 +126,25 @@ class MyUpnp extends IPSModule {
             //IPS_SetName($CatID, "PositionInfo"); // Kategorie benennen
             //IPS_SetParent($CatID, $this->InstanceID); 
             //Status Variable anlegen;
-            $this->RegisterVariableInteger("upnp_PlayMode", "PlayMode", "UPNP_Playmode");
-            $this->RegisterVariableBoolean("upnp_Mute", "Mute");
-            $this->RegisterVariableFloat("upnp_Volume", "Volume", "");
-            $this->RegisterVariableInteger("upnp_Progress", "Progress", "UPNP_Progress");
-            $this->RegisterVariableInteger("upnp_Track", "Pos:Track", "");
-            $this->RegisterVariableString("upnp_Transport_Status", "Pos:Transport_Status");
-            $this->RegisterVariableString("upnp_RelTime", "RelTime");
-            $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
+            $variablenID = $this->RegisterVariableInteger("upnp_PlayMode", "PlayMode", "UPNP_Playmode");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableBoolean("upnp_Mute", "Mute");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableFloat("upnp_Volume", "Volume", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("upnp_Progress", "Progress", "UPNP_Progress");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("upnp_Track", "Pos:Track", "");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_Transport_Status", "Pos:Transport_Status");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_RelTime", "RelTime");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
+            IPS_SetInfo ($variablenID, "WSS"); 
             
-            $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP_Direction");
+            $variablenID = $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP_Direction");
+            IPS_SetInfo ($variablenID, "WSS"); 
           
             $this->RegisterVariableString("upnp_DIDLRessource", "DIDL_ressource");
             $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
