@@ -63,6 +63,7 @@ class MySamsungTV extends IPSModule
         
     }
     
+    
     // ApplyChanges() wird einmalig aufgerufen beim Erstellen einer neuen Instanz und
     // bei Änderungen der Formular Parameter (form.json) (nach Übernahme Bestätigung.)
     // Überschreibt die intere IPS_ApplyChanges($id) Funktion
