@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/UpnpDiscoveryClassTrait.php");
 require_once(__DIR__ . "/UpnpClassTrait.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
-require_once(__DIR__ . "/../libs/xml2iso.php");
+            
 require_once(__DIR__ . "/../libs/Array2XML.php");  // diverse Klassen
 
 /*
@@ -24,8 +24,7 @@ class MyUpnp extends IPSModule {
          */
     use upnp,
         UpnpDiscoveryClassTrait,
-        MyDebugHelper2,
-        isoSimpleXML;
+        MyDebugHelper2 ;
     
     /* Constructor: 
     Der Konstruktor des Moduls
@@ -1660,7 +1659,7 @@ class MyUpnp extends IPSModule {
                 
                 //print_r ($BrowselistArray);
 
-                $xml = new isoSimpleXML('<Playlist/>');
+                $xml = new SimpleXML('<Playlist/>');
                 $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
                             
                 $Playlist = $xml->saveXML();
