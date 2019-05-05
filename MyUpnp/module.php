@@ -1655,12 +1655,13 @@ class MyUpnp extends IPSModule {
 
                 //Numerische Keys durch Track[Nr.] ersetzen-------------------------------------
                 $prefix = "Track";
-                $BrowselistArraykey = $this->rekey_array( $result , $prefix );
-                $BrowselistArray = utf8_encode($BrowselistArraykey);
+                $BrowselistArray = $this->rekey_array( $result , $prefix );
+                
                 //print_r ($BrowselistArray);
 
                 $xml = new SimpleXMLElement('<Playlist/>');
-                $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
+                $xmlA = Array2XML::createXML('Playlist' , $BrowselistArray);
+                $xml = utf8_encode($xmlA);
                 $Playlist = $xml->saveXML();
 
                 $Kernel = $this->Kernel();
