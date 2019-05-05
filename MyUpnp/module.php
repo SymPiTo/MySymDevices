@@ -1659,10 +1659,10 @@ class MyUpnp extends IPSModule {
                 
                 //print_r ($BrowselistArray);
 
-                $xml = new SimpleXMLElement('<Playlist/>');
+                $xml = new isoSimpleXML('<Playlist/>');
                 $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
                             
-                $Playlist = utf8_encode($xml->saveXML());
+                $Playlist = $xml->saveXML();
 
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;
@@ -2028,8 +2028,16 @@ class MyUpnp extends IPSModule {
         }
     }
     
-    
-    
-    
-    
+   
 }
+
+    class isoSimpleXML extends SimpleXMLElement {
+        public function addAttribute($key,$value) {
+                                
+           return parent::addAttribute(utf8_encode($key),utf8_encode($value));
+        }
+
+        public function addChild($key) {
+           return parent::addChild(utf8_encode($key));
+        }
+    }
