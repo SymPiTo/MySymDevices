@@ -1659,7 +1659,7 @@ class MyUpnp extends IPSModule {
                 
                 //print_r ($BrowselistArray);
 
-                $xml = new SimpleXML('<Playlist/>');
+                $xml = new SimpleXMLElement('<Playlist/>');
                 $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
                             
                 $Playlist = $xml->saveXML();
