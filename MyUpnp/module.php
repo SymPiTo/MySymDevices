@@ -1660,9 +1660,9 @@ class MyUpnp extends IPSModule {
                 //print_r ($BrowselistArray);
 
                 $xml = new SimpleXMLElement('<Playlist/>');
-                $xmlA = Array2XML::createXML('Playlist' , $BrowselistArray);
-                $xml = utf8_encode($xmlA);
-                $Playlist = $xml->saveXML();
+                $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
+                            
+                $Playlist = utf8_encode($xml->saveXML());
 
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;
