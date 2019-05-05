@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/UpnpDiscoveryClassTrait.php");
 require_once(__DIR__ . "/UpnpClassTrait.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
-
+require_once(__DIR__ . "/../libs/xml2iso.php");
 require_once(__DIR__ . "/../libs/Array2XML.php");  // diverse Klassen
 
 /*
