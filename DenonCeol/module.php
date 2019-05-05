@@ -310,7 +310,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $dispLine2 = explode(" - ", $artistTitel);
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
                             
-                            if($this->ReadPropertyInteger("LastFM")){
+                            if($this->ReadPropertyBoolean("LastFM")){
                                 $size = 1;
                                 $url = $this->getImageFromLastFM($dispLine2[0], $size);
                                     $Typ = gettype($url);
