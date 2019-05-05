@@ -165,8 +165,9 @@ class Array2XML {
      * Ref: http://www.w3.org/TR/xml/#sec-common-syn
      */
     private static function isValidTagName($tag){
+        
         $pattern = '/^[a-z_]+[a-z0-9\:\-\.\_]*[^:]*$/i';
-        return preg_match($pattern, $tag, $matches) && $matches[0] == $tag;
+        return preg_match($pattern, $tag, $matches) && $matches[0] == utf8_encode($tag);
     }
 }
 ?>
