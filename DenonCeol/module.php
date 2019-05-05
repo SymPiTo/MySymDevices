@@ -314,7 +314,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                                 $size = 1;
                                 $url = $this->getImageFromLastFM($dispLine2[0], $size);
                                     $Typ = gettype($url);
-                                    $this->SendDebug("Variablbele Typ für URL ", $Typ, 0);
+                                    $this->SendDebug("Variablbele Typ für URL ", $url, 0);
                             
                                 if($url === false){
                                     $this->SendDebug("error ", "no Image found", 0);
