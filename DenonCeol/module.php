@@ -308,7 +308,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                             $artistTitel = getvalue($this->GetIDForIdent("CeolSZ2"));
                             $dispLine2 = explode(" - ", $artistTitel);
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
-                            $size = 3;
+                            $size = 1;
                             $url = $this->getImageFromLastFM($dispLine2[0], $size);
                                 $Typ = gettype($url);
                                 $this->SendDebug("Variablbele Typ für URL ", $Typ, 0);
