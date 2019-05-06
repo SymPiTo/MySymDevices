@@ -300,6 +300,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                 SetValueString($this->GetIDForIdent("CeolSZ7"), $sz7);
                 SetValueString($this->GetIDForIdent("CeolSZ8"), $sz8);
                 
+                
                 $Source = $output['item']['NetFuncSelect']['value'];
                 $this->SendDebug("get Source: ", $Source, 0);
                 switch ($Source){
