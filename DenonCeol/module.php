@@ -326,7 +326,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                                 //take Radio station image as url
                                 $StationNo = getvalue($this->GetIDForIdent("CeolFavChannel"));
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
-                                $url = "/images/RadioStation/".$Station.".png";
+                                $url = "images/RadioStation/".$Station.".png";
                                 SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                             }    
                             
