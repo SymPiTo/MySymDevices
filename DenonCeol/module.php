@@ -340,7 +340,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                         break;	
                         case "SERVER":
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
-                            $MediaNo = strpos(getvalue($this->GetIDForIdent("Ceol_PlaylistName")), -4);
+                            $MediaNo = substr(getvalue($this->GetIDForIdent("Ceol_PlaylistName")), -4);
                             if(getvalue($this->GetIDForIdent("Ceol_Genre"))=== 'AudioBook'){
                                 $url = "AudioBooks/".$MediaNo.".jpg";
                                 SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
