@@ -327,7 +327,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
                                 $StationNo = getvalue($this->GetIDForIdent("CeolFavChannel"));
                                 $Station = str_pad($StationNo, 3, 0, STR_PAD_LEFT); 
                                 $url = "http://192.168.178.28:3777/hook/myipshook/images/RadioStation/".$Station.".png";
-                                SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
+                                SetValue($this->GetIDForIdent("Ceol_AlbumArtUri"), $url);
                             }    
                             
                             if (isset($dispLine2[0])){
