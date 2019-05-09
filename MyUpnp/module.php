@@ -193,7 +193,8 @@ class MyUpnp extends IPSModule {
         $this->RegisterVariableInteger("upnp_SaveAsPlayList", "BrowseSaveAsPlayList", "");
         $this->EnableAction("upnp_SaveAsPlayList");    
         
-        $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
+        $variablenID = $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClientControlURL", "Client:ControlURL");
         $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
         $this->RegisterVariableString("upnp_ClienIP", "Client:IP");  
@@ -202,7 +203,8 @@ class MyUpnp extends IPSModule {
         $this->RegisterVariableString("upnp_ClientPort", "Client:Port");
         $this->RegisterVariableString("upnp_ClientRenderingControlURL", "Client:RenderingControlURL");
         
-        $this->RegisterVariableString("upnp_ServerArray", "Server:Array");
+        $variablenID = $this->RegisterVariableString("upnp_ServerArray", "Server:Array");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerContentDirectory", "Server:ContentDirectory");
         $this->RegisterVariableString("upnp_ServerIcon", "Server:Icon");
         $this->RegisterVariableString("upnp_ServerIP", "Server:IP");
