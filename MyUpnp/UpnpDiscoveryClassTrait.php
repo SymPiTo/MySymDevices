@@ -668,7 +668,7 @@ trait UpnpDiscoveryClassTrait {
         }//1
         // Array von Doppelten Einträgen bereinigen
         $Clean_Device_Array = $this->array_multi_unique($Device_Array);
-        $SaveArray = serialize($Clean_Device_Array);
+        $SaveArray = json_encode($Clean_Device_Array);
         SetValue($this->GetIDForIdent("upnp_ClientArray"), $SaveArray);
         //$this->stdout("DeviceArray:$Device_Array\r\n");
         $this->SendDebug('create_UPNP_Device_Array', 'ENDE: Client Array abgespeichert!', 0);
@@ -886,7 +886,7 @@ trait UpnpDiscoveryClassTrait {
         }//1
         // Array von Doppelten Einträgen bereinigen
         $Clean_ServerArray = $this->array_multi_unique($Server_Array);
-        $SaveArray = serialize($Clean_ServerArray);
+        $SaveArray = json_encode($Clean_ServerArray);
         SetValue($this->GetIDForIdent("upnp_ServerArray"), $SaveArray);
         //$this->stdout("DeviceArray:$Server_Array\r\n");
 

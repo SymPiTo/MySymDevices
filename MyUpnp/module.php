@@ -516,7 +516,7 @@ class MyUpnp extends IPSModule {
             $which_key = "FriendlyName";
             $which_value = $ClientName;
             $array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
-            $Client_Array = unserialize($array);
+            $Client_Array = json_decode($array);
             $key = $this->search_key($which_key, $which_value, $Client_Array);
             $this->SendDebug('Send','setze Client '.$ClientName , 0);
             $Client_Array[$key]['DeviceActiveIcon'] = "image/button_ok_blue_80x80.png";
@@ -560,7 +560,7 @@ class MyUpnp extends IPSModule {
 		$which_key = "FriendlyName";
 		$which_value = $serverName;
 		$array = getvalue($this->GetIDForIdent("upnp_ServerArray"));
-		$Server_Array = unserialize($array);
+		$Server_Array = json_decode($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
 
 		$Server_Array[$key]['ServerActiveIcon'] = "image/button_ok_blue_80x80.png";
