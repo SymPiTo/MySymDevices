@@ -565,6 +565,8 @@ class MyUpnp extends IPSModule {
 		$Server_Array = json_decode($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
                 */
+                $Server_Array = getvalue($this->GetIDForIdent("upnp_ServerArray"));
+                $Server_Array = json_decode($array);
                 
 		$Server_Array[$key]['ServerActiveIcon'] = "image/button_ok_blue_80x80.png";
 		$ServerIP                   = $Server_Array[$key]['ServerIP'];
