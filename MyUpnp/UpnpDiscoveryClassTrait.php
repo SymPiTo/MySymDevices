@@ -182,7 +182,7 @@ trait UpnpDiscoveryClassTrait {
     --------------------------------------------------------------------------------*/
     //Status: checked 29.6.2018
     /* **************************************************************************** */
-    public function mSearchNeu($ST) {
+    public function mSearchNotNeu($ST) {
         //Variablen------------------------------------------------------------------
         $USER_AGENT = 'WINDOWS, UPnP/1.0, Intel MicroStack/1.0.1497';
         $MULTICASTIP = '239.255.255.250';

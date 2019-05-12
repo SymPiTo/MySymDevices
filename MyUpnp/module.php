@@ -555,14 +555,17 @@ class MyUpnp extends IPSModule {
         --------------------------------------------------------------------------------
 	Status: 
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function setServer(string $serverName){
+	public function setServer(string $key){
+                
+                /*
 		//IPSLog("Starte Funktion : ", 'setServer');
 		$which_key = "FriendlyName";
 		$which_value = $serverName;
 		$array = getvalue($this->GetIDForIdent("upnp_ServerArray"));
 		$Server_Array = json_decode($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
-
+                */
+                
 		$Server_Array[$key]['ServerActiveIcon'] = "image/button_ok_blue_80x80.png";
 		$ServerIP                   = $Server_Array[$key]['ServerIP'];
 		$ServerPort                 = $Server_Array[$key]['ServerPort'];
