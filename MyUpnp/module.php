@@ -1559,7 +1559,8 @@ class MyUpnp extends IPSModule {
 						}
 				if($node->xpath("dc:title")) {
 						$titel = $node->xpath("dc:title");
-						$liste[$i]['title']=utf8_decode((string)$titel[0]);
+                                                $liste[$i]['title']= (string)$titel[0];
+						//$liste[$i]['title']=utf8_decode((string)$titel[0]);
 					}else{
 						$liste[$i]['title']="leer";
 						}
