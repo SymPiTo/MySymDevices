@@ -196,24 +196,30 @@ class MyUpnp extends IPSModule {
         $variablenID = $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClientControlURL", "Client:ControlURL");
-        $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
+        $variablenID = $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClienIP", "Client:IP");  
         $this->RegisterVariableInteger("upnp_ClientKey", "Client:Key", "");
-        $this->RegisterVariableString("upnp_ClientName", "Client:Name");
+        $variablenID = $this->RegisterVariableString("upnp_ClientName", "Client:Name");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClientPort", "Client:Port");
         $this->RegisterVariableString("upnp_ClientRenderingControlURL", "Client:RenderingControlURL");
         
         $variablenID = $this->RegisterVariableString("upnp_ServerArray", "Server:Array");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerContentDirectory", "Server:ContentDirectory");
-        $this->RegisterVariableString("upnp_ServerIcon", "Server:Icon");
+        $variablenID = $this->RegisterVariableString("upnp_ServerIcon", "Server:Icon");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerIP", "Server:IP");
         $this->RegisterVariableInteger("upnp_ServerKey", "Server:Key", "");
-        $this->RegisterVariableString("upnp_ServerName", "Server:Name");
+        $variablenID = $this->RegisterVariableString("upnp_ServerName", "Server:Name");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerPort", "Server:Port");
         
-        $this->RegisterVariableInteger("upnp_NoTracks", "No of tracks", "");
-        $this->RegisterVariableString("upnp_PlaylistName", "PlaylistName");
+        $variablenID = $this->RegisterVariableInteger("upnp_NoTracks", "No of tracks", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("upnp_PlaylistName", "PlaylistName");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_Playlist_XML", "Playlist_XML");       
         $this->RegisterVariableString("upnp_Message", "Message");
         
