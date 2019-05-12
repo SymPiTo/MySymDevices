@@ -518,7 +518,7 @@ class MyUpnp extends IPSModule {
         --------------------------------------------------------------------------------
 	Status: checked 2018-06-10
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function setClient(string $ClientName){
+	public function setClient(string $key){
             /*
             $which_key = "FriendlyName";
             $which_value = $ClientName;
