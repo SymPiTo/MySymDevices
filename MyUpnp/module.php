@@ -519,14 +519,16 @@ class MyUpnp extends IPSModule {
 	Status: checked 2018-06-10
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setClient(string $ClientName){
+            /*
             $which_key = "FriendlyName";
             $which_value = $ClientName;
-            $array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
-            $Client_Array = json_decode($array);
+
             $key = $this->search_key($which_key, $which_value, $Client_Array);
             $this->SendDebug('Send','setze Client '.$ClientName , 0);
             $Client_Array[$key]['DeviceActiveIcon'] = "image/button_ok_blue_80x80.png";
-
+            */
+            $array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
+            $Client_Array = json_decode($array);
             
             $ClientIP                   = $Client_Array[$key]['DeviceIP'];
             $ClientPort                 = $Client_Array[$key]['DevicePort'];
