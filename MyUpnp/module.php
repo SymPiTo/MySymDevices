@@ -528,7 +528,7 @@ class MyUpnp extends IPSModule {
             $Client_Array[$key]['DeviceActiveIcon'] = "image/button_ok_blue_80x80.png";
             */
             $array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
-            $Client_Array = json_decode($array);
+            $Client_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
             
             $ClientIP                   = $Client_Array[$key]['DeviceIP'];
             $ClientPort                 = $Client_Array[$key]['DevicePort'];
