@@ -199,7 +199,8 @@ class MyUpnp extends IPSModule {
         $variablenID = $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClienIP", "Client:IP");  
-        $this->RegisterVariableInteger("upnp_ClientKey", "Client:Key", "");
+        $variablenID = $this->RegisterVariableInteger("upnp_ClientKey", "Client:Key", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $variablenID = $this->RegisterVariableString("upnp_ClientName", "Client:Name");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClientPort", "Client:Port");
@@ -211,7 +212,8 @@ class MyUpnp extends IPSModule {
         $variablenID = $this->RegisterVariableString("upnp_ServerIcon", "Server:Icon");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerIP", "Server:IP");
-        $this->RegisterVariableInteger("upnp_ServerKey", "Server:Key", "");
+        $variablenID = $this->RegisterVariableInteger("upnp_ServerKey", "Server:Key", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
         $variablenID = $this->RegisterVariableString("upnp_ServerName", "Server:Name");
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerPort", "Server:Port");
