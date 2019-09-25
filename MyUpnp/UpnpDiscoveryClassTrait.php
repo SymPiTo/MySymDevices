@@ -700,7 +700,7 @@ trait UpnpDiscoveryClassTrait {
 
         //$Server_Array = array();
 
-
+        $zaehler = 0;
         for ($i = 0, $size = count($Server_SSDPArray); $i < $size; $i++) {
             $ServerDescription = $Server_SSDPArray[$i]['LOCATION'];
 
@@ -857,31 +857,34 @@ trait UpnpDiscoveryClassTrait {
                 }//2
                 //Ausgangszustand nicht selektiert, also ohne Icon-Haken
                 $ServerActiveIcon = "";
-
-                //ServerArray erstellen
-                $this->SendDebug('Server: ',$friendlyName. ' found', 0);
-                $Server_Array[$i]['ServerDescription'] = $ServerDescription;
-                $this->SendDebug('Server-Description', $ServerDescription, 0);
-                $Server_Array[$i]['Root'] = $root;
-                $this->SendDebug('Server-Root', $root, 0);
-                $Server_Array[$i]['ServerIP'] = $ServerIP;
-                $this->SendDebug('Server-IP', $ServerIP, 0);
-                $Server_Array[$i]['ServerPort'] = $ServerPort;
-                $this->SendDebug('Server-Port', $ServerPort, 0);
-                $Server_Array[$i]['ModelName'] = $modelName;
-                $this->SendDebug('Server-ModelName', $modelName, 0);
-                $Server_Array[$i]['UDN'] = $UDN;
-                $this->SendDebug('Server-UDN', $UDN, 0);
-                $Server_Array[$i]['FriendlyName'] = $friendlyName;
-                $this->SendDebug('Server-FriendlyName', $friendlyName, 0);
-                $Server_Array[$i]['IconURL'] = $iconurl;
-                $this->SendDebug('Server-IconURL', $iconurl, 0);
-                $Server_Array[$i]['ServerServiceType'] = $ServerServiceType;
-                $this->SendDebug('Server-ServiceType', $ServerServiceType, 0);
-                $Server_Array[$i]['ServerContentDirectory'] = $ServerContentDirectory;
-                $this->SendDebug('Server-ContentDirectory', $ServerContentDirectory, 0);
-                $Server_Array[$i]['ServerActiveIcon'] = $ServerActiveIcon;
-                $this->SendDebug('Server-ActiveIcon', $ServerActiveIcon, 0);
+                
+                //ServerArray erstellen, dabei Sonos ausblenden
+                if(substr($modelName, 0, 5) != "Sonos"){
+                    $this->SendDebug('Server: ',$friendlyName. ' found', 0);
+                    $Server_Array[$zaehler]['ServerDescription'] = $ServerDescription;
+                    $this->SendDebug('Server-Description', $ServerDescription, 0);
+                    $Server_Array[$zaehler]['Root'] = $root;
+                    $this->SendDebug('Server-Root', $root, 0);
+                    $Server_Array[$zaehler]['ServerIP'] = $ServerIP;
+                    $this->SendDebug('Server-IP', $ServerIP, 0);
+                    $Server_Array[$zaehler]['ServerPort'] = $ServerPort;
+                    $this->SendDebug('Server-Port', $ServerPort, 0);
+                    $Server_Array[$zaehler]['ModelName'] = $modelName;
+                    $this->SendDebug('Server-ModelName', $modelName, 0);
+                    $Server_Array[$zaehler]['UDN'] = $UDN;
+                    $this->SendDebug('Server-UDN', $UDN, 0);
+                    $Server_Array[$zaehler]['FriendlyName'] = $friendlyName;
+                    $this->SendDebug('Server-FriendlyName', $friendlyName, 0);
+                    $Server_Array[$zaehler]['IconURL'] = $iconurl;
+                    $this->SendDebug('Server-IconURL', $iconurl, 0);
+                    $Server_Array[$zaehler]['ServerServiceType'] = $ServerServiceType;
+                    $this->SendDebug('Server-ServiceType', $ServerServiceType, 0);
+                    $Server_Array[$zaehler]['ServerContentDirectory'] = $ServerContentDirectory;
+                    $this->SendDebug('Server-ContentDirectory', $ServerContentDirectory, 0);
+                    $Server_Array[$zaehler]['ServerActiveIcon'] = $ServerActiveIcon;
+                    $this->SendDebug('Server-ActiveIcon', $ServerActiveIcon, 0);
+                    $zaehler = $zaehler + 1;
+                }
             }
         }//1
         // Array von Doppelten Einträgen bereinigen

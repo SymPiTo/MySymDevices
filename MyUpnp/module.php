@@ -999,7 +999,7 @@ class MyUpnp extends IPSModule {
 	--------------------------------------------------------------------------------
 	Status:   checked 5.7.2018  nur für TV und MusikPal CEOL funktiniert nicht
         //////////////////////////////////////////////////////////////////////////////*/
-	public function seekPos(integer $Seek){	
+	public function seekPos($Seek){	
             $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
             $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
