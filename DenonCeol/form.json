@@ -29,6 +29,6 @@
 	"actions": [{
 		"type": "Button",
 		"label": "Search Server.",
-		"onClick": "discoverServer($id);"
+		"onClick": "CEOL_discoverServer($id);"
 	}]
 }
