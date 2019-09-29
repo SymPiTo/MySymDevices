@@ -438,5 +438,30 @@ trait DiscoveryServerTrait {
 
         return $SaveArray;
     }
-
+	//*****************************************************************************
+	/* Function: ping($IP, $Port, $timeout)
+        ...............................................................................
+        Ping
+        ...............................................................................
+        Parameters: 
+            *  $IP - IP Adresse
+            *  $Port - Port
+            *  $timeout - timeout Zeit in ms
+ 	--------------------------------------------------------------------------------
+	Returns: 
+        -----------------------------------------------------------------------------
+        Status: 
+        *****************************************************************************/
+        Protected function ping($IP, $Port, $timeout){
+            $fsock = @fsockopen($IP, $Port, $errno, $errstr, $timeout);
+            //socket_set_timeout($fsock, $timeout);
+            if ( ! $fsock ){
+                $this->SendDebug('Send', $IP.'ist nicht erreichbar!', 0);
+                return ("false");
+            }
+            else{
+                $this->Meldung($IP.": erreichbar\r\n\r\n");
+                return ("true");
+            }
+        }
 }
