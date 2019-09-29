@@ -460,7 +460,7 @@ trait DiscoveryServerTrait {
                 return ("false");
             }
             else{
-                $this->Meldung($IP.": erreichbar\r\n\r\n");
+                $this->SendDebug('Send', $IP.'ist erreichbar!', 0);
                 return ("true");
             }
         }
