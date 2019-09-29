@@ -3,6 +3,7 @@
 require_once(__DIR__ . "/DenonCeol_Interface.php");
 require_once(__DIR__ . "/../libs/XML2Array.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
+require_once(__DIR__ . "/DiscoverTrait.php");
 
     // Klassendefinition
     class DenonCeol extends IPSModule {
@@ -10,7 +11,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits2.php");
         use CEOLupnp;
         use XML2Array;
         use MyDebugHelper2;
-                        
+        use DiscoveryServerTrait;              
         
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
@@ -1411,7 +1412,44 @@ o                    http://192.168.2.99/img/album%20art_S.png
         
         
         
-        
+	//*****************************************************************************
+	/* Function: discoverServer()
+	...............................................................................
+	Sucht alle UPNP  Server
+	...............................................................................
+	Parameters:  
+            none
+	--------------------------------------------------------------------------------
+	Returns: 
+                * Device Array[]_.
+                    - $Device_Array[$i]['DeviceDescription']. 
+                    - $Device_Array[$i]['Root'].
+                    - $Device_Array[$i]['DeviceIP'].
+                    - $Device_Array[$i]['DevicePort'].
+                    - $Device_Array[$i]['ModelName']. 
+                    - $Device_Array[$i]['UDN'].
+                    - $Device_Array[$i]['FriendlyName']. 
+                    - $Device_Array[$i]['IconURL'].
+                    - $Device_Array[$i]['DeviceControlServiceType'].
+                    - $Device_Array[$i]['DeviceControlURL'].
+                    - $Device_Array[$i]['DeviceRenderingServiceType'].
+                    - $Device_Array[$i]['DeviceRenderingControlURL'].
+                    - $Device_Array[$i]['DeviceActiveIcon'].
+	--------------------------------------------------------------------------------*/
+        //Status:
+	/* **************************************************************************** */
+	public function discoverServer(){
+		$ST_MS = "urn:schemas-upnp-org:device:MediaServer:1";
+ 			setvalue($this->GetIDForIdent("Ceol_ServerArray"), '');
+			$SSDP_Search_Array = $this->mSearch($ST_MS);
+			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
+			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
+		 	$Server_Array = $this->create_Server_Array($SSDP_Array); 
+ 
+            SetValue($this->GetIDForIdent("Ceol_ServerArray"), $Server_Array);
+           
+ 	 
+	}        
         
         
         
