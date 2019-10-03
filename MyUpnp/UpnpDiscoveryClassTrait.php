@@ -512,7 +512,7 @@ trait UpnpDiscoveryClassTrait {
                         }
 
 
-                        $friendlyName = substr("$friendlyName_raw", 0, 10);
+                        $friendlyName = substr("$friendlyName_raw", 0, 30);
 
                         if ($modelName == "Sonos PLAY:1") {
                             $friendlyName = "SonosK";
