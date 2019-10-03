@@ -512,13 +512,13 @@ trait UpnpDiscoveryClassTrait {
                         }
 
 
-                        $friendlyName = substr("$friendlyName_raw", 0, 30);
+                        $friendlyName = substr("$friendlyName_raw", 0, 20);
 
-                        if ($modelName == "Sonos PLAY:1") {
+                        if ($modelName == "Sonos Play:1") {
                             $friendlyName = "SonosK";
                         }
 
-                        if ($modelName == "Sonos PLAY:3") {
+                        if ($modelName == "Sonos Play:3") {
                             $friendlyName = "SonosSZ";
                         }
                         //$this->SendDebug('device Desription', 'friendlyName:' . $friendlyName, 0);
