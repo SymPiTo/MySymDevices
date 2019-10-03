@@ -1333,7 +1333,8 @@ class MyUpnp extends IPSModule {
 	//*****************************************************************************
 	/* Function: getContainerServer($Mediatype)
 	...............................................................................
-	Alle Container/Folder eines Servers ab Stammverzeichnis $Mediatype oder ab Filter auslesen 
+        Alle Container/Folder eines angewählten Servers ab Stammverzeichnis 
+        $Mediatype oder ab Filter auslesen 
         Ergebnis wird als compressed Array in File geschrieben
         /media/Multimedia/Playlist/Musik/".$ServerName."_Musik_Container.con"
 	...............................................................................
@@ -1342,19 +1343,20 @@ class MyUpnp extends IPSModule {
 	--------------------------------------------------------------------------------
 	Returns:   
             * array: [$container]
-		* - ['class']  
+		  - ['class']  
 		  - ['id']  
 		  - ['title']  
 	--------------------------------------------------------------------------------
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	Public function getContainerServer(string $Mediatype){
-		//IPSLog("Starte Funktion: browseServer mit : ",$Mediatype);
+
 		$ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
 		$ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
 		$ServerPort = GetValue($this->GetIDForIdent("upnp_ServerPort"));
 		$ServerName = GetValue($this->GetIDForIdent("upnp_ServerName"));
-
+        $Meldung = "Starte Funktion: getContainerServer mit : ".$Mediatype. " - ".$ServerName ;
+        $this->SendDebug('UPNP: ', $Meldung, 0);
 		//Suchvariablen-----------------------------------------------------------------
 		$BrowseFlag = "BrowseDirectChildren"; //"BrowseMetadata"; //"BrowseDirectChildren";
 		$Filter = "*"; //GetValue();
@@ -1378,7 +1380,9 @@ class MyUpnp extends IPSModule {
 			$AuswahlB = "Musik";
 		} 
 		for($n = 0; $n <= $i; ++$n){	
-			$ObjectID = $container[$n]['id'];	
+            $ObjectID = $container[$n]['id'];
+            $Meldung = "Starte ContentDirectory_Browse mit ObjectID: ".$ObjectID;
+            $this->SendDebug('UPNP: ', $Meldung, 0);	
 			//Function ContentDirectory_Browse aufrufen-------------------------------------
 			$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
 			$Result_xml = $BrowseResult['Result'] ;
