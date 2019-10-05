@@ -1398,7 +1398,7 @@ class MyUpnp extends IPSModule {
                                         // nur die storagefolder Container auslesen
 					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder'){
 						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
-							$i = -1;
+							$i = 0;
 							$n = 0;
 							unset($container);
 						}	
