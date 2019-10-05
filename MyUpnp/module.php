@@ -1391,12 +1391,16 @@ class MyUpnp extends IPSModule {
 			$NumberReturned = intval($BrowseResult['NumberReturned']);
 			$TotalMatches = intval($BrowseResult['TotalMatches']);
 			if ($NumberReturned == $TotalMatches){
-				$liste = $this->BrowseList($Result_xml);
+                //$liste = $this->BrowseList($Result_xml);
+                $xml = simplexml_load_string($xml_string);
+                $json = json_encode($xml);
+                $liste = json_decode($json,TRUE);
+                $this->SendDebug('UPNP_Ergebnis:'.$liste, 0);
 				foreach ($liste as $value) {
                                         // nur die storagefolder Container auslesen
 					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder'){
 						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
-							$i = 0;
+							$i = -1;
 							$n = 0;
 							unset($container);
 						}	
