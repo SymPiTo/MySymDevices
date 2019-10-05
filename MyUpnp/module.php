@@ -1389,7 +1389,8 @@ class MyUpnp extends IPSModule {
             $Result_xml = $BrowseResult['Result'] ;
             $this->SendDebug('UPNP_Object-ID:'.$ObjectID, $Result_xml, 0);
 			$NumberReturned = intval($BrowseResult['NumberReturned']);
-			$TotalMatches = intval($BrowseResult['TotalMatches']);
+            $TotalMatches = intval($BrowseResult['TotalMatches']);
+       
 			if ($NumberReturned == $TotalMatches){
                 $liste = $this->BrowseList($Result_xml);
      
@@ -1400,7 +1401,8 @@ class MyUpnp extends IPSModule {
 						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
 							$i = 0;
 							$n = 0;
-							unset($container);
+                            unset($container);
+                            $this->SendDebug('UPNP_Musik_Folder_ID:'.$value['title'],  $value['id'], 0);
 						}	
 							$i = $i + 1;
 							$container[$i]['class'] = $value['typ'];
