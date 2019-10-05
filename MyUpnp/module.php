@@ -1365,7 +1365,8 @@ class MyUpnp extends IPSModule {
 		$SortCriteria = ""; //GetValue();
 
 		$Kernel = str_replace("\\", "/", IPS_GetKernelDir());
-		 
+
+/* ---------------- Start ID = Rootverzeichnis von upnp Sever --------------- */
 		$container[0]['id'] = '0';
 		$n = 0;
 		$i = 0;
@@ -1385,7 +1386,8 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('UPNP: ', $Meldung, 0);	
 			//Function ContentDirectory_Browse aufrufen-------------------------------------
 			$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-			$Result_xml = $BrowseResult['Result'] ;
+            $Result_xml = $BrowseResult['Result'] ;
+            $this->SendDebug('UPNP_Object-ID:'.$ObjectID, $Result_xml, 0);
 			$NumberReturned = intval($BrowseResult['NumberReturned']);
 			$TotalMatches = intval($BrowseResult['TotalMatches']);
 			if ($NumberReturned == $TotalMatches){
