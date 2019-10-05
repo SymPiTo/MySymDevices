@@ -1393,7 +1393,7 @@ class MyUpnp extends IPSModule {
 			if ($NumberReturned == $TotalMatches){
                 $liste = $this->BrowseList($Result_xml);
      
-                $this->SendDebug('UPNP_Listen EInträge: '.$i.' - ', count($liste), 0);
+                $this->SendDebug('UPNP_Listen EInträge: '.$i.' - '.$n.' - ', $TotalMatches, 0);
 				foreach ($liste as $value) {
                                         // nur die storagefolder Container auslesen
 					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder'){
