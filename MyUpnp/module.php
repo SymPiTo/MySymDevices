@@ -1392,7 +1392,7 @@ class MyUpnp extends IPSModule {
 			$TotalMatches = intval($BrowseResult['TotalMatches']);
 			if ($NumberReturned == $TotalMatches){
                 //$liste = $this->BrowseList($Result_xml);
-                $xml = simplexml_load_string($xml_string);
+                $xml = simplexml_load_string($Result_xml);
                 $json = json_encode($xml);
                 $liste = json_decode($json,TRUE);
                 $this->SendDebug('UPNP_Ergebnis:'.$liste, 0);
