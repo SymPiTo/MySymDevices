@@ -1448,6 +1448,7 @@ class MyUpnp extends IPSModule {
      
                 $this->SendDebug('UPNP_Listen EInträge: '.$i.' - '.$n.' - ', $TotalMatches, 0);
 				foreach ($liste as $value) {
+                    $this->SendDebug('UPNP Inhalt: ', $value, 0);
                                         // nur die storagefolder Container auslesen
 					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder'){
 						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
