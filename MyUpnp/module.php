@@ -1368,7 +1368,7 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	Public function getContainerServer(string $Mediatype){
-
+        $this->Meldung( 'suche Verzeichnisse"');
 		$ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
 		$ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
 		$ServerPort = GetValue($this->GetIDForIdent("upnp_ServerPort"));
@@ -1513,7 +1513,7 @@ class MyUpnp extends IPSModule {
                  
                 break;
         } 
-		
+        $this->Meldung( 'Verzeichnis Liste wurde erstellt!');
 		
 		//Retrieve the serialized string.
 		//$fileContents = file_get_contents('serialized.txt');
@@ -1792,6 +1792,7 @@ class MyUpnp extends IPSModule {
         Status: 
         //////////////////////////////////////////////////////////////////////////////*/
         Public function createAllPlaylist(string $mediatype){
+            $this->Meldung( 'erzeuge Playlisten!');
                 $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
                 if ($mediatype == 'Fotos'){
                         $DB_Fotos_Compressed = getvalue(45521 /*[DLNA\Medienbibliothek\DB_Fotos]*/);
