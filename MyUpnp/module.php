@@ -1460,7 +1460,8 @@ class MyUpnp extends IPSModule {
 							$i = $i + 1;
 							$container[$i]['class'] = $value['typ'];
 							$container[$i]['id'] = $value['id'];
-							$container[$i]['title'] = $value['title'];	
+                            $container[$i]['title'] = $value['title'];	
+                            $container[$i]['album'] = $value['album'];
 					}
 
 				}
@@ -1486,8 +1487,9 @@ class MyUpnp extends IPSModule {
 								$i = $i + 1;
 								$container[$i]['class'] = $value['typ'];
 								$container[$i]['id'] = $value['id'];
-								$container[$i]['title'] = $value['title'];	
-                                                        }
+                                $container[$i]['title'] = $value['title'];	
+                                $container[$i]['album'] = $value['album'];
+                            }
 						}
 					}
 				}
