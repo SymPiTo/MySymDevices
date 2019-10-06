@@ -1328,6 +1328,24 @@ class MyUpnp extends IPSModule {
 	}
 
 
+	//*****************************************************************************
+	/* Function: syncLib($Mediatype)
+	...............................................................................
+         holt alle Ordner - ID's vom Server und erstellt alle Playlisten neu-
+         Wichtig: das Stammverzeichnis ist fix im Code eingetragen und´muss stimmen. 
+	...............................................................................
+	Parameters:  
+            $Mediatype - 'Musik' // 'Audiobook' // 'Foto' // 'Video'
+	--------------------------------------------------------------------------------
+	Returns:   
+      
+	--------------------------------------------------------------------------------
+	Status:  
+    //////////////////////////////////////////////////////////////////////////////*/
+    Public function syncLib(string $Mediatype){
+        $this->getContainerServer($Mediatype);
+        $this->createAllPlaylist($Mediatype);
+    }
 
 
 	//*****************************************************************************
@@ -1375,11 +1393,44 @@ class MyUpnp extends IPSModule {
 		if($ServerName == "Plex"){
 			$AuswahlA = "By Folder";
             $AuswahlB = "Music";
-            $container[0]['id'] = '42821f9bc18d5f139079';
-		} 
+            switch ($Mediatype) {
+                case 'Musik':
+                    $container[0]['id'] = '42821f9bc18d5f139079';
+                    break;
+                case 'Audiobook':
+                    $container[0]['id'] = '28761f2c83dd8f000e3a';
+                    break;
+                case 'Foto':
+                    $container[0]['id'] = '42821f9bc18d5f139079';
+                    break;
+                case 'Video':
+                    $container[0]['id'] = '42821f9bc18d5f139079';
+                    break;
+                default:
+                    $container[0]['id'] = '0';
+                    break;
+            } 
+ 		} 
 		if($ServerName == "AVM"){
 			$AuswahlA = "Ordner";
-			$AuswahlB = "Musik";
+            $AuswahlB = "Musik";
+            switch ($Mediatype) {
+                case 'Musik':
+                    $container[0]['id'] = '0';
+                    break;
+                case 'Audiobook':
+                    $container[0]['id'] = '0';
+                    break;
+                case 'Foto':
+                    $container[0]['id'] = '0';
+                    break;
+                case 'Video':
+                    $container[0]['id'] = '0';
+                    break;
+                default:
+                    $container[0]['id'] = '0';
+                    break;
+            } 
 		} 
 		for($n = 0; $n <= $i; ++$n){	
             $ObjectID = $container[$n]['id'];
@@ -1444,8 +1495,25 @@ class MyUpnp extends IPSModule {
 
 		//Serialize the array.
 		$serialized = serialize($container);
-		//Save the serialized array to a text file.
-		file_put_contents($Kernel."media/Multimedia/Playlist/Musik/".$ServerName."_Musik_Container.con", $serialized);
+        //Save the serialized array to a text file.
+        switch ($Mediatype) {
+            case 'Musik':
+                file_put_contents($Kernel."media/Multimedia/Playlist/Musik/".$ServerName."_Musik_Container.con", $serialized); 
+                break;
+            case 'Audiobook':
+                file_put_contents($Kernel."media/Multimedia/Playlist/Audio/".$ServerName."_Audio_Container.con", $serialized);  
+                break;
+            case 'Foto':
+                file_put_contents($Kernel."media/Multimedia/Playlist/Foto/".$ServerName."_Foto_Container.con", $serialized); 
+                break;
+            case 'Video':
+                file_put_contents($Kernel."media/Multimedia/Playlist/Video/".$ServerName."_Video_Container.con", $serialized); 
+                break;
+            default:
+                 
+                break;
+        } 
+		
 		
 		//Retrieve the serialized string.
 		//$fileContents = file_get_contents('serialized.txt');
