@@ -1736,7 +1736,7 @@ class MyUpnp extends IPSModule {
         --------------------------------------------------------------------------------
         Status: 
         //////////////////////////////////////////////////////////////////////////////*/
-        Public function createPlaylist(string $id, string $PlaylistNo){
+        Public function createPlaylist(string $id, string $mediatype, string $PlaylistNo){
                 //IPSLog("Starte Funktion CREATEPLAYLIST mit Parameter ", $id.' - '.$PlaylistNo);
                 $PlaylistArray = array();
 
@@ -1765,9 +1765,28 @@ class MyUpnp extends IPSModule {
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;
                 //XML-Datei in D:/IP-Symcon/webfront/user/Multimedia/Browse/Browse schreiben
-                $handle = fopen($Kernel."media/Multimedia/Playlist/Musik/".$PlaylistName.".xml", "w");
-                fwrite($handle, $Playlist);
-                fclose($handle);
+                switch ($mediatype) {
+                    case 'Musik':
+                        $handle = fopen($Kernel."media/Multimedia/Playlist/Musik/".$PlaylistName.".xml", "w");
+                        fwrite($handle, $Playlist);
+                        fclose($handle);
+                        break;
+                    case 'Audiobook':
+                        $handle = fopen($Kernel."media/Multimedia/Playlist/Audio/".$PlaylistName.".xml", "w");
+                        fwrite($handle, $Playlist);
+                        fclose($handle);
+                        break;
+                    case 'Foto':
+                       
+                        break;
+                    case 'Video':
+                        
+                        break;
+                    default:
+                        
+                        break;
+                }
+                $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
 
         }
 
@@ -1801,7 +1820,7 @@ class MyUpnp extends IPSModule {
                         foreach($DB_Fotos as $Foto){
                                 $id = $Foto['ID_Plex'];
                                 $PlaylistNo = $Foto['No'];
-                                $this->createPlaylist($id, $PlaylistNo);
+                                $this->createPlaylist($id, $mediatype, $PlaylistNo);
                         }
                 }
                 if ($mediatype == 'Musik'){
@@ -1813,7 +1832,7 @@ class MyUpnp extends IPSModule {
                         foreach ($MusikContainer as $key => $value) {
                                 $id = $value['id'];		
                                 $PlaylistNo = substr($value['title'],0,4);
-                                $this->createPlaylist($id, $PlaylistNo);
+                                $this->createPlaylist($id, $mediatype, $PlaylistNo);
                                 $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
                         }
                         $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
@@ -1827,7 +1846,7 @@ class MyUpnp extends IPSModule {
                     foreach ($AudioContainer as $key => $value) {
                             $id = $value['id'];		
                             $PlaylistNo = substr($value['title'],0,4);
-                            $this->createPlaylist($id, $PlaylistNo);
+                            $this->createPlaylist($id, $mediatype, $PlaylistNo);
                             $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
                     }
                     $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
