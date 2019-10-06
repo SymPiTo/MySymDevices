@@ -1818,6 +1818,20 @@ class MyUpnp extends IPSModule {
                         }
                         $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
                 }
+                if ($mediatype == 'Audiobook'){
+                    //Retrieve the serialized string.
+                    $Kernel = $this->Kernel();
+                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/Audio/".$ServerName."_Audio_Container.con");
+                    //Unserialize the string back into an array.
+                    $AudioContainer = unserialize($fileContents);
+                    foreach ($AudioContainer as $key => $value) {
+                            $id = $value['id'];		
+                            $PlaylistNo = substr($value['title'],0,4);
+                            $this->createPlaylist($id, $PlaylistNo);
+                            $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
+                    }
+                    $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
+            }
         }
 
 
