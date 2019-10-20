@@ -1398,7 +1398,7 @@ class MyUpnp extends IPSModule {
                     $container[0]['id'] = '42821f9bc18d5f139079';
                     break;
                 case 'Audiobook':
-                    $container[0]['id'] = '28761f2c83dd8f000e3a';
+                    $container[0]['id'] = '030efdc9b5c6ab91d5bf';
                     break;
                 case 'Foto':
                     $container[0]['id'] = '42821f9bc18d5f139079';
