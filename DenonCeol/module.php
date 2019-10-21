@@ -953,20 +953,32 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	...............................................................................
 	Parameters:  
             $AlbumNo - Album Nummer = '0001'.
+            $Media - "CD" / "Audio"
 	--------------------------------------------------------------------------------
 	Returns:  
             $xml - Playlist as XML 
 	--------------------------------------------------------------------------------
 	Status:  14.7.2018 checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function loadPlaylist(string $AlbumNo){	
+	public function loadPlaylist(string $AlbumNo, $Media){	
             $this->SendDebug('Send','lade Play Liste' , 0);
             $Server = getvalue($this->GetIDForIdent("Ceol_ServerName"));
             $PlaylistName = $Server.$AlbumNo;
             setvalue($this->GetIDForIdent("Ceol_PlaylistName"), $PlaylistName);
             $PlaylistFile = $PlaylistName.'.xml';
 
-            $Playlist = file_get_contents($this->Kernel()."media/Multimedia/Playlist/Musik/".$PlaylistFile);
+            switch ($Media) {
+                case 'CD':
+                    $Playlist = file_get_contents($this->Kernel()."media/Multimedia/Playlist/Musik/".$PlaylistFile);
+                    break;
+                    case 'Audio':
+                    $Playlist = file_get_contents($this->Kernel()."media/Multimedia/Playlist/Audio/".$PlaylistFile);
+                    break;
+                default:
+                     
+                    break;
+            }
+            
             // Playlist abspeichern
             setvalue($this->GetIDForIdent("Ceol_Playlist_XML"), $Playlist);
             // neue Playlist wurde geladen - TrackNo auf 0 zurücksetzen
