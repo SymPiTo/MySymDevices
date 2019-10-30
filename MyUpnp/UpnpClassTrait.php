@@ -78,7 +78,7 @@ trait upnp {
             nur Fehler Code
 	Status: checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function SetAVTransportURI(string $ClientIP, string $ClientPort, string $ClientControlURL, string $file, string $MetaData){
+	Public function SetAVTransportURI(string $ClientIP, string $ClientPort, string $ClientControlURL, string $file, string $MetaData){
             $this->SendDebug('SetAVTransportURI', 'IP: '.$ClientIP, 0);
             $this->SendDebug('SetAVTransportURI', 'Port: '.$ClientPort, 0);
             $this->SendDebug('SetAVTransportURI', 'FILE: '.$file, 0);
