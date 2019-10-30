@@ -712,6 +712,20 @@ class MyUpnp extends IPSModule {
               }    
         }
         
+
+
+
+    public function playpos($res, $metadata, $postime){
+		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
+		$ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
+        $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
+        
+        $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+        $this->Seek_AV($ClientIP,  $ClientPort,  $ClientControlURL, $postime);
+        $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+    }    
+
+
 	//*****************************************************************************
 	/* Function: play()
 	...............................................................................
