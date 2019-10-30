@@ -721,7 +721,7 @@ class MyUpnp extends IPSModule {
         $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
         
         $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-        $this->Seek_AV($ClientIP,  $ClientPort,  $ClientControlURL, $postime);
+        $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $postime);
         $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
     }    
 
