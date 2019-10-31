@@ -51,6 +51,7 @@ class MyUpnp extends IPSModule {
         * (String)  upnp_Date               =>  DIDL_Date [dc:date]
         * (Integer) upnp_Progress           =>  Progress, "UPNP_Progress
         * (Integer) upnp_Track              =>  Pos:Track", "" 
+        * (String)  upnp_RELTIME            =>  RelTime", "" 
         * (String)  upnp_Transport_Status   =>  Pos:Transport_Status
         * (String)  upnp_ClientArray        =>  Client:Array")
         * (String)  upnp_ClientControlURL   =>  Client:ControlURL")
@@ -136,13 +137,14 @@ class MyUpnp extends IPSModule {
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableInteger("upnp_Track", "Pos:Track", "");
             IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("upnp_Transport_Status", "Pos:Transport_Status");
+             $variablenID = $this->RegisterVariableString("upnp_Transport_Status", "Pos:Transport_Status");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("upnp_RelTime", "RelTime");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("upnp_TrackDuration", "TrackDuration");
             IPS_SetInfo ($variablenID, "WSS"); 
-            
+            $variablenID = $this->RegisterVariableString("upnp_MediaType", "MediaType");
+            IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableInteger("upnp_Browse", "BrowseDir", "UPNP_Direction");
             IPS_SetInfo ($variablenID, "WSS"); 
           
@@ -715,15 +717,6 @@ class MyUpnp extends IPSModule {
 
 
 
-    public function playpos($res, $metadata, $postime){
-		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
-		$ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
-        $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-        
-        $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-        $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $postime);
-        $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
-    }    
 
 
 	//*****************************************************************************
@@ -744,36 +737,40 @@ class MyUpnp extends IPSModule {
 		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
 		$ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-		$Playlist   = getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
-		
-		$xml = new SimpleXMLElement($Playlist);
-		$tracks = $xml->count();
-		setvalue($this->GetIDForIdent("upnp_NoTracks"),$tracks);
+        
+        $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+        $PlaylistFile = $PlaylistName.'.xml';
+
+		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
+		 
+        //track holen und zugeh. res und meta daten laden
  		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"))-1;
 		$track = ("Track".strval($TrackNo));
-			
 		$res = $xml->$track->resource; // gibt resource des Titels aus
-
-		$metadata = $xml->$track->metadata; // gibt resource des Titels aus
+        $metadata = $xml->$track->metadata; // gibt resource des Titels aus
+        
 		//UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
 		//IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
 		$this->SetTimerInterval('upnp_PlayInfo', 0);
-                if ($TrackNo == 1){	
+        if ($TrackNo == 1){	
 			$this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
 		}
                // if ($ClientPort == '52235'){
                   //  $metadata='';
                 //}
 		//Transport starten
-                $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-                $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
+            $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+            $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
+        //auf Anfangsposition stellen.
+            $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
+            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
 		//Stream ausführen	
-		$this->Play_AV($ClientIP, $ClientPort, $ControlURL);
-                $this->SendDebug("PLAY ", 'Play_AV', 0);
+		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+            $this->SendDebug("PLAY ", 'Play_AV', 0);
 		// Postion Timer starten
 		//IPS_SetEventActive($this->GetIDForIdent("upnp_PlayInfo"), true);  // Aktivert Ereignis
-                $this->SetTimerInterval('upnp_PlayInfo', 1000);
-                $this->SendDebug("PLAY ", 'Timer Position aktivieren', 0);
+            $this->SetTimerInterval('upnp_PlayInfo', 1000);
+            $this->SendDebug("PLAY ", 'Timer Position aktivieren', 0);
 	}
 
 	//*****************************************************************************
@@ -827,14 +824,25 @@ class MyUpnp extends IPSModule {
             $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-            
+            $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
+            $currentTrack = getvalue($this->GetIDForIdent("upnp_Track"));
+            $currentRelTime = getvalue($this->GetIDForIdent("upnp_RelTime"));
+            //letzte 4 Zeichen holen und in Zahl umwandeln
+            $mediaNo = substr(getvalue($this->GetIDForIdent("upnp_PlaylistName"), 0, -4));
+
+
             $this->SendDebug('STOP', 'Stream stoppen', 0);
             /*Timer abschalten--------------------------------------------------------*/
             $this->SetTimerInterval('upnp_PlayInfo', 0);
             /*Stram stoppen--------------------------------------------------------*/
             $this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
-            //Track Zähler auf Anfang zurücksetzen
-            setvalue($this->GetIDForIdent("upnp_Track"), 1);
+
+            $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+            $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
+            $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
+            $PlaylistDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+
+ 
             //Transport Status zurücksetzen auf Anfang zurücksetzen
             setvalue($this->GetIDForIdent("upnp_Transport_Status"), '');
             
@@ -1022,7 +1030,7 @@ class MyUpnp extends IPSModule {
             $duration = explode(":", $Duration);
             $seconds = round(((($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2])) * ($Seek/100)), 0, PHP_ROUND_HALF_UP);
             $position = gmdate('H:i:s', $seconds);
-            $this->Seek_AV($ClientIP,  $ClientPort,  $ClientControlURL, $position );
+            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );
 	}
         
 	//*****************************************************************************
@@ -1031,26 +1039,49 @@ class MyUpnp extends IPSModule {
 	Playlist aus Datei laden (XML) und in Variable Playlist_XML schreiben
 	...............................................................................
 	Parameters:  
-            $AlbumNo - Album Nummer = '0001'.
+            $AlbumNo - Album Nummer = 0  für die Erste Playliste.
+            $mediatype = "Musik" // "Audio" // "Video" // "Foto"
 	--------------------------------------------------------------------------------
 	Returns:  
             $xml - Playlist as XML 
 	--------------------------------------------------------------------------------
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function loadPlaylist(string $AlbumNo){	
+	public function loadPlaylist(string $AlbumNo, string $mediatype){	
+        $Server = getvalue($this->GetIDForIdent("upnp_ServerName"));   
+
             $this->SendDebug('Send','lade Play Liste' , 0);
-            $Server = getvalue($this->GetIDForIdent("upnp_ServerName"));
+            
+            setvalue($this->GetIDForIdent("upnp_MediaType"), $mediatype);
             $PlaylistName = $Server.$AlbumNo;
             setvalue($this->GetIDForIdent("upnp_PlaylistName"), $PlaylistName);
             $PlaylistFile = $PlaylistName.'.xml';
 
-            $Playlist = file_get_contents($this->Kernel()."media/Multimedia/Playlist/Musik/".$PlaylistFile);
-            // Playlist abspeichern
-            setvalue($this->GetIDForIdent("upnp_Playlist_XML"), $Playlist);
-            // neue Playlist wurde geladen - TrackNo auf 0 zurücksetzen
-            setvalue($this->GetIDForIdent("upnp_Track"), 1);
+            $Playlist = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
+            if(!$Playlist){
+                $this->SendDebug('loadPlaylist','Playlist not found.' , 0);
+            }else{
+                //Daten aus Erstem Datensatz der Playliste holen
+                $album = $Playlist->Track0->album; //  
+                $cover = $Playlist->Track0->albumArtURI; //  
+                $artist = $Playlist->Track0->artist; // 
+                $tracks = $Playlist->count();
+                setvalue($this->GetIDForIdent("upnp_Album"), $album);
+                setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
+                setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
+                setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
+                // Playlist Datenbank laden
+                $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+                $lastTrack = $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
+                $lastpos = $PlaylistDB->media[$AlbumNo]->lastpos; // letzte Position des tracks
+                setvalue($this->GetIDForIdent("upnp_Track"), $lasttrack);
+                setvalue($this->GetIDForIdent("upnp_RelTime"), $lastpos);
+            }
 
+   
+
+
+ 
             $vars 				= explode(".", $PlaylistFile);
             $PlaylistName 			= $vars[0];
             $PlaylistExtension		= $vars[1];
@@ -1058,6 +1089,7 @@ class MyUpnp extends IPSModule {
             $xml = new SimpleXMLElement($Playlist);
 
             return $xml;
+         
 	}
 
 
@@ -1357,7 +1389,8 @@ class MyUpnp extends IPSModule {
 	Status:  
     //////////////////////////////////////////////////////////////////////////////*/
     Public function syncLib(string $Mediatype){
-        $this->getContainerServer($Mediatype);
+        $cont = $this->getContainerServer($Mediatype);
+        $this->syncDB($cont, Mediatype);
         $this->createAllPlaylist($Mediatype);
     }
 
@@ -1503,6 +1536,7 @@ class MyUpnp extends IPSModule {
 								$container[$i]['id'] = $value['id'];
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
+                                $container[$i]['no'] = substr($value['album'], 0, 4);
                             }
 						}
 					}
@@ -1531,13 +1565,59 @@ class MyUpnp extends IPSModule {
                 break;
         } 
         $this->Meldung( 'Verzeichnis Liste wurde erstellt!');
-		
-		//Retrieve the serialized string.
-		//$fileContents = file_get_contents('serialized.txt');
-		//Unserialize the string back into an array.
-		//$arrayUnserialized = unserialize($fileContents);
+        
+
 		return $container;
 	}
+	//*****************************************************************************
+	/* Function: syncDB($container)
+	...............................................................................
+	Alle Container/Folder eines Servers ab Stammverzeichnis $Mediatype oder ab Filter auslesen 
+	...............................................................................
+	Parameters:  
+             
+  	--------------------------------------------------------------------------------
+	Returns:  
+ ------------------------------------------------------
+	Status: 
+	//////////////////////////////////////////////////////////////////////////////*/
+    public function syncDB($container, $mediatype){
+        //Medien Datenbank füllen.
+        $mediaDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+
+        foreach ($container as $value) {
+            $playlistname = $value['no'];
+            $No = intval($playlistname);
+            $mediaDB->media[$No]->playlistname = $playlistname;
+            $mediaDB->media[$No]->id = $value['id'];
+            $mediaDB->media[$No]->album = $value['album'];
+            $mediaDB->media[$No]->mediatype = $mediatype;
+
+            //Erstes media file -----------------------------------------------------------------
+            $ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
+            $ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
+            $ServerPort = GetValue($this->GetIDForIdent("upnp_ServerPort"));
+            $BrowseFlag = "BrowseDirectChildren"; //"BrowseMetadata"; //"BrowseDirectChildren";
+            $Filter = "*"; //GetValue();
+            $StartingIndex = 0; //GetValue();
+            $RequestedCount = "1"; //GetValue();
+            $SortCriteria = ""; //GetValue();
+
+            $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
+ 			$ObjectID = $value['id'];
+ 			//Function ContentDirectory_Browse aufrufen-------------------------------------
+			$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+            $Result_xml = $BrowseResult['Result'] ;
+            $liste = $this->BrowseList($Result_xml);
+            $cover = $liste['albumArtURI'];
+            $mediaDB->media[$No]->icon = $cover;
+            $total = $BrowseResult['TotalMatches'];
+            $mediaDB->media[$No]->totaltrack = $total;
+            $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+        }
+
+    }
+
 
 
 	//*****************************************************************************
@@ -1819,7 +1899,7 @@ class MyUpnp extends IPSModule {
         bennent sie nach Servername + PlaylistNo + .xml
         ...............................................................................
         Parameters:  
-            $mediatype - "Musik".
+            $mediatype - "Musik" // "Audio" // "Video" // "Foto"
  	--------------------------------------------------------------------------------
 	Returns: 
             * schreibt FILES (Playlisten)
@@ -1830,8 +1910,10 @@ class MyUpnp extends IPSModule {
         Public function createAllPlaylist(string $mediatype){
             $this->Meldung( 'erzeuge Playlisten!');
                 $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
+
+                /*
                 if ($mediatype == 'Fotos'){
-                        $DB_Fotos_Compressed = getvalue(45521 /*[DLNA\Medienbibliothek\DB_Fotos]*/);
+                        $DB_Fotos_Compressed = getvalue(45521 );
                         $DB_Fotos = unserialize($DB_Fotos_Compressed);
                         foreach($DB_Fotos as $Foto){
                                 $id = $Foto['ID_Plex'];
@@ -1839,26 +1921,18 @@ class MyUpnp extends IPSModule {
                                 $this->createPlaylist($id, $mediatype, $PlaylistNo);
                         }
                 }
-                if ($mediatype == 'Musik'){
-                        //Retrieve the serialized string.
-                        $Kernel = $this->Kernel();
-                        $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/Musik/".$ServerName."_Musik_Container.con");
-                        //Unserialize the string back into an array.
-                        $MusikContainer = unserialize($fileContents);
-                        foreach ($MusikContainer as $key => $value) {
-                                $id = $value['id'];		
-                                $PlaylistNo = substr($value['title'],0,4);
-                                $this->createPlaylist($id, $mediatype, $PlaylistNo);
-                                $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
-                        }
-                        $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
-                }
-                if ($mediatype == 'Audiobook'){
+                */
+
+ 
+           
                     //Retrieve the serialized string.
                     $Kernel = $this->Kernel();
-                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/Audio/".$ServerName."_Audio_Container.con");
+                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/".$mediatype."/".$ServerName."_Audio_Container.con");
                     //Unserialize the string back into an array.
                     $AudioContainer = unserialize($fileContents);
+                    //load DB
+                    $dbXML = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+
                     foreach ($AudioContainer as $key => $value) {
                             $id = $value['id'];		
                             $PlaylistNo = substr($value['title'],0,4);
@@ -1866,7 +1940,7 @@ class MyUpnp extends IPSModule {
                             $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
                     }
                     $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
-            }
+       
         }
 
 
