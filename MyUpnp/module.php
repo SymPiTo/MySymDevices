@@ -1381,7 +1381,7 @@ class MyUpnp extends IPSModule {
          Wichtig: das Stammverzeichnis ist fix im Code eingetragen und´muss stimmen. 
 	...............................................................................
 	Parameters:  
-            $Mediatype - 'Musik' // 'Audiobook' // 'Foto' // 'Video'
+            $Mediatype - 'Musik' // 'Audio' // 'Foto' // 'Video'
 	--------------------------------------------------------------------------------
 	Returns:   
       
@@ -1390,7 +1390,7 @@ class MyUpnp extends IPSModule {
     //////////////////////////////////////////////////////////////////////////////*/
     Public function syncLib(string $Mediatype){
         $cont = $this->getContainerServer($Mediatype);
-        $this->syncDB($cont, Mediatype);
+        $this->syncDB($cont, $Mediatype);
         $this->createAllPlaylist($Mediatype);
     }
 
