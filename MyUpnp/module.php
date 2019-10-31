@@ -1444,7 +1444,7 @@ class MyUpnp extends IPSModule {
                 case 'Musik':
                     $container[0]['id'] = '42821f9bc18d5f139079';
                     break;
-                case 'Audiobook':
+                case 'Audio':
                     $container[0]['id'] = '030efdc9b5c6ab91d5bf';
                     break;
                 case 'Foto':
@@ -1465,7 +1465,7 @@ class MyUpnp extends IPSModule {
                 case 'Musik':
                     $container[0]['id'] = '0';
                     break;
-                case 'Audiobook':
+                case 'Audio':
                     $container[0]['id'] = '0';
                     break;
                 case 'Foto':
@@ -1509,7 +1509,8 @@ class MyUpnp extends IPSModule {
 							$container[$i]['id'] = $value['id'];
                             $container[$i]['title'] = $value['title'];	
                             $container[$i]['album'] = $value['album'];
-
+                            $container[$i]['no'] = substr($value['album'], 0, 4);
+                            $this->Meldung( 'Container:'.$value['title']);
 					}
 
 				}
