@@ -1509,6 +1509,7 @@ class MyUpnp extends IPSModule {
 							$container[$i]['id'] = $value['id'];
                             $container[$i]['title'] = $value['title'];	
                             $container[$i]['album'] = $value['album'];
+
 					}
 
 				}
@@ -1537,6 +1538,7 @@ class MyUpnp extends IPSModule {
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
                                 $container[$i]['no'] = substr($value['album'], 0, 4);
+                                $this->Meldung( 'Container:'.$value['title']);
                             }
 						}
 					}
@@ -1615,7 +1617,7 @@ class MyUpnp extends IPSModule {
             $mediaDB->media[$No]->totaltrack = $total;
             $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
         }
-
+        $this->Meldung( 'Datenbank wurde aktualisiert!');
     }
 
 
@@ -1746,7 +1748,8 @@ class MyUpnp extends IPSModule {
 				if($node->xpath("dc:title")) {
 						$titel = $node->xpath("dc:title");
                                                 $liste[$i]['title']= (string)$titel[0];
-						//$liste[$i]['title']=utf8_decode((string)$titel[0]);
+                        //$liste[$i]['title']=utf8_decode((string)$titel[0]);
+                        
 					}else{
 						$liste[$i]['title']="leer";
 						}
