@@ -50,12 +50,12 @@ trait upnp {
 	                           "Browse",
 	
 	                           array( 
-	                                  new SoapParam($ObjectID                ,"ObjectID"         ),
-	                                  new SoapParam($BrowseFlag 		,"BrowseFlag"       ),
-	                                  new SoapParam($Filter                 ,"Filter"           ),
-	                                  new SoapParam($StartingIndex          ,"StartingIndex"	),
-	                                  new SoapParam($RequestedCount         ,"RequestedCount"	),
-					  new SoapParam($SortCriteria           ,"SortCriteria"		)	
+	                                  	new SoapParam($ObjectID,		"ObjectID"         	),
+	                                  	new SoapParam($BrowseFlag ,		"BrowseFlag"       	),
+	                                  	new SoapParam($Filter,			"Filter"           	),
+	                                  	new SoapParam($StartingIndex,	"StartingIndex"		),
+	                                  	new SoapParam($RequestedCount,	"RequestedCount"	),
+					  					new SoapParam($SortCriteria,	"SortCriteria"		)	
 	                                )
 		);
 		
@@ -711,7 +711,11 @@ trait upnp {
          * "UNKNOWN"
          */
   	private function resolveErrorCode($path, $errorCode){
-                $this->SendDebug('resolveErrorCode', $path.'- '.$errorCode, 0);
+		$this->SendDebug('resolveErrorCode', $path.'- '.$errorCode, 0);
+		if(substr($path, 0, 18) === "/ContentDirectory/"){
+			$path = "/ContentDirectory/";
+		}			
+				
    		$errorList = array( "/AVTransport/ctrl"      => array(
                                                                            "701" => "ERROR_AV_UPNP_AVT_INVALID_TRANSITION",
                                                                            "702" => "The media does not contain any contents that can be played. ",
@@ -736,7 +740,7 @@ trait upnp {
                                                                            "701" => "ERROR_AV_UPNP_RC_INVALID_PRESET_NAME",
                                                                            "702" => "ERROR_AV_UPNP_RC_INVALID_INSTANCE_ID"
                                                                          ),
-                       "/ContentDirectory/ctrl"   => array(
+                       "/ContentDirectory/"   => array(
                                                                            "701" => "ERROR_AV_UPNP_CD_NO_SUCH_OBJECT",
                                                                            "702" => "ERROR_AV_UPNP_CD_INVALID_CURRENTTAGVALUE",
                                                                            "703" => "ERROR_AV_UPNP_CD_INVALID_NEWTAGVALUE",
