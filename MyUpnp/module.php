@@ -1645,12 +1645,21 @@ class MyUpnp extends IPSModule {
                     $total = $BrowseResult['TotalMatches'];
                     $mediaDB->media[$No]->totaltrack = $total;
                     $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+
                 }
             } catch (Exception $e) {
                 $this->Meldung('Exception abgefangen: '.  $e->getMessage(). "\n");
                 return false;
             } 
         }
+        //XML in Array umwandeln
+        $xml = simplexml_load_string($mediaDB, "SimpleXMLElement", LIBXML_NOCDATA);
+        $json = json_encode($xml);
+        $array = json_decode($json,TRUE);
+        // in file schreiben
+        $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/DBARRAY.txt", "w");
+        fwrite($handle, $array);
+        fclose($handle);
         $this->Meldung( 'Datenbank wurde aktualisiert!');
         return true;
     }
