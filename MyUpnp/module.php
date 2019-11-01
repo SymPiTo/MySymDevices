@@ -1633,8 +1633,8 @@ class MyUpnp extends IPSModule {
                 $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 $Result_xml = $BrowseResult['Result'] ;
                 $liste = $this->BrowseList($Result_xml);
-                 
-                $cover = $liste[0]['albumArtURI'];
+                print_r($liste[0]); 
+                $cover = $liste['albumArtURI'];
                 $mediaDB->media[$No]->icon = $cover;
                 $total = $BrowseResult['TotalMatches'];
                 $mediaDB->media[$No]->totaltrack = $total;
