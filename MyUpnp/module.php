@@ -1565,7 +1565,7 @@ class MyUpnp extends IPSModule {
             case 'Musik':
                 file_put_contents($Kernel."media/Multimedia/Playlist/Musik/".$ServerName."_Musik_Container.con", $serialized); 
                 break;
-            case 'Audiobook':
+            case 'Audio':
                 file_put_contents($Kernel."media/Multimedia/Playlist/Audio/".$ServerName."_Audio_Container.con", $serialized);  
                 break;
             case 'Foto':
