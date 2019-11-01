@@ -1897,30 +1897,11 @@ class MyUpnp extends IPSModule {
 
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;
-                //XML-Datei in D:/IP-Symcon/webfront/user/Multimedia/Browse/Browse schreiben
-                switch ($mediatype) {
-                    case 'Musik':
-                        $handle = fopen($Kernel."media/Multimedia/Playlist/Musik/".$PlaylistName.".xml", "w");
-                        fwrite($handle, $Playlist);
-                        fclose($handle);
-                        break;
-                    case 'Audiobook':
-                        $handle = fopen($Kernel."media/Multimedia/Playlist/Audio/".$PlaylistName.".xml", "w");
-                        fwrite($handle, $Playlist);
-                        fclose($handle);
-                        break;
-                    case 'Foto':
-                       
-                        break;
-                    case 'Video':
-                        
-                        break;
-                    default:
-                        
-                        break;
-                }
+                //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
+                     $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
+                fwrite($handle, $Playlist);
+                fclose($handle);
                 $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
-
         }
 
 
