@@ -1619,7 +1619,7 @@ class MyUpnp extends IPSModule {
              
             $mediaDB->media[$No]->playlistname = $playlistname;
             $mediaDB->media[$No]->id = $value['id'];
-            $mediaDB->media[$No]->album = $value['album'];
+            $mediaDB->media[$No]->album = $value['title'];
             $mediaDB->media[$No]->mediatype = $mediatype;
 
             //Erstes media file -----------------------------------------------------------------
