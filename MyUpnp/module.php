@@ -1776,7 +1776,8 @@ class MyUpnp extends IPSModule {
 						}
 				if($node->xpath("upnp:album")) {
 						$album = $node->xpath("upnp:album");
-						$liste[$i]['album']=utf8_decode((string)$album[0]);
+                        //$liste[$i]['album']=utf8_decode((string)$album[0]);
+                        $liste[$i]['album']=(string)$album[0];
 					}else{
 						$liste[$i]['album']="leer";
 						}
