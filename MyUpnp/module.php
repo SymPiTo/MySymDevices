@@ -1567,7 +1567,7 @@ class MyUpnp extends IPSModule {
 		}	
         //Erster Array Wert enthält die ID des Main Objectes Dieser muss bereinigt werden.
         unset($container[0]);
-        $iZero = array_values($container); //all keys will be reindexed from 0
+        $container = array_values($container); //all keys will be reindexed from 0
 		//Serialize the array.
 		$serialized = serialize($container);
         //Save the serialized array to a text file.
