@@ -1518,14 +1518,14 @@ class MyUpnp extends IPSModule {
                                 $this->SendDebug('UPNP_Musik_Folder_ID:'.$value['title'],  $value['id'], 0);
                             }	
                             */
-                                
+                                $i = $i + 1;
                                 $container[$i]['class'] = $value['typ'];
                                 $container[$i]['id'] = $value['id'];
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
                                 $container[$i]['no'] = substr($value['album'], 0, 4);
                                 $this->Meldung( 'Container:'.$value['title']);
-                                $i = $i + 1;
+                                
                         }
 
                     }
