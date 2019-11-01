@@ -1653,8 +1653,8 @@ class MyUpnp extends IPSModule {
             } 
         }
         //XML in Array umwandeln
-        $xml = simplexml_load_string($mediaDB, "SimpleXMLElement", LIBXML_NOCDATA);
-        $json = json_encode($xml);
+        //$xml = simplexml_load_string($mediaDB, "SimpleXMLElement", LIBXML_NOCDATA);
+        $json = json_encode($mediaDB);
         $array = json_decode($json,TRUE);
         // in file schreiben
         $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/DBARRAY.txt", "w");
