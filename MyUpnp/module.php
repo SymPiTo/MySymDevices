@@ -1399,8 +1399,13 @@ class MyUpnp extends IPSModule {
     //////////////////////////////////////////////////////////////////////////////*/
     Public function syncLib(string $Mediatype){
         $cont = $this->getContainerServer($Mediatype);
-        $this->syncDB($cont, $Mediatype);
-        $this->createAllPlaylist($Mediatype);
+        if($container != false){
+            $ok = $this->syncDB($cont, $Mediatype);
+        }
+        if($ok){
+            $this->createAllPlaylist($Mediatype);
+        }
+        
     }
 
 
@@ -1611,7 +1616,7 @@ class MyUpnp extends IPSModule {
         foreach ($container as $value) {
             $playlistname = $value['no'];
             $No = intval($playlistname);
-            print_r($value);
+             
             $mediaDB->media[$No]->playlistname = $playlistname;
             $mediaDB->media[$No]->id = $value['id'];
             $mediaDB->media[$No]->album = $value['album'];
