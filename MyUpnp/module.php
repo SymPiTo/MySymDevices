@@ -1846,12 +1846,9 @@ class MyUpnp extends IPSModule {
 			}
 			$skip=false;
         }	
-        if(count($liste)>0){
+            print_r("Anzahl Eintrage der Liste: ".count($liste));
             return ($liste); //Rückgabe
-        }
-        else{
-            return false; //Rückgabe
-        }
+ 
 	}
 
 
