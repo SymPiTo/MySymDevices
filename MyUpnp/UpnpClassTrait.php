@@ -680,7 +680,10 @@ trait upnp {
 	    	$faultstring = $e->faultstring;
   	      	$faultcode   = $e->faultcode;
 	      	if(isset($e->detail->UPnPError->errorCode)){
-	        	$errorCode   = $e->detail->UPnPError->errorCode;
+				$errorCode   = $e->detail->UPnPError->errorCode;
+				
+				setvalue($this->GetIDForIdent("upnp_Message"), $errorCode);
+				 
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
 						$this->Meldung($this->resolveErrorCode($path,$errorCode));
                         return false;
@@ -861,26 +864,7 @@ trait upnp {
         return $message;
         }
         
-    //*****************************************************************************
-	/*  - Sammlung / Tools
-    /*//////////////////////////////////////////////////////////////////////////////
-    //
-	//*****************************************************************************
-	/* Function: Meldung($Meldung)
-    ...............................................................................
-    	Anzeige im Meldungsfenster (Textbox) ObjectID 11701
-    ...............................................................................
-        Parameters: 
-            $Meldung - Ausgabetext in Debug Fenster
- 	--------------------------------------------------------------------------------
-		Returns: 
-    -----------------------------------------------------------------------------
-    	Status: 
-    *****************************************************************************/
-        Protected function Meldung(string $Meldung){
-            $this->SendDebug('UPNP: ', $Meldung, 0);
-            setvalue($this->GetIDForIdent("upnp_Message"), $Meldung);
-        }  
+
 
 }
 
