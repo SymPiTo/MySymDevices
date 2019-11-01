@@ -1565,7 +1565,8 @@ class MyUpnp extends IPSModule {
                 return false;
             }
 		}	
-
+        //Erster Array Wert enthält die ID des Main Objectes Dieser muss bereinigt werden.
+        unset($container[0]);
 		//Serialize the array.
 		$serialized = serialize($container);
         //Save the serialized array to a text file.
