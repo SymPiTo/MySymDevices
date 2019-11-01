@@ -1399,7 +1399,7 @@ class MyUpnp extends IPSModule {
     //////////////////////////////////////////////////////////////////////////////*/
     Public function syncLib(string $Mediatype){
         $cont = $this->getContainerServer($Mediatype);
-        if($container != false){
+        if($cont != false){
             $ok = $this->syncDB($cont, $Mediatype);
         }
         if($ok){
@@ -1529,7 +1529,7 @@ class MyUpnp extends IPSModule {
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
                                 $container[$i]['no'] = substr($value['title'], 0, 4);
-                                $this->Meldung( 'Container:'.$value['title']);
+                                
                                 
                         }
 
@@ -1559,7 +1559,7 @@ class MyUpnp extends IPSModule {
                                     $container[$i]['title'] = $value['title'];	
                                     $container[$i]['album'] = $value['album'];
                                     $container[$i]['no'] = substr($value['album'], 0, 4);
-                                    $this->Meldung( 'Container:'.$value['title']);
+                                     
                                 }
                             }
                         }
@@ -1612,7 +1612,7 @@ class MyUpnp extends IPSModule {
     public function syncDB($container, $mediatype){
         //Medien Datenbank füllen.
         $mediaDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
-
+        $this->Meldung( 'synkronisiere DB');
         foreach ($container as $value) {
             $playlistname = $value['no'];
             $No = intval($playlistname);
