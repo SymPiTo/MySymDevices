@@ -1639,12 +1639,13 @@ class MyUpnp extends IPSModule {
                 $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 $Result_xml = $BrowseResult['Result'] ;
                 $liste = $this->BrowseList($Result_xml);
-                //print_r($liste); 
-                $cover = $liste[0]['albumArtURI'];
-                $mediaDB->media[$No]->icon = $cover;
-                $total = $BrowseResult['TotalMatches'];
-                $mediaDB->media[$No]->totaltrack = $total;
-                $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+                if($liste != false){
+                    $cover = $liste[0]['albumArtURI'];
+                    $mediaDB->media[$No]->icon = $cover;
+                    $total = $BrowseResult['TotalMatches'];
+                    $mediaDB->media[$No]->totaltrack = $total;
+                    $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+                }
             } catch (Exception $e) {
                 $this->Meldung('Exception abgefangen: '.  $e->getMessage(). "\n");
                 return false;
@@ -1844,8 +1845,13 @@ class MyUpnp extends IPSModule {
 					}
 			}
 			$skip=false;
-		}	
-		return ($liste); //Rückgabe
+        }	
+        if(count($liste)>0){
+            return ($liste); //Rückgabe
+        }
+        else{
+            return false; //Rückgabe
+        }
 	}
 
 
