@@ -1611,7 +1611,7 @@ class MyUpnp extends IPSModule {
         foreach ($container as $value) {
             $playlistname = $value['no'];
             $No = intval($playlistname);
-            print_r("IndexNr.: ".$value);
+            print_r($value);
             $mediaDB->media[$No]->playlistname = $playlistname;
             $mediaDB->media[$No]->id = $value['id'];
             $mediaDB->media[$No]->album = $value['album'];
