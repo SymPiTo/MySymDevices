@@ -1612,7 +1612,7 @@ class MyUpnp extends IPSModule {
     public function syncDB($container, $mediatype){
         //Medien Datenbank füllen.
         $mediaDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
-        $this->Meldung( 'synkronisiere DB');
+        $this->Meldung( 'synchronisiere DB');
         foreach ($container as $value) {
             $playlistname = $value['no'];
             $No = intval($playlistname);
@@ -1639,7 +1639,7 @@ class MyUpnp extends IPSModule {
                 $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 $Result_xml = $BrowseResult['Result'] ;
                 $liste = $this->BrowseList($Result_xml);
-                 
+                print_r($liste); 
                 $cover = $liste[0]['albumArtURI'];
                 $mediaDB->media[$No]->icon = $cover;
                 $total = $BrowseResult['TotalMatches'];
@@ -1898,7 +1898,7 @@ class MyUpnp extends IPSModule {
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;
                 //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
-                     $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
+                $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
                 fwrite($handle, $Playlist);
                 fclose($handle);
                 $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
