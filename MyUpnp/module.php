@@ -1627,12 +1627,13 @@ class MyUpnp extends IPSModule {
             $SortCriteria = ""; //GetValue();
 
             $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
-             $ObjectID = $value['id'];
-             try {
+            $ObjectID = $value['id'];
+            try {
                 //Function ContentDirectory_Browse aufrufen-------------------------------------
                 $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
                 $Result_xml = $BrowseResult['Result'] ;
                 $liste = $this->BrowseList($Result_xml);
+                Print_r($liste);
                 $cover = $liste['albumArtURI'];
                 $mediaDB->media[$No]->icon = $cover;
                 $total = $BrowseResult['TotalMatches'];
