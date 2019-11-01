@@ -1493,69 +1493,74 @@ class MyUpnp extends IPSModule {
 		for($n = 0; $n <= $i; ++$n){	
             $ObjectID = $container[$n]['id'];
             $Meldung = "Starte ContentDirectory_Browse mit ObjectID: ".$ObjectID;
-            $this->SendDebug('UPNP: ', $Meldung, 0);	
-			//Function ContentDirectory_Browse aufrufen-------------------------------------
-			$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-            $Result_xml = $BrowseResult['Result'] ;
-            $this->SendDebug('UPNP_Object-ID:'.$ObjectID, $Result_xml, 0);
-			$NumberReturned = intval($BrowseResult['NumberReturned']);
-            $TotalMatches = intval($BrowseResult['TotalMatches']);
-       
-			if ($NumberReturned == $TotalMatches){
-                $liste = $this->BrowseList($Result_xml);
-     
-                $this->SendDebug('UPNP_Listen EInträge: '.$i.' - '.$n.' - ', $TotalMatches, 0);
-				foreach ($liste as $value) {
-                    $this->SendDebug('UPNP Inhalt: ', $value, 0);
-                                        // nur die storagefolder Container auslesen
-					if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder' or $value['class'] == 'object.container.album.musicAlbum'){
-						if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
-							$i = 0;
-							$n = 0;
-                            unset($container);
-                            $this->SendDebug('UPNP_Musik_Folder_ID:'.$value['title'],  $value['id'], 0);
-						}	
-							$i = $i + 1;
-							$container[$i]['class'] = $value['typ'];
-							$container[$i]['id'] = $value['id'];
-                            $container[$i]['title'] = $value['title'];	
-                            $container[$i]['album'] = $value['album'];
-                            $container[$i]['no'] = substr($value['album'], 0, 4);
-                            $this->Meldung( 'Container:'.$value['title']);
-					}
-
-				}
-			}
-			//wenn nur Teilrückgabe, dann mehrfach auslesen
-			elseif ($NumberReturned == 0){
-				//IPSLog("Wert ist Null", $NumberReturned );
-			}
-			else if ($NumberReturned < $TotalMatches){
-				//$SI = 0;	
-				$StartingIndex = 0;
-				if ($NumberReturned > 0){
-					for($SI = 0; $NumberReturned*$SI < $TotalMatches; ++$SI){
-						$StartingIndex = $NumberReturned*$SI;
-						//IPSLog('StartIndex', $StartingIndex );
-
-						$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-						$Result_xml = $BrowseResult['Result'] ;
-						$liste = $this->BrowseList($Result_xml);
-
-						foreach ($liste as $value) {
-							if($value['typ'] == 'container'){
-								$i = $i + 1;
-								$container[$i]['class'] = $value['typ'];
-								$container[$i]['id'] = $value['id'];
+            $this->SendDebug('UPNP: ', $Meldung, 0);
+            try {
+                //Function ContentDirectory_Browse aufrufen-------------------------------------
+                $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                $Result_xml = $BrowseResult['Result'] ;
+                $this->SendDebug('UPNP_Object-ID:'.$ObjectID, $Result_xml, 0);
+                $NumberReturned = intval($BrowseResult['NumberReturned']);
+                $TotalMatches = intval($BrowseResult['TotalMatches']);
+        
+                if ($NumberReturned == $TotalMatches){
+                    $liste = $this->BrowseList($Result_xml);
+        
+                    $this->SendDebug('UPNP_Listen EInträge: '.$i.' - '.$n.' - ', $TotalMatches, 0);
+                    foreach ($liste as $value) {
+                        $this->SendDebug('UPNP Inhalt: ', $value, 0);
+                                            // nur die storagefolder Container auslesen
+                        if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder' or $value['class'] == 'object.container.album.musicAlbum'){
+                            if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
+                                $i = 0;
+                                $n = 0;
+                                unset($container);
+                                $this->SendDebug('UPNP_Musik_Folder_ID:'.$value['title'],  $value['id'], 0);
+                            }	
+                                $i = $i + 1;
+                                $container[$i]['class'] = $value['typ'];
+                                $container[$i]['id'] = $value['id'];
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
                                 $container[$i]['no'] = substr($value['album'], 0, 4);
                                 $this->Meldung( 'Container:'.$value['title']);
+                        }
+
+                    }
+                }
+                //wenn nur Teilrückgabe, dann mehrfach auslesen
+                elseif ($NumberReturned == 0){
+                    //IPSLog("Wert ist Null", $NumberReturned );
+                }
+                else if ($NumberReturned < $TotalMatches){
+                    //$SI = 0;	
+                    $StartingIndex = 0;
+                    if ($NumberReturned > 0){
+                        for($SI = 0; $NumberReturned*$SI < $TotalMatches; ++$SI){
+                            $StartingIndex = $NumberReturned*$SI;
+                            //IPSLog('StartIndex', $StartingIndex );
+
+                            $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                            $Result_xml = $BrowseResult['Result'] ;
+                            $liste = $this->BrowseList($Result_xml);
+
+                            foreach ($liste as $value) {
+                                if($value['typ'] == 'container'){
+                                    $i = $i + 1;
+                                    $container[$i]['class'] = $value['typ'];
+                                    $container[$i]['id'] = $value['id'];
+                                    $container[$i]['title'] = $value['title'];	
+                                    $container[$i]['album'] = $value['album'];
+                                    $container[$i]['no'] = substr($value['album'], 0, 4);
+                                    $this->Meldung( 'Container:'.$value['title']);
+                                }
                             }
-						}
-					}
-				}
-			}
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                $this->Meldung('Exception abgefangen: '.  $e->getMessage(). "\n");
+                return false;
+            }
 		}	
 
 		//Serialize the array.
@@ -1579,9 +1584,8 @@ class MyUpnp extends IPSModule {
                 break;
         } 
         $this->Meldung( 'Verzeichnis Liste wurde erstellt!');
-        
+        return $container;
 
-		return $container;
 	}
 	//*****************************************************************************
 	/* Function: syncDB($container)
@@ -1618,18 +1622,24 @@ class MyUpnp extends IPSModule {
             $SortCriteria = ""; //GetValue();
 
             $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
- 			$ObjectID = $value['id'];
- 			//Function ContentDirectory_Browse aufrufen-------------------------------------
-			$BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-            $Result_xml = $BrowseResult['Result'] ;
-            $liste = $this->BrowseList($Result_xml);
-            $cover = $liste['albumArtURI'];
-            $mediaDB->media[$No]->icon = $cover;
-            $total = $BrowseResult['TotalMatches'];
-            $mediaDB->media[$No]->totaltrack = $total;
-            $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+             $ObjectID = $value['id'];
+             try {
+                //Function ContentDirectory_Browse aufrufen-------------------------------------
+                $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                $Result_xml = $BrowseResult['Result'] ;
+                $liste = $this->BrowseList($Result_xml);
+                $cover = $liste['albumArtURI'];
+                $mediaDB->media[$No]->icon = $cover;
+                $total = $BrowseResult['TotalMatches'];
+                $mediaDB->media[$No]->totaltrack = $total;
+                $mediaDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+            } catch (Exception $e) {
+                $this->Meldung('Exception abgefangen: '.  $e->getMessage(). "\n");
+                return false;
+            } 
         }
         $this->Meldung( 'Datenbank wurde aktualisiert!');
+        return true;
     }
 
 
