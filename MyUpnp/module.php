@@ -1510,19 +1510,22 @@ class MyUpnp extends IPSModule {
                         $this->SendDebug('UPNP Inhalt: ', $value, 0);
                                             // nur die storagefolder Container auslesen
                         if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder' or $value['class'] == 'object.container.album.musicAlbum'){
+                            /*
                             if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
                                 $i = 0;
                                 $n = 0;
                                 unset($container);
                                 $this->SendDebug('UPNP_Musik_Folder_ID:'.$value['title'],  $value['id'], 0);
                             }	
-                                $i = $i + 1;
+                            */
+                                
                                 $container[$i]['class'] = $value['typ'];
                                 $container[$i]['id'] = $value['id'];
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
                                 $container[$i]['no'] = substr($value['album'], 0, 4);
                                 $this->Meldung( 'Container:'.$value['title']);
+                                $i = $i + 1;
                         }
 
                     }
