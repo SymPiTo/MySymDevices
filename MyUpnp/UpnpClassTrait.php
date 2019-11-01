@@ -762,6 +762,7 @@ trait upnp {
                                                                            "720" => "ERROR_AV_UPNP_CD_REQUEST_FAILED"
                                                                          ) ); 
             if (isset($errorList[$path][$errorCode])){
+				$this->SendDebug('resolveErrorCode: ',$errorList[$path][$errorCode], 0);		
                             return $errorList[$path][$errorCode] ;
             }
                     else{
