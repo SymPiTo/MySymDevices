@@ -711,11 +711,11 @@ trait upnp {
          * "UNKNOWN"
          */
   	private function resolveErrorCode($path, $errorCode){
-		$this->SendDebug('resolveErrorCode', $path.'- '.$errorCode, 0);
+		
 		if(substr($path, 0, 18) === "/ContentDirectory/"){
 			$path = "/ContentDirectory/";
 		}			
-				
+		$this->SendDebug('resolveErrorCode', $path.'- '.$errorCode, 0);		
    		$errorList = array( "/AVTransport/ctrl"      => array(
                                                                            "701" => "ERROR_AV_UPNP_AVT_INVALID_TRANSITION",
                                                                            "702" => "The media does not contain any contents that can be played. ",
