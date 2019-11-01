@@ -685,8 +685,8 @@ trait upnp {
 				 
 				 
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
-					setvalue($this->GetIDForIdent("upnp_Message"),$this->resolveErrorCode($path,$errorCode));
-                        return false;
+					 
+                    return false;
                 }
 			else{
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);

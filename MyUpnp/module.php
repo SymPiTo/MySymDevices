@@ -1335,42 +1335,51 @@ class MyUpnp extends IPSModule {
 		$Kernel = $this->Kernel();
 
 		//Function ContentDirectory_Browse aufrufen-------------------------------------
-		$BrowseResult = $this->ContentDirectory_Browse ( $ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-		sleep(2);
-
-		$Result_xml = $BrowseResult['Result'] ;
-		$NumberReturned = $BrowseResult['NumberReturned'];
-		$TotalMatches = $BrowseResult['TotalMatches'];
-		$UpdateID = $BrowseResult['UpdateID'];
-				
-		if ($NumberReturned == $TotalMatches){
-			if ($NumberReturned == "0"){
-				$liste[0]['title']="leer";
-				$liste[0]['id']="0";
-				$liste[0]['artist'] = "";
-				$liste[0]['resource'] = "";
-				$liste[0]['parentid'] = "";
-				$liste[0]['albumArtURI'] = "";
-				}
-			else{
-				// Result mit gefundenden media files bearbeiten 
-				$liste = $this->BrowseList($Result_xml);
-                        }
+        try {
+            $BrowseResult = $this->ContentDirectory_Browse ( $ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+            sleep(2);
+            $Result_xml = $BrowseResult['Result'] ;
+            $NumberReturned = $BrowseResult['NumberReturned'];
+            $TotalMatches = $BrowseResult['TotalMatches'];
+            $UpdateID = $BrowseResult['UpdateID'];
+                    
+            if ($NumberReturned == $TotalMatches){
+                if ($NumberReturned == "0"){
+                    $liste[0]['title']="leer";
+                    $liste[0]['id']="0";
+                    $liste[0]['artist'] = "";
+                    $liste[0]['resource'] = "";
+                    $liste[0]['parentid'] = "";
+                    $liste[0]['albumArtURI'] = "";
+                    }
+                else{
+                    // Result mit gefundenden media files bearbeiten 
+                    $liste = $this->BrowseList($Result_xml);
+                            }
+                    }
+            //wenn nur Teilrückgabe, dann mehrfach auslesen	  
+            if ($NumberReturned <= $TotalMatches) {
+                $liste = $this->BrowseList($Result_xml);
+                for($i = 0; $NumberReturned*$i < $TotalMatches; ++$i){
+                    $StartingIndex = $NumberReturned*$i;
+                    $BrowseArray_add =  $this->ContentDirectory_Browse ( $ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                    $BrowseResult_add = $BrowseArray_add['Result'];
+                    $liste_add = $this->BrowseList($BrowseResult_add);
+                    $liste = array_merge($liste, $liste_add);
                 }
-		//wenn nur Teilrückgabe, dann mehrfach auslesen	  
-		if ($NumberReturned <= $TotalMatches) {
-			$liste = $this->BrowseList($Result_xml);
-			for($i = 0; $NumberReturned*$i < $TotalMatches; ++$i){
-				$StartingIndex = $NumberReturned*$i;
-				$BrowseArray_add =  $this->ContentDirectory_Browse ( $ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
-				$BrowseResult_add = $BrowseArray_add['Result'];
-				$liste_add = $this->BrowseList($BrowseResult_add);
-				$liste = array_merge($liste, $liste_add);
-			}
-		}
-                
-                //$this->SendDebug('browseContainerServer', $liste, 0);
-		return $liste;
+            }
+                    
+                    //$this->SendDebug('browseContainerServer', $liste, 0);
+            return $liste;
+
+        } catch (Exception $e) {
+            $this->Meldung('Exception abgefangen: '.  $e->getMessage(). "\n");
+            return false;
+        }
+        
+
+
+
 	}
 
 
