@@ -682,10 +682,10 @@ trait upnp {
 	      	if(isset($e->detail->UPnPError->errorCode)){
 				$errorCode   = $e->detail->UPnPError->errorCode;
 				
-				setvalue($this->GetIDForIdent("upnp_Message"), $errorCode);
+				 
 				 
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
-						$this->Meldung($this->resolveErrorCode($path,$errorCode));
+					setvalue($this->GetIDForIdent("upnp_Message"),$this->resolveErrorCode($path,$errorCode));
                         return false;
                 }
 			else{
@@ -763,7 +763,7 @@ trait upnp {
                                                                          ) ); 
             if (isset($errorList[$path][$errorCode])){
 				$this->SendDebug('resolveErrorCode: ',$errorList[$path][$errorCode], 0);		
-                            return $errorList[$path][$errorCode] ;
+                return $errorList[$path][$errorCode] ;
             }
                     else{
                     return "UNKNOWN";
