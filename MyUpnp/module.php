@@ -1523,7 +1523,7 @@ class MyUpnp extends IPSModule {
                                 $container[$i]['id'] = $value['id'];
                                 $container[$i]['title'] = $value['title'];	
                                 $container[$i]['album'] = $value['album'];
-                                $container[$i]['no'] = substr($value['album'], 0, 4);
+                                $container[$i]['no'] = substr($value['title'], 0, 4);
                                 $this->Meldung( 'Container:'.$value['title']);
                                 
                         }
