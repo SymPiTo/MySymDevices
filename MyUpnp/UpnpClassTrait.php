@@ -283,25 +283,24 @@ trait upnp {
 	Returns:
          */       
 	Public function Seek_AV(string $ClientIP, string $ClientPort, string $ClientControlURL,string $position){
-        $this->SendDebug('Seek_AV', $position, 0);
-	    $result = $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
-	
-	                           "urn:schemas-upnp-org:service:AVTransport:1",
-	
-	                           "Seek",
-	
-	                           array( 
-	                                  new SoapParam('0'             ,"InstanceID"       ),
-	                                  new SoapParam('REL_TIME'      ,"Unit"         	),
-	                                  new SoapParam($position       ,"Target"         	)  
-	                                )
-		);
-		if($result != false){
-			return $result;
-		}
-		else {
+		$this->SendDebug('Seek_AV', $position, 0);
+		try {
+			return $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
+		
+								"urn:schemas-upnp-org:service:AVTransport:1",
+		
+								"Seek",
+		
+								array( 
+										new SoapParam('0'             ,"InstanceID"       ),
+										new SoapParam('REL_TIME'      ,"Unit"         	),
+										new SoapParam($position       ,"Target"         	)  
+										)
+			);
+		} catch (Exception $e) {
 			return false;
 		}
+	 
 	}
 	
 	//*****************************************************************************
@@ -687,16 +686,13 @@ trait upnp {
   	      	$faultcode   = $e->faultcode;
 	      	if(isset($e->detail->UPnPError->errorCode)){
 				$errorCode   = $e->detail->UPnPError->errorCode;
-				
-				 
-				 
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($path,$errorCode).")");
 					 
-                    return false;
-                }
+            	return false;
+            }
 			else{
 	        	throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
-                        return false;
+                return false;
 	      	}
 	    }
     
