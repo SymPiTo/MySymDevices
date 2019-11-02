@@ -1948,14 +1948,13 @@ class MyUpnp extends IPSModule {
                 
                 $PlaylistName = $ServerName.$PlaylistNo;                
                 $Playlist = $xml->saveXML();
-                //$xml->asXML($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml");
-
+                
                 //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
-                /*
+               
                 $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
                 fwrite($handle, $Playlist);
                 fclose($handle);
-                */
+               
                 $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
         }
 
