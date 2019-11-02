@@ -842,6 +842,10 @@ class MyUpnp extends IPSModule {
             /*Stram stoppen--------------------------------------------------------*/
             $this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug('STOP', 'LastPos: '.$currentRelTime, 0);
+			/* Transport Status abfragen */
+			$Playing = $this->GetTransportInfo($ClientIP, $ClientPort, $ControlURL);  
+            setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
+            
             $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
             $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
             $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
