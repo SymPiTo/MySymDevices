@@ -1396,7 +1396,7 @@ class MyUpnp extends IPSModule {
                             }
                     }
             //wenn nur Teilrückgabe, dann mehrfach auslesen	  
-            if ($NumberReturned <= $TotalMatches) {
+            if ($NumberReturned < $TotalMatches) {
                 $liste = $this->BrowseList($Result_xml);
                 for($i = 0; $NumberReturned*$i < $TotalMatches; ++$i){
                     $StartingIndex = $NumberReturned*$i;
