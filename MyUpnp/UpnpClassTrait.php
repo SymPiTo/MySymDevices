@@ -283,8 +283,8 @@ trait upnp {
 	Returns:
          */       
 	Public function Seek_AV(string $ClientIP, string $ClientPort, string $ClientControlURL,string $position){
-            $this->SendDebug('Seek_AV', $position, 0);
-	    return $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
+        $this->SendDebug('Seek_AV', $position, 0);
+	    $result = $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
 	
 	                           "urn:schemas-upnp-org:service:AVTransport:1",
 	
@@ -296,6 +296,12 @@ trait upnp {
 	                                  new SoapParam($position       ,"Target"         	)  
 	                                )
 		);
+		if($result != false){
+			return $result;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	//*****************************************************************************
@@ -663,7 +669,7 @@ trait upnp {
 	Protected function processSoapCall(string $ip, string $port, string $path, string $uri, string $action, array $parameter)
     {
              
-            try{
+        try{
                  
 	    	$client     = new SoapClient(null, array("location"   => "http://".$ip.':'.$port.$path,
 	                                                
