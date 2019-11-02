@@ -1314,7 +1314,7 @@ class MyUpnp extends IPSModule {
             setvalue($this->GetIDForIdent("upnp_Album"),  $album);		
             setvalue($this->GetIDForIdent("upnp_TrackNo"),  $TrackNo);
             setvalue($this->GetIDForIdent("upnp_Actor"),  $actor);
-            setvalue($this->GetIDForIdent("upnp_Date"),  $date);
+            //setvalue($this->GetIDForIdent("upnp_Date"),  $date);
             //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), (string) $AlbumArtURI);
             setvalue($this->GetIDForIdent("upnp_Genre"),  $genre);
                 function get_time_difference($Duration, $RelTime){
