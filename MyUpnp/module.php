@@ -745,11 +745,11 @@ class MyUpnp extends IPSModule {
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
 		 
         //track holen und zugeh. res und meta daten laden
- 		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"))-1;
+ 		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"));
 		$track = ("Track".strval($TrackNo));
-        $res = (string) $xml->$track->resource; // gibt resource des Titels aus
+        $res = $xml->$track->resource; // gibt resource des Titels aus
         $this->SendDebug("PLAY ", $res, 0);
-        $metadata = (string) $xml->$track->metadata; // gibt resource des Titels aus
+        $metadata = $xml->$track->metadata; // gibt resource des Titels aus
         $this->SendDebug("PLAY ", $metadata, 0);
 		//UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
 		//IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
