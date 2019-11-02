@@ -1077,8 +1077,8 @@ class MyUpnp extends IPSModule {
                 // Playlist Datenbank laden
                
                 $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
-                $lasttrack = (string) $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
-                $lastpos = (string) $PlaylistDB->media[$AlbumNo]->lastpos; // letzte Position des tracks
+                $lasttrack = (string) $PlaylistDB->media[intval($AlbumNo)]->lasttrack; // letzter abgespielter track
+                $lastpos = (string) $PlaylistDB->media[intval($AlbumNo)]->lastpos; // letzte Position des tracks
                 setvalue($this->GetIDForIdent("upnp_Track"), intval($lasttrack));
                 setvalue($this->GetIDForIdent("upnp_RelTime"), $lastpos);
             
