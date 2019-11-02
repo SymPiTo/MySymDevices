@@ -766,8 +766,8 @@ class MyUpnp extends IPSModule {
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
 
-            $avaiable = $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
-            
+            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug("PLAY ", 'Play_AV', 0);
@@ -1135,10 +1135,13 @@ class MyUpnp extends IPSModule {
 			bei "PLAYING" -> GetPositionInfo -> Progress wird angezeigt
 			bei "STOPPED" -> nächster Titel wird aufgerufen
 			/*///////////////////////////////////////////////////////////////////////////
-			$Playlist = getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
-			$xml = new SimpleXMLElement($Playlist);
-			$SelectedFile = GetValue($this->GetIDForIdent("upnp_Track"))-1; 
-			$track = ("Track".($SelectedFile));
+            $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+            $PlaylistFile = $PlaylistName.'.xml';
+            $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
+            $xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
+
+            $SelectedTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
+			$track = ("Track".($SelectedTrack));
 				
 			$DIDL_Lite_Class = $xml->$track->class;
 			$this->SendDebug("GetPosInfo ", 'class des Tracks abfragen: '.$DIDL_Lite_Class , 0);
