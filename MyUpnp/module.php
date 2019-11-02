@@ -1058,7 +1058,7 @@ class MyUpnp extends IPSModule {
             $PlaylistFile = $PlaylistName.'.xml';
 
             $Playlist = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
-            $album = $Playlist->Track0[0]->album;
+            $album = (string) $Playlist->Track0->album;
             $this->SendDebug('loadPlaylist',$album , 0);
             if(!$Playlist){
                 $this->SendDebug('loadPlaylist','Playlist not found.' , 0);
