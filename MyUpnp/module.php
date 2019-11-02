@@ -840,7 +840,7 @@ class MyUpnp extends IPSModule {
             $this->SetTimerInterval('upnp_PlayInfo', 0);
             /*Stram stoppen--------------------------------------------------------*/
             $this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
-
+            $this->SendDebug('STOP', 'LastPos: '.$currentRelTime, 0);
             $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
             $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
             $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
