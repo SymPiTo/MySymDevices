@@ -620,8 +620,8 @@ class MyUpnp extends IPSModule {
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
             $RenderingControlURL = getvalue($this->GetIDForIdent("upnp_ClientRenderingControlURL"));
-            $UpnpVol = $this->GetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL);
-            setvalue($this->GetIDForIdent("upnp_Volume"), intval($UpnpVol));
+            $UpnpVol = $this->GetVolume();
+             
             switch ($value){
                 case 'up':
                     $vol = intval($UpnpVol) + 5;
@@ -1250,7 +1250,7 @@ class MyUpnp extends IPSModule {
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
             $RenderingControlURL = getvalue($this->GetIDForIdent("upnp_ClientRenderingControlURL"));
             $UpnpVol = $this->GetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL);
-            //setvalue($this->GetIDForIdent("upnp_Volume"), $UpnpVol);
+            setvalue($this->GetIDForIdent("upnp_Volume"), $UpnpVol);
             return $UpnpVol;
 	}
 
