@@ -1069,10 +1069,10 @@ class MyUpnp extends IPSModule {
                 $this->SendDebug('loadPlaylist',$album , 0);
                 $this->SendDebug('loadPlaylist',$tracks , 0);
                 $this->SendDebug('loadPlaylist',$cover , 0);
-                setvalue($this->GetIDForIdent("upnp_Album"), $album);
-                setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
-                setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
-                setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
+                //setvalue($this->GetIDForIdent("upnp_Album"), $album);
+                //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
+                //setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
+                //setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
                 // Playlist Datenbank laden
                 $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
                 $lastTrack = $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
