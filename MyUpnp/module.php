@@ -845,7 +845,7 @@ class MyUpnp extends IPSModule {
             $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
             $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
             $PlaylistDB->asXML($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
-            $this->SendDebug('Stop:PlaylistDB', (string) $PlaylistDB->asXML(), 0);
+            $this->SendDebug('Stop:PlaylistDB', (string) $PlaylistDB->media[$mediaNo]->lastpos, 0);
  
             //Transport Status zurücksetzen auf Anfang zurücksetzen
             setvalue($this->GetIDForIdent("upnp_Transport_Status"), '');
