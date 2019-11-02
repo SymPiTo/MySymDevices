@@ -849,7 +849,7 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('Stop:PlaylistDB', (string) $PlaylistDB->media[$mediaNo]->lastpos, 0);
  
             //Transport Status zurücksetzen auf Anfang zurücksetzen
-            setvalue($this->GetIDForIdent("upnp_Transport_Status"), '');
+            //setvalue($this->GetIDForIdent("upnp_Transport_Status"), '');
             
             //$Playlist = getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
             //$xml = new SimpleXMLElement($Playlist);
