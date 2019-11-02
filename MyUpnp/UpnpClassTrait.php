@@ -371,7 +371,7 @@ trait upnp {
  	--------------------------------------------------------------------------------
 	Returns: 
          */
-	Protected function GetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL){
+	Public function GetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL){
 	    return $this->processSoapCall($ClientIP, $ClientPort, $RenderingControlURL,
 	
 	                           "urn:schemas-upnp-org:service:RenderingControl:1",
