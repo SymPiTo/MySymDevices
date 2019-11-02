@@ -1058,34 +1058,30 @@ class MyUpnp extends IPSModule {
             $PlaylistFile = $PlaylistName.'.xml';
 
             $Playlist = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
-            $album = (string) $Playlist->Track0->album;
-            $this->SendDebug('loadPlaylist',$album , 0);
+          
             if(!$Playlist){
                 $this->SendDebug('loadPlaylist','Playlist not found.' , 0);
             }else{
                 $this->SendDebug('loadPlaylist','Playlist found.' , 0);
                 //Daten aus Erstem Datensatz der Playliste holen
-                /*
-                $album = $Playlist->Track0[0]->album; //  
-                $cover = $Playlist->Track0[0]->albumArtURI; //  
-                $artist = $Playlist->Track0[0]->artist; // 
+                
+                $album = (string) $Playlist->Track0->album; //  
+                $cover = (string) $Playlist->Track0->albumArtURI; //  
+                $artist = (string) $Playlist->Track0->artist; // 
                 $tracks = $Playlist->count();
-                $this->SendDebug('loadPlaylist',$album , 0);
-                $this->SendDebug('loadPlaylist',$tracks , 0);
-                $this->SendDebug('loadPlaylist',$cover , 0);
-                */
-                //setvalue($this->GetIDForIdent("upnp_Album"), $album);
-                //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
-                //setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
-                //setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
+            
+                setvalue($this->GetIDForIdent("upnp_Album"), $album);
+                setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
+                setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
+                setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
                 // Playlist Datenbank laden
-                /*
+               
                 $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
-                $lastTrack = $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
-                $lastpos = $PlaylistDB->media[$AlbumNo]->lastpos; // letzte Position des tracks
+                $lastTrack = (string) $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
+                $lastpos = (string) $PlaylistDB->media[$AlbumNo]->lastpos; // letzte Position des tracks
                 setvalue($this->GetIDForIdent("upnp_Track"), $lasttrack);
                 setvalue($this->GetIDForIdent("upnp_RelTime"), $lastpos);
-                */
+            
             }
 
    
