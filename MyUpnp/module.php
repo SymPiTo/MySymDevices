@@ -1066,6 +1066,9 @@ class MyUpnp extends IPSModule {
                 $cover = $Playlist->Track0->albumArtURI; //  
                 $artist = $Playlist->Track0->artist; // 
                 $tracks = $Playlist->count();
+                $this->SendDebug('loadPlaylist',$album , 0);
+                $this->SendDebug('loadPlaylist',$tracks , 0);
+                $this->SendDebug('loadPlaylist',$cover , 0);
                 setvalue($this->GetIDForIdent("upnp_Album"), $album);
                 setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
                 setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
