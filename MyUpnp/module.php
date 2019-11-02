@@ -1496,10 +1496,10 @@ class MyUpnp extends IPSModule {
             $AuswahlB = "Music";
             switch ($Mediatype) {
                 case 'Musik':
-                    $container[0]['id'] = '42821f9bc18d5f139079';
+                    $container[0]['id'] = '42821f9bc18d5f139079'; 
                     break;
                 case 'Audio':
-                    $container[0]['id'] = '030efdc9b5c6ab91d5bf';
+                    $container[0]['id'] = 'a8ba203dab1ba3e34cda';
                     break;
                 case 'Foto':
                     $container[0]['id'] = '42821f9bc18d5f139079';
