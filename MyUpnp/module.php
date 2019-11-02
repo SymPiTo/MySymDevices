@@ -1945,8 +1945,8 @@ class MyUpnp extends IPSModule {
                 $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
                 $Kernel = $this->Kernel();
                 $PlaylistName = $ServerName.$PlaylistNo;                
-                $Playlist = $xml->saveXML($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml");
-
+                $Playlist = $xml->saveXML();
+                $Playlist->asXML($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml");
 
                 //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
                 /*
