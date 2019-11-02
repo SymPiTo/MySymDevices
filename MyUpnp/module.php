@@ -832,8 +832,8 @@ class MyUpnp extends IPSModule {
             $currentTrack = getvalue($this->GetIDForIdent("upnp_Track"));
             $currentRelTime = getvalue($this->GetIDForIdent("upnp_RelTime"));
             //letzte 4 Zeichen holen und in Zahl umwandeln
-            $PlayListName = $this->GetIDForIdent("upnp_PlaylistName");
-            $mediaNo = substr(getvalue($PlayListName, -4));
+            $PlayListName = getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+            $mediaNo = substr($PlayListName, -4);
             $this->SendDebug('STOP:$mediaNo', $mediaNo, 0);
 
             $this->SendDebug('STOP', 'Stream stoppen', 0);
