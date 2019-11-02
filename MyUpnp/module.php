@@ -1171,13 +1171,13 @@ class MyUpnp extends IPSModule {
  			/* Transport Status abfragen */
 			$Playing = $this->GetTransportInfo($ClientIP, $ClientPort, $ControlURL);                       
  			setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
-			 $this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$Playing['CurrentTransportState'] , 0);
+			$this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$Playing['CurrentTransportState'] , 0);
 			//Transport Status auswerten
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
                                 $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
                                 setvalue($this->GetIDForIdent("upnp_Progress"),0);
-                                setvalue($this->GetIDForIdent("upnp_Track"),0);
+                                //setvalue($this->GetIDForIdent("upnp_Track"),0);
                             break;
                             case 'STOPPED':
                                 $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
@@ -1188,7 +1188,7 @@ class MyUpnp extends IPSModule {
                                 else {
                                     $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
                                     setvalue($this->GetIDForIdent("upnp_Progress"),0);
-                                    setvalue($this->GetIDForIdent("upnp_Track"),0);
+                                    //setvalue($this->GetIDForIdent("upnp_Track"),0);
                                 }
                             break;
                             case 'PLAYING':
