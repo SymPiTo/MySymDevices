@@ -1062,7 +1062,9 @@ class MyUpnp extends IPSModule {
             if(!$Playlist){
                 $this->SendDebug('loadPlaylist','Playlist not found.' , 0);
             }else{
+                $this->SendDebug('loadPlaylist','Playlist found.' , 0);
                 //Daten aus Erstem Datensatz der Playliste holen
+                /*
                 $album = $Playlist->Track0[0]->album; //  
                 $cover = $Playlist->Track0[0]->albumArtURI; //  
                 $artist = $Playlist->Track0[0]->artist; // 
@@ -1070,16 +1072,19 @@ class MyUpnp extends IPSModule {
                 $this->SendDebug('loadPlaylist',$album , 0);
                 $this->SendDebug('loadPlaylist',$tracks , 0);
                 $this->SendDebug('loadPlaylist',$cover , 0);
+                */
                 //setvalue($this->GetIDForIdent("upnp_Album"), $album);
                 //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
                 //setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
                 //setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
                 // Playlist Datenbank laden
+                /*
                 $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
                 $lastTrack = $PlaylistDB->media[$AlbumNo]->lasttrack; // letzter abgespielter track
                 $lastpos = $PlaylistDB->media[$AlbumNo]->lastpos; // letzte Position des tracks
                 setvalue($this->GetIDForIdent("upnp_Track"), $lasttrack);
                 setvalue($this->GetIDForIdent("upnp_RelTime"), $lastpos);
+                */
             }
 
    
