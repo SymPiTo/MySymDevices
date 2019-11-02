@@ -764,7 +764,7 @@ class MyUpnp extends IPSModule {
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
-            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+            //$this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug("PLAY ", 'Play_AV', 0);
