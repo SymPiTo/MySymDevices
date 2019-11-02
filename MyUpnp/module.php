@@ -1357,7 +1357,7 @@ class MyUpnp extends IPSModule {
 	--------------------------------------------------------------------------------
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function browseContainerServer(string $ObjectID){	
+	Public function browseContainerServer(string $ObjectID){	
 		//IPSLog("Starte Funktion: browseServer mit : ",$ObjectID);
 		$ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
 		$ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
@@ -1948,7 +1948,7 @@ class MyUpnp extends IPSModule {
                 
                 $PlaylistName = $ServerName.$PlaylistNo;                
                 $Playlist = $xml->saveXML();
-                $xml->asXML($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml");
+                //$xml->asXML($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml");
 
                 //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
                 /*
@@ -2062,7 +2062,7 @@ class MyUpnp extends IPSModule {
         -----------------------------------------------------------------------------
         Status: 
         *****************************************************************************/
-        Protected function rekey_array($input, $prefix)
+        Public function rekey_array($input, $prefix)
                 {
                 $out = array();
                 foreach($input as $i => $v)
