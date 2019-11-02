@@ -255,7 +255,8 @@ class MyUpnp extends IPSModule {
         parent::ApplyChanges();
             if($this->ReadPropertyBoolean("active")){
                 
-                
+                // Status auf Stop stellen
+                setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 3);
                 
             }
             else {
