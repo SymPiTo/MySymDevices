@@ -726,7 +726,7 @@ class MyUpnp extends IPSModule {
 	//*****************************************************************************
 	/* Function: play()
 	...............................................................................
-	vorgewählte Playlist abspielen
+	vorgewählte Playlist abspielen ab Track und RealTime
         ...............................................................................
 	Parameters: 
             none.
@@ -744,7 +744,6 @@ class MyUpnp extends IPSModule {
         
         $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
         $PlaylistFile = $PlaylistName.'.xml';
-
         $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
          
@@ -924,25 +923,21 @@ class MyUpnp extends IPSModule {
         //////////////////////////////////////////////////////////////////////////////*/
 	public function next()
 	{	
-
-		
-		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
-		$ClientIP = getvalue($this->GetIDForIdent("upnp_ClienIP"));
-		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-		
-		$Playlist = getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
-		$xml = new SimpleXMLElement($Playlist);
-		//$count = count($xml->children()); 
-		//IPSLog("Anzahl XML Elemente : ", $count);
-		
-		$SelectedFile = GetValue($this->GetIDForIdent("upnp_Track")); 
-		
-		$track = ("Track".($SelectedFile+1));
-
-		//Aktueller Track = Selected File-----------------------------------------
-		SetValue($this->GetIDForIdent("upnp_Track"), ($SelectedFile+1));
-
-		$this->play();	
+        // Status auf Next stellen
+        setvalue($this->GetIDForIdent("upnp_Status"), 4);
+        $maxTrack = GetValue($this->GetIDForIdent("upnp_NoTracks")); 
+        $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
+        if($currentTrack < $maxTrack){
+            $newTrack = $currentTrack + 1;
+            SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
+            //RealTime zurücksetzen, da play von Anfang des Tracks
+            SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+            $this->stop();
+            $this->play();
+        }
+        else {
+            // es ist bereits der letzte Track
+        }
 
 	}	
 	
@@ -951,7 +946,7 @@ class MyUpnp extends IPSModule {
 	//*****************************************************************************
 	/* Function: Previous()
         -------------------------------------------------------------------------------
-        nächste 
+        springe zum vorherigem Track 
         ...............................................................................
 	Parameters:
             none.
@@ -961,21 +956,20 @@ class MyUpnp extends IPSModule {
         //////////////////////////////////////////////////////////////////////////////*/
 	public function previous()
 	{	
-		include_once ("46564 /*[DLNA\Sub Functions\_UPNP_Functions]*/.ips.php"); //UPNP_Functions
-		
-		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
-		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
-		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-		
-		$Playlist = getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
-		$xml = new SimpleXMLElement($Playlist);
-		$SelectedFile = GetValue($this->GetIDForIdent("upnp_Track")); 
-		$track = ("Track".($SelectedFile-1));
-
-		//Aktueller Track = Selected File-----------------------------------------
-		SetValue($this->GetIDForIdent("upnp_Track"), ($SelectedFile-1));
-		
-		$this->play();
+        // Status auf Next stellen
+        setvalue($this->GetIDForIdent("upnp_Status"), 4);
+        $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
+        if($currentTrack > 0){
+            $newTrack = $currentTrack - 1;
+            SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
+            //RealTime zurücksetzen, da play von Anfang des Tracks
+            SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+            $this->stop();
+            $this->play();
+        }
+        else {
+            // es gibt  nur einen Track
+        }
 
 	}	
         
