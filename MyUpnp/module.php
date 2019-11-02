@@ -256,7 +256,7 @@ class MyUpnp extends IPSModule {
             if($this->ReadPropertyBoolean("active")){
                 
                 // Status auf Stop stellen
-                setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 3);
+                setvalue($this->GetIDForIdent("upnp_Status"), 3);
                 
             }
             else {
@@ -1143,7 +1143,7 @@ class MyUpnp extends IPSModule {
                     //nicht erreichbar --> Timer abschalten--------------------------------
                     $this->SendDebug('Send', $ClientIP.'ist nicht erreichbar!', 0);
                     // Status auf Stop stellen
-                    setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 3);
+                    setvalue($this->GetIDForIdent("upnp_Status"), 3);
 		}
 		else{
 			/*///////////////////////////////////////////////////////////////////////////
