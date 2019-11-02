@@ -741,6 +741,7 @@ class MyUpnp extends IPSModule {
         $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
         $PlaylistFile = $PlaylistName.'.xml';
 
+        $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
 		 
         //track holen und zugeh. res und meta daten laden
