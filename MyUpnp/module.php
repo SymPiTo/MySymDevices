@@ -1299,7 +1299,7 @@ class MyUpnp extends IPSModule {
             $b = htmlspecialchars_decode($TrackMeta);
             //$this->IPSLog('HTML: ', $b);
             $didlXml = simplexml_load_string($b); 
-            $this->SendDebug("progress-DIDL INFO ", $didlXml , 0);
+            $this->SendDebug("progress-DIDL INFO ", (string) $didlXml , 0);
             $creator = (string)$didlXml->item[0]->xpath('dc:creator')[0];
             $title = (string) $didlXml->item[0]->xpath('dc:title')[0];
             $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
