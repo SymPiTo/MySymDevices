@@ -749,7 +749,8 @@ class MyUpnp extends IPSModule {
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
          
         // Status auf Play stellen
-        setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 1);
+        setvalue($this->GetIDForIdent("upnp_Status"), 1);
+
         //track holen und zugeh. res und meta daten laden
  		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"));
 		$track = ("Track".strval($TrackNo));
