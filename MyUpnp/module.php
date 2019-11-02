@@ -137,6 +137,9 @@ class MyUpnp extends IPSModule {
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableInteger("upnp_Track", "Pos:Track", "");
             IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableInteger("upnp_Status", "Control", "UPNP_Status");
+            IPS_SetInfo ($variablenID, "WSS");
+
              $variablenID = $this->RegisterVariableString("upnp_Transport_Status", "Pos:Transport_Status");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("upnp_RelTime", "RelTime");
@@ -743,7 +746,9 @@ class MyUpnp extends IPSModule {
 
         $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
-		 
+         
+        // Status auf Play stellen
+        setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 1);
         //track holen und zugeh. res und meta daten laden
  		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"));
 		$track = ("Track".strval($TrackNo));
@@ -839,13 +844,14 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('STOP', 'Stream stoppen', 0);
             /*Timer abschalten--------------------------------------------------------*/
             $this->SetTimerInterval('upnp_PlayInfo', 0);
-            /*Stram stoppen--------------------------------------------------------*/
+            /*Stream stoppen--------------------------------------------------------*/
             $this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug('STOP', 'LastPos: '.$currentRelTime, 0);
 			/* Transport Status abfragen */
 			$Playing = $this->GetTransportInfo($ClientIP, $ClientPort, $ControlURL);  
             setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
-            
+            //Player Status setzen
+            setvalue($this->GetIDForIdent("upnp_Status"), 3);
             $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
             $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
             $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
@@ -897,7 +903,9 @@ class MyUpnp extends IPSModule {
 		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
 		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-		$this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
+        $this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
+        // Status auf Pause stellen
+        setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 2);
 	}
 
 
@@ -1133,6 +1141,8 @@ class MyUpnp extends IPSModule {
 		if ( !$fsock ){
                     //nicht erreichbar --> Timer abschalten--------------------------------
                     $this->SendDebug('Send', $ClientIP.'ist nicht erreichbar!', 0);
+                    // Status auf Stop stellen
+                    setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 3);
 		}
 		else{
 			/*///////////////////////////////////////////////////////////////////////////
@@ -1179,20 +1189,35 @@ class MyUpnp extends IPSModule {
 			//Transport Status auswerten
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
-                                $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
+                                $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
                                 setvalue($this->GetIDForIdent("upnp_Progress"),0);
                                 //setvalue($this->GetIDForIdent("upnp_Track"),0);
                             break;
                             case 'STOPPED':
-                                $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
-                                $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
-                                if ($lastTrack > 0  AND $lastTrack < $maxTrack){
-                                        $this->PlayNextTrack();		
+                                $Status = getvalue($this->GetIDForIdent("upnp_Status"));
+                                // Status steht auf Play - komplette Playlist abspielen
+                                if ($Status === 1){
+                                    // wurde das Ende der Playlist erreicht, falls nicht nächsten Track spielem
+                                    $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
+                                    $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
+                                    if ($lastTrack > 0  AND $lastTrack < $maxTrack){
+                                            $this->PlayNextTrack();		
+                                    }
+                                    else {
+                                        $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
+                                        setvalue($this->GetIDForIdent("upnp_Progress"), 0);
+                                        setvalue($this->GetIDForIdent("upnp_Track"), 0);
+                                        setvalue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+                                        $this->stop();
+                                    }
                                 }
-                                else {
-                                    $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
-                                    setvalue($this->GetIDForIdent("upnp_Progress"),0);
-                                    //setvalue($this->GetIDForIdent("upnp_Track"),0);
+                                // Status steht auf Stop
+                                elseif($Status === 3) {
+                                    $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
+                                    setvalue($this->GetIDForIdent("upnp_Progress"), 0);
+                                    setvalue($this->GetIDForIdent("upnp_Track"), 0);
+                                    setvalue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+                                    $this->stop();    
                                 }
                             break;
                             case 'PLAYING':
