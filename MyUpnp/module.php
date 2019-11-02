@@ -907,7 +907,7 @@ class MyUpnp extends IPSModule {
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
         $this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
         // Status auf Pause stellen
-        setvalue(getvalue($this->GetIDForIdent("upnp_Status")), 2);
+        setvalue($this->GetIDForIdent("upnp_Status"), 2);
 	}
 
 
