@@ -1095,9 +1095,9 @@ class MyUpnp extends IPSModule {
             $PlaylistName 			= $vars[0];
             $PlaylistExtension		= $vars[1];
 
-            $xml = new SimpleXMLElement($Playlist);
+            //$xml = new SimpleXMLElement($Playlist);
 
-            return $xml;
+            return $Playlist;
          
 	}
 
