@@ -1062,9 +1062,9 @@ class MyUpnp extends IPSModule {
                 $this->SendDebug('loadPlaylist','Playlist not found.' , 0);
             }else{
                 //Daten aus Erstem Datensatz der Playliste holen
-                $album = $Playlist->Track0->album; //  
-                $cover = $Playlist->Track0->albumArtURI; //  
-                $artist = $Playlist->Track0->artist; // 
+                $album = $Playlist->Track0[0]->album; //  
+                $cover = $Playlist->Track0[0]->albumArtURI; //  
+                $artist = $Playlist->Track0[0]->artist; // 
                 $tracks = $Playlist->count();
                 $this->SendDebug('loadPlaylist',$album , 0);
                 $this->SendDebug('loadPlaylist',$tracks , 0);
