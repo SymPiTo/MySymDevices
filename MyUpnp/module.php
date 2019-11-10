@@ -1204,7 +1204,7 @@ class MyUpnp extends IPSModule {
                                     $this->SendDebug("GetPosInfo ", 'Titel ist zu Ende', 0);
                                     // wurde das Ende der Playlist erreicht, falls nicht nächsten Track spielem
                                     $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
-                                    $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
+                                    $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks")-1);
                                     if ($lastTrack >= 0  AND $lastTrack < $maxTrack){
                                         $this->SendDebug("GetPosInfo ", 'nächster Titel Spielen', 0);
                                             setvalue($this->GetIDForIdent("upnp_Status"), 4);
@@ -1240,6 +1240,9 @@ class MyUpnp extends IPSModule {
                                         //include_once ("57444 /*[Multimedia\Core\UPNP_SlideShow]*/.ips.php"); //UPNP_SlideShow
                                 }
                                 else {$this->stop();}
+                            break;
+                            case 'PAUSED_PLAYBACK':
+
                             break;
 			}
 		}
