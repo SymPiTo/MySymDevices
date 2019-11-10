@@ -1196,7 +1196,7 @@ class MyUpnp extends IPSModule {
                                     // wurde das Ende der Playlist erreicht, falls nicht nächsten Track spielem
                                     $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
                                     $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
-                                    if ($lastTrack > 0  AND $lastTrack < $maxTrack){
+                                    if ($lastTrack >= 0  AND $lastTrack < $maxTrack){
                                             $this->PlayNextTrack();		
                                     }
                                     else {
