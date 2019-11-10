@@ -797,10 +797,11 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function PlayNextTrack(){	
+        $this->SetTimerInterval('upnp_PlayInfo', 0);
 		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
 		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-		
+		//track hochzählen
 		$track 		= getvalue($this->GetIDForIdent("upnp_Track"))+1;
 		setvalue($this->GetIDForIdent("upnp_Track"),$track);
 		$trackNo 	= ("Track".strval($track));
@@ -813,7 +814,9 @@ class MyUpnp extends IPSModule {
                  //   $metadata='';
                 //}
 		$this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-		$this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+        $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+        setvalue($this->GetIDForIdent("upnp_Status"), 1);  //Status auf Play stellen
+        $this->SetTimerInterval('upnp_PlayInfo', 1000);
 	}
 
 
@@ -1197,6 +1200,7 @@ class MyUpnp extends IPSModule {
                                     $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
                                     $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
                                     if ($lastTrack >= 0  AND $lastTrack < $maxTrack){
+                                            setvalue($this->GetIDForIdent("upnp_Status"), 4);
                                             $this->PlayNextTrack();		
                                     }
                                     else {
