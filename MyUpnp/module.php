@@ -797,26 +797,29 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function PlayNextTrack(){	
-        $this->SetTimerInterval('upnp_PlayInfo', 0);
+        $this->SetTimerInterval('upnp_PlayInfo', 0); //Timer ausschalten
 		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
 		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
 		//track hochzählen
 		$track 		= getvalue($this->GetIDForIdent("upnp_Track"))+1;
 		setvalue($this->GetIDForIdent("upnp_Track"),$track);
-		$trackNo 	= ("Track".strval($track));
-		$Playlist 	= getvalue($this->GetIDForIdent("upnp_Playlist_XML"));
-		$xml = new SimpleXMLElement($Playlist);
-		
-		$res = $xml->$trackNo->resource; // gibt resource des Titels aus
-		$metadata = $xml->$trackNo->metadata; // gibt resource des Titels aus
-               // if ($ClientPort == '52235'){
-                 //   $metadata='';
-                //}
-		$this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+        $trackNo 	= ("Track".strval($track));
+        
+        $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+        $PlaylistFile = $PlaylistName.'.xml';
+        $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
+		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
+  
+        $res = $xml->$track->resource; // gibt resource des Titels aus
+        $this->SendDebug("PLAY ", $res, 0);
+        $metadata = $xml->$track->metadata; // gibt resource des Titels aus
+        $this->SendDebug("PLAY ", $metadata, 0);
+
+ 		$this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
         $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
         setvalue($this->GetIDForIdent("upnp_Status"), 1);  //Status auf Play stellen
-        $this->SetTimerInterval('upnp_PlayInfo', 1000);
+        $this->SetTimerInterval('upnp_PlayInfo', 1000); // Timer einschalten
 	}
 
 
