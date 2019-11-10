@@ -805,7 +805,7 @@ class MyUpnp extends IPSModule {
 		$trackNo 		= getvalue($this->GetIDForIdent("upnp_Track"))+1;
 		setvalue($this->GetIDForIdent("upnp_Track"),$track);
         $track 	= ("Track".strval($trackNo));
-        
+        $this->SendDebug("PlayNextTrack ", 'nächster Titel: '.$track, 0);
         $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
         $PlaylistFile = $PlaylistName.'.xml';
         $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
@@ -818,7 +818,9 @@ class MyUpnp extends IPSModule {
 
  		$this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
         $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+        $this->SendDebug("PlayNextTrack ", 'nächster Titel spielen. ', 0);
         setvalue($this->GetIDForIdent("upnp_Status"), 1);  //Status auf Play stellen
+        $this->SendDebug("PlayNextTrack ", 'Status auf Play stellen. ', 0);
         $this->SetTimerInterval('upnp_PlayInfo', 1000); // Timer einschalten
 	}
 
@@ -1199,14 +1201,17 @@ class MyUpnp extends IPSModule {
                                 $Status = getvalue($this->GetIDForIdent("upnp_Status"));
                                 // Status steht auf Play - komplette Playlist abspielen
                                 if ($Status === 1){
+                                    $this->SendDebug("GetPosInfo ", 'Titel ist zu Ende', 0);
                                     // wurde das Ende der Playlist erreicht, falls nicht nächsten Track spielem
                                     $lastTrack = getvalue($this->GetIDForIdent("upnp_Track"));
                                     $maxTrack = getvalue($this->GetIDForIdent("upnp_NoTracks"));
                                     if ($lastTrack >= 0  AND $lastTrack < $maxTrack){
+                                        $this->SendDebug("GetPosInfo ", 'nächster Titel Spielen', 0);
                                             setvalue($this->GetIDForIdent("upnp_Status"), 4);
                                             $this->PlayNextTrack();		
                                     }
                                     else {
+                                        $this->SendDebug("GetPosInfo ", 'letzter Titel wurde gespielt alles zurücksetzen', 0);
                                         $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktivert Ereignis
                                         setvalue($this->GetIDForIdent("upnp_Progress"), 0);
                                         setvalue($this->GetIDForIdent("upnp_Track"), 0);
@@ -1216,6 +1221,7 @@ class MyUpnp extends IPSModule {
                                 }
                                 // Status steht auf Stop
                                 elseif($Status === 3) {
+                                    $this->SendDebug("GetPosInfo ", 'Stop wurde gedrückt', 0);
                                     $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
                                     setvalue($this->GetIDForIdent("upnp_Progress"), 0);
                                    
