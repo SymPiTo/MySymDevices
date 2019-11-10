@@ -802,9 +802,9 @@ class MyUpnp extends IPSModule {
 		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
 		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
 		//track hochzählen
-		$track 		= getvalue($this->GetIDForIdent("upnp_Track"))+1;
+		$trackNo 		= getvalue($this->GetIDForIdent("upnp_Track"))+1;
 		setvalue($this->GetIDForIdent("upnp_Track"),$track);
-        $trackNo 	= ("Track".strval($track));
+        $track 	= ("Track".strval($trackNo));
         
         $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
         $PlaylistFile = $PlaylistName.'.xml';
