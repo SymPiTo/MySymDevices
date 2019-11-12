@@ -2015,13 +2015,13 @@ class MyUpnp extends IPSModule {
            
                     //Retrieve the serialized string.
                     $Kernel = $this->Kernel();
-                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/".$mediatype."/".$ServerName."_Audio_Container.con");
+                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/".$mediatype."/".$ServerName."_".$mediatype."_Container.con");
                     //Unserialize the string back into an array.
-                    $AudioContainer = unserialize($fileContents);
+                    $MediaContainer = unserialize($fileContents);
                     //load DB
                     $dbXML = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
 
-                    foreach ($AudioContainer as $key => $value) {
+                    foreach ($MediaContainer as $key => $value) {
                             $id = $value['id'];		
                             $PlaylistNo = substr($value['title'],0,4);
                             $this->createPlaylist($id, $mediatype, $PlaylistNo);
