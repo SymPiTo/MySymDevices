@@ -1095,6 +1095,8 @@ class MyUpnp extends IPSModule {
                 setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), $cover);
                 setvalue($this->GetIDForIdent("upnp_Artist"), $artist);
                 setvalue($this->GetIDForIdent("upnp_NoTracks"), $tracks);
+                setvalue($this->GetIDForIdent("upnp_Actor"), "");
+                setvalue($this->GetIDForIdent("upnp_Title"), "");
                 // Playlist Datenbank laden
                
                 $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
