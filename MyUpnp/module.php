@@ -1196,7 +1196,7 @@ class MyUpnp extends IPSModule {
  			setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
             $this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$Playing['CurrentTransportState'] , 0);
             $Status = getvalue($this->GetIDForIdent("upnp_Status"));
-            $this->SendDebug("GetPosInfo ", Play Status abfragen: '.$Status, 0); 
+            $this->SendDebug("GetPosInfo ", "Play Status abfragen: ".$Status, 0); 
 			//Transport Status auswerten
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
