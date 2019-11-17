@@ -859,8 +859,9 @@ class MyUpnp extends IPSModule {
 			/* Transport Status abfragen */
 			$Playing = $this->GetTransportInfo($ClientIP, $ClientPort, $ControlURL);  
             setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
-            //Player Status setzen
+            //Player Status STOP setzen
             setvalue($this->GetIDForIdent("upnp_Status"), 3);
+            //Playliste holen und letzte Position abspeichern
             $PlaylistDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
             $PlaylistDB->media[$mediaNo]->lasttrack = $currentTrack;
             $PlaylistDB->media[$mediaNo]->lastpos = $currentRelTime;
@@ -1195,9 +1196,11 @@ class MyUpnp extends IPSModule {
 			//Transport Status auswerten
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
+                                $Status = getvalue($this->GetIDForIdent("upnp_Status"));
+                                 
                                 $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
                                 setvalue($this->GetIDForIdent("upnp_Progress"),0);
-                                //setvalue($this->GetIDForIdent("upnp_Track"),0);
+                                $this->stop();
                             break;
                             case 'STOPPED':
                                 $Status = getvalue($this->GetIDForIdent("upnp_Status"));
