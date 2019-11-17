@@ -1200,7 +1200,7 @@ class MyUpnp extends IPSModule {
                                  
                                 $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
                                 setvalue($this->GetIDForIdent("upnp_Progress"),0);
-                                $this->stop();
+                                
                             break;
                             case 'STOPPED':
                                 $Status = getvalue($this->GetIDForIdent("upnp_Status"));
