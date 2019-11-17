@@ -1197,7 +1197,7 @@ class MyUpnp extends IPSModule {
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
                                 $Status = getvalue($this->GetIDForIdent("upnp_Status"));
-                                 
+                                $this->SendDebug("GetPosInfo ", 'NO_MEDIA_PRESENT', 0); 
                                 $this->SetTimerInterval('upnp_PlayInfo', 0);  // DeAktiviert Ereignis
                                 setvalue($this->GetIDForIdent("upnp_Progress"),0);
                                 
