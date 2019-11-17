@@ -937,6 +937,7 @@ class MyUpnp extends IPSModule {
         $maxTrack = GetValue($this->GetIDForIdent("upnp_NoTracks")); 
         $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
         if($currentTrack < $maxTrack){
+            $this->SendDebug('next', $currentTrack."- ".$maxTrack, 0);
             $newTrack = $currentTrack + 1;
             SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
             //RealTime zurücksetzen, da play von Anfang des Tracks
@@ -946,6 +947,7 @@ class MyUpnp extends IPSModule {
         }
         else {
             // es ist bereits der letzte Track
+            $this->SendDebug('next', "das ist bereits der Letzte Track", 0);
         }
 
 	}	
@@ -1192,7 +1194,9 @@ class MyUpnp extends IPSModule {
  			/* Transport Status abfragen */
 			$Playing = $this->GetTransportInfo($ClientIP, $ClientPort, $ControlURL);                       
  			setvalue($this->GetIDForIdent("upnp_Transport_Status"), $Playing['CurrentTransportState']);
-			$this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$Playing['CurrentTransportState'] , 0);
+            $this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$Playing['CurrentTransportState'] , 0);
+            $Status = getvalue($this->GetIDForIdent("upnp_Status"));
+            $this->SendDebug("GetPosInfo ", Play Status abfragen: '.$Status, 0); 
 			//Transport Status auswerten
 			switch ($Playing['CurrentTransportState']){
                             case 'NO_MEDIA_PRESENT':
