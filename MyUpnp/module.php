@@ -936,7 +936,7 @@ class MyUpnp extends IPSModule {
         setvalue($this->GetIDForIdent("upnp_Status"), 4);
         $maxTrack = GetValue($this->GetIDForIdent("upnp_NoTracks")); 
         $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
-        if($currentTrack < $maxTrack){
+        if($currentTrack < $maxTrack-1){
             $this->SendDebug('next', $currentTrack."- ".$maxTrack, 0);
             $newTrack = $currentTrack + 1;
             SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
