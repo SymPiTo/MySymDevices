@@ -329,7 +329,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                 $StationNo = getvalue($this->GetIDForIdent("CeolFavChannel"));
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
                                 $url = "images/RadioStation/".$Station.".png";
-                                SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
+                                SetValue($this->GetIDForIdent("Ceol_AlbumArtUri"), $url);
                             }    
                             
                             if (isset($dispLine2[0])){
@@ -337,7 +337,11 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                             }
                             if (isset($dispLine2[1])){
                                 setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
-                            }     
+                            }   
+                            
+           
+                            setvalue($this->GetIDForIdent("Ceol_Album"), getvalue($this->GetIDForIdent("CeolSZ3")));
+                        
                         break;	
                         case "SERVER":
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
