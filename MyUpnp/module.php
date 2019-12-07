@@ -1596,6 +1596,17 @@ class MyUpnp extends IPSModule {
                                 
                                 
                         }
+                        elseif($value['class'] === 'object.item.videoItem.movie'){
+                            $i = $i + 1;
+                            $container[$i]['class'] = $value['typ'];
+                            $container[$i]['id'] = $value['id'];
+                            $container[$i]['title'] = $value['title'];	
+                            $container[$i]['album'] = $value['album'];
+                            $container[$i]['no'] = substr($value['title'], 0, 4);
+                        }
+                        else{
+                            $this->SendDebug('UPNP:', "Liste fehlt", 0);
+                        }
 
                     }
                 }
