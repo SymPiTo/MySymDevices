@@ -339,7 +339,6 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                 setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
                             }   
                             
-           
                             setvalue($this->GetIDForIdent("Ceol_Album"), getvalue($this->GetIDForIdent("CeolSZ3")));
                         
                         break;	
