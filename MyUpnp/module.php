@@ -772,12 +772,12 @@ class MyUpnp extends IPSModule {
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
 
-            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+            //$this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
 
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug("PLAY ", 'Play_AV', 0);
-            IPS_Sleep(1000);
+            
 		// Postion Timer starten
 		//IPS_SetEventActive($this->GetIDForIdent("upnp_PlayInfo"), true);  // Aktivert Ereignis
             $this->SetTimerInterval('upnp_PlayInfo', 1000);
