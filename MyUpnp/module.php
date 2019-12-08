@@ -746,20 +746,22 @@ class MyUpnp extends IPSModule {
         $PlaylistFile = $PlaylistName.'.xml';
         $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
 		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
-         
+        $this->SendDebug("PLAY ", "Play-Liste lade".$PlaylistFile, 0); 
         // Status auf Play stellen
         setvalue($this->GetIDForIdent("upnp_Status"), 1);
-
+        $this->SendDebug("PLAY ", "Status auf PLAY setzten", 0); 
         //track holen und zugeh. res und meta daten laden
  		$TrackNo = getvalue($this->GetIDForIdent("upnp_Track"));
-		$track = ("Track".strval($TrackNo));
+        $track = ("Track".strval($TrackNo));
+        $this->SendDebug("PLAY ", "Track Nummer holen: ".$track, 0); 
         $res = $xml->$track->resource; // gibt resource des Titels aus
         $this->SendDebug("PLAY ", $res, 0);
         $metadata = $xml->$track->metadata; // gibt resource des Titels aus
         $this->SendDebug("PLAY ", $metadata, 0);
 		//UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
 		//IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
-		$this->SetTimerInterval('upnp_PlayInfo', 0);
+        $this->SetTimerInterval('upnp_PlayInfo', 0);
+        $this->SendDebug("PLAY ", "Timer anhalten.", 0);
         if ($TrackNo == 1){	
 			$this->Stop_AV($ClientIP, $ClientPort, $ControlURL);
 		}
@@ -772,7 +774,7 @@ class MyUpnp extends IPSModule {
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
 
-            //$this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
 
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
@@ -781,7 +783,7 @@ class MyUpnp extends IPSModule {
 		// Postion Timer starten
 		//IPS_SetEventActive($this->GetIDForIdent("upnp_PlayInfo"), true);  // Aktivert Ereignis
             $this->SetTimerInterval('upnp_PlayInfo', 1000);
-            $this->SendDebug("PLAY ", 'Timer Position aktivieren', 0);
+            $this->SendDebug("PLAY ", 'Position-Timer aktivieren', 0);
 	}
 
 	//*****************************************************************************
