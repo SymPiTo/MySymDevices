@@ -1246,7 +1246,7 @@ class MyUpnp extends IPSModule {
                                     $this->SendDebug("GetPosInfo ", 'progress aufrufen', 0);
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                 }
-                                else if($DIDL_Lite_Class == "object.item.videoItem"){
+                                else if($DIDL_Lite_Class == "object.item.videoItem.movie"){
                                     $this->SendDebug("GetPosInfo ", 'progress aufrufen', 0);
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                 }
