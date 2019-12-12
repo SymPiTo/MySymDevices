@@ -1247,7 +1247,8 @@ class MyUpnp extends IPSModule {
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                 }
                                 else if($DIDL_Lite_Class == "object.item.videoItem"){
-                                        //include_once ("35896 /*[Multimedia\Core\UPNP_Progress]*/.ips.php"); //UPNP_Progress
+                                    $this->SendDebug("GetPosInfo ", 'progress aufrufen', 0);
+                                    $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                 }
                                 else if($DIDL_Lite_Class == "object.item.imageItem.photo"){
                                         //include_once ("57444 /*[Multimedia\Core\UPNP_SlideShow]*/.ips.php"); //UPNP_SlideShow
