@@ -143,7 +143,7 @@ trait upnp {
 	Returns:
          *  Error Code
          */
-	Protected function Play_AV(string $ClientIP, string $ClientPort, string $ClientControlURL){	
+	Public function Play_AV(string $ClientIP, string $ClientPort, string $ClientControlURL){	
             $this->SendDebug('Play_AV', 'IP: '.$ClientIP, 0);
             $this->SendDebug('Play_AV', 'Port: '.$ClientPort, 0);
             $this->SendDebug('Play_AV', 'ClientControlURL: '.$ClientControlURL, 0);
