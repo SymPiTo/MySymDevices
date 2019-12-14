@@ -1010,7 +1010,26 @@ class MyUpnp extends IPSModule {
 
             $this->SendDebug('seekForward', $position, 0);
             $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, $position);
-	}
+    }
+    //*****************************************************************************
+	/* Function: seekStart()
+        -------------------------------------------------------------------------------
+        spult Lied zum Anfang
+        ...............................................................................
+	Parameters:
+            none.
+        --------------------------------------------------------------------------------
+	Returns:
+            none.
+        //////////////////////////////////////////////////////////////////////////////*/
+	public function seekStart(){	
+        $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
+        $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
+        $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
+        $position = "00:00:00.000";
+        $this->SendDebug('seekStartPosition', $position, 0);
+        $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, (string) $position);
+}
 	//*****************************************************************************
 	/* Function: seekForward()
         -------------------------------------------------------------------------------
