@@ -1027,7 +1027,7 @@ class MyUpnp extends IPSModule {
         $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
         $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
         $postime = "0:00:00";
-        $position = date("H:i:s.000", (strtotime(date($postime))));
+        $position = date("H:i:s.000", (strtotime(date($postime))-0));
         $this->SendDebug('seekStartPosition', $position, 0);
         $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, (string) $position);
 }
