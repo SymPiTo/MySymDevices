@@ -1712,7 +1712,7 @@ class MyUpnp extends IPSModule {
             $mediaDB->media[$No]->id = $value['id'];
             $mediaDB->media[$No]->album = $value['title'];
             $mediaDB->media[$No]->mediatype = $mediatype;
-
+            $this->SendDebug('syncDB: ', $mediaDB, 0); 
             //Erstes media file -----------------------------------------------------------------
             $ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
             $ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
