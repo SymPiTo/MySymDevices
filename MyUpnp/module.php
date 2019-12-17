@@ -1704,6 +1704,7 @@ class MyUpnp extends IPSModule {
         //Medien Datenbank füllen.
         $mediaDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
         $this->Meldung( 'synchronisiere DB');
+        $this->SendDebug('syncDB-Container Inhalt: ', $container, 0); 
         foreach ($container as $value) {
             $playlistname = $value['no'];
             $No = intval($playlistname);
@@ -1712,7 +1713,7 @@ class MyUpnp extends IPSModule {
             $mediaDB->media[$No]->id = $value['id'];
             $mediaDB->media[$No]->album = $value['title'];
             $mediaDB->media[$No]->mediatype = $mediatype;
-            $this->SendDebug('syncDB: ', $mediaDB, 0); 
+            
             //Erstes media file -----------------------------------------------------------------
             $ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
             $ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
