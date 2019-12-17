@@ -1602,7 +1602,7 @@ class MyUpnp extends IPSModule {
                     foreach ($liste as $value) {
                         $this->SendDebug('UPNP Inhalt: ', $value, 0);
                                             // nur die storagefolder Container auslesen
-                        if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder' or $value['class'] == 'object.container.album.musicAlbum' or $value['class'] == 'object.container.album.photo'){
+                        if($value['class'] === 'object.container' or $value['class'] == 'object.container.storageFolder' or $value['class'] == 'object.container.album.musicAlbum' or $value['class'] == 'object.container.album.photoAlbum'){
                             /*
                             if(($value['title'] == $AuswahlB) or ($value['title'] == "My".$Mediatype) or ($value['title'] == $AuswahlA)){
                                 $i = 0;
