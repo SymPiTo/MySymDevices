@@ -1726,6 +1726,7 @@ class MyUpnp extends IPSModule {
 
             $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
             $ObjectID = $value['id'];
+            $this->SendDebug('syncDB-Object Id browsen: ', $ObjectID, 0); 
             try {
                 //Function ContentDirectory_Browse aufrufen-------------------------------------
                 $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
