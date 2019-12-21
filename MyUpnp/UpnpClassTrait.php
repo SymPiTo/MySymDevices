@@ -155,7 +155,7 @@ trait upnp {
 	
 	                           array( 
 	                                  new SoapParam('0'             ,"InstanceID"       ),
-	                                  new SoapParam('2' 		,"Speed"            )
+	                                  new SoapParam('1' 		,"Speed"            )
 	                                )
 		);
  
