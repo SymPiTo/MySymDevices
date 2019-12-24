@@ -1152,4 +1152,20 @@ class MySamsungTV extends IPSModule
             $json_data = json_decode($json,true);
             return $json_data;
         }    
+
+        Public function MakeChannelList(){
+            //DB.xml holen und in JSON umwandeln
+            $mediaDB = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/TV/DB.xml");
+
+            //Medien Datenbank füllen.
+
+            //XML in Array umwandeln
+            $json = json_encode($mediaDB);
+            
+            // in file schreiben
+            $handle = fopen($Kernel."media/Multimedia/Playlist/TV/DBasJson.txt", "w");
+            fwrite($handle, $json);
+            fclose($handle);
+            $this->Meldung( 'Datenbank wurde aktualisiert!');
+        }
 }
