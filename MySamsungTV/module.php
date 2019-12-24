@@ -1163,9 +1163,9 @@ class MySamsungTV extends IPSModule
             $json = json_encode($mediaDB);
             
             // in file schreiben
-            $handle = fopen($Kernel."media/Multimedia/Playlist/TV/DBasJson.txt", "w");
+            $handle = fopen($this->Kernel()."media/Multimedia/Playlist/TV/DBasJson.txt", "w");
             fwrite($handle, $json);
             fclose($handle);
-            $this->Meldung( 'Datenbank wurde aktualisiert!');
+            
         }
 }
