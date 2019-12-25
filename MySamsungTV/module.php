@@ -424,9 +424,17 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  
     //////////////////////////////////////////////////////////////////////////////*/  
     public function setChannelbyName(string $ChName) {
-        $prop = "ChannelName";
+         
         $chList = $this->readChannelFile();
+   
+ 
+        $searchvalue = $ChName;
+        $key = "NAME";
+        $array = $chList;
         
+        
+        $result = $this->searcharray($searchvalue, $key, $array);
+
         
         $searchvalue = $ChName;
         $key = "ChannelName";
