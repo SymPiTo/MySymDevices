@@ -1210,7 +1210,7 @@ class MySamsungTV extends IPSModule
         Status:  26.12.2019
         //////////////////////////////////////////////////////////////////////////////*/        
         Public function SetPower($status){
-            $zustand = getvalue($this->ReadPropertyInteger("PowerSwitch_ID")); 
+            //$zustand = getvalue($this->ReadPropertyInteger("PowerSwitch_ID")); 
              
             if ($status == "On"){
                 FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
