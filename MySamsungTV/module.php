@@ -29,6 +29,7 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyString("ip", "192.168.178.135");
         $this->RegisterPropertyInteger("updateInterval", 10000);	
         $this->RegisterPropertyInteger("devicetype", 1);
+        $this->RegisterPropertyInteger("PowerSwitch_ID", 0);
         
         //Variable anlegen.
         $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
@@ -82,6 +83,30 @@ class MySamsungTV extends IPSModule
             }
     }
     
+    public function RequestAction($Ident, $Value) {
+        switch($Ident) {
+            case "TVPower":
+                //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
+                //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
+ 
+                    if($Value){
+                        $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
+                        setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), true); 
+                    }
+                    else{
+                        $this->SendDebug('SetPower', 'Power: '.'ausschalten', 0);
+                        setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), false); 
+                    }
+                break;
+ 
+ 
+            default:
+                throw new Exception("Invalid Ident");
+        }
+
+    } 
+
+
     //*****************************************************************************
     /* Function: Hilfs funktinen für ein Modul
     ...............................................................................
@@ -1166,4 +1191,32 @@ class MySamsungTV extends IPSModule
             fclose($handle);
             
         }
+
+        /*//////////////////////////////////////////////////////////////////////////////
+        Funktion SetPower($status)
+        ...............................................................................
+        TV Schaltsteckdose Ein / Aus Schalten
+        ...............................................................................
+        Parameter:  $status = "On" // "Off" 
+        --------------------------------------------------------------------------------
+         
+        --------------------------------------------------------------------------------
+        return: $status = 'on' / 'off'  // 0 / 1 
+        --------------------------------------------------------------------------------
+        Status:  26.12.2019
+        //////////////////////////////////////////////////////////////////////////////*/        
+        Public function SetPower($status){
+            $zustand = getvalue($this->ReadPropertyInteger("PowerSwitch_ID")); 
+             
+            if ($status == "On"){
+                $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
+                setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), true); 
+                 
+            }
+            if ($status == "Off"){
+                $this->SendDebug('SetPower', 'Power: '.'ausschalten', 0);
+                setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), false);   
+            }
+            return $status;	
+        }  
 }
