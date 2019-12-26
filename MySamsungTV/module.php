@@ -54,7 +54,11 @@ class MySamsungTV extends IPSModule
         IPS_SetInfo ($variablenID, "WSS"); 
         $variablenID = $this->RegisterVariableString("TVProgList", "ProgList");
         IPS_SetInfo ($variablenID, "WSS"); 
+
+        // Aktiviert die Standardaktion der Statusvariable im Webfront
+        $this->EnableAction("TVPower");
         
+
         //Switch Profil zuordnen 
         IPS_SetVariableCustomProfile($this->GetIDForIdent("TVPower"), "~Switch");
       
