@@ -95,11 +95,11 @@ class MySamsungTV extends IPSModule
  
                     if($Value){
                         $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
-                        setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), true); 
+                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
+                        
                     }
                     else{
-                        $this->SendDebug('SetPower', 'Power: '.'ausschalten', 0);
-                        setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), false); 
+                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät ausschalten
                     }
                 break;
  
@@ -1213,13 +1213,11 @@ class MySamsungTV extends IPSModule
             $zustand = getvalue($this->ReadPropertyInteger("PowerSwitch_ID")); 
              
             if ($status == "On"){
-                $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
-                setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), true); 
+                FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
                  
             }
             if ($status == "Off"){
-                $this->SendDebug('SetPower', 'Power: '.'ausschalten', 0);
-                setvalue($this->ReadPropertyInteger("PowerSwitch_ID"), false);   
+                FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät einschalten
             }
             return $status;	
         }  
