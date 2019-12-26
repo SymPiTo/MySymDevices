@@ -1210,15 +1210,17 @@ class MySamsungTV extends IPSModule
         Status:  26.12.2019
         //////////////////////////////////////////////////////////////////////////////*/        
         Public function SetPower($status){
-            //$zustand = getvalue($this->ReadPropertyInteger("PowerSwitch_ID")); 
              
-            if ($status == "On"){
-                FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
-                IPS_Sleep(5000);
-                $this->watchdog(); 
-            }
-            if ($status == "Off"){
-                FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät einschalten
+            //prüfen ob Schaltsteckdose vorhanden
+            if($this->ReadPropertyInteger("PowerSwitch_ID")!= 0) {
+                if ($status == "On"){
+                    FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
+                    IPS_Sleep(10000);
+                    $this->watchdog(); 
+                }
+                if ($status == "Off"){
+                    FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät einschalten
+                }
             }
             return $status;	
         }  
