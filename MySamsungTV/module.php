@@ -1214,7 +1214,7 @@ class MySamsungTV extends IPSModule
              
             if ($status == "On"){
                 FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
-                IPS_Sleep(1000);
+                IPS_Sleep(5000);
                 $this->watchdog(); 
             }
             if ($status == "Off"){
