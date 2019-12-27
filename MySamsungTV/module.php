@@ -908,7 +908,7 @@ class MySamsungTV extends IPSModule
                  $this->SendDebug("TVProg ", "Programm not founde", 0);
               continue; 
             } 
-            $titel = "<b style=color:#C00000;>".$item['title']."</b>"; 
+            $titel = "<b style=color:yellow;>".$item['title']."</b>"; 
 
             if (is_string($item['description']))  { 
                 $beschreibung = "<small style=color:white;>".$item['description']."</small>"; 
