@@ -834,7 +834,7 @@ class MySamsungTV extends IPSModule
                 $ChName = "DasErste";
                 break;
             case "ZDF HD":
-                $ChName = "ZDF";
+                $ChName = "zdf";
                 break;
             case "RTL":
                 $ChName = "RTL";
