@@ -926,11 +926,15 @@ class MySamsungTV extends IPSModule
             //   break; 
             //} 
             if(array_key_exists('enclosure', $searchArray)) 
-            { 
+            {  
                 $image = $item['enclosure']['@attributes']['url']; 
                $str .= "<tr>"; 
                $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
-               $str .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$text</div>"; 
+               $str .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
+               $str .= "</td></tr>\n"; 
+               $str .= "<tr>"; 
+               $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
+               $str .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$beschreibung</div>"; 
                $str .= "</td></tr>\n"; 
             } 
             else 
