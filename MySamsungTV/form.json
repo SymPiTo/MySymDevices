@@ -41,6 +41,11 @@
                         "caption": "update Interval [ms]"
                 },
                 {
+                        "name": "telnet",
+                        "type": "CheckBox",
+                        "caption": "Telnet Interface"
+                },
+                {
                         "name": "PowerSwitch_ID",
                         "type": "SelectObject",
                         "caption": "FunkSchaltdose Objekt selektieren."

@@ -2777,7 +2777,7 @@ trait SamsungUPNP {
             //echo $out."\n";
 
             socket_close($socket);
-            sleep(1);
+            IPS_Sleep(500);
     }
   
     
