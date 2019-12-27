@@ -931,7 +931,7 @@ class MySamsungTV extends IPSModule
                 $chIcon = "/Sender/3sat.png";
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
-                $str .= "<td width='auto'height='60px'><div><img src=$chIcon alt='not Found'></div></td>"; 
+                $str .= "<td width='auto'height='60px'><div><img src=$chIcon ></div></td>"; 
                 $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
                 $str .= "</td></tr>\n"; 
                 $str .= "<tr>"; 
