@@ -684,14 +684,21 @@ class MySamsungTV extends IPSModule
     --------------------------------------------------------------------------------
     return: none 
     --------------------------------------------------------------------------------
-    Status:   25.7.2018
+    Status:   25.7.2018 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function incVolume(){   
-        $actVol = $this->GetVolume_MTVA();
-        $this->SendDebug("incVolume ", $actVol,0);
-        $vol = intval($actVol) + 1;
-        $this->SendDebug("incVolume ", $vol,0);
-        $this->SetVolume_MTVA((string)$vol);
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_VOLUP';
+            $result =   $this->sendKey($key);  
+        }
+        else{
+            $actVol = $this->GetVolume_MTVA();
+            $this->SendDebug("incVolume ", $actVol,0);
+            $vol = intval($actVol) + 1;
+            $this->SendDebug("incVolume ", $vol,0);
+            $this->SetVolume_MTVA((string)$vol);
+        }
     
     }
     
@@ -707,15 +714,21 @@ class MySamsungTV extends IPSModule
     --------------------------------------------------------------------------------
     return: none 
     --------------------------------------------------------------------------------
-    Status:    25.7.2018
+    Status:    25.7.2018 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function decVolume(){   
-        $actVol = $this->GetVolume_MTVA();
-                $this->SendDebug("incVolume ", $actVol,0);
-        $vol = intval($actVol) - 1;
-                $this->SendDebug("incVolume ", $vol,0);
-        $this->SetVolume_MTVA((string)$vol);
-    
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_VOLDOWN';
+            $result =   $this->sendKey($key);  
+        }
+        else{
+            $actVol = $this->GetVolume_MTVA();
+                    $this->SendDebug("incVolume ", $actVol,0);
+            $vol = intval($actVol) - 1;
+                    $this->SendDebug("incVolume ", $vol,0);
+            $this->SetVolume_MTVA((string)$vol);
+        }
     }    
     
     
@@ -796,7 +809,7 @@ class MySamsungTV extends IPSModule
     Returns:  
      * $chName (string)
     --------------------------------------------------------------------------------
-    Status:   
+    Status:   27.12.2019 all OK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getChExtTVlist(string $ChName) {
         $this->SendDebug("TVProg ", "Lese Programmliste", 0);
@@ -1005,72 +1018,79 @@ class MySamsungTV extends IPSModule
      * [PROGNUM] =>  
      * -
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK  
+    Status:  17.07.2018 - OK  - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function buildChannelList() {
-        $chURL =  $this->GetChannelListURL_MTVA();
-        $url = $chURL["ChannelListURL"];
-        $input = file_get_contents($url);
-        $len = strlen($input);
-        $offset = 124;
-        $anzahl = floor($len / 124)-1;
-        $chlist = array();
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){ 
+            $chURL =  $this->GetChannelListURL_MTVA();
+            $url = $chURL["ChannelListURL"];
+            $input = file_get_contents($url);
+            $len = strlen($input);
+            $offset = 124;
+            $anzahl = floor($len / 124)-1;
+            $chlist = array();
 
-        for ($i = 0; $i <= $anzahl; $i++) {
-            $chlist[$i]['Kanal'] = rtrim(substr($input,16 + $i*$offset, 3));
-            $chlist[$i]['ChannelName'] = rtrim(substr($input,28 + $i*$offset, 20));
-         }
-         
-        $n = 0;
- 
+            for ($i = 0; $i <= $anzahl; $i++) {
+                $chlist[$i]['Kanal'] = rtrim(substr($input,16 + $i*$offset, 3));
+                $chlist[$i]['ChannelName'] = rtrim(substr($input,28 + $i*$offset, 20));
+            }
             
-        foreach($chlist as $ch) {
-            $kanal = $ch["Kanal"];
-            $name = $ch["ChannelName"];
-            // auf Kanal schalten und MainChannel XML auslesen
-            if(intval($kanal)<10){
-                $key = 'KEY_'.$kanal; 
-                $this->sendKey($key);
-                $key = 'KEY_ENTER';
-                $result =   $this->sendKey($key);   
-            }
-            elseif(intval($kanal)<100){
-                $key = 'KEY_'.substr($kanal,0,1); 
-                $this->sendKey($key);
-                $key = 'KEY_'.substr($kanal,1,1); 
-                $this->sendKey($key);
-                $key = 'KEY_ENTER';
-                $result =   $this->sendKey($key);   
-            }
-            else {
-                $key = 'KEY_'.substr($kanal,0,1); 
-                $this->sendKey($key);
-                $key = 'KEY_'.substr($kanal,1,1); 
-                $this->sendKey($key);
-                $key = 'KEY_'.substr($kanal,2,1); 
-                $this->sendKey($key);
-                $key = 'KEY_ENTER';
-                $result =   $this->sendKey($key);   
-            }
-            $mc = $this->GetCurrentMainTVChannel_MTVA();
-            $chlist[$n]['ChType'] = $mc['ChType'];
-            $chlist[$n]['MAJORCH'] = $mc['MAJORCH'];
-            $chlist[$n]['MINORCH'] = $mc['MINORCH'];
-            $chlist[$n]['PTC'] = $mc['PTC'];
-            $chlist[$n]['PROGNUM'] = $mc['PROGNUM'];
-            $chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>" ;
-            // search for icon
-            $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
-            $this->SendDebug("ChannelList ", $chlist[$n], 0);
-            $n = $n + 1;        
-            
-        } 
-        $chListSer = serialize($chlist);
-        setvalue($this->GetIDForIdent("TVchList"), $chListSer);
-        file_put_contents("/var/lib/symcon/media/channels.json",json_encode($chlist));
-        return  $chlist;
+            $n = 0;
+    
+                
+            foreach($chlist as $ch) {
+                $kanal = $ch["Kanal"];
+                $name = $ch["ChannelName"];
+                // auf Kanal schalten und MainChannel XML auslesen
+                if(intval($kanal)<10){
+                    $key = 'KEY_'.$kanal; 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                elseif(intval($kanal)<100){
+                    $key = 'KEY_'.substr($kanal,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                else {
+                    $key = 'KEY_'.substr($kanal,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,2,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                $mc = $this->GetCurrentMainTVChannel_MTVA();
+                $chlist[$n]['ChType'] = $mc['ChType'];
+                $chlist[$n]['MAJORCH'] = $mc['MAJORCH'];
+                $chlist[$n]['MINORCH'] = $mc['MINORCH'];
+                $chlist[$n]['PTC'] = $mc['PTC'];
+                $chlist[$n]['PROGNUM'] = $mc['PROGNUM'];
+                $chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>" ;
+                // search for icon
+                $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
+                $this->SendDebug("ChannelList ", $chlist[$n], 0);
+                $n = $n + 1;        
+                
+            } 
+            $chListSer = serialize($chlist);
+            setvalue($this->GetIDForIdent("TVchList"), $chListSer);
+            file_put_contents("/var/lib/symcon/media/channels.json",json_encode($chlist));
+            return  $chlist;
+        }
+        else{
+            return false;
+        }
     }    
         
+    
         
     //*****************************************************************************
     /* Function: Eigene Interne Funktionen.
