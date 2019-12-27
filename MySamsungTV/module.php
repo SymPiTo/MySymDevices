@@ -324,7 +324,7 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (Telnet = NOK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getChannel() {
-        $telnet = getvalue($this->GetIDForIdent("telnet"));
+        $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){
             $ch = $this->GetCurrentMainTVChannel_MTVA();
             $this->SendDebug("getChannel ", $ch['MAJORCH'], 0);
@@ -356,7 +356,7 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK   - (Telnet = NOK) 
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getCurrentChannelName() {
-        $telnet = getvalue($this->GetIDForIdent("telnet"));
+        $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){
             $ch = $this->GetCurrentMainTVChannel_MTVA();
             $such = $ch['MAJORCH'];
@@ -421,7 +421,7 @@ class MySamsungTV extends IPSModule
            setValue($this->GetIDForIdent("TVChannel"), $MajorCh);
            setValue($this->GetIDForIdent("TVchLName"), $ChName);
 
-           $telnet = getvalue($this->GetIDForIdent("telnet"));
+           $telnet = $this->ReadPropertyBoolean("telnet");
            if($telnet == false){  
                 //$this->SendDebug("send Telenet Command ", "KEY_".$MajorCh, 0); 
             
@@ -566,7 +566,7 @@ class MySamsungTV extends IPSModule
     Status:   - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getSourceList()  {
-        $telnet = getvalue($this->GetIDForIdent("telnet"));
+        $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){ 
             $result = $this->GetSourceList_MTVA();
     
@@ -609,7 +609,7 @@ class MySamsungTV extends IPSModule
     Status:   - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getCurrentSource()  {
-        $telnet = getvalue($this->GetIDForIdent("telnet"));
+        $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){ 
             $result = $this->GetCurrentExternalSource_MTVA();
             $source = $result['CurrentExternalSource'];
@@ -653,7 +653,7 @@ class MySamsungTV extends IPSModule
     Status:    - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function ToggleMute(){
-        $telnet = getvalue($this->GetIDForIdent("telnet"));
+        $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet){ 
             $key = 'KEY_MUTE';
             $result =   $this->sendKey($key);  
