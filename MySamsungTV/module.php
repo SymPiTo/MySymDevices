@@ -925,6 +925,7 @@ class MySamsungTV extends IPSModule
             //if(isset($searchArray['enclosure']) != true)  { 
             //   break; 
             //} 
+            
             if(array_key_exists('enclosure', $searchArray)) 
             {  
                 $chIcon1 = getvalue($this->GetIDForIdent("TVchIcon"));
