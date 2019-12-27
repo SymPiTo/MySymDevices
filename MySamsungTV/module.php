@@ -927,15 +927,16 @@ class MySamsungTV extends IPSModule
             //} 
             if(array_key_exists('enclosure', $searchArray)) 
             {  
+                $chIcon = getvalue($this->GetIDForIdent("TVchIcon"));
                 $image = $item['enclosure']['@attributes']['url']; 
-               $str .= "<table><tr>"; 
-               $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
-               $str .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
-               $str .= "</td></tr>\n"; 
-               $str .= "<tr>"; 
-               $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
-               $str .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$beschreibung</div>"; 
-               $str .= "</td></tr></table>\n"; 
+                $str .= "<table><tr>"; 
+                $str .= "<td width='auto'height='60px'><div><img src=$chIcon alt='not Found'></div></td>"; 
+                $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
+                $str .= "</td></tr>\n"; 
+                $str .= "<tr>"; 
+                $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
+                $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$beschreibung</div>"; 
+                $str .= "</td></tr></table>\n"; 
             } 
             else 
             { 
