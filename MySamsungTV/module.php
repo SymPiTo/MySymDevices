@@ -928,7 +928,7 @@ class MySamsungTV extends IPSModule
             if(array_key_exists('enclosure', $searchArray)) 
             {  
                 $chIcon1 = getvalue($this->GetIDForIdent("TVchIcon"));
-                $chIcon = "/Sender/3sat.png";
+                $chIcon = "/MySymDevices/MySamsungTV/Sender/3sat.png";
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
                 $str .= "<td width='auto'height='60px'><div><img src=$chIcon ></div></td>"; 
