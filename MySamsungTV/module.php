@@ -420,6 +420,7 @@ class MySamsungTV extends IPSModule
            $channel = "<Channel><ChType>".$ChType."</ChType><MajorCh>".$MajorCh."</MajorCh><MinorCh>".$MinorCh."</MinorCh><PTC>".$PTC."</PTC><ProgNum>".$ProgNum."</ProgNum></Channel>" ;
            setValue($this->GetIDForIdent("TVChannel"), $MajorCh);
            setValue($this->GetIDForIdent("TVchLName"), $ChName);
+           setValue($this->GetIDForIdent("TVChIcon"), $this->kernel()."images/Sender".$ChName.".png");
 
            $telnet = $this->ReadPropertyBoolean("telnet");
            if($telnet == false){  
@@ -927,11 +928,11 @@ class MySamsungTV extends IPSModule
             //} 
             if(array_key_exists('enclosure', $searchArray)) 
             {  
-                $chIcon1 = getvalue($this->GetIDForIdent("TVchIcon"));
-                $chIcon = "images/Sender/3sat.png";
+                $chIcon = getvalue($this->GetIDForIdent("TVchIcon"));
+                //$chIcon = "images/Sender/3sat.png";
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
-                $str .= "<td width='auto'height='60px'><div><img src=$chIcon ></div></td>"; 
+                $str .= "<td width='40px'height='40px'><div><img src=$chIcon  height='60' width='100px'></div></td>"; 
                 $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
                 $str .= "</td></tr>\n"; 
                 $str .= "<tr>"; 
