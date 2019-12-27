@@ -338,7 +338,7 @@ class MySamsungTV extends IPSModule
             return $channel;
         }
         else{
-            retun false;
+            return false;
         }
     } 
 
