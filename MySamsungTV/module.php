@@ -650,7 +650,7 @@ class MySamsungTV extends IPSModule
     --------------------------------------------------------------------------------
     return: none 
     --------------------------------------------------------------------------------
-    Status:   Telnet OK
+    Status:    - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function ToggleMute(){
         $telnet = getvalue($this->GetIDForIdent("telnet"));
