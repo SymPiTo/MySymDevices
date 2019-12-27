@@ -831,7 +831,7 @@ class MySamsungTV extends IPSModule
                 $ChName = "ProSieben MAXX";
                 break;
             case "ARD HD":
-                $ChName = "Das Erste";
+                $ChName = "Das_Erste";
                 break;
             case "ZDF HD":
                 $ChName = "ZDF";
@@ -930,7 +930,7 @@ class MySamsungTV extends IPSModule
             //} 
             if(array_key_exists('enclosure', $searchArray)) {  
                 $chIcon = "images/Sender/".$ChName.".png";
-                setvalue($this->GetIDForIdent("TVchIcon"),  $chIcon );
+                $this->SendDebug("TVProg: Channel Icon ", $chIcon, 0);
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
                 $str .= "<td width='40px'height='40px'><div><img src=$chIcon  height='60px' width='100px'></div></td>"; 
