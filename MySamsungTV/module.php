@@ -1023,7 +1023,7 @@ class MySamsungTV extends IPSModule
             else  { 
               continue; 
             } 
-            $f = '<script>function changeToCh() { var sender = "RTL"; send("func(STV_setChannelbyName, 44308," + sender + ")");   }</script>';
+            $f = '<script>window.parent.function changeToCh() { var sender = "RTL"; window.parent.send("func(STV_setChannelbyName, 44308," + sender + ")");   }</script>';
             
                 
                 
