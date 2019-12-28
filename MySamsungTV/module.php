@@ -1023,8 +1023,18 @@ class MySamsungTV extends IPSModule
             else  { 
               continue; 
             } 
-            $titelA = "<b style=color:lime;>".$item['title']."</b>"; 
+            $top = explode("|", $item['title']);
+            $zeit = $top[0];
+            $sender =  $top[1];
+            $titel =  $top[2];
 
+            $z = "<b style=color:lime;>".$zeit."</b>"; 
+            $s = "<b style=color:yellow;>".$sender."</b>"; 
+            $t = "<b style=color:lime;>".$zeit."</b>"; 
+            
+            //$titelA = "<b style=color:lime;>".titel."</b>"; 
+            $titelA =  $z. $s.$t;
+            
             if (is_string($item['description']))  { 
                 $beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
             } 
@@ -1045,7 +1055,7 @@ class MySamsungTV extends IPSModule
                 $imageA = $item['enclosure']['@attributes']['url']; 
                $strA .= "<tr>"; 
                //$strA .= "<td width='auto'height='80px'><div><img src=$imageA alt='not Found'></div></td>"; 
-               $strA .= "<td width='980px'><div style='text-align:left; margin-left:10px;'>$textA</div>"; 
+               $strA .= "<td width='500px'><div style='text-align:left; margin-left:10px;'>$textA</div>"; 
                $strA .= "</td></tr>\n"; 
             } 
             else 
