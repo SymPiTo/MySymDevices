@@ -226,7 +226,7 @@ class MySamsungTV extends IPSModule
             $ip = $this->ReadPropertyString('ip');
             $alive = Sys_Ping($ip, 1000);
                 $chName = getvalue($this->GetIDForIdent("TVchLName"));
-                $this->getChExtTVlist($chName);
+                //$this->getChExtTVlist($chName);
            if ($alive){
                $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
            }
@@ -835,7 +835,7 @@ class MySamsungTV extends IPSModule
                 break;
             case "ZDF HD":
                 $ChName = "ZDF";
-                $icon = "zdf.png";
+                $icon = "zdf hd.png";
                 break;
             case "RTL":
                 $ChName = "RTL";
@@ -930,7 +930,8 @@ class MySamsungTV extends IPSModule
             //   break; 
             //} 
             if(array_key_exists('enclosure', $searchArray)) {  
-                $chIcon = "images/Sender/".$icon;
+                
+                $chIcon = htmlentities("images/Sender/".$icon);
                  
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
