@@ -931,7 +931,7 @@ class MySamsungTV extends IPSModule
             //} 
             if(array_key_exists('enclosure', $searchArray)) {  
                 
-                $chIcon =  "images/Sender/".html_entity_decode($icon);
+                $chIcon =  "images/Sender/".str_replace(" ","%20", $icon);
                  
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
