@@ -1032,14 +1032,14 @@ class MySamsungTV extends IPSModule
             $sender =  $top[1];
             $titel =  $top[2];
 
-            $z = "<b style=color:lime;>".$zeit."</b>"; 
-            $s = "<b onclick='window.parent.changeToCh(";
+            $z = '<b style=color:lime;>'.$zeit.'</b>'; 
+            $s = '<b onclick="window.parent.changeToCh("';
             $s .=  $sender; 
-            $s .= ")' style=color:yellow;>".$sender."</b>"; 
-            $t = "<b style=color:red;>".$titel."</b>"; 
+            $s .= '")" style=color:yellow;>'.$sender.'</b>'; 
+            $t = '<b style=color:red;>'.$titel.'</b>'; 
             
             //$titelA = "<b style=color:lime;>".titel."</b>"; 
-            $titelA =  $z. $s.$t;
+            $titelA =  $z.$s.$t;
 
             if (is_string($item['description']))  { 
                 $beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
