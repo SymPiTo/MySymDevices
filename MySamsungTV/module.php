@@ -226,7 +226,7 @@ class MySamsungTV extends IPSModule
             $ip = $this->ReadPropertyString('ip');
             $alive = Sys_Ping($ip, 1000);
                 $chName = getvalue($this->GetIDForIdent("TVchLName"));
-                //$this->getChExtTVlist($chName);
+                $this->getChExtTVlist($chName);
            if ($alive){
                $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
            }
@@ -752,6 +752,8 @@ class MySamsungTV extends IPSModule
         if($telnet){ 
             $key = 'KEY_CHUP';
             $result =   $this->sendKey($key);  
+            $chName = getvalue($this->GetIDForIdent("TVchLName"));
+            $this->getChExtTVlist($chName);
         }
         else{
   
@@ -776,6 +778,8 @@ class MySamsungTV extends IPSModule
         if($telnet){ 
             $key = 'KEY_CHDOWN';
             $result =   $this->sendKey($key);  
+            $chName = getvalue($this->GetIDForIdent("TVchLName"));
+            $this->getChExtTVlist($chName);
         }
         else{
   
