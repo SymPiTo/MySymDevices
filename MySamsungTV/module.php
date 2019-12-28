@@ -1029,7 +1029,7 @@ class MySamsungTV extends IPSModule
             $titel =  $top[2];
 
             $z = "<b style=color:lime;>".$zeit."</b>"; 
-            $s = "<b onclick="changeToCh()" style=color:yellow;>".$sender."</b>"; 
+            $s = "<b onclick='changeToCh()' style=color:yellow;>".$sender."</b>"; 
             $t = "<b style=color:red;>".$titel."</b>"; 
             
             //$titelA = "<b style=color:lime;>".titel."</b>"; 
