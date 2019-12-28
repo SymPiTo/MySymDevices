@@ -1023,9 +1023,7 @@ class MySamsungTV extends IPSModule
             else  { 
               continue; 
             } 
-            $f = '<script>window.parent.function changeToCh() { var sender = "RTL"; window.parent.send("func(STV_setChannelbyName, 44308," + sender + ")");   }</script>';
-            
-                
+               
                 
          
 
@@ -1035,11 +1033,11 @@ class MySamsungTV extends IPSModule
             $titel =  $top[2];
 
             $z = "<b style=color:lime;>".$zeit."</b>"; 
-            $s = "<b onclick='changeToCh()' style=color:yellow;>".$sender."</b>"; 
+            $s = "<b onclick='window.parent.changeToCh()' style=color:yellow;>".$sender."</b>"; 
             $t = "<b style=color:red;>".$titel."</b>"; 
             
             //$titelA = "<b style=color:lime;>".titel."</b>"; 
-            $titelA =  $f.$z. $s.$t;
+            $titelA =  $z. $s.$t;
 
             if (is_string($item['description']))  { 
                 $beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
