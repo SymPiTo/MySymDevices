@@ -1039,10 +1039,11 @@ class MySamsungTV extends IPSModule
             $t = '<b style=color:red;>'.$titel.'</b>'; 
             
             //$titelA = "<b style=color:lime;>".titel."</b>"; 
-            $titelA =  $z.$s;
+            $titelA =  $z.$s.$t;
 
             if (is_string($item['description']))  { 
-                $beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
+                //$beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
+                $beschreibungA = "<small></small>"; 
             } 
             else  { 
               $beschreibungA = "<small></small>"; 
