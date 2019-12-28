@@ -835,7 +835,7 @@ class MySamsungTV extends IPSModule
                 break;
             case "ZDF HD":
                 $ChName = "ZDF";
-                $chicon = "zdf hd.png";
+                $icon = "zdf.png";
                 break;
             case "RTL":
                 $ChName = "RTL";
@@ -930,7 +930,7 @@ class MySamsungTV extends IPSModule
             //   break; 
             //} 
             if(array_key_exists('enclosure', $searchArray)) {  
-                $chIcon = "images/Sender/".$Chicon;
+                $chIcon = "images/Sender/".$icon;
                  
                 $image = $item['enclosure']['@attributes']['url']; 
                 $str .= "<table><tr>"; 
