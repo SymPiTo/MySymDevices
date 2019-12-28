@@ -826,12 +826,15 @@ class MySamsungTV extends IPSModule
         switch ($ChName) {
             case "COMEDY CENTRAL":
                 $ChName = "COMEDY CENTRAL";
+                $icon = "comedy central us.png";
                 break;
             case "PRO7MAXX":
                 $ChName = "ProSieben MAXX";
+                $icon = "pro sieben maxx.png";
                 break;
             case "ARD HD":
                 $ChName = "Das Erste";
+                $icon = "Das Erste HD.png";
                 break;
             case "ZDF HD":
                 $ChName = "ZDF";
@@ -839,53 +842,70 @@ class MySamsungTV extends IPSModule
                 break;
             case "RTL":
                 $ChName = "RTL";
+                $icon = "rtl.png";
                 break;
             case "SAT1":
                 $ChName = "SAT.1";
+                $icon = "sat1.png";
                 break;
             case "PRO7":
                 $ChName = "ProSieben";
+                $icon = "ProSieben.png";
                 break;
             case "KABEL1":
                 $ChName = "kabel eins";
+                $icon = "kabel eins.png";
                 break;
             case "RTL2":
                 $ChName = "RTL II";
+                $icon = "rtl2.png";
                 break;
             case "VOX":
                 $ChName = "VOX";
+                $icon = "vox.png";
                 break;
             case "TELE5":
                 $ChName = "TELE 5";
+                $icon = "Tele 5.png";
                 break;
             case "3sat":
                 $ChName = "3sat";
+                $icon = "3sat.png";
                 break;
             case "ARTE HD":
                 $ChName = "ARTE";
+                $icon = "arte.png";
                 break;
             case "ZDF neo HD":
                 $ChName = "ZDFneo";
+                $icon = "zdf neo hd.png";
                 break;
             case "ONE HD":
                 $ChName = "ONE";
+                $icon = "One HD.png";
                 break;
             case "Servus TV":
                 $ChName = "ServusTV Deutschland";
+                $icon = "servus tv.png";
                 break;
             case "Nitro":
                 $ChName = "NITRO";
+                $icon = "";
                 break;
             case "DMAX":
                 $ChName = "DMAX";
+                $icon = "dmax.png";
                 break;
             case "SIXX":
                 $ChName = "sixx";
+                $icon = "sixx.png";
                 break;
             case "SAT1GOLD":
                 $ChName = "SAT.1 Gold";
+                $icon = "sat1 gold.png";
                 break;
             default:
+                $icon = "leer.png";
                 break;
         }
 
