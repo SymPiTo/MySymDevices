@@ -1006,7 +1006,7 @@ class MySamsungTV extends IPSModule
                 $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
                 $str .= "</td></tr>\n"; 
                 $str .= "<tr>"; 
-                $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'></div></td>"; 
+                $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'  align='top'></div></td>"; 
                 $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$beschreibung</div>"; 
                 $str .= "</td></tr></table>\n"; 
             } 
