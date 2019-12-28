@@ -1030,11 +1030,11 @@ class MySamsungTV extends IPSModule
 
             $z = "<b style=color:lime;>".$zeit."</b>"; 
             $s = "<b style=color:yellow;>".$sender."</b>"; 
-            $t = "<b style=color:lime;>".$zeit."</b>"; 
+            $t = "<b style=color:lime;>".$titel."</b>"; 
             
             //$titelA = "<b style=color:lime;>".titel."</b>"; 
             $titelA =  $z. $s.$t;
-            
+
             if (is_string($item['description']))  { 
                 $beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
             } 
@@ -1061,7 +1061,8 @@ class MySamsungTV extends IPSModule
             else 
             { 
                $strA .= "<tr>"; 
-               $strA .= "<td></td><td width='980px'><div style='text-align:left; margin-left:10px;'>$textA</div></td>"; 
+               //$strA .= "<td></td><td width='980px'><div style='text-align:left; margin-left:10px;'>$textA</div></td>"; 
+               $strA .= "<td width='500px'><div style='text-align:left; margin-left:10px;'>$textA</div></td>"; 
                $strA .= "</tr>\n"; 
             } 
             
