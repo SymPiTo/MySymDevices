@@ -167,7 +167,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             }
         }
  
-        public function RequestAction($Ident, $Value) {
+        public function RequestAction(string $Ident, string $Value) {
             switch($Ident) {
                 case "CeolPower":
                     //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
@@ -477,7 +477,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
- 	Public function Navigate($Direction){
+ 	Public function Navigate(string $Direction){
 		$host = $this->ReadPropertyString('IPAddress');
 		$url = "http://$host:80/goform/formiPhoneAppNetAudioCommand.xml?";
 		switch($Direction){
@@ -534,7 +534,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/        
-	Public function SetPower($status){
+	Public function SetPower(string $status){
 		$host = $this->ReadPropertyString('IPAddress');
 		$url = "http://$host:80/goform/formiPhoneAppPower.xml";
 		if ($status == "On"){
@@ -573,7 +573,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-06 -03
 	//////////////////////////////////////////////////////////////////////////////*/	
-	Public function SelectSource($Source){
+	Public function SelectSource(string $Source){
             switch ($Source){
 		case 'Radio':
                     $command = "SIIRADIO";
@@ -963,7 +963,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	--------------------------------------------------------------------------------
 	Status:  14.7.2018 checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function loadPlaylist(string $AlbumNo, $Media){	
+	public function loadPlaylist(string $AlbumNo, string $Media){	
             $this->SendDebug('Send','lade Play Liste' , 0);
             $Server = $this->getvalue("Ceol_ServerName");
             $PlaylistName = $Server.$AlbumNo;
@@ -1551,7 +1551,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	--------------------------------------------------------------------------------
 	Status: not implemented
 	//////////////////////////////////////////////////////////////////////////////*/ 
-        public function PlayFile($file){
+        public function PlayFile(string $file){
    
 
            // $positionInfo       = $ceol->GetPositionInfo();
