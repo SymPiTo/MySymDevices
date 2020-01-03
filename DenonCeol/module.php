@@ -308,7 +308,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                         case "IRADIO":
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 0);
                             //ArtistPicture suchen
-                            $artistTitel = getvalue($this->GetIDForIdent("CeolSZ2"));
+                            $artistTitel = $this->getvalue("CeolSZ2");
                             $dispLine2 = explode(" - ", $artistTitel);
                             $this->SendDebug("Line 2 array: ", $dispLine2, 0);
                             
@@ -326,26 +326,26 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                 }
                             }else{
                                 //take Radio station image as url
-                                $StationNo = getvalue($this->GetIDForIdent("CeolFavChannel"));
+                                $StationNo = $this->getvalue("CeolFavChannel");
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
                                 $url = "images/RadioStation/".$Station.".png";
                                 SetValue($this->GetIDForIdent("Ceol_AlbumArtUri"), $url);
                             }    
                             
                             if (isset($dispLine2[0])){
-                                setvalue($this->GetIDForIdent("Ceol_Artist"), $dispLine2[0]);
+                                $this->setvalue("Ceol_Artist", $dispLine2[0]);
                             }
                             if (isset($dispLine2[1])){
-                                setvalue($this->GetIDForIdent("Ceol_Title"), $dispLine2[1]);
+                                $this->setvalue("Ceol_Title", $dispLine2[1]);
                             }   
                             
-                            setvalue($this->GetIDForIdent("Ceol_Album"), getvalue($this->GetIDForIdent("CeolSZ3")));
+                            $this->setvalue("Ceol_Album", $this->getvalue("CeolSZ3"));
                         
                         break;	
                         case "SERVER":
                             SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
-                            $MediaNo = substr(getvalue($this->GetIDForIdent("Ceol_PlaylistName")), -4);
-                            if(getvalue($this->GetIDForIdent("Ceol_Genre"))=== 'AudioBook'){
+                            $MediaNo = substr($this->getvalue("Ceol_PlaylistName"), -4);
+                            if($this->getvalue("Ceol_Genre")=== 'AudioBook'){
                                 $url = "AudioBooks/".$MediaNo.".jpg";
                                 SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
                             }
@@ -625,7 +625,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/	
 	Public function IncVolume(){
-            $MasterVolume = getvalue($this->GetIDForIdent("CeolVolume")) + 1;
+            $MasterVolume = $this->getvalue("CeolVolume") + 1;
             if($MasterVolume < -65){
                 SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
                 $this->send_cmd('MVUP');
@@ -638,7 +638,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	}	
 	
 	Public function DecVolume(){	
-            $MasterVolume = getvalue($this->GetIDForIdent("CeolVolume")) - 1;
+            $MasterVolume = $this->getvalue("CeolVolume") - 1;
             if($MasterVolume > -80){
                 SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
                 $this->send_cmd('MVDOWN');
@@ -926,7 +926,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 		//IPSLog("Starte Funktion : ", 'setServer');
 		$which_key = "FriendlyName";
 		$which_value = $serverName;
-		$array = getvalue($this->GetIDForIdent("Ceol_ServerArray"));
+		$array = $this->getvalue("Ceol_ServerArray");
 		$Server_Array = unserialize($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
 
@@ -938,13 +938,13 @@ o                    http://192.168.2.99/img/album%20art_S.png
 		$ServerContentDirectory     = $Server_Array[$key]['ServerContentDirectory'];
 		$ServerActiveIcon           = $Server_Array[$key]['ServerActiveIcon'];
 		$ServerIconURL              = $Server_Array[$key]['IconURL'];
-		SetValue($this->GetIDForIdent("Ceol_ServerIP"), $ServerIP);
-		SetValue($this->GetIDForIdent("Ceol_ServerPort"), $ServerPort);
-		SetValue($this->GetIDForIdent("Ceol_ServerName"), $friendlyName);
-		setvalue($this->GetIDForIdent("Ceol_ServerKey"), $key);
+		$this->SetValue("Ceol_ServerIP", $ServerIP);
+		$this->SetValue("Ceol_ServerPort", $ServerPort);
+		$this->SetValue("Ceol_ServerName", $friendlyName);
+		$this->SetValue("Ceol_ServerKey", $key);
 		//SetValue(UPNP_Server_ServiceType, $ServerServiceType);
-		SetValue($this->GetIDForIdent("Ceol_ServerContentDirectory"), $ServerContentDirectory);
-		SetValue($this->GetIDForIdent("Ceol_ServerIcon"), $ServerIconURL);
+		$this->SetValue("Ceol_ServerContentDirectory", $ServerContentDirectory);
+		$this->SetValue("Ceol_ServerIcon", $ServerIconURL);
 		return $key;
 	}   
  
@@ -965,9 +965,9 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function loadPlaylist(string $AlbumNo, $Media){	
             $this->SendDebug('Send','lade Play Liste' , 0);
-            $Server = getvalue($this->GetIDForIdent("Ceol_ServerName"));
+            $Server = $this->getvalue("Ceol_ServerName");
             $PlaylistName = $Server.$AlbumNo;
-            setvalue($this->GetIDForIdent("Ceol_PlaylistName"), $PlaylistName);
+            $this->setvalue("Ceol_PlaylistName", $PlaylistName);
             $PlaylistFile = $PlaylistName.'.xml';
 
             switch ($Media) {
@@ -983,9 +983,9 @@ o                    http://192.168.2.99/img/album%20art_S.png
             }
             
             // Playlist abspeichern
-            setvalue($this->GetIDForIdent("Ceol_Playlist_XML"), $Playlist);
+            $this->setvalue("Ceol_Playlist_XML", $Playlist);
             // neue Playlist wurde geladen - TrackNo auf 0 zurücksetzen
-            setvalue($this->GetIDForIdent("Ceol_Track"), 1);
+            $this->setvalue("Ceol_Track", 1);
 
             $vars 				= explode(".", $PlaylistFile);
             $PlaylistName 			= $vars[0];
@@ -1012,15 +1012,15 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function play(){	
                 
-		$Playlist   = getvalue($this->GetIDForIdent("Ceol_Playlist_XML"));
+		$Playlist   = $this->getvalue("Ceol_Playlist_XML");
 		
 		$xml = new SimpleXMLElement($Playlist);
 		$tracks = $xml->count();
-		setvalue($this->GetIDForIdent("Ceol_NoTracks"),$tracks);
- 		$TrackNo = getvalue($this->GetIDForIdent("Ceol_Track"));
+		$this->setvalue("Ceol_NoTracks",$tracks);
+ 		$TrackNo = $this->getvalue("Ceol_Track");
                 if ($TrackNo < 1){
                     $TrackNo = 1;
-                    setvalue($this->GetIDForIdent("Ceol_Track"), 1);
+                    $this->setvalue("Ceol_Track", 1);
                 }
 		$track = ("Track".strval($TrackNo-1));
 			
@@ -1033,7 +1033,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
                 $this->SendDebug("PLAY ", 'Timer Position Deaktivieren', 0);
                  //Transport zuruecksetzen  wenn Media Stream verlinkt
                             $TransStatus = $this->GetTransportInfo_AV();                       
-                            setvalue($this->GetIDForIdent("Ceol_Transport_Status"), $TransStatus); 
+                            $this->setvalue("Ceol_Transport_Status", $TransStatus); 
                 if ($TransStatus != 'NO_MEDIA_PRESENT') {          
                     $this->Stop_AV();
                 }    
@@ -1041,12 +1041,12 @@ o                    http://192.168.2.99/img/album%20art_S.png
                 $this->SetAVTransportURI_AV((string) $res, (string) $metadata);
                 $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);              
                             $TransStatus = $this->GetTransportInfo_AV();                       
-                            setvalue($this->GetIDForIdent("Ceol_Transport_Status"), $TransStatus); 
+                            $this->setvalue("Ceol_Transport_Status", $TransStatus); 
 		//Stream ausführen	
 		$this->Play_AV();
                 $this->SendDebug("PLAY ", 'Play_AV', 0);
                             $TransStatus = $this->GetTransportInfo_AV();                       
-                            setvalue($this->GetIDForIdent("Ceol_Transport_Status"), $TransStatus);               
+                            $this->setvalue("Ceol_Transport_Status", $TransStatus);               
 
                 IPS_Sleep(2000);
 		// Postion Timer starten                 
@@ -1068,11 +1068,11 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function PlayNextTrack(){	
-            $track 	= getvalue($this->GetIDForIdent("Ceol_Track"));
+            $track 	= $this->getvalue("Ceol_Track");
             $this->SendDebug("PlayNextTrack ", $track, 0);
-            setvalue($this->GetIDForIdent("Ceol_Track"),$track+1);
+            $this->setvalue("Ceol_Track",$track+1);
             $trackNo 	= ("Track".strval($track));
-            $Playlist 	= getvalue($this->GetIDForIdent("Ceol_Playlist_XML"));
+            $Playlist 	= $this->getvalue("Ceol_Playlist_XML");
             $xml = new SimpleXMLElement($Playlist);
 
             $res = $xml->$trackNo->resource; // gibt resource des Titels aus
@@ -1106,9 +1106,9 @@ o                    http://192.168.2.99/img/album%20art_S.png
             /*Stram stoppen--------------------------------------------------------*/
             $this->Stop_AV();
             //Track Zähler auf Anfang zurücksetzen
-            setvalue($this->GetIDForIdent("Ceol_Track"), 0);
+            $this->setvalue("Ceol_Track", 0);
             //Transport Status zurücksetzen auf Anfang zurücksetzen
-            setvalue($this->GetIDForIdent("Ceol_Transport_Status"), '');
+            $this->setvalue("Ceol_Transport_Status", '');
          
 	}
 	
@@ -1142,7 +1142,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
         //////////////////////////////////////////////////////////////////////////////*/
 	public function next()
 	{	
-		$Playlist = getvalue($this->GetIDForIdent("Ceol_Playlist_XML"));
+		$Playlist = $this->getvalue("Ceol_Playlist_XML");
 		$xml = new SimpleXMLElement($Playlist);
 		//$count = count($xml->children()); 
 		//IPSLog("Anzahl XML Elemente : ", $count);
@@ -1174,7 +1174,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	public function previous()
 	{	
 	
-		$Playlist = getvalue($this->GetIDForIdent("Ceol_Playlist_XML"));
+		$Playlist = $this->getvalue("Ceol_Playlist_XML");
 		$xml = new SimpleXMLElement($Playlist);
 		$SelectedFile = GetValue($this->GetIDForIdent("Ceol_Track")); 
 		$track = ("Track".($SelectedFile-1));
@@ -1199,7 +1199,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
         //////////////////////////////////////////////////////////////////////////////*/
 	public function seekForward(){	
  
-            $postime = getvalue($this->GetIDForIdent("Ceol_RelTime"));
+            $postime = $this->getvalue("Ceol_RelTime");
             $seconds = 20;
             $time_now = "00:00:00.000";
             $this->SendDebug('seekForward', $postime, 0);
@@ -1220,7 +1220,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
             none.
         //////////////////////////////////////////////////////////////////////////////*/
 	public function seekBackward(){	
-            $postime = getvalue($this->GetIDForIdent("Ceol_RelTime"));
+            $postime = $this->getvalue("Ceol_RelTime");
             $seconds = 20;
             $time_now = "00:00:00.000";
             $this->SendDebug('seekForward', $postime, 0);
@@ -1242,7 +1242,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	--------------------------------------------------------------------------------
 	Status:   checked 5.7.2018  nur für TV und MusikPal CEOL funktiniert nicht
         //////////////////////////////////////////////////////////////////////////////*/
-	public function seekPos(integer $Seek){	
+	public function seekPos(int $Seek){	
             $GetPositionInfo = $this->GetPositionInfo_AV();
             $Duration = $GetPositionInfo['TrackDuration'];
             $duration = explode(":", $Duration);
@@ -1281,7 +1281,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 			bei "PLAYING" -> GetPositionInfo -> Progress wird angezeigt
 			bei "STOPPED" -> nächster Titel wird aufgerufen
 			/*///////////////////////////////////////////////////////////////////////////
-			$Playlist = getvalue($this->GetIDForIdent("Ceol_Playlist_XML"));
+			$Playlist = $this->getvalue("Ceol_Playlist_XML");
 			$xml = new SimpleXMLElement($Playlist);
                         $TNo = GetValue($this->GetIDForIdent("Ceol_Track"));
                         $this->SendDebug("GetPosInfo ", 'Track Nummer '.$TNo, 0);
@@ -1299,10 +1299,10 @@ o                    http://192.168.2.99/img/album%20art_S.png
                             //$this->IPSLog("Playmode Array", $PlayMode); 
                             $this->SendDebug("GetPosInfo ", 'Playmode: '.$PlayModeIndex , 0);
 
-                            setvalue($this->GetIDForIdent("Ceol_PlayMode"), $PlayModeIndex);
+                            $this->setvalue("Ceol_PlayMode", $PlayModeIndex);
                             /* Transport Status abfragen */
                             $TransStatus = $this->GetTransportInfo_AV();                       
-                            setvalue($this->GetIDForIdent("Ceol_Transport_Status"), $TransStatus);
+                            $this->setvalue("Ceol_Transport_Status", $TransStatus);
                              $this->SendDebug("GetPosInfo ", 'Transport Status abfragen: '.$TransStatus , 0);
                             //Transport Status auswerten.
                             switch ($TransStatus){
@@ -1312,20 +1312,20 @@ o                    http://192.168.2.99/img/album%20art_S.png
                                 case 'NO_MEDIA_PRESENT':
                                     $this->SetTimerInterval('Ceol_PlayInfo', 0);  // DeAktivert Ereignis
                                     $this->SendDebug("GetPosInfo ", 'Timer Position Deaktivieren weil NO MEDIA', 0);
-                                    setvalue($this->GetIDForIdent("Ceol_Progress"),0);
-                                    setvalue($this->GetIDForIdent("Ceol_Track"),0);
+                                    $this->setvalue("Ceol_Progress",0);
+                                    $this->setvalue("Ceol_Track",0);
                                     break;
                                 case 'STOPPED':
-                                    $lastTrack = getvalue($this->GetIDForIdent("Ceol_Track"));
-                                    $maxTrack = getvalue($this->GetIDForIdent("Ceol_NoTracks"));
+                                    $lastTrack = $this->getvalue("Ceol_Track");
+                                    $maxTrack = $this->getvalue("Ceol_NoTracks");
                                     if ($lastTrack > 0  AND $lastTrack < $maxTrack){
                                             $this->PlayNextTrack();		
                                     }
                                     else {
                                         $this->SetTimerInterval('Ceol_PlayInfo', 0);  // DeAktivert Ereignis
                                         $this->SendDebug("GetPosInfo ", 'Timer Position Deaktivieren weil STOPPED und TRACK = 0', 0);
-                                        setvalue($this->GetIDForIdent("Ceol_Progress"),0);
-                                        setvalue($this->GetIDForIdent("Ceol_Track"),0);
+                                        $this->setvalue("Ceol_Progress",0);
+                                        $this->setvalue("Ceol_Track",0);
                                     }
                                     break;
                                 case 'PLAYING':
@@ -1381,9 +1381,9 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $PositionInfo = $this->GetPositionInfo_AV();
             $this->SendDebug("GetPositionInfo_AV ", $PositionInfo , 0); 
             $Duration = (string) $PositionInfo['TrackDuration']; //Duration
-            setvalue($this->GetIDForIdent("Ceol_TrackDuration"), (string) $Duration);           
+            $this->setvalue("Ceol_TrackDuration", (string) $Duration);           
             $RelTime = (string) $PositionInfo['RelTime']; //RelTime
-            setvalue($this->GetIDForIdent("Ceol_RelTime"), (string) $RelTime);          
+            $this->setvalue("Ceol_RelTime", (string) $RelTime);          
             //$this->SendDebug("progress ", ' GetRelTIME PositionInfo: '.$RelTime, 0);
             /*
             $TrackMeta = (string) $GetPositionInfo['TrackMetaData'];
@@ -1401,14 +1401,14 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $date = (string)$didlXml->item[0]->xpath('dc:date')[0];
             */
                                 
-            setvalue($this->GetIDForIdent("Ceol_Artist"),  $PositionInfo["artist"]);
-            setvalue($this->GetIDForIdent("Ceol_Title"),  $PositionInfo["title"]);
-            setvalue($this->GetIDForIdent("Ceol_Album"),  $PositionInfo["album"]);		
+            $this->setvalue("Ceol_Artist",  $PositionInfo["artist"]);
+            $this->setvalue("Ceol_Title",  $PositionInfo["title"]);
+            $this->setvalue("Ceol_Album",  $PositionInfo["album"]);		
             //setvalue($this->GetIDForIdent("Ceol_TrackNo"),  $PositionInfo["TrackNo"]);
             
             //setvalue($this->GetIDForIdent("Ceol_Actor"),  $PositionInfo["album"]);
-            setvalue($this->GetIDForIdent("Ceol_Date"),  $PositionInfo["album"]);
-            setvalue($this->GetIDForIdent("Ceol_AlbumArtUri"), $PositionInfo["albumArtURI"]);
+            $this->setvalue("Ceol_Date",  $PositionInfo["album"]);
+            $this->setvalue("Ceol_AlbumArtUri", $PositionInfo["albumArtURI"]);
             //setvalue($this->GetIDForIdent("Ceol_Genre"),  $PositionInfo["genre"]);
                 function get_time_difference($Duration, $RelTime){
                         $duration = explode(":", $Duration);
@@ -1455,7 +1455,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	/* **************************************************************************** */
 	public function discoverServer(){
 		$ST_MS = "urn:schemas-upnp-org:device:MediaServer:1";
- 			setvalue($this->GetIDForIdent("Ceol_ServerArray"), '');
+        $this->setvalue("Ceol_ServerArray", '');
 			$SSDP_Search_Array = $this->mSearch($ST_MS);
 			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
 			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
