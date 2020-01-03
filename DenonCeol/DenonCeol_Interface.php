@@ -193,7 +193,7 @@ trait CEOLupnp
 					
 	Rückgabewert: 	 Integer Wert 0 - x 
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function GetVolume_AV($channel = 'Master')
+	  public function GetVolume_AV(string $channel = 'Master')
 	  {
 	    return (int)$this->processSoapCall("/RenderingControl/ctrl",
 
@@ -525,7 +525,7 @@ trait CEOLupnp
 	return: nur Fehler Code
 	Status: not checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function SetAVTransportURI_AV($file, $MetaData){	
+	public function SetAVTransportURI_AV( $file, string $MetaData){	
 	    return $this->processSoapCall("/AVTransport/ctrl",
 	
 	                           "urn:schemas-upnp-org:service:AVTransport:1",
@@ -559,7 +559,7 @@ trait CEOLupnp
 	return: nur Fehler Code
 	Status: not checked
 	/////////////////////////////////////////////////////////////////////////////*/
-	public function SetNextAVTransportURI_AV($file_next, $MetaData_next){
+	public function SetNextAVTransportURI_AV($file_next, string $MetaData_next){
 	    return $this->processSoapCall("/AVTransport/ctrl",
 	
 	                           "urn:schemas-upnp-org:service:AVTransport:1",
@@ -590,7 +590,7 @@ trait CEOLupnp
  	
 	Rückgabewert: 	none
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function SetMute_AV($mute)
+	  public function SetMute_AV(string $mute)
 	  {
 	    $this->processSoapCall("/RenderingControl/ctrl",
 
@@ -624,7 +624,7 @@ trait CEOLupnp
  	
 	Rückgabewert: 	none
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function SetPlayMode_AV($mode)
+	Protected function SetPlayMode_AV(string $mode)
 	  {
 	    $this->processSoapCall("/AVTransport/ctrl",
 
@@ -659,7 +659,7 @@ trait CEOLupnp
 				
 	Rückgabewert: 	Fehler Code
 	//////////////////////////////////////////////////////////////////////////////*/	
-	  Protected function processSoapCall($path,$uri,$action,$parameter)
+	  Protected function processSoapCall(string $path, string $uri,string $action, array $parameter)
 	  {
 	    try{
 		$ip = $this->ReadPropertyString('IPAddress');
@@ -704,7 +704,7 @@ trait CEOLupnp
 				
 	Rückgabewert: 	Fehler Code
 	//////////////////////////////////////////////////////////////////////////////*/
-	  private function resolveErrorCode($path,$errorCode)
+	  private function resolveErrorCode(string $path, $errorCode)
 
 	  {
 
@@ -827,7 +827,7 @@ trait CEOLupnp
 					 
 	Rückgabewert: 	 $xml
 	//////////////////////////////////////////////////////////////////////////////*/		
-	Protected function send_cmd($cmd){
+	Protected function send_cmd(string $cmd){
  		$ip = $this->ReadPropertyString('IPAddress');
 		$url = "http://$ip:80/goform/formiPhoneAppDirect.xml";
 		
