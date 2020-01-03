@@ -167,7 +167,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             }
         }
  
-        public function RequestAction(string $Ident, string $Value) {
+        public function RequestAction($Ident, $Value) {
             switch($Ident) {
                 case "CeolPower":
                     //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
