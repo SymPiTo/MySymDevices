@@ -962,7 +962,19 @@ class MySamsungTV extends IPSModule
 
 // AB HIER NICHTS MEHR ÄNDERN 
 //////IPS_SetScriptTimer($_IPS['SELF'], $refreshtime); 
-        $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA); 
+        try {
+            $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA); 
+            if($xml == false){
+                throw new Exception('TV Spielfim Guide Liste kann nicht geladen werden.');
+            }
+            
+        } 
+        catch (Exception $e) {
+            $this->SendDebug('TV Spielfilm Guide: ',  $e->getMessage(), 0);
+            return false;
+        }
+        
+
         $str =  "<table width='auto'>"; 
         $strA =  "<table width='auto'>"; 
     // Datenausgabe 
