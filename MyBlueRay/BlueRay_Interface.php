@@ -529,7 +529,7 @@ trait BlueRay_Interface {
     --------------------------------------------------------------------------------
     Status:  18.07.2018 - OK
     //////////////////////////////////////////////////////////////////////////////*/    
-    public function SetVolume_RC(integer $volume, $channel = 'Master'){
+    public function SetVolume_RC(int $volume, $channel = 'Master'){
         $this->processSoapCall("/control/RenderingControl",
 
                                "urn:schemas-upnp-org:service:RenderingControl:1",
@@ -700,36 +700,6 @@ trait BlueRay_Interface {
     }
     
  
-    //*****************************************************************************
-    /* Function: ListPresets_RC()
-    ...............................................................................
-       
-    ...............................................................................
-    Parameters: 
-     * none
-     *
-    --------------------------------------------------------------------------------
-    Returns: 
-        <CurrentVolume>0</CurrentVolume>
-
-    --------------------------------------------------------------------------------
-    Status:  
-    //////////////////////////////////////////////////////////////////////////////*/    
-    public function ListPresets_RC( string $channel = 'Master'){
-        $this->processSoapCall("/control/RenderingControl",
-
-                               "urn:schemas-upnp-org:service:RenderingControl:1",
-
-                               "ListPresets",
-
-                               array(
-
-                                      new SoapParam("0"     ,"InstanceID"   )
-
-
-                                    ));
-
-    }   
     
     
     //*****************************************************************************
