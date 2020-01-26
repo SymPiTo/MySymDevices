@@ -35,7 +35,9 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->RegisterPropertyString("IPAddress", "");
             $this->RegisterPropertyInteger("UpdateInterval", 5000);
            
-            
+            // Register Profiles
+            $this->RegisterProfiles();
+
             //Status Variable anlegen
             $variablenID = $this->RegisterVariableInteger("CeolSource", "Source", "");
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -159,8 +161,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             // Diese Zeile nicht löschen
             parent::ApplyChanges();
 
-                    // Register Profiles
-        $this->RegisterProfiles();
+
 
             if($this->ReadPropertyBoolean("active")){
                 $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval"));
