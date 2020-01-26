@@ -141,7 +141,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayStatus"), "Media_Status");
-            
+
             // Objekte unsichbar machen in webfront
             IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
             IPS_SetHidden($this->GetIDForIdent("Ceol_ServerContentDirectory"), true); //Objekt verstecken
@@ -1808,6 +1808,24 @@ ______________________________________________________________________
         $Assoc[6]['text'] = "Rewind";
         $Assoc[7]['text'] = "StartOver";
         $Assoc[8]['text'] = "Stop";
+        $Assoc[0]['icon'] = NULL;
+        $Assoc[1]['icon'] = NULL;
+        $Assoc[2]['icon'] = NULL;
+        $Assoc[3]['icon'] = NULL;
+        $Assoc[4]['icon'] = NULL;
+        $Assoc[5]['icon'] = NULL;
+        $Assoc[6]['icon'] = NULL;
+        $Assoc[7]['icon'] = NULL;
+        $Assoc[8]['icon'] = NULL;
+        $Assoc[0]['color'] = "transparent";
+        $Assoc[1]['color'] = "transparent";
+        $Assoc[2]['color'] = "transparent";
+        $Assoc[3]['color'] = "transparent";
+        $Assoc[4]['color'] = "transparent";
+        $Assoc[5]['color'] = "transparent";
+        $Assoc[6]['color'] = "transparent";
+        $Assoc[7]['color'] = "transparent";
+        $Assoc[8]['color'] = "transparent"; 
         $Name = "Media_Status";
         $Vartype = 1;
         $Icon = NULL;
