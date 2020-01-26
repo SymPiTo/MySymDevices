@@ -118,6 +118,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $variablenID = $this->RegisterVariableString("Ceol_TrackDuration", "TrackDuration");
             IPS_SetInfo ($variablenID, "WSS"); 
             
+
+
             // Aktiviert die Standardaktion der Statusvariable im Webfront
             $this->EnableAction("CeolPower");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolPower"), "~Switch");
@@ -156,7 +158,10 @@ require_once(__DIR__ . "/DiscoverTrait.php");
         public function ApplyChanges() {
             // Diese Zeile nicht löschen
             parent::ApplyChanges();
-            
+
+                    // Register Profiles
+        $this->RegisterProfiles();
+
             if($this->ReadPropertyBoolean("active")){
                 $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval"));
                 $this->CeolInit();
@@ -1706,8 +1711,170 @@ o                    http://192.168.2.99/img/album%20art_S.png
             }
         } 
         
-    } // Ende Klasse
+
     
 
-                                      
+/*       
+    _______________________________________________________________________
+    Section: Private Funtions
+    Die folgenden Funktionen sind nur zur internen Verwendung verfügbar
+    Hilfsfunktionen
+______________________________________________________________________
+*/ 
+    /* ----------------------------------------------------------------------------
+    Function: createProfile
+    ...............................................................................
+    Erstellt ein neues Profil und ordnet es einer Variablen zu.
+    ...............................................................................
+    Parameters: 
+        $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype, $VarIdent, $Assoc
+     * $Vartype: 0 boolean, 1 int, 2 float, 3 string,
+     * $Assoc: array mit statustexte
+     *         $assoc[0] = "aus";
+     *         $assoc[1] = "ein";
+     *  
+    ..............................................................................
+    Returns:   
+        none
+    ------------------------------------------------------------------------------- */
+    protected function createProfile(string $Name, int $Vartype, $Assoc, $Icon,  $Prefix,  $Suffix,   $MinValue,   $MaxValue,  $StepSize,  $Digits){
+        if (!IPS_VariableProfileExists($Name)) {
+            IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
+            if(!is_Null($Icon)){
+                IPS_SetVariableProfileIcon($Name, $Icon);
+            }
+            if(!is_Null($Prefix)){
+                IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+            }
+            if(!is_Null($Digits)){
+                IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
+            }
+            if(!is_Null($MinValue)){
+                IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+            }
+            if(!is_Null($Assoc)){
+                foreach ($Assoc as $key => $data) {
+                    if(is_null($data['icon'])){$data['icon'] = "";}; 
+                    if(is_null($data['color'])){$data['color'] = "";}; 
+                    IPS_SetVariableProfileAssociation($Name, $data['value'], $data['text'], $data['icon'], $data['color']);  
+                }
+            }
+        } 
+        else {
+            $profile = IPS_GetVariableProfile($Name);
+            if ($profile['ProfileType'] != $Vartype){
+                // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
+            }
+        }
+    }	//Function: createProfile End
+    
+    
+    
+    /* ----------------------------------------------------------------------------
+     Function: RegisterProfiles()
+    ...............................................................................
+        Profile für Variable anlegen falls nicht schon vorhanden
+    ...............................................................................
+    Parameters: 
+        $Vartype => 0 boolean, 1 int, 2 float, 3 string
+    ..............................................................................
+    Returns:   
+        $ipsversion
+    ------------------------------------------------------------------------------- */
+    protected function RegisterProfiles(){
+       /*   Profile "Media_Status";  */ 
+        $Assoc[0]['value'] = 0;
+        $Assoc[1]['value'] = 1;
+        $Assoc[2]['value'] = 2;
+        $Assoc[3]['value'] = 3;
+        $Assoc[4]['value'] = 4;
+        $Assoc[5]['value'] = 5;
+        $Assoc[6]['value'] = 6;
+        $Assoc[7]['value'] = 7;
+        $Assoc[8]['value'] = 8;
+        $Assoc[0]['text'] = "";
+        $Assoc[1]['text'] = "FastForward";
+        $Assoc[2]['text'] = "Next";
+        $Assoc[3]['text'] = "Pause";
+        $Assoc[4]['text'] = "Play";
+        $Assoc[5]['text'] = "Previous";
+        $Assoc[6]['text'] = "Rewind";
+        $Assoc[7]['text'] = "StartOver";
+        $Assoc[8]['text'] = "Stop";
+        $Name = "Media_Status";
+        $Vartype = 1;
+        $Icon = NULL;
+        $Prefix = NULL;
+        $Suffix = NULL;
+        $MinValue = 0;
+        $MaxValue = 8;
+        $StepSize = 1;
+        $Digits = 0;
+        if (!IPS_VariableProfileExists($Name)){
+            $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+        }
+       /*   Profile "DenonCEOL_Source";  */ 
+        $Assoc[0]['value'] = 0;
+        $Assoc[1]['value'] = 1;
+        $Assoc[2]['value'] = 2;
+        $Assoc[3]['value'] = 3;
+        $Assoc[4]['value'] = 4;
+        $Assoc[5]['value'] = 5;
+        $Assoc[0]['text'] = "IRadio";
+        $Assoc[1]['text'] = "MediaServer";
+        $Assoc[2]['text'] = "USB";
+        $Assoc[3]['text'] = "IPOD";
+        $Assoc[4]['text'] = "AUX_A";
+        $Assoc[5]['text'] = "AUX_D";
+        $Name = "DenonCEOL_Source";
+        $Vartype = 1;
+        $Icon = NULL;
+        $Prefix = NULL;
+        $Suffix = NULL;
+        $MinValue = 0;
+        $MaxValue = 8;
+        $StepSize = 1;
+        $Digits = 0;
+        if (!IPS_VariableProfileExists($Name)){
+            $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+        }
+       /*   Profile "UPNP_Playmode";  */ 
+       $Assoc[0]['value'] = 0;
+       $Assoc[1]['value'] = 1;
+       $Assoc[2]['value'] = 2;
+       $Assoc[3]['value'] = 3;
+       $Assoc[0]['text'] = "NORMAL";
+       $Assoc[1]['text'] = "RANDOM";
+       $Assoc[2]['text'] = "REPEAT_ONE";
+       $Assoc[3]['text'] = "REPEAT_ALL";
+       $Name = "UPNP_Playmode";
+       $Vartype = 1;
+       $Icon = NULL;
+       $Prefix = NULL;
+       $Suffix = NULL;
+       $MinValue = 0;
+       $MaxValue = 3;
+       $StepSize = 1;
+       $Digits = 0;
+       if (!IPS_VariableProfileExists($Name)){
+           $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+       }
+       /*   Profile "DenonCEOL_Volume";  */ 
+       $Assoc = NULL;
+        $Name = "DenonCEOL_Volume";
+       $Vartype = 1;
+       $Icon = NULL;
+       $Prefix = NULL;
+       $Suffix = "%";
+       $MinValue = 0;
+       $MaxValue = 100;
+       $StepSize = 1;
+       $Digits = 0;
+       if (!IPS_VariableProfileExists($Name)){
+           $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+       }
+    } //Function: RegisterProfiles End
+
+    
+} // Ende Klasse
 ?>
