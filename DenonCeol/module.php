@@ -103,6 +103,10 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             
             $variablenID = $this->RegisterVariableInteger("Ceol_PlayMode", "PlayMode", "UPNP_Playmode");
             IPS_SetInfo ($variablenID, "WSS"); 
+
+            $variablenID = $this->RegisterVariableInteger("Ceol_PlayStatus", "PlayStatus", "Media_Status");
+            IPS_SetInfo ($variablenID, "WSS"); 
+
             $variablenID = $this->RegisterVariableInteger("Ceol_NoTracks", "No of tracks", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("Ceol_PlaylistName", "PlaylistName");
@@ -135,6 +139,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
+            $this->EnableAction("Ceol_PlayStatus");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayStatus"), "Media_Status");
             
             // Objekte unsichbar machen in webfront
             IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
