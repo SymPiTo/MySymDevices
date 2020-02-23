@@ -1873,6 +1873,7 @@ ______________________________________________________________________
              $MinValue = 0;
              $MaxValue = 10;
              $StepSize = 1;
+             $Digits = 0;
              if (!IPS_VariableProfileExists($Name)){
                  $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
              }
