@@ -45,7 +45,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableInteger("CeolVolume", "Volume", "");
             IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolVolume%", "Volume%", "");
+            $variablenID = $this->RegisterVariableInteger("CeolVol", "Vol", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableBoolean("CeolMute", "Mute");
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -138,7 +138,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->EnableAction("CeolVolume");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume"), "DenonCEOL_Volume");
             $this->EnableAction("CeolVolume%");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume%"), "DenonCEOL_Volume%");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
             $this->EnableAction("CeolFavChannel");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "");
             $this->EnableAction("Ceol_PlayMode");
@@ -209,7 +209,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                     break;
                 case "CeolVolume":
                     break;
-                case "CeolVolume%":
+                case "CeolVol":
                     break;
                 case "CeolMute":
                         if($Value){
@@ -292,7 +292,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 SetValueBoolean($this->GetIDForIdent("CeolPower"), $_power);
                 SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
                 $vol =  intval($MasterVolume) + 78;
-                $this->SetValue("CeolVolume%", $vol);
+                $this->SetValue("CeolVol", $vol);
                 if ($Mute == 'off'){
                         $_mute = false;
                 }
