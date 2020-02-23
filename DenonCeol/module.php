@@ -1865,6 +1865,17 @@ ______________________________________________________________________
        if (!IPS_VariableProfileExists($Name)){
            $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
        }
+              /*   Profile "DenonCEOL_Vol";  */ 
+              $Assoc = NULL;
+              $Name = "DenonCEOL_Vol";
+             $Vartype = 1;
+             $Suffix = "%";
+             $MinValue = 0;
+             $MaxValue = 10;
+             $StepSize = 1;
+             if (!IPS_VariableProfileExists($Name)){
+                 $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+             }
     } //Function: RegisterProfiles End
 
     
