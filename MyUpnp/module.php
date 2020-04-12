@@ -1555,7 +1555,7 @@ class MyUpnp extends IPSModule {
                     $container[0]['id'] = 'ace6d16674deddb1e73f';
                     break;
                 case 'Video':
-                    $container[0]['id'] = 'ed909e7093d87509e132';
+                    $container[0]['id'] = 'b29298d34ecf0b8702a3';
                     break;
                 default:
                     $container[0]['id'] = '0';
