@@ -1625,6 +1625,8 @@ class MyUpnp extends IPSModule {
             }
             $this->SetValue("upnp_PlexID", serialize($OID)); 
         }
+        $Meldung = "Start ObjectID's für Plex Server: ".$OID;
+        $this->SendDebug('UPNP: ', $Meldung, 0);
         return $OID;
     }
 
