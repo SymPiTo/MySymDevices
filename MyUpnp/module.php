@@ -71,7 +71,7 @@ class MyUpnp extends IPSModule {
         * (String)  upnp_Playlist_XML       =>  Playlist_XML  
         * (String)  upnp_ClientRenderingControlURL  =>  Client:RenderingControlURL   
         * (String)  upnp_ServerContentDirectory     =>  Server:ContentDirectory  
-        *      
+        * (String)  upnp_PlexID [ARRAY]     =>  PlexID['music']   ['video']   ['photo']   ['audio']   
         * RegisterTimer("upnp_PlayInfo", 1000,  'UPNP_GetPosInfo(' . $this->InstanceID . ');');
      * 
     --- 
@@ -167,7 +167,17 @@ class MyUpnp extends IPSModule {
             );
             setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
             setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
+       
             
+            $this->RegisterVariableString("upnp_PlexID", "PlexID");
+            $PlexID = array(
+                "music" => "0",
+                "audio" => "0",
+                "video" => "0",
+                "photo" => "0",
+            );
+            $this->SetValue("upnp_PlexID", serialize($PlexID)); 
+
             //$this->RegisterVariableString("upnp_TrackDuration", "Pos:TrackDuration [upnp:album]");
             //$this->RegisterVariableString("upnp_TrackMetaData", "Pos:TrackMetaData");
             //$this->RegisterVariableString("upnp_TrackURI", "Pos:TrackURI");
@@ -1495,6 +1505,26 @@ class MyUpnp extends IPSModule {
         }
         
     }
+
+	//*****************************************************************************
+	/* Function: FindStartID($Server)
+	...............................................................................
+          eines angewählten Servers ab Stammverzeichnis 
+        $Mediatype oder ab Filter auslesen 
+       
+	...............................................................................
+	Parameters:  
+            $Mediatype - 'Musik' // 'Audio' // 'Foto' // 'Video'
+	--------------------------------------------------------------------------------
+	Returns:   
+    
+	--------------------------------------------------------------------------------
+	Status:  
+    //////////////////////////////////////////////////////////////////////////////*/
+    Public function FindPlexID($Server){
+        
+    }
+
 
 
 	//*****************************************************************************
