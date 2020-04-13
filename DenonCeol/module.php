@@ -303,7 +303,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 //AudioStatus auslesen
                 $output = $this->get_audio_status();		
                 $sz1 = $output['item']['szLine']['value'][0];
-                $sz2 = utf8_encode($output['item']['szLine']['value'][1]);
+                $sz2 = utf8_decode($output['item']['szLine']['value'][1]);
                 if (empty($sz2)){$sz2 = '- - - -';}
                 $sz3 = $output['item']['szLine']['value'][2];
                 if (empty($sz3)){$sz2 = '- - - -';}
