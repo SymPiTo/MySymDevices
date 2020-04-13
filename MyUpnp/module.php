@@ -1673,28 +1673,31 @@ class MyUpnp extends IPSModule {
 		$n = 0;
 		$i = 0;
 		$SI = 0;
-		// Server spezifische Filter = Stammverzeichnis
+        // Server spezifische Filter = Stammverzeichnis
+        
 		if($ServerName == "Plex"){
-			$AuswahlA = "By Folder";
-            $AuswahlB = "Music";
+            $OID = $this->FindPlexID()
+ 
             switch ($Mediatype) {
                 case 'Musik':
-                    $container[0]['id'] = '42821f9bc18d5f139079'; 
+                    $container[0]['id'] = $OID['music']; 
                     break;
                 case 'Audio':
-                    $container[0]['id'] = 'a8ba203dab1ba3e34cda';
+                    $container[0]['id'] = $OID['audio']; 
                     break;
                 case 'Foto':
-                    $container[0]['id'] = 'ace6d16674deddb1e73f';
+                    $container[0]['id'] = $OID['photo']; 
                     break;
                 case 'Video':
-                    $container[0]['id'] = 'b29298d34ecf0b8702a3';
+                    $container[0]['id'] = $OID['video']; 
                     break;
                 default:
                     $container[0]['id'] = '0';
                     break;
             } 
- 		} 
+     
+         } 
+         
 		if($ServerName == "AVM"){
 			$AuswahlA = "Ordner";
             $AuswahlB = "Musik";
