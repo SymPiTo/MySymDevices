@@ -214,11 +214,11 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 case "CeolMute":
                         if($Value){
                             $this->SetMute_AV('1');
-                            SetValueBoolean($this->GetIDForIdent("CeolMute"), true);
+                            $this->setvalue("CeolMute", true);
                         }
                         else{
                             $this->SetMute_AV('0');
-                            SetValueBoolean($this->GetIDForIdent("CeolMute"), false);
+                            $this->setvalue("CeolMute", false);
                         }
                     break;
                 case "CeolFavChannel":
@@ -285,12 +285,12 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 }
                 else{
                         $_power = false;
-                        SetValueString($this->GetIDForIdent("CeolSZ2"), 'Denon CEOL Picolo');
-                        SetValueString($this->GetIDForIdent("CeolSZ3"), 'ausgeschaltet');
+                        $this->SetValue("CeolSZ2", 'Denon CEOL Picolo');
+                        $this->SetValue("CeolSZ3", 'ausgeschaltet');
                         $this->SetTimerInterval("Ceol_PlayInfo", 0);
                 }
-                SetValueBoolean($this->GetIDForIdent("CeolPower"), $_power);
-                SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
+                $this->SetValue("CeolPower", $_power);
+                $this->SetValue("CeolVolume", $MasterVolume);
                 $vol =  intval($MasterVolume) + 78;
                 $this->SetValue("CeolVol", $vol);
                 if ($Mute == 'off'){
@@ -299,7 +299,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 else{
                         $_mute = true;
                 }
-                SetValueBoolean($this->GetIDForIdent("CeolMute"), $_mute);
+                $this->SetValue("CeolMute", $_mute);
                 //AudioStatus auslesen
                 $output = $this->get_audio_status();		
                 $sz1 = $output['item']['szLine']['value'][0];
@@ -312,21 +312,21 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $sz6 = $output['item']['szLine']['value'][5];
                 $sz7 = $output['item']['szLine']['value'][6];
                 $sz8 = $output['item']['szLine']['value'][6];
-                SetValueString($this->GetIDForIdent("CeolSZ1"), $sz1);
-                SetValueString($this->GetIDForIdent("CeolSZ2"), substr($sz2, 0,60));
-                SetValueString($this->GetIDForIdent("CeolSZ3"), $sz3);
-                SetValueString($this->GetIDForIdent("CeolSZ4"), $sz4);
-                SetValueString($this->GetIDForIdent("CeolSZ5"), $sz5);
-                SetValueString($this->GetIDForIdent("CeolSZ6"), $sz6);
-                SetValueString($this->GetIDForIdent("CeolSZ7"), $sz7);
-                SetValueString($this->GetIDForIdent("CeolSZ8"), $sz8);
+                $this->SetValue("CeolSZ1", $sz1);
+                $this->SetValue("CeolSZ2", substr($sz2, 0,60));
+                $this->SetValue("CeolSZ3", $sz3);
+                $this->SetValue("CeolSZ4", $sz4);
+                $this->SetValue("CeolSZ5", $sz5);
+                $this->SetValue("CeolSZ6", $sz6);
+                $this->SetValue("CeolSZ7", $sz7);
+                $this->SetValue("CeolSZ8", $sz8);
                 
                 
                 $Source = $output['item']['NetFuncSelect']['value'];
                 $this->SendDebug("get Source: ", $Source, 0);
                 switch ($Source){
                         case "IRADIO":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 0);
+                            $this->SetValue("CeolSource", 0);
                             //ArtistPicture suchen
                             $artistTitel = $this->getvalue("CeolSZ2");
                             $dispLine2 = explode(" - ", $artistTitel);
@@ -342,14 +342,14 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                     $this->SendDebug("error ", "no Image found", 0);
                                 }
                                 else{
-                                    SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
+                                    $this->SetValue("CeolArtPicUrl", $url);
                                 }
                             }else{
                                 //take Radio station image as url
                                 $StationNo = $this->getvalue("CeolFavChannel");
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
                                 $url = "images/RadioStation/".$Station.".png";
-                                SetValue($this->GetIDForIdent("Ceol_AlbumArtUri"), $url);
+                                $this->SetValue("Ceol_AlbumArtUri", $url);
                             }    
                             
                             if (isset($dispLine2[0])){
@@ -363,28 +363,28 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                         
                         break;	
                         case "SERVER":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
+                            $this->SetValue("CeolSource", 1);
                             $MediaNo = substr($this->getvalue("Ceol_PlaylistName"), -4);
                             if($this->getvalue("Ceol_Genre")=== 'AudioBook'){
                                 $url = "AudioBooks/".$MediaNo.".jpg";
-                                SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);
+                                $this->SetValue("CeolArtPicUrl", $url);
                             }
                             else{
                                 $url = "CDs/".$MediaNo.".jpg";
-                                SetValue($this->GetIDForIdent("CeolArtPicUrl"), $url);   
+                                $this->SetValue("CeolArtPicUrl", $url);   
                             }
                         break;	
                         case "USB":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 2);
+                            $this->SetValue("CeolSource", 2);
                         break;	
                         case "IPOD":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 3);
+                            $this->SetValue("CeolSource", 3);
                         break;	
                         case "AUX_A":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 4);
+                            $this->SetValue("CeolSource", 4);
                         break;	
                         case "AUX_D":
-                            SetValueInteger($this->GetIDForIdent("CeolSource"), 5);
+                            $this->SetValue("CeolSource", 5);
                         break;		
                 }
             }
@@ -537,7 +537,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/        
 	Public function GetPower(){
-            $PowerStatus = GetValueBoolean($this->GetIDForIdent("CeolPower"));
+            $PowerStatus =  $this->getvalue("CeolPower");
             return $PowerStatus;
         }        
         
@@ -569,7 +569,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 		$xml = $this->curl_get($url, $cmd);
 		$output = XML2Array::createArray($xml);
  		$status = ($output['item']['Power']['value']);
-		SetValueBoolean($this->GetIDForIdent("CeolPower"), $power);
+         $this->SetValue("CeolPower", $power);
 		return $status;	
 	}        
 
@@ -597,28 +597,28 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             switch ($Source){
 		case 'Radio':
                     $command = "SIIRADIO";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 0);
+                    $this->SetValue("CeolSource", 0);
 		break;
 		case 'Server':
                     $command = "SISERVER";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 1);
+                    $this->SetValue("CeolSource", 1);
 		break;
 		break;	
 		case 'USB':
                     $command = "SIUSB";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 2);
+                    $this->SetValue("CeolSource", 2);
 		break;
 		case 'IPOD':
                     $command = "SIIPOD";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 3);
+                    $this->SetValue("CeolSource", 3);
 		break;			
 		case 'AUX_A':
                     $command = "SIAUXA";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 4);
+                    $this->SetValue("CeolSource", 4);
 		break;
 		case 'AUX_D':
                     $command = "SIAUXD";
-                    SetValueInteger($this->GetIDForIdent("CeolSource"), 5);
+                    $this->SetValue("CeolSource", 5);
 		break;
 		default:
                     $this->SendDebug("Error: ", "Falscher Parameter", 0);
@@ -647,7 +647,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	Public function IncVolume(){
             $MasterVolume = $this->getvalue("CeolVolume") + 1;
             if($MasterVolume < -65){
-                SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
+                $this->SetValue("CeolVolume", $MasterVolume);
                 $this->send_cmd('MVUP');
                 return true;
             }
@@ -660,7 +660,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	Public function DecVolume(){	
             $MasterVolume = $this->getvalue("CeolVolume") - 1;
             if($MasterVolume > -80){
-                SetValueInteger($this->GetIDForIdent("CeolVolume"), $MasterVolume);
+                $this->SetValue("CeolVolume", $MasterVolume);
                 $this->send_cmd('MVDOWN');
                 return true;
             }
@@ -684,14 +684,14 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	Status: checked 2018-05-31
 	//////////////////////////////////////////////////////////////////////////////*/	
 	Public function ToggleMute(){
-            $state = GetValueBoolean($this->GetIDForIdent("CeolMute"));
+            $state = $this->getvalue("CeolMute");
             if ($state){
 		$this->SetMute_AV('0');
-		SetValueBoolean($this->GetIDForIdent("CeolMute"), false);
+		$this->SetValue("CeolMute", false);
             }
             else{
 		$this->SetMute_AV('1');
-		SetValueBoolean($this->GetIDForIdent("CeolMute"), true);
+		$this->SetValue("CeolMute", true);
             }	
             return true;	
 	}
@@ -897,7 +897,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->SendDebug('Switch Radio to Channel:', $Channel, 0);
             $cmd = 'FV'.'%20'.$Channel;
             $this->send_cmd($cmd);
-            SetValueInteger($this->GetIDForIdent("CeolFavChannel"), intval($Channel)-1);
+            $this->SetValue("CeolFavChannel", intval($Channel)-1);
             return $Channel;
 	}	        
        
@@ -1167,12 +1167,12 @@ o                    http://192.168.2.99/img/album%20art_S.png
 		//$count = count($xml->children()); 
 		//IPSLog("Anzahl XML Elemente : ", $count);
 		
-		$SelectedFile = GetValue($this->GetIDForIdent("Ceol_Track")); 
+		$SelectedFile = $this->getvalue("Ceol_Track"); 
 		
 		$track = ("Track".($SelectedFile+1));
 
 		//Aktueller Track = Selected File-----------------------------------------
-		SetValue($this->GetIDForIdent("Ceol_Track"), ($SelectedFile+1));
+        $this->setvalue("Ceol_Track", ($SelectedFile+1));
 
 		$this->play();	
 
@@ -1196,11 +1196,11 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	
 		$Playlist = $this->getvalue("Ceol_Playlist_XML");
 		$xml = new SimpleXMLElement($Playlist);
-		$SelectedFile = GetValue($this->GetIDForIdent("Ceol_Track")); 
+		$SelectedFile = $this->getvalue("Ceol_Track"); 
 		$track = ("Track".($SelectedFile-1));
 
 		//Aktueller Track = Selected File-----------------------------------------
-		SetValue($this->GetIDForIdent("Ceol_Track"), ($SelectedFile-1));
+        $this->setvalue("Ceol_Track", ($SelectedFile-1));
 		
 		$this->play();
 
@@ -1440,7 +1440,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
                     $Duration = (string) $PositionInfo['AbsTime']; //AbsTime
             }
             $Progress = get_time_difference($Duration, $RelTime);
-            SetValueInteger($this->GetIDForIdent("Ceol_Progress"), $Progress);
+            $this->setvalue("Ceol_Progress", $Progress);
             return $Progress;
 	}
 
@@ -1481,7 +1481,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
 			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
 		 	$Server_Array = $this->create_Server_Array($SSDP_Array); 
  
-            SetValue($this->GetIDForIdent("Ceol_ServerArray"), $Server_Array);
+             $this->setvalue("Ceol_ServerArray", $Server_Array);
            
  	 
 	}        
