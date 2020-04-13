@@ -833,7 +833,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	Status: funktioniert nicht
 	//////////////////////////////////////////////////////////////////////////////*/
-	Public function setTimer(string $mode, $startTime, $endTime, string $funct = 'FA', string $n = '01', string $volT = '03', string $state){    
+	Public function setTimer(string $mode, string $startTime, string $endTime, string $funct = 'FA', string $n = '01', string $volT = '03', string $state){    
             $mode = strtoupper ($mode);
             $sT= explode(':', $startTime);
             $periodS = '2';

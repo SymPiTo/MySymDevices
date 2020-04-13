@@ -155,7 +155,7 @@ trait CEOLupnp
 				 $target = noch zu testen!	
 	Rückgabewert: 	 none
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function Seek_AV($unit, $target)
+	public function Seek_AV(string $unit, $target)
 	{
 	    $this->processSoapCall("/AVTransport/ctrl",
 
@@ -520,7 +520,7 @@ trait CEOLupnp
 	return: nur Fehler Code
 	Status: not checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function SetAVTransportURI_AV( $file, string $MetaData){	
+	public function SetAVTransportURI_AV(string $file, string $MetaData){	
 	    return $this->processSoapCall("/AVTransport/ctrl",
 	
 	                           "urn:schemas-upnp-org:service:AVTransport:1",
@@ -554,7 +554,7 @@ trait CEOLupnp
 	return: nur Fehler Code
 	Status: not checked
 	/////////////////////////////////////////////////////////////////////////////*/
-	public function SetNextAVTransportURI_AV($file_next, string $MetaData_next){
+	public function SetNextAVTransportURI_AV(string $file_next, string $MetaData_next){
 	    return $this->processSoapCall("/AVTransport/ctrl",
 	
 	                           "urn:schemas-upnp-org:service:AVTransport:1",
@@ -934,7 +934,7 @@ trait CEOLupnp
 	}
         
             
-        Public function TelnetCeol($command, $value) {
+        Public function TelnetCeol(string $command, string $value) {
             $ip = $this->ReadPropertyString('IPAddress');
             $socket = fsockopen($ip, 23, $errno, $errstr); 
 
