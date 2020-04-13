@@ -154,7 +154,7 @@ class MyUpnp extends IPSModule {
             $this->RegisterVariableString("upnp_DIDLRessource", "DIDL_ressource");
             $this->RegisterVariableString("upnp_BrowseTitle", "BrowseTitle");
             $this->RegisterVariableString("upnp_BrowseContent", "BrowseContent");
-            setvalue($this->GetIDForIdent("upnp_Browse"),2);
+            $this->SetValue("upnp_Browse",2);
             $content = array(
                 "ObjectID" => "0",
                 "ParentID" => "0",
@@ -165,8 +165,8 @@ class MyUpnp extends IPSModule {
                 "class" => "object",
                 "Title" => "root",
             );
-            setvalue($this->GetIDForIdent("upnp_BrowseTitle"), $content['Title']);
-            setvalue($this->GetIDForIdent("upnp_BrowseContent"), serialize($content));
+            $this->SetValue("upnp_BrowseTitle", $content['Title']);
+            $this->SetValue("upnp_BrowseContent", serialize($content));
        
             
             $this->RegisterVariableString("upnp_PlexID", "PlexID");
@@ -1521,8 +1521,110 @@ class MyUpnp extends IPSModule {
 	--------------------------------------------------------------------------------
 	Status:  
     //////////////////////////////////////////////////////////////////////////////*/
-    Public function FindPlexID($Server){
-        
+    Public function FindPlexID(){
+        $ServerName = $this->GetValue("upnp_ServerName");
+        if($ServerName == "Plex"){
+            $ServerContentDirectory = $this->GetValue("upnp_ServerContentDirectory");
+            $ServerIP= $this->GetValue("upnp_ServerIP");
+            $ServerPort = $this->GetValue("upnp_ServerPort");
+
+    
+            //Suchvariablen-----------------------------------------------------------------
+            $BrowseFlag = "BrowseDirectChildren"; //"BrowseMetadata"; //"BrowseDirectChildren";
+            $Filter = "*"; //GetValue();
+            $StartingIndex = 0; //GetValue();
+            $RequestedCount = "0"; //GetValue();
+            $SortCriteria = ""; //GetValue();
+
+            $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
+            $ObjectID = "0";
+            try {
+                //Function ContentDirectory_Browse aufrufen-------------------------------------
+                $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                        
+            } catch (Exception $e) {
+                //echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+            }
+            $Result_xml = $BrowseResult['Result'] ;
+            $liste = $this->BrowseList($Result_xml);
+            //Ergebnisse aus Object ID 0
+            foreach($liste as $typ){
+                        switch ($typ['title']) {
+                            case 'Video':
+                                $OID['video'] = $typ['id']; 
+                                break;
+                            case 'Music':
+                                $OID['music'] = $typ['id'];
+                                break;
+                            case 'Photos':
+                                $OID['photo'] = $typ['id'];
+                                break;
+                        } 
+            }
+
+            foreach($OID as  $ObjectID){		 
+                try {
+                        //Function ContentDirectory_Browse aufrufen-------------------------------------
+                        $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                            
+                } catch (Exception $e) {
+                    //echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+                }
+                $Result_xml = $BrowseResult['Result'] ;
+                $liste = $this->BrowseList($Result_xml);
+                foreach($liste as $typ){
+                            switch ($typ['title']) {
+                                case 'Videos':
+                                    $OID['video'] = $typ['id']; 
+                                    break;
+                                case 'Musik':
+                                    $OID['music'] = $typ['id'];
+                                    break;
+                                case 'Fotos':
+                                    $OID['photo'] = $typ['id'];
+                                    break;
+                                case 'AudioBook':
+                                    $OID['audio'] = $typ['id'];
+                                    break;
+                            } 
+                }
+            }
+            foreach($OID as  $ObjectID){		 
+                try {
+                        //Function ContentDirectory_Browse aufrufen-------------------------------------
+                        $BrowseResult = $this->ContentDirectory_Browse ($ServerIP, $ServerPort, $Kernel, $ServerContentDirectory, $ObjectID, $BrowseFlag, $Filter, $StartingIndex, $RequestedCount, $SortCriteria);
+                } catch (Exception $e) {
+                    //echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+                }
+                $Result_xml = $BrowseResult['Result'] ;
+                $liste = $this->BrowseList($Result_xml);
+                foreach($liste as $typ){
+                            switch ($typ['parentid']) {
+                                case  $OID['video']:
+                                    if($typ['title']=="By Folder"){
+                                        $OID['video'] = $typ['id']; 
+                                    }
+                                    break;
+                                case $OID['music']:
+                                    if($typ['title']=="By Folder"){
+                                        $OID['music'] = $typ['id'];
+                                    }
+                                    break;
+                                case $OID['photo']:
+                                    if($typ['title']=="All Photos"){
+                                        $OID['photo'] = $typ['id'];
+                                    }
+                                    break;
+                                case $OID['audio']:
+                                    if($typ['title']=="By Folder"){
+                                        $OID['audio'] = $typ['id'];
+                                    }
+                                    break;
+                            } 
+                }
+            }
+            $this->SetValue("upnp_PlexID", serialize($OID)); 
+        }
     }
 
 
