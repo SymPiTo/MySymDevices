@@ -1625,6 +1625,7 @@ class MyUpnp extends IPSModule {
             }
             $this->SetValue("upnp_PlexID", serialize($OID)); 
         }
+        return $OID;
     }
 
 
