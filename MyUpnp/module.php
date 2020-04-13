@@ -1676,7 +1676,7 @@ class MyUpnp extends IPSModule {
         // Server spezifische Filter = Stammverzeichnis
         
 		if($ServerName == "Plex"){
-            $OID = $this->FindPlexID()
+            $OID = $this->FindPlexID();
  
             switch ($Mediatype) {
                 case 'Musik':
