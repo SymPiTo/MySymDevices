@@ -1358,26 +1358,26 @@ class MyUpnp extends IPSModule {
             $title = (string) $didlXml->item[0]->xpath('dc:title')[0];
 
             if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:album')))
-{
-            $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
-}
-else{
-    $album = (string)$didlXml->item[0]->xpath('dc:description')[0];
-}
-if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
-{
-            $TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
-}
-else{
-    $TrackNo =  0;
-}
-if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:artist')))
-{
-            $actor = (string)$didlXml->item[0]->xpath('upnp:artist')[0];
-}
-else{
-    $actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
-}
+            {
+                        $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
+            }
+            else{
+                $album = (string)$didlXml->item[0]->xpath('dc:description')[0];
+            }
+            if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
+            {
+                        $TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
+            }
+            else{
+                $TrackNo =  0;
+            }
+            if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:artist')))
+            {
+                        $actor = (string)$didlXml->item[0]->xpath('upnp:artist')[0];
+            }
+            else{
+                $actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
+            }
             $AlbumArtURI = (string)$didlXml->item[0]->xpath('upnp:albumArtURI')[0];
             $genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
             //$date = (string)$didlXml->item[0]->xpath('dc:date')[0];
