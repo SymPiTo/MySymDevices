@@ -799,6 +799,10 @@ class MyUpnp extends IPSModule {
                // if ($ClientPort == '52235'){
                   //  $metadata='';
                 //}
+
+        //PlayMode setzen
+        $this->setPlayMode(GetValue("upnp_PlayMode"));
+
 		//Transport starten
             $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
@@ -812,6 +816,7 @@ class MyUpnp extends IPSModule {
                 $position = $this->getvalue("upnp_RelTime");
                 $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );  
             }
+
 
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
