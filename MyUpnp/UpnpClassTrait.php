@@ -326,7 +326,7 @@ trait upnp {
 	
 	                           array( 
 	                                  new SoapParam('0'             ,"InstanceID"       ),
-	                                  new SoapParam($PlaymMode       ,"NewPlayMode"      ) 
+	                                  new SoapParam($PlayMode       ,"NewPlayMode"      ) 
 	                                )
 		);
 	}
