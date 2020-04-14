@@ -800,10 +800,7 @@ class MyUpnp extends IPSModule {
                   //  $metadata='';
                 //}
 
-        //PlayMode setzen
-        $this->setPlayMode("REPEAT_ONE");
-
-		//Transport starten
+ 		//Transport starten
             $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         //auf Anfangsposition stellen.
