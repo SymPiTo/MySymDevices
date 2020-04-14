@@ -50,6 +50,9 @@ class MyUpnp extends IPSModule {
         * (String)  upnp_Genre              =>  DIDL_Genre [upnp:genre]
         * (String)  upnp_Date               =>  DIDL_Date [dc:date]
         * (Integer) upnp_Progress           =>  Progress, "UPNP_Progress
+        * (Integer) upnp_LoopStart          =>  Play, "UPNP_LoopStart
+        * (Integer) upnp_LoopStop           =>  Play, "UPNP_LoopStop
+        * (Bool)    upnp_Seq                =>  Play, "UPNP_Seq
         * (Integer) upnp_Track              =>  Pos:Track", "" 
         * (String)  upnp_RELTIME            =>  RelTime", "" 
         * (String)  upnp_Transport_Status   =>  Pos:Transport_Status
@@ -130,6 +133,8 @@ class MyUpnp extends IPSModule {
             $variablenID = $this->RegisterVariableInteger("upnp_PlayMode", "PlayMode", "UPNP_Playmode");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableBoolean("upnp_Mute", "Mute");
+            IPS_SetInfo ($variablenID, "WSS"); 
+            $variablenID = $this->RegisterVariableBoolean("upnp_Seq", "Sequece");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableFloat("upnp_Volume", "Volume", "");
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -233,6 +238,12 @@ class MyUpnp extends IPSModule {
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerPort", "Server:Port");
         
+
+        $variablenID = $this->RegisterVariableInteger("upnp_LoopStart", "Loop:Start", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("upnp_LoopSTop", "Loop:Stop", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+
         $variablenID = $this->RegisterVariableInteger("upnp_NoTracks", "No of tracks", "");
         IPS_SetInfo ($variablenID, "WSS"); 
         $variablenID = $this->RegisterVariableString("upnp_PlaylistName", "PlaylistName");
@@ -243,6 +254,8 @@ class MyUpnp extends IPSModule {
             //$this->RegisterVariableBoolean("CeolPower", "Power");        
             $this->EnableAction("upnp_Mute");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Mute"), "~Switch");
+            $this->EnableAction("upnp_Seq");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_Seq"), "~Switch");
             $this->EnableAction("upnp_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("upnp_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("upnp_Browse");
@@ -278,6 +291,14 @@ class MyUpnp extends IPSModule {
     
     public function RequestAction($Ident, $Value) {
         switch($Ident) {
+            case "upnp_Seq":
+                if($Value){
+                    SetValue("upnp",true);
+                }
+                else{
+                    SetValue("upnp",false);
+                }
+            break;
             case "upnp_Mute":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
@@ -779,9 +800,7 @@ class MyUpnp extends IPSModule {
                   //  $metadata='';
                 //}
 		//Transport starten
-            $result = $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-            
-            $this->SendDebug("PLAY ", 'SetAVTransportURI: '.$result, 0);
+            $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
@@ -1066,7 +1085,9 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('seekBackward', $position, 0);
             $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, (string) $position);
 	}
-        
+ 
+    
+
 	//*****************************************************************************
 	/* Function: seekPos($Seek)
         -------------------------------------------------------------------------------
