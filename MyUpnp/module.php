@@ -1315,9 +1315,7 @@ class MyUpnp extends IPSModule {
                                         $LoopStop = $this->GetValue("upnp_LoopSTop");
                                         $StopTime = explode(":", $LoopStop);
                                         $StopPosition = round((((($StopTime[0] * 3600) + ($StopTime[1] * 60) + ($StopTime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
-                                        
-                                        $this->SendDebug("GetPosInfo ", 'progress:'.$LoopStop.'Stop at: '.$LoopStop, 0);
-                                        if($fortschritt > $StopPosition){
+                                        if($fortschritt >= $StopPosition){
                                             $this->stop();
                                         }
                                     }
