@@ -1309,7 +1309,7 @@ class MyUpnp extends IPSModule {
                                     $this->SendDebug("GetPosInfo ", 'progress aufrufen', 0);
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                     //Falls Sequence Mode aktive dann stop wenn LoopStop erreicht.
-                                    if(GetValue("upnp_Seq")){
+                                    if($this->GetValue("upnp_Seq")){
                                         if($fortschritt > GetValue("LoopStop")){
                                             $this->stop();
                                         }
