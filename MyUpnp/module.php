@@ -1312,11 +1312,11 @@ class MyUpnp extends IPSModule {
                                     if($this->GetValue("upnp_Seq")){
                                         $TrackDuration = $this->GetValue("upnp_TrackDuration");
                                         $duration = explode(":", $TrackDuration);
-                                        $LoopStop = $this->GetValue("upnp_LoopStop");
+                                        $LoopStop = $this->GetValue("upnp_LoopSTop");
                                         $StopTime = explode(":", $LoopStop);
                                         $StopPosition = round((((($StopTime[0] * 3600) + ($StopTime[1] * 60) + ($StopTime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
                                         
-                                        $this->SendDebug("GetPosInfo ", 'progress:'.$TrackDuration.'-Stop at: '.$LoopStop, 0);
+                                        $this->SendDebug("GetPosInfo ", 'progress:'.$LoopStop.'Stop at: '.$LoopStop, 0);
                                         if($fortschritt > $StopPosition){
                                             $this->stop();
                                         }
