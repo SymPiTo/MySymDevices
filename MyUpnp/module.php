@@ -1310,15 +1310,6 @@ class MyUpnp extends IPSModule {
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                     //Falls Sequence Mode aktive dann stop wenn LoopStop erreicht.
                                     if($this->GetValue("upnp_Seq")){
-                                        function get_time_difference($Duration, $RelTime){
-                                            $duration = explode(":", $Duration);
-                                            $reltime = explode(":", $RelTime);
-                                            $time_difference = round((((($reltime[0] * 3600) + ($reltime[1] * 60) + ($reltime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
-                                            return ($time_difference);
-                                        }
-                                        $relTime = $this->GetValue("upnp_RelTime");
-                                        $Duration = $this->GetValue("upnp_TrackDuration");
-                                        $Progress = get_time_difference($Duration, $RelTime);
                                         $LoopStop = $this->GetValue("upnp_LoopStop");
                                         $StopTime = explode(":", $LoopStop);
                                         $StopPosition = round((((($StopTime[0] * 3600) + ($StopTime[1] * 60) + ($StopTime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
