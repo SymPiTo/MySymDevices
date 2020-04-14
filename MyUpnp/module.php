@@ -803,9 +803,15 @@ class MyUpnp extends IPSModule {
             $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         //auf Anfangsposition stellen.
-            $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
-
-            $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+            //wenn Sequece Schalter true dann auf LoopStart Position stellen
+            if(GetValue("upnp_Seq")){
+                $position = GetValue("upnp_LoopStart");
+                $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
+            }
+            else{
+                $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
+                $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );  
+            }
 
 		//Stream ausführen	
 		    $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
@@ -1302,6 +1308,12 @@ class MyUpnp extends IPSModule {
                                 else if($DIDL_Lite_Class == "object.item.videoItem.movie"){
                                     $this->SendDebug("GetPosInfo ", 'progress aufrufen', 0);
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
+                                    //Falls Sequence Mode aktive dann stop wenn LoopStop erreicht.
+                                    if(GetValue("upnp_Seq")){
+                                        if($fortschritt > GetValue("LoopStop")){
+                                            $this->stop();
+                                        }
+                                    }
                                 }
                                 else if($DIDL_Lite_Class == "object.item.imageItem.photo"){
                                         //include_once ("57444 /*[Multimedia\Core\UPNP_SlideShow]*/.ips.php"); //UPNP_SlideShow
