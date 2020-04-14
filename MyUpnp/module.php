@@ -239,9 +239,9 @@ class MyUpnp extends IPSModule {
         $this->RegisterVariableString("upnp_ServerPort", "Server:Port");
         
 
-        $variablenID = $this->RegisterVariableInteger("upnp_LoopStart", "Loop:Start", "");
+        $variablenID = $this->RegisterVariableString("upnp_LoopStart", "Loop:Start", "");
         IPS_SetInfo ($variablenID, "WSS"); 
-        $variablenID = $this->RegisterVariableInteger("upnp_LoopSTop", "Loop:Stop", "");
+        $variablenID = $this->RegisterVariableString("upnp_LoopSTop", "Loop:Stop", "");
         IPS_SetInfo ($variablenID, "WSS"); 
 
         $variablenID = $this->RegisterVariableInteger("upnp_NoTracks", "No of tracks", "");
@@ -1310,7 +1310,19 @@ class MyUpnp extends IPSModule {
                                     $fortschritt = $this->progress($ClientIP, $ClientPort, $ControlURL);
                                     //Falls Sequence Mode aktive dann stop wenn LoopStop erreicht.
                                     if($this->GetValue("upnp_Seq")){
-                                        if($fortschritt > $this->GetValue("upnp_LoopSTop")){
+                                        function get_time_difference($Duration, $RelTime){
+                                            $duration = explode(":", $Duration);
+                                            $reltime = explode(":", $RelTime);
+                                            $time_difference = round((((($reltime[0] * 3600) + ($reltime[1] * 60) + ($reltime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
+                                            return ($time_difference);
+                                        }
+                                        $relTime = $this->GetValue("upnp_RelTime");
+                                        $Duration = $this->GetValue("upnp_TrackDuration");
+                                        $Progress = get_time_difference($Duration, $RelTime);
+                                        $LoopStop = $this->GetValue("upnp_LoopStop");
+                                        $StopTime = explode(":", $LoopStop);
+                                        $StopPosition = round((((($reltime[0] * 3600) + ($reltime[1] * 60) + ($reltime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
+                                        if($fortschritt > $StopPosition){
                                             $this->stop();
                                         }
                                     }
