@@ -804,12 +804,12 @@ class MyUpnp extends IPSModule {
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         //auf Anfangsposition stellen.
             //wenn Sequece Schalter true dann auf LoopStart Position stellen
-            if(GetValue("upnp_Seq")){
-                $position = GetValue("upnp_LoopStart");
+            if($this->GetValue("upnp_Seq")){
+                $position = $this->GetValue("upnp_LoopStart");
                 $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
             }
             else{
-                $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
+                $position = $this->getvalue("upnp_RelTime");
                 $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );  
             }
 
