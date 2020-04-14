@@ -779,8 +779,9 @@ class MyUpnp extends IPSModule {
                   //  $metadata='';
                 //}
 		//Transport starten
-            $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+            $result = $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
+            $this->SendDebug("PLAY ", 'SetAVTransportURI: '.$result, 0);
         //auf Anfangsposition stellen.
             $position = getvalue($this->GetIDForIdent("upnp_RelTime"));
 
