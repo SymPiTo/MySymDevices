@@ -1362,7 +1362,7 @@ class MyUpnp extends IPSModule {
             $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
 }
 else{
-    $album = (string)$didlXml->item[0]->xpath('upnp:description')[0];
+    $album = (string)$didlXml->item[0]->xpath('dc:description')[0];
 }
 if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
 {
