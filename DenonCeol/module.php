@@ -65,7 +65,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
             IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "FavChannel", "");
+            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "Sender", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -140,7 +140,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->EnableAction("CeolVol");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
             $this->EnableAction("CeolFavChannel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol.Channel");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol_Channel");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
@@ -1836,7 +1836,7 @@ ______________________________________________________________________
        $Assoc[6]['text'] = "HR 3";
        $Assoc[7]['text'] = "SWR 3";
        $Assoc[8]['text'] = "SWR 4";
-       $Name = "DenonCeol.Channel";
+       $Name = "DenonCeol_Channel";
        $Vartype = 1;
        $MaxValue = 8;
        if (!IPS_VariableProfileExists($Name)){
