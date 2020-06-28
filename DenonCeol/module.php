@@ -219,6 +219,9 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                     elseif($Value === $curVol - 10){
                         $this->DecVolume();
                     }
+                    else{
+                        $this->SetVolumeDB($Value);
+                    }
                     //$this->setvalue("CeolVol", $Value);
 
                     break;
