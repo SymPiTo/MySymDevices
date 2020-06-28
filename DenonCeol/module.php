@@ -212,8 +212,15 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 case "CeolVolume":
                     break;
                 case "CeolVol":
-                    $this->setvalue("CeolVol", $Value);
-                    
+                    $curVol = $this->getvalue("CeolVol");
+                    if($Value === $curVol + 10){
+                        $this->IncVolume();
+                    }
+                    elseif($Value === $curVol + 10){
+                        $this->DecVolume();
+                    }
+                    //$this->setvalue("CeolVol", $Value);
+
                     break;
                 case "CeolMute":
                         if($Value){
