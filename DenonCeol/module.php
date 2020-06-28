@@ -140,7 +140,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->EnableAction("CeolVol");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
             $this->EnableAction("CeolFavChannel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCEOL_Channel");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol.Channel");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
@@ -1836,7 +1836,7 @@ ______________________________________________________________________
        $Assoc[6]['text'] = "HR3";
        $Assoc[7]['text'] = "SWR3";
        $Assoc[8]['text'] = "SWR4";
-       $Name = "DenonCEOL_Channel";
+       $Name = "DenonCeol.Channel";
        $Vartype = 1;
        $MaxValue = 8;
        if (!IPS_VariableProfileExists($Name)){
