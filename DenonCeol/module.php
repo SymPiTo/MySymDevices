@@ -197,6 +197,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                             $url = "http://$host:80/goform/formiPhoneAppPower.xml";
                             $cmd = '1+PowerOn';
                             $xml = $this->curl_get($url, $cmd);
+                            $this->SetMute_AV('0');
+                            $this->setvalue("CeolMute", false);
                         }
                         else{
                             $host = $this->ReadPropertyString('IPAddress');
