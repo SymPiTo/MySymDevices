@@ -65,7 +65,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
             IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "FavChannel", "");
+            $variablenID = $this->RegisterVariableInteger("Channel", "Channel", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -139,8 +139,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume"), "DenonCEOL_Volume");
             $this->EnableAction("CeolVol");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
-            $this->EnableAction("CeolFavChannel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol.Channel");
+            $this->EnableAction("Channel");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("Channel"), "DenonCeol.Channel");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
@@ -235,8 +235,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                             $this->setvalue("CeolMute", false);
                         }
                     break;
-                case "CeolFavChannel":
-                    $this->setValue("CeolFavChannel", $Value);
+                case "Channel":
+                    $this->setValue("Channel", $Value);
                     break;
                 default:
                     throw new Exception("Invalid Ident");
@@ -361,7 +361,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                 }
                             }else{
                                 //take Radio station image as url
-                                $StationNo = $this->getvalue("CeolFavChannel");
+                                $StationNo = $this->getvalue("Channel");
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
                                 $url = "images/RadioStation/".$Station.".png";
                                 $this->SetValue("Ceol_AlbumArtUri", $url);
@@ -919,7 +919,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->SendDebug('Switch Radio to Channel:', $Channel, 0);
             $cmd = 'FV'.'%20'.$Channel;
             $this->send_cmd($cmd);
-            $this->SetValue("CeolFavChannel", intval($Channel)-1);
+            $this->SetValue("Channel", intval($Channel)-1);
             return $Channel;
 	}	        
        
