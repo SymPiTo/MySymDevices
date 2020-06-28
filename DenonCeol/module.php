@@ -743,7 +743,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $output = XML2Array::createArray($xml);
             $VolDB = ($output['item']['MasterVolume']['value']);
             $this->SetValue("CeolVolume", $Wert);
-            $vol =  (intval($Wert) + 78)*10;
+            $vol =  (intval($Wert) + 79)*10;
             $this->SetValue("CeolVol", $vol);
             return $VolDB;
 	}        
