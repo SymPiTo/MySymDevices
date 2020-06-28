@@ -65,7 +65,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
             IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("Channel", "Channel", "");
+            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "FavChannel", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
             IPS_SetInfo ($variablenID, "WSS"); 
@@ -139,8 +139,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume"), "DenonCEOL_Volume");
             $this->EnableAction("CeolVol");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
-            $this->EnableAction("Channel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("Channel"), "DenonCeol.Channel");
+            $this->EnableAction("CeolFavChannel");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol.Channel");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
@@ -235,8 +235,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                             $this->setvalue("CeolMute", false);
                         }
                     break;
-                case "Channel":
-                    $this->setValue("Channel", $Value);
+                case "CeolFavChannel":
+                    $this->setValue("CeolFavChannel", $Value);
                     break;
                 default:
                     throw new Exception("Invalid Ident");
@@ -361,7 +361,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                                 }
                             }else{
                                 //take Radio station image as url
-                                $StationNo = $this->getvalue("Channel");
+                                $StationNo = $this->getvalue("CeolFavChannel");
                                 $Station = str_pad($StationNo, 4, 0, STR_PAD_LEFT); 
                                 $url = "images/RadioStation/".$Station.".png";
                                 $this->SetValue("Ceol_AlbumArtUri", $url);
@@ -919,7 +919,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->SendDebug('Switch Radio to Channel:', $Channel, 0);
             $cmd = 'FV'.'%20'.$Channel;
             $this->send_cmd($cmd);
-            $this->SetValue("Channel", intval($Channel)-1);
+            $this->SetValue("CeolFavChannel", intval($Channel)-1);
             return $Channel;
 	}	        
        
@@ -1840,7 +1840,7 @@ ______________________________________________________________________
        $Vartype = 1;
        $MaxValue = 8;
        if (!IPS_VariableProfileExists($Name)){
-           $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=1, $Digits=0);  
+           $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=0, $Digits=0);  
        }
         /*   Profile "Media_Status";  */ 
         $Assoc[0]['value'] = 0;
