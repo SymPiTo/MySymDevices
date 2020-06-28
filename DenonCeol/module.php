@@ -1816,6 +1816,56 @@ ______________________________________________________________________
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProfiles(){
+       /*   Profile "Channel";  */ 
+       $Assoc[0]['value'] = 0;
+       $Assoc[1]['value'] = 1;
+       $Assoc[2]['value'] = 2;
+       $Assoc[3]['value'] = 3;
+       $Assoc[4]['value'] = 4;
+       $Assoc[5]['value'] = 5;
+       $Assoc[6]['value'] = 6;
+       $Assoc[7]['value'] = 7;
+       $Assoc[8]['value'] = 8;
+       $Assoc[0]['text'] = "Rock";
+       $Assoc[1]['text'] = "SWR1";
+       $Assoc[2]['text'] = "Antenne Bayern";
+       $Assoc[3]['text'] = "RP";
+       $Assoc[4]['text'] = "Bayern3";
+       $Assoc[5]['text'] = "WDR5";
+       $Assoc[6]['text'] = "HR3";
+       $Assoc[7]['text'] = "SWR3";
+       $Assoc[8]['text'] = "SWR4";
+       $Name = "DenonCEOL_Channel";
+       $Vartype = 1;
+       $MaxValue = 8;
+       if (!IPS_VariableProfileExists($Name)){
+           $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=1, $Digits=0);  
+       }
+        /*   Profile "Media_Status";  */ 
+        $Assoc[0]['value'] = 0;
+        $Assoc[1]['value'] = 1;
+        $Assoc[2]['value'] = 2;
+        $Assoc[3]['value'] = 3;
+        $Assoc[4]['value'] = 4;
+        $Assoc[5]['value'] = 5;
+        $Assoc[6]['value'] = 6;
+        $Assoc[7]['value'] = 7;
+        $Assoc[8]['value'] = 8;
+        $Assoc[0]['text'] = "-";
+        $Assoc[1]['text'] = "FastForward";
+        $Assoc[2]['text'] = "Next";
+        $Assoc[3]['text'] = "Pause";
+        $Assoc[4]['text'] = "Play";
+        $Assoc[5]['text'] = "Previous";
+        $Assoc[6]['text'] = "Rewind";
+        $Assoc[7]['text'] = "StartOver";
+        $Assoc[8]['text'] = "Stop";
+        $Name = "Media_Status";
+        $Vartype = 1;
+        $MaxValue = 8;
+        if (!IPS_VariableProfileExists($Name)){
+            $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=1, $Digits=0);  
+        }
        /*   Profile "Media_Status";  */ 
         $Assoc[0]['value'] = 0;
         $Assoc[1]['value'] = 1;
@@ -1893,7 +1943,7 @@ ______________________________________________________________________
              $Suffix = "%";
              $MinValue = 0;
              $MaxValue = 10;
-             $StepSize = 5;
+             $StepSize = 10;
              $Digits = 0;
              if (!IPS_VariableProfileExists($Name)){
                  $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
