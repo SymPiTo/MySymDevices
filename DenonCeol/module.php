@@ -236,6 +236,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                         }
                     break;
                 case "CeolFavChannel":
+                    $this->setValue("CeolFavChannel", $Value);
                     break;
                 default:
                     throw new Exception("Invalid Ident");
