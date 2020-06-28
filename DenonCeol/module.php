@@ -216,7 +216,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                     if($Value === $curVol + 10){
                         $this->IncVolume();
                     }
-                    elseif($Value === $curVol + 10){
+                    elseif($Value === $curVol - 10){
                         $this->DecVolume();
                     }
                     //$this->setvalue("CeolVol", $Value);
@@ -302,7 +302,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 }
                 $this->SetValue("CeolPower", $_power);
                 $this->SetValue("CeolVolume", $MasterVolume);
-                $vol =  intval($MasterVolume) + 78;
+                $vol =  (intval($MasterVolume) + 78)*10;
                 $this->SetValue("CeolVol", $vol);
                 if ($Mute == 'off'){
                         $_mute = false;
@@ -659,6 +659,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $MasterVolume = $this->getvalue("CeolVolume") + 1;
             if($MasterVolume < -65){
                 $this->SetValue("CeolVolume", $MasterVolume);
+                $vol =  (intval($MasterVolume) + 78)*10;
+                $this->SetValue("CeolVol", $vol);
                 $this->send_cmd('MVUP');
                 return true;
             }
@@ -672,6 +674,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $MasterVolume = $this->getvalue("CeolVolume") - 1;
             if($MasterVolume > -80){
                 $this->SetValue("CeolVolume", $MasterVolume);
+                $vol =  (intval($MasterVolume) + 78)*10;
+                $this->SetValue("CeolVol", $vol);
                 $this->send_cmd('MVDOWN');
                 return true;
             }
