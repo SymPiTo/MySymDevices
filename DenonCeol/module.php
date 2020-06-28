@@ -140,7 +140,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->EnableAction("CeolVol");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
             $this->EnableAction("CeolFavChannel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "");
+            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCEOL_Channel");
             $this->EnableAction("Ceol_PlayMode");
             IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
             $this->EnableAction("Ceol_PlayStatus");
