@@ -289,6 +289,11 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $ip = $this->ReadPropertyString('IPAddress');
             $alive = Sys_Ping($ip, 1000);
             if ($alive){
+                //Netzwerk Verbindungs Störung wurde behoben
+                if ($connection = false){
+                    $connection = true;
+                    $this->SetTimerInterval("Update", $this->ReadPropertyInteger("UpdateInterval"));
+                }
                 //MainZoneStatus auslesen   
                 $output = $this->Get_MainZone_Status();
                 $power = ($output['item']['Power']['value']);
@@ -406,8 +411,10 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             else {
                 //Keine Netzwerk-Verbindung zun Client
                 $this->SendDebug("Meldung: ", "Keine Netzwerkverbindung zu Denon Ceol.", 0);
-                $this->SetTimerInterval("Update", 0);
+                $this->SetTimerInterval("Update", 10000);
                 $this->SetTimerInterval("Ceol_PlayInfo", 0);
+                $this->SetValue("CeolPower", false);
+                $connection = false;
             }
         }
         
@@ -1900,11 +1907,11 @@ ______________________________________________________________________
         $Assoc[4]['value'] = 4;
         $Assoc[5]['value'] = 5;
         $Assoc[0]['text'] = "IRadio";
-        $Assoc[1]['text'] = "MediaServer";
+        $Assoc[1]['text'] = "Media";
         $Assoc[2]['text'] = "USB";
         $Assoc[3]['text'] = "IPOD";
-        $Assoc[4]['text'] = "AUX_A";
-        $Assoc[5]['text'] = "AUX_D";
+        $Assoc[4]['text'] = "AUX A";
+        $Assoc[5]['text'] = "AUX D";
         $Name = "DenonCEOL_Source";
         $Vartype = 1;
         $MaxValue = 8;
