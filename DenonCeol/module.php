@@ -208,6 +208,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                         }
                     break;
                 case "CeolSource":
+                    $this->SelectSource($value);
+                    $this->SendDebug("Source: ", $value, 0);
                     break;
                 case "CeolVolume":
                     break;
@@ -615,30 +617,30 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	Status: checked 2018-06 -03
 	//////////////////////////////////////////////////////////////////////////////*/	
-	Public function SelectSource(string $Source){
+	Public function SelectSource(int $Source){
             switch ($Source){
-		case 'Radio':
+		case 0:
                     $command = "SIIRADIO";
                     $this->SetValue("CeolSource", 0);
 		break;
-		case 'Server':
+		case 1:
                     $command = "SISERVER";
                     $this->SetValue("CeolSource", 1);
 		break;
 		break;	
-		case 'USB':
+		case 2:
                     $command = "SIUSB";
                     $this->SetValue("CeolSource", 2);
 		break;
-		case 'IPOD':
+		case 3:
                     $command = "SIIPOD";
                     $this->SetValue("CeolSource", 3);
 		break;			
-		case 'AUX_A':
+		case 4:
                     $command = "SIAUXA";
                     $this->SetValue("CeolSource", 4);
 		break;
-		case 'AUX_D':
+		case 5:
                     $command = "SIAUXD";
                     $this->SetValue("CeolSource", 5);
 		break;
