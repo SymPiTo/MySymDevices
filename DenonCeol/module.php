@@ -626,7 +626,6 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 		case 1:
                     $command = "SISERVER";
                     $this->SetValue("CeolSource", 1);
-		break;
 		break;	
 		case 2:
                     $command = "SIUSB";
