@@ -39,6 +39,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->RegisterProfiles();
 
             //Status Variable anlegen
+            $variablenID = $this->RegisterVariableString("CeolSrcName", "Source Name");
+            IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableInteger("CeolSource", "Source", "");
             IPS_SetInfo ($variablenID, "WSS"); 
             $variablenID = $this->RegisterVariableBoolean("CeolPower", "Power");
