@@ -209,6 +209,9 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                             $xml = $this->curl_get($url, $cmd);
                         }
                     break;
+                case "CeolSrcName":
+ 
+                    break;
                 case "CeolSource":
                     $this->SelectSource($value);
                     $this->SendDebug("Source: ", $value, 0);
