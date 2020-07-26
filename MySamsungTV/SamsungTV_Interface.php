@@ -485,7 +485,7 @@ trait SamsungUPNP {
     Returns:  
 
     --------------------------------------------------------------------------------
-    Status:  25.09.2018 - OK
+    Status:  26.07.2020 - OK
     **************************************************************************** */
     public function GetCurrentConnectionIDs(){
 
@@ -515,7 +515,7 @@ trait SamsungUPNP {
     Returns:  
 
     --------------------------------------------------------------------------------
-    Status:  25.09.2018 - OK
+    Status:  26.07.2020 - OK
     //////////////////////////////////////////////////////////////////////////////*/
     public function GetCurrentConnectionInfo_CM(){
         return (int)$this->processSoapCall("/upnp/control/ConnectionManager1",
@@ -763,7 +763,7 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Returns:  none
    --------------------------------------------------------------------------------
-    Status:  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function SetVolume_MTVA(int $volume){
 
@@ -797,9 +797,9 @@ trait SamsungUPNP {
     Returns:  
 
     --------------------------------------------------------------------------------
-    Status:  17.7.2018 - OK  RASPI - geht nicht
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/   
-  public function SetMainTVChannel_MTVA(string $Channel, $AntennaMode = 2, $ChannelListType = '0x01',  $SatelliteID = 0) {
+  public function SetMainTVChannel_MTVA(string $Channel, int $AntennaMode = 2, string $ChannelListType = '0x01',  int $SatelliteID = 0) {
 
         $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
 
@@ -2431,10 +2431,10 @@ trait SamsungUPNP {
     }    
     
     
-    //*****************************************************************************
-    /* Function: GetWatchingInformation_MTVA()
+  //*****************************************************************************
+  /* Function: GetWatchingInformation_MTVA()
     ...............................................................................
-	Gibt die aktuelle Sendung zurück 
+	  Gibt die aktuelle Sendung zurück 
     ...............................................................................
     Parameters: none
     
