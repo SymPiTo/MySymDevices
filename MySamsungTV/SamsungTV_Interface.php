@@ -1347,7 +1347,7 @@ trait SamsungUPNP {
     /* Function: GetDetailProgramInformation()
     ...............................................................................
     ...............................................................................
-    Parameters: 
+    Parameters: $startTime = "2020-26-07 20:15:00"
     --------------------------------------------------------------------------------
     Returns:  
     --------------------------------------------------------------------------------
@@ -1407,7 +1407,23 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    
+    public function ModifyChannelName_MTVA(int $AntennaMode = 2, string $channel, $ChannelName) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "GetDetailProgramInformation",
+
+                             array(
+
+                                      new SoapParam($AntennaMode ,"AntennaMode"),
+
+                                      new SoapParam($channel     ,"Channel"),
+
+                                      new SoapParam($ChannelName ,"ChannelName")
+
+                                  ));
+  }  
        
  
     //*****************************************************************************
@@ -1420,11 +1436,25 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    
+    public function ModifyFavoriteChannel_MTVA(int $AntennaMode = 2,  $FavoriteChList ) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "ModifyFavoriteChannel",
+
+                             array(
+
+                                      new SoapParam($AntennaMode ,"AntennaMode"),
+
+                                      new SoapParam($FavoriteChList ,"FavoriteChList"),
+
+                                  ));
+  }  
      
     
     //*****************************************************************************
-    /* Function: PlayRecoordItem_MTVA()
+    /* Function: PlayRecordedItem_MTVA()
     ...............................................................................
     ...............................................................................
     Parameters: 
@@ -1433,7 +1463,20 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    
+    public function PlayRecordedItem_MTVA(string $uid) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "PlayRecordedItem",
+
+                             array(
+
+                                      new SoapParam($uid ,"UID"),
+ 
+                                  ));
+  }
+
     //*****************************************************************************
     /* Function: RecordSateliteChannel_MTVA()
     ...............................................................................
@@ -1444,7 +1487,19 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-        
+    public function RecordSateliteChannel_MTVA(string $uid) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "ReorderSatelliteChannel",
+
+                             array(
+
+                                       
+ 
+                                  ));
+  }   
     
     //*****************************************************************************
     /* Function: RunApp_MTVA()
@@ -1468,7 +1523,7 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Returns:  OK
     --------------------------------------------------------------------------------
-    Status:  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/     
     public function RunBrowser_MTVA(string $URL){
         return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -1499,8 +1554,20 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    public function RunWidget_MTVA() {
-        
+    public function RunWidget_MTVA(string $widgetTitle) {
+       
+        return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                               "urn:samsung.com:service:MainTVAgent2:1",
+
+                               "RunWidget",
+
+                               array(
+
+                                      new SoapParam($widgetTitle, "PayLoad "    )
+
+                                    ));
+ 
     }
          
     //*****************************************************************************
@@ -1543,8 +1610,20 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    public function SetAVOff_MTVA() {
-        
+    public function SetAVOff_MTVA(string $AVOff) {
+       
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                  "urn:samsung.com:service:MainTVAgent2:1",
+
+                  "SetAVOff",
+
+                  array(
+
+                        new SoapParam($AVOff, "AVOff "    )
+
+                      ));
+
     }
    
     //*****************************************************************************
@@ -1579,14 +1658,24 @@ trait SamsungUPNP {
     /* Function: SetCloneView_MTVA()
     ...............................................................................
     ...............................................................................
-    Parameters: 
+    Parameters: $ChannelUpDown = "Up"  "Down"
     --------------------------------------------------------------------------------
     Returns:  
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/     
-    public function SetCloneView_MTVA() {
-        
+    public function SetCloneView_MTVA($ChannelUpDown) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                    "urn:samsung.com:service:MainTVAgent2:1",
+
+                    "SetCloneViewChannel",
+
+                    array(
+
+                          new SoapParam($ChannelUpDown, "ChannelUpDown"    )
+
+                        ));  
     }   
        
     
@@ -2188,7 +2277,7 @@ trait SamsungUPNP {
             $output['SUPPORTPVR']                       =  Yes
             $output['TARGETLOCATION']                   =  TARGET_LOCATION_PANEURO
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK  
+    Status: 26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetDTVInformation_MTVA(){
         $result = $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -2255,7 +2344,7 @@ trait SamsungUPNP {
      * [Result] => OK
      * [MuteStatus] => Disable  // Enable
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetMuteStatus_MTVA(){
         $result = $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
