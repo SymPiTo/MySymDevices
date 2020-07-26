@@ -799,7 +799,7 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/   
-  public function SetMainTVChannel_MTVA(string $Channel, int $AntennaMode = 2, string $ChannelListType = '0x01',  int $SatelliteID = 0) {
+  public function SetMainTVChannel_MTVA(string $Channel, int $AntennaMode=2, string $ChannelListType='0x01',  int $SatelliteID=0) {
 
         $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
 
