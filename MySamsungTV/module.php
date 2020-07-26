@@ -27,7 +27,7 @@ class MySamsungTV extends IPSModule
         // Variable aus dem Instanz Formular registrieren (um zugänglich zu machen)
         $this->RegisterPropertyBoolean("aktiv", false);
         $this->RegisterPropertyBoolean("telnet", false);
-        $this->RegisterPropertyString("ip", "192.168.178.135");
+        $this->RegisterPropertyString("ip", "192.168.178.35");
         $this->RegisterPropertyInteger("updateInterval", 10000);	
         $this->RegisterPropertyInteger("devicetype", 1);
         $this->RegisterPropertyInteger("PowerSwitch_ID", 0);

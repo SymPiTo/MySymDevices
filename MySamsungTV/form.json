@@ -2,7 +2,7 @@
         "elements": [{
                         "name": "aktiv",
                         "type": "CheckBox",
-                        "caption": "aktive"
+                        "caption": "aktiv"
                 },
                 {
                         "name": "devicetype",

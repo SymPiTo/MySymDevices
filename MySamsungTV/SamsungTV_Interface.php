@@ -475,7 +475,8 @@ trait SamsungUPNP {
     // ConnectionManager
     
     /* ****************************************************************************
-    
+    Function: GetCurrentConnectionIDs()
+    ................................................................................
     UPNP  
     ...............................................................................
     Parameters: 
@@ -2519,7 +2520,7 @@ trait SamsungUPNP {
 
     try{
 
-      $client     = new SoapClient(null, array( "location"   => "http://".$this->ReadPropertyString('ip').$path,
+      $client     = new SoapClient(null, array( "location"   => "http://"."192.168.178.35".$path,
 
                                                "uri"        => $uri,
 
