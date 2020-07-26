@@ -2519,8 +2519,8 @@ trait SamsungUPNP {
     protected function processSoapCall($path,$uri,$action,$parameter) {
 
     try{
-
-      $client     = new SoapClient(null, array( "location"   => "http://"."192.168.178.35".$path,
+      $ip = $this->ReadPropertyString('ip');
+      $client     = new SoapClient(null, array( "location"   => "http://".$ip.":52235".$path,
 
                                                "uri"        => $uri,
 
