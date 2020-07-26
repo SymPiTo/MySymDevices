@@ -115,10 +115,11 @@ class MySamsungTV extends IPSModule
             case "TVVolume":
                 break;
             case "TVKanal":
-                break
- 
+
+                break;
             default:
                 throw new Exception("Invalid Ident");
+                break;
         }
 
     } 
