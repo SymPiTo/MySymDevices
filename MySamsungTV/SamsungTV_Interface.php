@@ -1320,8 +1320,11 @@ trait SamsungUPNP {
     Parameters: 
     --------------------------------------------------------------------------------
     Returns:  
+      Array
+      [Result] => OK
+      [DetailChannelInformation] => 330000 KHz256 QAM6900 KS/s
     --------------------------------------------------------------------------------
-    Status:  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/ 
     public function GetDetailChannelInformation_MTVA(string $channel, int $AntennaMode = 2) {
       return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -1350,7 +1353,24 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/ 
-    
+    public function GetDetailProgramInformation_MTVA(int $AntennaMode = 2, string $channel, $startTime) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "GetDetailProgramInformation",
+
+                             array(
+
+                                      new SoapParam($AntennaMode ,"AntennaMode"),
+
+                                      new SoapParam($channel     ,"Channel"),
+
+                                      new SoapParam($startTime ,"StartTime")
+
+                                  ));
+  }  
+
     
     //*****************************************************************************
     /* Function: GetRegionalVariantList_MTVA()
