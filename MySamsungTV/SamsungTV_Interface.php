@@ -485,7 +485,7 @@ trait SamsungUPNP {
     Returns:  
 
     --------------------------------------------------------------------------------
-    Status:  26.07.2020 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     **************************************************************************** */
     public function GetCurrentConnectionIDs(){
 
@@ -515,7 +515,7 @@ trait SamsungUPNP {
     Returns:  
 
     --------------------------------------------------------------------------------
-    Status:  26.07.2020 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/
     public function GetCurrentConnectionInfo_CM(){
         return (int)$this->processSoapCall("/upnp/control/ConnectionManager1",
@@ -544,7 +544,7 @@ trait SamsungUPNP {
      * Source
      * Sink
     --------------------------------------------------------------------------------
-    Status:  25.09.2018 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/
     public function GetProtocolInfo_CM(){
         return (int)$this->processSoapCall("/upnp/control/ConnectionManager1",
@@ -732,7 +732,7 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Returns: none
     --------------------------------------------------------------------------------
-    Status:  18.07.2018 - OK  RASPI - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function SetVolume_RC(int $volume, string $channel = 'Master'){
         $this->processSoapCall("/upnp/control/RenderingControl1",
@@ -782,10 +782,10 @@ trait SamsungUPNP {
     } 
     
     
-    //*****************************************************************************
-    /* Function: SetMainTVChannel_MTVA($Channel, $AntennaMode = 2, $ChannelListType = '0x01', $SatelliteID = 0)
+  //*****************************************************************************
+  /* Function: SetMainTVChannel_MTVA($Channel, $AntennaMode = 2, $ChannelListType = '0x01', $SatelliteID = 0)
     ...............................................................................
-	TV Channel umschalten
+	  TV Channel umschalten
     ...............................................................................
     Parameters: 
      *   $Channel   = string 
@@ -798,7 +798,7 @@ trait SamsungUPNP {
 
     --------------------------------------------------------------------------------
     Status:  26.7.2020  funktioniert auf RASPI
-    //////////////////////////////////////////////////////////////////////////////*/   
+  //////////////////////////////////////////////////////////////////////////////*/   
   public function SetMainTVChannel_MTVA(string $Channel, int $AntennaMode=2, string $ChannelListType='0x01',  int $SatelliteID=0) {
 
         $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -820,18 +820,18 @@ trait SamsungUPNP {
 
   }
     
-    //*****************************************************************************
-    /* Function: SetMute_RC($mute)
+  //*****************************************************************************
+  /* Function: SetMute_RC($mute)
     ...............................................................................
-	TV stumm schalten
+	  TV stumm schalten
     ...............................................................................
     Parameters: 
      *   $mute   = boolean true/false 
     --------------------------------------------------------------------------------
     Returns:  none
     --------------------------------------------------------------------------------
-    Status:  18.07.2018 - OK  RASPI - OK
-    //////////////////////////////////////////////////////////////////////////////*/      
+    Status:  26.7.2020  funktioniert auf RASPI
+  //////////////////////////////////////////////////////////////////////////////*/      
     public function SetMute_RC(bool $mute) {
         if($mute){
           $mute = "1";
@@ -868,7 +868,7 @@ trait SamsungUPNP {
      * <CurrentTransportStatus>     OK
      * <CurrentSpeed>               1
     --------------------------------------------------------------------------------
-    Status:  Raspi - ok
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetTransportInfo_AV() {
         $returnContent = $this->processSoapCall("/upnp/control/AVTransport1",
@@ -915,7 +915,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentMute>    0
     --------------------------------------------------------------------------------
-    Status:  18.07.2018
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/     
     public function GetMute_RC(){
 
@@ -947,7 +947,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentVolume>  2
     --------------------------------------------------------------------------------
-    Status:  18.07.2018 - OK - RASPI OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/
     public function GetVolume_RC(string $channel = 'Master'){
 
@@ -978,7 +978,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentColorTemperature>    3
     --------------------------------------------------------------------------------
-    Status:  18.07.2018 - OK - raspi ok
+    Status: 26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/
     public function GetColorTemperature_RC(){
 
@@ -1007,7 +1007,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentSharpness>   60
     --------------------------------------------------------------------------------
-    Status:  25.09.2018 - OK
+    Status: 26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/   
      public function GetSharpness_RC(){
 
@@ -1036,7 +1036,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentContrast>    80
     --------------------------------------------------------------------------------
-    Status:  18.07.2018 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/ 
     public function GetContrast_RC(){
 
@@ -1067,7 +1067,7 @@ trait SamsungUPNP {
     Returns:  
      * <CurrentBrightness>  50
     --------------------------------------------------------------------------------
-    Status:  18.07.2018
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/   
     public function GetBrightness_RC(){
 
@@ -1086,38 +1086,7 @@ trait SamsungUPNP {
     } 
     
     
-     //*****************************************************************************
-    /* Function: GetCurrentConnection_CM()
-    ...............................................................................
-	 
-    ...............................................................................
-    Parameters: 
-    
-    --------------------------------------------------------------------------------
-    Returns:  
-     * <ConnectionIDs>  0
-
-    --------------------------------------------------------------------------------
-    Status:  3.2.2019 - NOK   geht nicht Raspi
-    //////////////////////////////////////////////////////////////////////////////*/   
-    public function GetCurrentConnection_CM() {
-
-        return (int)$this->processSoapCall("/upnp/control/ConnectionManager1",
-
-                                           "urn:schemas-upnp-org:service:ConnectionManager:1",
-
-                                           "GetCurrentConnection" ,
-
-                                                array(
-
-                                                       new SoapParam("0","InstanceID")
-
-                                                     ));
-
-    }
-    
-
-    
+  
     
 
     
@@ -1138,7 +1107,7 @@ trait SamsungUPNP {
      * ['Result']                    =>    OK // NOTOK_InvalidCh
      * ['AllProgramInformationURL']   => http://192.168.178.35:9090/BinaryBlob/1/AllProgInfo.dat
     --------------------------------------------------------------------------------
-    Status:  17.7.2018 - OK
+    Status: 26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/ 
     public function GetAllProgramInformationURL_MTVA(string $Channel, int $AntennaMode){
         return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -1157,22 +1126,33 @@ trait SamsungUPNP {
     } 
     
     //*****************************************************************************
-    /* Function: GetAllProgramInformationURL_MTVA($Channel, $AntennaMode)
+    /* Function: GetBannerInformation_MTVA()
     ...............................................................................
 	 
     ...............................................................................
     Parameters: 
-     * $Channel
-     * $AntennaMode
+     * 
+     * $BannerInformation
     
     --------------------------------------------------------------------------------
     Returns:  
-     * <Result>         OK
-     *  
+     * $Result          
+     * $BannerInformation 
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/ 
-    
+    public function GetBannerInformation_MTVA(){
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "GetBannerInformation",
+
+                             array(
+
+
+                                  ));
+  } 
     
     
     
@@ -1312,7 +1292,8 @@ trait SamsungUPNP {
                     [Result] => OK
                     [Lock] => Disable    
     --------------------------------------------------------------------------------
-    Status:  3.2.2019 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
+
     //////////////////////////////////////////////////////////////////////////////*/ 
     public function GetChannelLockInformation_MTVA(string $channel, int $AntennaMode = 2) {
         return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -1342,6 +1323,21 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  
     //////////////////////////////////////////////////////////////////////////////*/ 
+    public function GetDetailChannelInformation_MTVA(string $channel, int $AntennaMode = 2) {
+      return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
+
+                             "urn:samsung.com:service:MainTVAgent2:1",
+
+                             "GetDetailChannelInformation",
+
+                             array(
+
+                                      new SoapParam($channel     ,"Channel"),
+
+                                      new SoapParam($AntennaMode ,"AntennaMode")
+
+                                  ));
+  }  
 
 
     //*****************************************************************************
@@ -1948,7 +1944,7 @@ trait SamsungUPNP {
      * [ChannelListType] => 0x01
      * [Sort] => Number
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/ 
     public function GetChannelListURL_MTVA(){
         return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -1977,7 +1973,7 @@ trait SamsungUPNP {
     --------------------------------------------------------------------------------
     Status:  17.07.2018 - OK  
     //////////////////////////////////////////////////////////////////////////////*/    
-    private function GetCurrentExternalSource_MTVA(){
+    public function GetCurrentExternalSource_MTVA(){
         return $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
 
                                "urn:samsung.com:service:MainTVAgent2:1",
@@ -2040,7 +2036,7 @@ trait SamsungUPNP {
             $output['PTC']      = 1
             $output['PROGNUM']  = 12103
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK   RASPI - OK 8.2.2019
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetCurrentMainTVChannel_MTVA(){
         $result = $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
@@ -2083,7 +2079,7 @@ trait SamsungUPNP {
      * [Result] (string)            => OK
      * [CurrentProgInfoURL] (xml)   => http://192.168.178.135:9090/BinaryBlob/1/CurrentProgInfo.dat
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetCurrentProgramInformationURL_MTVA(){
         try {
@@ -2116,7 +2112,7 @@ trait SamsungUPNP {
      * [Result] (string)     => OK
      * [CurrentTime] (xml)   =>  2018-07-17T15:56:14
     --------------------------------------------------------------------------------
-    Status:  17.07.2018 - OK  
+    Status:  26.7.2020  funktioniert auf RASPI
     //////////////////////////////////////////////////////////////////////////////*/    
     public function GetCurrentTime(){
         $result = $this->processSoapCall("/MainTVServer2/control/MainTVAgent2",
