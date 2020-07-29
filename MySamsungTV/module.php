@@ -115,7 +115,7 @@ class MySamsungTV extends IPSModule
             case "TVVolume":
                 break;
             case "TVKanal":
-
+                $this->SendDebug('Aktion', 'Kanal: '.$Value , 0);
                 break;
             default:
                 throw new Exception("Invalid Ident");
