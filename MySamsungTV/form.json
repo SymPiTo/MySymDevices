@@ -54,7 +54,7 @@
         ],
         "actions": [{
                         "type": "Label",
-                        "label": "Read ChannelList"
+                        "label": "Erzeuge Senderliste"
                 },
                 {
                         "type": "Button",

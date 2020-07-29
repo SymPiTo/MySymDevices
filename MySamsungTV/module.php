@@ -1213,10 +1213,12 @@ class MySamsungTV extends IPSModule
             $chListSer = serialize($chlist);
             setvalue($this->GetIDForIdent("TVchList"), $chListSer);
             file_put_contents("/var/lib/symcon/media/channels.json",json_encode($chlist));
+            $this->SendDebug("ChannelList ", "wurde erstellt.", 0);
             return  $chlist;
         }
         else{
             return false;
+            $this->SendDebug("ChannelList ", "konnte nicht erstellt werden.", 0);
         }
     }    
         
