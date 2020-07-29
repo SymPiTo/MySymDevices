@@ -52,16 +52,7 @@
                 }
 
         ],
-        "actions": [{
-                        "type": "Label",
-                        "label": "Erzeuge Senderliste"
-                },
-                {
-                        "type": "Button",
-                        "label": "build ChannelList",
-                        "onClick": "STV_buildChannelList($id);"
-                }
-        ],
+
 
         "status": [{
                         "code": 101,
