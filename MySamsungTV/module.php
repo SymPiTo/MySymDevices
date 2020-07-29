@@ -29,8 +29,8 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyBoolean("telnet", false);
         $this->RegisterPropertyString("ip", "192.168.178.35");
         $this->RegisterPropertyInteger("updateInterval", 10000);	
-        $this->RegisterPropertyInteger("devicetype", 1);
-        $this->RegisterPropertyInteger("PowerSwitch_ID", 0);
+        //$this->RegisterPropertyInteger("devicetype", 1);
+        //$this->RegisterPropertyInteger("PowerSwitch_ID", 0);
         
         //Variable anlegen.
         $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
@@ -105,11 +105,11 @@ class MySamsungTV extends IPSModule
  
                     if($Value){
                         $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
-                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
+//                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
                         
                     }
                     else{
-                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät ausschalten
+ //                       FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät ausschalten
                     }
                 break;
             case "TVVolume":
@@ -1364,7 +1364,7 @@ class MySamsungTV extends IPSModule
         Public function SetPower($status){
              
             //prüfen ob Schaltsteckdose vorhanden
-            if($this->ReadPropertyInteger("PowerSwitch_ID")!= 0) {
+//            if($this->ReadPropertyInteger("PowerSwitch_ID")!= 0) {
                 if ($status == "On"){
                     FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
                     $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
@@ -1372,7 +1372,7 @@ class MySamsungTV extends IPSModule
                 if ($status == "Off"){
                     FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät einschalten
                 }
-            }
+//            }
             return $status;	
         }  
 }
