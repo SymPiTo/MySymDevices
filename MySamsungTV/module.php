@@ -9,8 +9,7 @@ class MySamsungTV extends IPSModule
 {
     
     //externe Klasse einbinden - ueberlagern mit TRAIT.
-    use SamsungUPNP,
-        MyDebugHelper2;
+    use MyDebugHelper2;
      
     //*****************************************************************************
     /* Function: Standardfunktinen für ein Modul. 
