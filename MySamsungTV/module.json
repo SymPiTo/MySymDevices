@@ -1,0 +1,13 @@
+{
+    "id": "{EE174FC7-24DF-46DA-A737-0C907AB4B149}",
+    "name": "MySamsungTV",
+    "type": 3,
+    "vendor": "PiTo",
+    "aliases": [
+        "Samsung TV"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "STV"
+}
