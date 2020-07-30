@@ -1,6 +1,6 @@
 <?php
 //zugehoerige TRAIT-Klassen    TEST xxxy
-,
+
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 
 
@@ -31,8 +31,8 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyInteger("updateInterval", 10000);	
         $this->RegisterPropertyInteger("devicetype", 1);
         $this->RegisterPropertyInteger("PowerSwitch_ID", 0);
- ,
-    }
+ 
+ }
     
     
     // ApplyChanges() wird einmalig aufgerufen beim Erstellen einer neuen Instanz und
@@ -44,10 +44,10 @@ class MySamsungTV extends IPSModule
         parent::ApplyChanges();
             if($this->ReadPropertyBoolean("aktiv")){
                 
-,
+
             }
             else {
-,
+
             }
     }
     
@@ -64,7 +64,7 @@ class MySamsungTV extends IPSModule
      *  SetValue($Ident, $Value)
      */
     /* **************************************************************************** */
-,
+
 	protected function GetIPSVersion()
 	{
 		$ipsversion = floatval(IPS_GetKernelVersion());
@@ -155,7 +155,7 @@ class MySamsungTV extends IPSModule
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/       
         public function watchdog() {
-,
+
         }
 
 	/*//////////////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (TelNet = OK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getVolume() {
-2
+
     }   
   
    
@@ -214,7 +214,7 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (Telnet = NOK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getChannel() {
-,
+
     } 
 
      //*****************************************************************************
