@@ -18,8 +18,9 @@
         },
         {
             "name": "updateInterval",
-            "type": "ValidationTextBox",
-            "caption": "update Interval (ms)"
+            "type": "NumberSpinner",
+            "caption": "Update Intervall",
+            "suffix": "seconds"
         }
     ],
     "actions": [{
