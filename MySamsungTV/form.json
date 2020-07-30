@@ -6,6 +6,11 @@
         {
             "type": "Label",
             "label": "IP adress"
+        },
+        {
+            "name": "ip",
+            "type": "ValidationTextBox",
+            "caption": "IP adress"
         }
     ],
     "actions": [{
