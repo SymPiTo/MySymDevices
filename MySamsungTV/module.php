@@ -1,6 +1,6 @@
 <?php
 //zugehoerige TRAIT-Klassen    TEST xxxy
-
+require_once(__DIR__ . "/SamsungTV_Interface.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 
 
@@ -9,7 +9,8 @@ class MySamsungTV extends IPSModule
 {
     
     //externe Klasse einbinden - ueberlagern mit TRAIT.
-    use MyDebugHelper2;
+    use SamsungUPNP,
+        MyDebugHelper2;
      
     //*****************************************************************************
     /* Function: Standardfunktinen für ein Modul. 
@@ -28,10 +29,54 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyBoolean("telnet", false);
         $this->RegisterPropertyString("ip", "192.168.178.35");
         $this->RegisterPropertyInteger("updateInterval", 10000);	
-        $this->RegisterPropertyInteger("devicetype", 0);
-        $this->RegisterPropertyInteger("PowerSwitch_ID", 0);
- 
- }
+        //$this->RegisterPropertyInteger("devicetype", 1);
+        //$this->RegisterPropertyInteger("PowerSwitch_ID", 0);
+        
+        //Variable anlegen.
+        $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("TVVolume", "Volume", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("TVChannel", "Channel", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVchLName", "ChannelName");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVGuide", "Guide");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVSource", "Source");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVSourceList", "SourceList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVChIcon", "ChannelIcon");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableBoolean("TVPower", "Power");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVchProgList", "ChannelProgList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("TVProgList", "ProgList");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("TVKanal", "Kanal", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        
+        // Aktiviert die Standardaktion der Statusvariable im Webfront
+        $this->EnableAction("TVPower");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVPower"), "~Switch");
+
+        $this->EnableAction("TVVolume");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVVolume"), "Volume");
+
+        $this->EnableAction("TVKanal");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVKanal"), "Channel");
+
+
+
+        
+      
+        // Timer erstellen
+        $this->RegisterTimer("update", $this->ReadPropertyInteger("updateInterval"), 'STV_update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer("watchdog", 60000, 'STV_watchdog($_IPS[\'TARGET\']);');
+        
+    }
     
     
     // ApplyChanges() wird einmalig aufgerufen beim Erstellen einer neuen Instanz und
@@ -43,12 +88,45 @@ class MySamsungTV extends IPSModule
         parent::ApplyChanges();
             if($this->ReadPropertyBoolean("aktiv")){
                 
-
+                $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
+                $this->SetTimerInterval("watchdog", 60000);
             }
             else {
-
+                $this->SetTimerInterval("update", 0);
+                $this->SetTimerInterval("watchdog", 0);
             }
     }
+    
+    public function RequestAction($Ident, $Value) {
+        switch($Ident) {
+            case "TVPower":
+                //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
+                //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
+ 
+                    if($Value){
+                        $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
+//                        FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
+                        
+                    }
+                    else{
+ //                       FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät ausschalten
+                    }
+                break;
+            case "TVVolume":
+                break;
+            case "TVKanal":
+                $this->SendDebug('Aktion', 'Kanal: '.$Value , 0);
+                break;
+            default:
+                throw new Exception("Invalid Ident");
+                break;
+        }
+
+    } 
+
+
+
+  
     
     
 
@@ -63,7 +141,17 @@ class MySamsungTV extends IPSModule
      *  SetValue($Ident, $Value)
      */
     /* **************************************************************************** */
-
+    protected function SendToSplitter(string $payload)
+		{						
+			//an Splitter schicken
+			$result = $this->SendDataToParent(json_encode(Array("DataID" => "{F1BA0997-BDDD-2732-1C5C-4C61BFD36F21}", "Buffer" => $payload))); // Interface GUI
+			return $result;
+		}
+		
+	/**
+	 * gets current IP-Symcon version
+	 * @return float|int
+	 */
 	protected function GetIPSVersion()
 	{
 		$ipsversion = floatval(IPS_GetKernelVersion());
@@ -154,7 +242,16 @@ class MySamsungTV extends IPSModule
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/       
         public function watchdog() {
-
+            $ip = $this->ReadPropertyString('ip');
+            $alive = Sys_Ping($ip, 1000);
+                $chName = getvalue($this->GetIDForIdent("TVchLName"));
+                $this->getChExtTVlist($chName);
+           if ($alive){
+               $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
+           }
+           else {
+               $this->SetTimerInterval("update", 0);
+           }
         }
 
 	/*//////////////////////////////////////////////////////////////////////////////
@@ -172,7 +269,38 @@ class MySamsungTV extends IPSModule
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/       
         public function update() {
-    
+                $this->SendDebug("TVProg ", "Update gestartet", 0);
+
+             
+       
+            $ip = $this->ReadPropertyString('ip');
+            $alive = Sys_Ping($ip, 1000);
+            if ($alive){
+                setvalue($this->GetIDForIdent("TVPower"), true);
+                $vol = $this->getVolume();  
+
+                /*
+                  
+                $channel = $this->getChannel();                 
+                $chName = $this->getCurrentChannelName();
+                $source = $this->getCurrentSource();
+                $sourceList = $this->getSourceList();
+                 
+                 */
+            }
+            else{
+                $this->SetTimerInterval("update", 0);
+                setvalue($this->GetIDForIdent("TVPower"), false);
+                setvalue($this->GetIDForIdent("TVGuide"),"");
+                $SourceList = json_decode(getvalue($this->GetIDForIdent("TVSourceList")), true);
+                if($SourceList != NULL){
+                    foreach ($SourceList as $key => $value) {
+                        $SourceList[$key]["CONNECTED"] = "No";
+                        $SourceList[$key]["active"] = "No";
+                    }
+                    setvalue($this->GetIDForIdent("TVSourceList"), json_encode($SourceList));
+                }
+            }
         }
 
 
@@ -194,7 +322,9 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (TelNet = OK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getVolume() {
-
+         $vol = $this->GetVolume_RC($channel = 'Master');
+        SetValue($this->GetIDForIdent("TVVolume"), (int)$vol);  
+        return (int)$vol;
     }   
   
    
@@ -213,7 +343,22 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (Telnet = NOK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getChannel() {
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){
+            $ch = $this->GetCurrentMainTVChannel_MTVA();
+            $this->SendDebug("getChannel ", $ch['MAJORCH'], 0);
+            SetValue($this->GetIDForIdent("TVChannel"), (int)$ch['MAJORCH']);  
+            $ChType     = $ch['ChType'];
+            $MajorCh    = $ch['MAJORCH'];        
+            $MinorCh    = $ch['MINORCH'];       
+            $PTC        = $ch['PTC'];  
+            $ProgNum    = $ch['PROGNUM'];      
+            $channel = "<Channel><ChType>".$ChType."</ChType><MajorCh>".$MajorCh."</MajorCh><MinorCh>".$MinorCh."</MinorCh><PTC>".$PTC."</PTC><ProgNum>".$ProgNum."</ProgNum></Channel>" ;
+            return $channel;
+        }
+        else{
+            return false;
+        }
     } 
 
      //*****************************************************************************
@@ -230,7 +375,28 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK   - (Telnet = NOK) 
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getCurrentChannelName() {
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){
+            $ch = $this->GetCurrentMainTVChannel_MTVA();
+            $such = $ch['MAJORCH'];
+            $prop = "MAJORCH";
+            $chListSer = getValue($this->GetIDForIdent("TVchList"));
+            $chList = unserialize($chListSer);
+            
+            $key = $this->searchForValue($such, $prop, $chList);
+            $chN = $chList[$key]['ChannelName'];
+        
+            $chName = substr($chN,1,strlen($chN)-2);
+            SetValue($this->GetIDForIdent("TVchLName"),(string)$chN );  
+            //HTMLBox Variable beschreiben
+            $file = '<img src="user/'.$chList[$key]['ICONURL'].' "/>';
+            SetValue($this->GetIDForIdent("TVChIcon"), $file);  
+            
+            return  $chList[$key]['$chName'];
+        }
+        else{
+            return false;
+        }
     }   
   
     
@@ -253,6 +419,67 @@ class MySamsungTV extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/  
     public function setChannelbyName(string $ChName) {
 
+        $chList = $this->readChannelFile();
+    
+        $searchvalue = $ChName;
+        $key = "NAME";
+        $array = $chList;
+        //$this->SendDebug("setChannelbyName ", "Suchwert: ". $searchvalue, 0);
+        
+        $result = $this->searcharray($searchvalue, $key, $array);
+        
+        $this->getChExtTVlist($ChName);
+
+        if($result){
+           $ch =  $chList[(int)$result];
+           $this->SendDebug("setChannelbyName ", "found: ".$ChName." in".$result, 0);
+           $ChType     = $ch['ChType'];
+           $MajorCh    = $ch['MAJORCH'];        
+           $MinorCh    = $ch['MINORCH'];       
+           $PTC        = $ch['PTC'];  
+           $ProgNum    = $ch['PROGNUM'];      
+           $channel = "<Channel><ChType>".$ChType."</ChType><MajorCh>".$MajorCh."</MajorCh><MinorCh>".$MinorCh."</MinorCh><PTC>".$PTC."</PTC><ProgNum>".$ProgNum."</ProgNum></Channel>" ;
+           setValue($this->GetIDForIdent("TVChannel"), $MajorCh);
+           setValue($this->GetIDForIdent("TVchLName"), $ChName);
+           
+
+           $telnet = $this->ReadPropertyBoolean("telnet");
+           if($telnet){  
+                //$this->SendDebug("send Telenet Command ", "KEY_".$MajorCh, 0); 
+            
+                if(intval($MajorCh)<10){
+                    $key = 'KEY_'.$MajorCh; 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                elseif(intval($MajorCh)<100){
+                    $key = 'KEY_'.substr($MajorCh,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($MajorCh,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                else {
+                    $key = 'KEY_'.substr($MajorCh,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($MajorCh,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($MajorCh,2,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+           }
+           else{
+            $this->SendDebug("setChannelbyName ", $channel, 0);
+            $this->SetMainTVChannel_MTVA($channel,  2,  '0x01',  0);
+           }
+        }
+        else {
+           $this->SendDebug("setChannelbyName ",  $searchvalue." not found", 0);  
+        }
     }   
     
     
@@ -283,7 +510,56 @@ class MySamsungTV extends IPSModule
     Status:    27.12.2019 OK - Telnet OK  
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getTVGuide() {  
+        //URL des TV Guides holen
+        $TVGuideURL = $this->GetCurrentProgramInformationURL_MTVA();
+        if ($TVGuideURL == false){
+            $this->SendDebug("getTVGuide ", "TV ausgeschaltet", 0);
+        }else{    
+            $this->SendDebug("getTVGuide ", $TVGuideURL, 0);
 
+            $url = $TVGuideURL['CurrentProgInfoURL'];
+            //TV Guide file auslesen
+            $ch = curl_init();
+            $timeout = 5;
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            $data = curl_exec($ch);
+            curl_close($ch);
+             //XML file bereinigen, da sonst nicht als xml lesbar (&)
+            $dataxml=preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $data);	  
+
+            $my_file ="programmliste.xml"; 
+            $handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
+            fwrite($handle, $dataxml);       
+
+            //xml laden
+            //$xml = simplexml_load_file($dataxml);
+
+            //$file = file_get_contents('programmliste.dat');
+            $xml = simplexml_load_file('programmliste.xml');
+
+
+            $channels= array("Das Erste", "ZDF", "RTL Television", "ProSieben", "kabel eins", "RTL2", "SAT.1", "3sat", "VOX", "Tele 5", "ONE", "RTLplus" );
+            $i=0;
+            $TVGuide = array();
+            foreach($channels as $ch){
+                foreach($xml->ProgramInfo as $elem){
+                    if($elem->DispChName == $ch){
+                            $TVGuide[$i]['DispChName'] = (string)($elem->DispChName);
+                            $TVGuide[$i]['Time'] = $elem->StartTime." - ".$elem->EndTime;
+                            $TVGuide[$i]['ProgTitle'] = (string) $elem->ProgTitle;
+                            //$Guide = $Guide.$TVGuide[$i]['DispChName'].";".$TVGuide[$i]['Time'].";".$TVGuide[$i]['ProgTitle'].";";
+                            $i=$i+1;
+                    }
+                }
+
+            }
+            
+            setvalue($this->GetIDForIdent("TVGuide"), json_encode($TVGuide));
+            return $TVGuide;
+             
+        }
     }
 
     
@@ -312,7 +588,32 @@ class MySamsungTV extends IPSModule
     Status:   - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getSourceList()  {
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){ 
+            $result = $this->GetSourceList_MTVA();
+    
+            $i = 0; 
+            foreach ($result["SOURCE1"] as $source) {
+                $sourceList[$i]["SOURCETYPE"] = $source["SOURCETYPE"];
+                $sourceList[$i]["ID"] = $source["ID"];
+                $sourceList[$i]["EDITABLE"] = $source["EDITABLE"];
+                $sourceList[$i]["DEVICENAME"] = $source["DEVICENAME"];
+                $sourceList[$i]["CONNECTED"] = $source["CONNECTED"];
+                $sourceList[$i]["SUPPORTVIEW"] = $source["SUPPORTVIEW"];
+                if($source["SOURCETYPE"] === $result["CURRENTSOURCETYPE"]){
+                    $sourceList[$i]["active"] = "yes";
+                }
+                else {
+                    $sourceList[$i]["active"] = "no";
+                }
+                $i = $i +1;
+            }
+            setvalue($this->GetIDForIdent("TVSourceList"),json_encode($sourceList));
+            return $sourceList;
+        }
+        else{
+            return false;
+        }
     }
     
     
@@ -330,7 +631,16 @@ class MySamsungTV extends IPSModule
     Status:   - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getCurrentSource()  {
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){ 
+            $result = $this->GetCurrentExternalSource_MTVA();
+            $source = $result['CurrentExternalSource'];
+            setvalue($this->GetIDForIdent("TVSource"),$source);
+            return $source;
+        }
+        else{
+            return false;
+        }
     }      
     
     //*****************************************************************************
@@ -347,7 +657,7 @@ class MySamsungTV extends IPSModule
     Status:   
     //////////////////////////////////////////////////////////////////////////////*/  
     public function sendWWW(string $URL)  {
-       
+        $result = $this->RunBrowser_MTVA($URL);
     }  
     
     
@@ -365,7 +675,22 @@ class MySamsungTV extends IPSModule
     Status:    - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function ToggleMute(){
- 
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_MUTE';
+            $result =   $this->sendKey($key);  
+        }
+        else{
+            $result = $this->GetMuteStatus_MTVA();
+            $state = $result['MuteStatus'];
+            //$this->SendDebug("ToggleMute ", $state,0);
+            if ($state == "Disable"){
+                $this->SetMute_MTVA('Enable');
+            }
+            else{
+            $this->SetMute_MTVA('Disable');
+            }	
+        }
 
     }   
     
@@ -384,7 +709,18 @@ class MySamsungTV extends IPSModule
     Status:   25.7.2018 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function incVolume(){   
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_VOLUP';
+            $result =   $this->sendKey($key);  
+        }
+        else{
+            $actVol = $this->GetVolume_MTVA();
+            $this->SendDebug("incVolume ", $actVol,0);
+            $vol = intval($actVol) + 1;
+            $this->SendDebug("incVolume ", $vol,0);
+            $this->SetVolume_MTVA((string)$vol);
+        }
     
     }
     
@@ -403,7 +739,18 @@ class MySamsungTV extends IPSModule
     Status:    25.7.2018 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function decVolume(){   
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_VOLDOWN';
+            $result =   $this->sendKey($key);  
+        }
+        else{
+            $actVol = $this->GetVolume_MTVA();
+                    $this->SendDebug("incVolume ", $actVol,0);
+            $vol = intval($actVol) - 1;
+                    $this->SendDebug("incVolume ", $vol,0);
+            $this->SetVolume_MTVA((string)$vol);
+        }
     }    
     
     /*//////////////////////////////////////////////////////////////////////////////
@@ -420,7 +767,16 @@ class MySamsungTV extends IPSModule
     Status:    28.12.2019 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function nextChannel(){   
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_CHUP';
+            $result =   $this->sendKey($key);  
+            $chName = getvalue($this->GetIDForIdent("TVchLName"));
+            $this->getChExtTVlist($chName);
+        }
+        else{
+  
+        }
     }    
 
     /*//////////////////////////////////////////////////////////////////////////////
@@ -437,7 +793,16 @@ class MySamsungTV extends IPSModule
     Status:    28.12.2019 - Telnet OK
     //////////////////////////////////////////////////////////////////////////////*/	
     Public function prevChannel(){   
-
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet){ 
+            $key = 'KEY_CHDOWN';
+            $result =   $this->sendKey($key);  
+            $chName = getvalue($this->GetIDForIdent("TVchLName"));
+            $this->getChExtTVlist($chName);
+        }
+        else{
+  
+        }
     }   
 
      //*****************************************************************************
@@ -454,7 +819,33 @@ class MySamsungTV extends IPSModule
     Status:      
     //////////////////////////////////////////////////////////////////////////////*/  
     public function setSource($source) { 
+        // read sourcelist, if available as variable otherwise read from TV
+        
+        $SourceList = json_decode(getvalue($this->GetIDForIdent("TVSourceList")), true);
+        if (empty($SourceList)){
+            $SourceList = $this->getSourceList();
+        }
+        try {
+            // run your code here
+            $i = $this->searcharray($source, "SOURCETYPE", $SourceList);
+            if ($i === NULL){
+                throw new Exception("Source could not be found!");
+            }
+            $ID = intval($SourceList[$i]["ID"]);
+            $connected = $SourceList[$i]["CONNECTED"];
+            if ($connected === "No"){
+                throw new Exception("Source is not connected!");
+            }
+            $this->SetMainTVSource_MTVA($source, $ID);
+        }
 
+        catch (Exception $ex) {
+            //code to handle the exception
+            $this->SendDebug("setSource ", $source."  - ".$ex->getMessage(), 0);
+            return false;
+        }
+ 
+        return true;  
     }     
     
     
@@ -494,6 +885,242 @@ class MySamsungTV extends IPSModule
     Status:   27.12.2019 all OK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getChExtTVlist(string $ChName) {
+        $this->SendDebug("TVProg ", "Lese Programmliste", 0);
+        // TV Spielfilm 
+        $url = 'http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml';      // TV Programm JETZT 
+        //$url = 'http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml';  // TV Programm 20.15 Uhr 
+        //$url = 'http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml';  // TV Programm 22.00 Uhr 
+        //$url = 'http://www.tvspielfilm.de/tv-programm/rss/filme.xml';      // TV Programm SPIELFILME 
+        //$url = 'http://www.tvspielfilm.de/news/rss.xml';                   // TV News 
+
+        switch ($ChName) {
+            case "COMEDY CENTRAL":
+                $ChName = "COMEDY CENTRAL";
+                $icon = "comedy central us.png";
+                break;
+            case "PRO7MAXX":
+                $ChName = "ProSieben MAXX";
+                $icon = "pro sieben maxx.png";
+                break;
+            case "ARD HD":
+                $ChName = "Das Erste";
+                $icon = "Das Erste HD.png";
+                break;
+            case "ZDF HD":
+                $ChName = "ZDF";
+                $icon = "zdf hd.png";
+                break;
+            case "RTL":
+                $ChName = "RTL";
+                $icon = "rtl.png";
+                break;
+            case "SAT1":
+                $ChName = "SAT.1";
+                $icon = "sat1.png";
+                break;
+            case "PRO7":
+                $ChName = "ProSieben";
+                $icon = "ProSieben.png";
+                break;
+            case "KABEL1":
+                $ChName = "kabel eins";
+                $icon = "kabel eins.png";
+                break;
+            case "RTL2":
+                $ChName = "RTL II";
+                $icon = "rtl2.png";
+                break;
+            case "VOX":
+                $ChName = "VOX";
+                $icon = "vox.png";
+                break;
+            case "TELE5":
+                $ChName = "TELE 5";
+                $icon = "Tele 5.png";
+                break;
+            case "3sat":
+                $ChName = "3sat";
+                $icon = "3sat.png";
+                break;
+            case "ARTE HD":
+                $ChName = "ARTE";
+                $icon = "arte.png";
+                break;
+            case "ZDF neo HD":
+                $ChName = "ZDFneo";
+                $icon = "zdf neo hd.png";
+                break;
+            case "ONE HD":
+                $ChName = "ONE";
+                $icon = "One HD.png";
+                break;
+            case "Servus TV":
+                $ChName = "ServusTV Deutschland";
+                $icon = "servus tv.png";
+                break;
+            case "Nitro":
+                $ChName = "NITRO";
+                $icon = "";
+                break;
+            case "DMAX":
+                $ChName = "DMAX";
+                $icon = "dmax.png";
+                break;
+            case "SIXX":
+                $ChName = "sixx";
+                $icon = "sixx.png";
+                break;
+            case "SAT1GOLD":
+                $ChName = "SAT.1 Gold";
+                $icon = "sat1 gold.png";
+                break;
+            default:
+                $icon = "leer.png";
+                break;
+        }
+
+// AB HIER NICHTS MEHR ÄNDERN 
+//////IPS_SetScriptTimer($_IPS['SELF'], $refreshtime); 
+        try {
+            $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA); 
+            if($xml == false){
+                throw new Exception('TV Spielfim Guide Liste kann nicht geladen werden.');
+            }
+            
+        } 
+        catch (Exception $e) {
+            $this->SendDebug('TV Spielfilm Guide: ',  $e->getMessage(), 0);
+            return false;
+        }
+        
+
+        $str =  "<table width='auto'>"; 
+        $strA =  "<table width='auto'>"; 
+    // Datenausgabe 
+ 
+   $xmlstring = $xml->channel; 
+    
+    $json = json_encode($xmlstring);
+    $array = json_decode($json,TRUE);
+ 
+    foreach ($array["item"]  as $item) {
+         $teile = explode(" | ", $item['title']);
+         //$this->SendDebug("TVProg ", $teile, 0);
+        if($teile[1]=== $ChName){
+            if (is_string($item['title']))  { 
+                 $this->SendDebug("TVProg ", "Programm gefunden", 0);
+            } 
+            else  { 
+                 $this->SendDebug("TVProg ", "Programm not founde", 0);
+              continue; 
+            } 
+            $titel = "<b style=color:yellow;>".$item['title']."</b>"; 
+
+            if (is_string($item['description']))  { 
+                $beschreibung = "<small style=color:white;>".$item['description']."</small>"; 
+            } 
+            else  { 
+              $beschreibung = "<small></small>"; 
+            } 
+
+            $text = $titel."<br>".$beschreibung."<br>"; 
+            //$text = utf8_decode($text); 
+            $searchArray = $item; 
+
+            // IF-Abfrage, wenn Array zu Ende, dann abbrechen 
+            //if(isset($searchArray['enclosure']) != true)  { 
+            //   break; 
+            //} 
+            if(array_key_exists('enclosure', $searchArray)) {  
+                
+                $chIcon =  "images/Sender/".str_replace(" ","%20", $icon);
+                 
+                $image = $item['enclosure']['@attributes']['url']; 
+                $str .= "<table><tr>"; 
+                $str .= "<td width='40px'height='40px'><div><img src=$chIcon  height='60px' width='100px'></div></td>"; 
+                $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$titel</div>"; 
+                $str .= "</td></tr>\n"; 
+                $str .= "<tr>"; 
+                $str .= "<td width='auto'height='80px'><div><img src=$image alt='not Found'  align='top'></div></td>"; 
+                $str .= "<td width='480px'><div style='text-align:left; margin-left:10px;'>$beschreibung</div>"; 
+                $str .= "</td></tr></table>\n"; 
+            } 
+            else 
+            { 
+               $str .= "<tr>"; 
+               $str .= "<td></td><td width='980px'><div style='text-align:left; margin-left:10px;'>$text</div></td>"; 
+               $str .= "</tr>\n"; 
+            } 
+        }
+            //alle Sender sammeln
+            if (is_string($item['title']))  { 
+            } 
+            else  { 
+              continue; 
+            } 
+               
+                
+         
+
+            $top = explode("|", $item['title']);
+            $zeit = $top[0];
+            $sender =  $top[1];
+            $titel =  $top[2];
+
+            $z = '<b style=color:lime;>'.$zeit.'</b>'; 
+            $s = '<b onclick="window.parent.changeToCh("RTL")" style=color:yellow;>'.$sender.'</b>'; 
+     
+ 
+            $t = '<b style=color:red;>'.$titel.'</b>'; 
+            
+            //$titelA = "<b style=color:lime;>".titel."</b>"; 
+            $titelA =  $z.$s.$t;
+
+            if (is_string($item['description']))  { 
+                //$beschreibungA = "<small style=color:white;>".$item['description']."</small>"; 
+                $beschreibungA = "<small></small>"; 
+            } 
+            else  { 
+              $beschreibungA = "<small></small>"; 
+            } 
+
+            $textA = $titelA."<br>".$beschreibungA."<br>"; 
+            //$text = utf8_decode($text); 
+            $searchArray = $item; 
+
+            // IF-Abfrage, wenn Array zu Ende, dann abbrechen 
+            //if(isset($searchArray['enclosure']) != true)  { 
+            //   break; 
+            //} 
+            if(array_key_exists('enclosure', $searchArray)) 
+            { 
+                $imageA = $item['enclosure']['@attributes']['url']; 
+               $strA .= "<tr>"; 
+               //$strA .= "<td width='auto'height='80px'><div><img src=$imageA alt='not Found'></div></td>"; 
+               $strA .= "<td width='500px'><div style='text-align:left; margin-left:10px;'>$textA</div>"; 
+               $strA .= "</td></tr>\n"; 
+            } 
+            else 
+            { 
+               $strA .= "<tr>"; 
+               //$strA .= "<td></td><td width='980px'><div style='text-align:left; margin-left:10px;'>$textA</div></td>"; 
+               $strA .= "<td width='500px'><div style='text-align:left; margin-left:10px;'>$textA</div></td>"; 
+               $strA .= "</tr>\n"; 
+            } 
+            
+
+        
+    }
+    
+        $str .= "</table>\n"; 
+        $this->SendDebug("TVProg ", "Schreibe Prog in Variable".$str, 0);
+        setvalue($this->GetIDForIdent("TVchProgList"),$str);
+        $strA .= "</table>\n"; 
+        setvalue($this->GetIDForIdent("TVProgList"),$strA);
+        
+        return $strA; 
+
+
 
     }
     
@@ -524,7 +1151,75 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function buildChannelList() {
- 
+        $telnet = $this->ReadPropertyBoolean("telnet");
+        if($telnet == false){ 
+            $chURL =  $this->GetChannelListURL_MTVA();
+            $url = $chURL["ChannelListURL"];
+            $input = file_get_contents($url);
+            $len = strlen($input);
+            $offset = 124;
+            $anzahl = floor($len / 124)-1;
+            $chlist = array();
+
+            for ($i = 0; $i <= $anzahl; $i++) {
+                $chlist[$i]['Kanal'] = rtrim(substr($input,16 + $i*$offset, 3));
+                $chlist[$i]['ChannelName'] = rtrim(substr($input,28 + $i*$offset, 20));
+            }
+            
+            $n = 0;
+    
+                
+            foreach($chlist as $ch) {
+                $kanal = $ch["Kanal"];
+                $name = $ch["ChannelName"];
+                // auf Kanal schalten und MainChannel XML auslesen
+                if(intval($kanal)<10){
+                    $key = 'KEY_'.$kanal; 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                elseif(intval($kanal)<100){
+                    $key = 'KEY_'.substr($kanal,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                else {
+                    $key = 'KEY_'.substr($kanal,0,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,1,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_'.substr($kanal,2,1); 
+                    $this->sendKey($key);
+                    $key = 'KEY_ENTER';
+                    $result =   $this->sendKey($key);   
+                }
+                $mc = $this->GetCurrentMainTVChannel_MTVA();
+                $chlist[$n]['ChType'] = $mc['ChType'];
+                $chlist[$n]['MAJORCH'] = $mc['MAJORCH'];
+                $chlist[$n]['MINORCH'] = $mc['MINORCH'];
+                $chlist[$n]['PTC'] = $mc['PTC'];
+                $chlist[$n]['PROGNUM'] = $mc['PROGNUM'];
+                $chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>" ;
+                // search for icon
+                $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
+                $this->SendDebug("ChannelList ", $chlist[$n], 0);
+                $n = $n + 1;        
+                
+            } 
+            $chListSer = serialize($chlist);
+            setvalue($this->GetIDForIdent("TVchList"), $chListSer);
+            file_put_contents("/var/lib/symcon/media/channels.json",json_encode($chlist));
+            $this->SendDebug("ChannelList ", "wurde erstellt.", 0);
+            return  $chlist;
+        }
+        else{
+            return false;
+            $this->SendDebug("ChannelList ", "konnte nicht erstellt werden.", 0);
+        }
     }    
         
     
@@ -668,6 +1363,16 @@ class MySamsungTV extends IPSModule
         //////////////////////////////////////////////////////////////////////////////*/        
         Public function SetPower($status){
              
-
+            //prüfen ob Schaltsteckdose vorhanden
+//            if($this->ReadPropertyInteger("PowerSwitch_ID")!= 0) {
+                if ($status == "On"){
+                    FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), true); //Gerät einschalten
+                    $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
+                }
+                if ($status == "Off"){
+                    FS20_SwitchMode($this->ReadPropertyInteger("PowerSwitch_ID"), false); //Gerät einschalten
+                }
+//            }
+            return $status;	
         }  
 }
