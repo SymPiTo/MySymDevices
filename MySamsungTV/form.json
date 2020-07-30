@@ -11,6 +11,15 @@
             "name": "ip",
             "type": "ValidationTextBox",
             "caption": "IP adress"
+        },
+        {
+            "type": "Label",
+            "label": "update Interval"
+        },
+        {
+            "name": "updateInterval",
+            "type": "ValidationTextBox",
+            "caption": "update Interval [ms]"
         }
     ],
     "actions": [{
