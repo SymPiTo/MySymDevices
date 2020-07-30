@@ -2,8 +2,35 @@
     "elements": [{
             "name": "aktiv",
             "type": "CheckBox"
+        },
+        {
+            "type": "Label",
+            "label": "IP adress"
+        },
+        {
+            "name": "ip",
+            "type": "ValidationTextBox",
+            "caption": "IP adress"
+        },
+        {
+            "type": "Label",
+            "label": "update Interval"
+        },
+        {
+            "name": "updateInterval",
+            "type": "ValidationTextBox",
+            "caption": "update Interval [ms]"
+        },
+        {
+            "name": "telnet",
+            "type": "CheckBox",
+            "caption": "Telnet Interface"
+        },
+        {
+            "name": "PowerSwitch_ID",
+            "type": "SelectObject",
+            "caption": "FunkSchaltdose Objekt selektieren."
         }
-
     ],
     "actions": [{
             "type": "Label",
