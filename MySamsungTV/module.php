@@ -28,7 +28,7 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyBoolean("telnet", false);
         $this->RegisterPropertyString("ip", "192.168.178.35");
         $this->RegisterPropertyInteger("updateInterval", 10000);	
-        $this->RegisterPropertyInteger("devicetype", 1);
+        $this->RegisterPropertyInteger("devicetype", 0);
         $this->RegisterPropertyInteger("PowerSwitch_ID", 0);
  
  }
