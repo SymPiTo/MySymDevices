@@ -178,16 +178,14 @@ class MySamsungTV extends IPSModule
                     case 18:
                         $ChName = "WELT";
                         break;                                            
-                    default:
-                        # code...
-                        break;
+ 
                 }
-                setChannelbyName($ChName)
+                $this->setChannelbyName($ChName);
 
                 break;
-                case "TVMute":
-                    $this->SendDebug('Aktion', 'Mute: '.$Value , 0);
-                    break;
+            case "TVMute":
+                $this->SendDebug('Aktion', 'Mute: '.$Value , 0);
+                break;
             default:
                 throw new Exception("Invalid Ident");
                 break;
