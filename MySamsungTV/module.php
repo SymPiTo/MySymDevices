@@ -71,7 +71,7 @@ class MySamsungTV extends IPSModule
         IPS_SetVariableCustomProfile($this->GetIDForIdent("TVKanal"), "Channel");
 
         $this->EnableAction("TVMute");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVMute"), "~switch");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVMute"), "~Switch");
 
      
       
