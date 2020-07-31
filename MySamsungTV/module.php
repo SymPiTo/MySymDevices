@@ -120,6 +120,70 @@ class MySamsungTV extends IPSModule
                 break;
             case "TVKanal":
                 $this->SendDebug('Aktion', 'Kanal: '.$Value , 0);
+                switch ($Value) {
+                    case 0:
+                        $ChName = "ARD HD";
+                        break;
+                    case 1:
+                        $ChName = "ZDF HD";
+                        break;
+                    case 2:
+                        $ChName = "RTL Television";
+                        break;
+                    case 3:
+                        $ChName = "ProSieben";
+                        break;
+                    case 4:
+                        $ChName = "kabel eins";
+                        break;
+                    case 5:
+                        $ChName = "RTL2";
+                        break;
+                    case 6:
+                        $ChName = "SAT.1";
+                        break;
+                    case 7:
+                        $ChName = "3Sat";
+                        break;
+                    case 8:
+                        $ChName = "VOX";
+                        break;
+                    case 9:
+                        $ChName = "Tele 5";
+                        break;
+                    case 10:
+                        $ChName = "ONE HD";
+                        break;
+                    case 11:
+                        $ChName = "RTLPLUS";
+                        break;    
+                    case 12:
+                        $ChName = "PHOENIX HD";
+                        break;
+                    case 13:
+                        $ChName = "arte HD";
+                        break;
+                    case 14:
+                        $ChName = "SAT.1 GOLD";
+                        break;
+                    case 15:
+                        $ChName = "SIXX";
+                        break;
+                    case 16:
+                        $ChName = "PRO7MAXX";
+                        break;
+                    case 17:
+                        $ChName = "ZDF_neo HD";
+                        break;
+                    case 18:
+                        $ChName = "WELT";
+                        break;                                            
+                    default:
+                        # code...
+                        break;
+                }
+                setChannelbyName($ChName)
+
                 break;
                 case "TVMute":
                     $this->SendDebug('Aktion', 'Mute: '.$Value , 0);
