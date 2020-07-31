@@ -57,7 +57,9 @@ class MySamsungTV extends IPSModule
         IPS_SetInfo ($variablenID, "WSS"); 
         $variablenID = $this->RegisterVariableInteger("TVKanal", "Kanal", "");
         IPS_SetInfo ($variablenID, "WSS"); 
-        
+        $variablenID = $this->RegisterVariableBoolean("TVMute", "Mute", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+
         // Aktiviert die Standardaktion der Statusvariable im Webfront
         $this->EnableAction("TVPower");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("TVPower"), "~Switch");
@@ -68,9 +70,10 @@ class MySamsungTV extends IPSModule
         $this->EnableAction("TVKanal");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("TVKanal"), "Channel");
 
+        $this->EnableAction("TVMute");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("TVMute"), "~switch");
 
-
-        
+     
       
         // Timer erstellen
         $this->RegisterTimer("update", $this->ReadPropertyInteger("updateInterval"), 'STV_update($_IPS[\'TARGET\']);');
@@ -113,10 +116,14 @@ class MySamsungTV extends IPSModule
                     }
                 break;
             case "TVVolume":
+                $this->SendDebug('Aktion', 'Volume: '.$Value , 0);
                 break;
             case "TVKanal":
                 $this->SendDebug('Aktion', 'Kanal: '.$Value , 0);
                 break;
+                case "TVMute":
+                    $this->SendDebug('Aktion', 'Mute: '.$Value , 0);
+                    break;
             default:
                 throw new Exception("Invalid Ident");
                 break;
