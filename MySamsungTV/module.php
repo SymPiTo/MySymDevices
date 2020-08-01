@@ -493,10 +493,10 @@ class MySamsungTV extends IPSModule
         $searchvalue = $ChName;
         $key = "NAME";
         $array = $chList;
-        //$this->SendDebug("setChannelbyName ", "Suchwert: ". $searchvalue, 0);
+        $this->SendDebug("setChannelbyName ", "Suchwert: ". $searchvalue, 0);
         
         $result = $this->searcharray($searchvalue, $key, $array);
-        
+        $this->SendDebug("setChannelbyName ", "SSuchergebnis: ". $result, 0);
         $this->getChExtTVlist($ChName);
 
         if($result){
