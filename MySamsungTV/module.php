@@ -123,7 +123,7 @@ class MySamsungTV extends IPSModule
                 $this->setvalue("TVKanal",  $Value);
                 switch ($Value) {
                     case 0:
-                        $ChName = "ARD HD";
+                        $ChName = "Das Erste HD";
                         break;
                     case 1:
                         $ChName = "ZDF HD";
@@ -144,7 +144,7 @@ class MySamsungTV extends IPSModule
                         $ChName = "SAT.1";
                         break;
                     case 7:
-                        $ChName = "3Sat";
+                        $ChName = "3sat";
                         break;
                     case 8:
                         $ChName = "VOX";
@@ -156,7 +156,7 @@ class MySamsungTV extends IPSModule
                         $ChName = "ONE HD";
                         break;
                     case 11:
-                        $ChName = "RTLPLUS";
+                        $ChName = "RTLplus";
                         break;    
                     case 12:
                         $ChName = "PHOENIX HD";
