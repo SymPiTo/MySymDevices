@@ -1276,6 +1276,7 @@ class MySamsungTV extends IPSModule
 
         
                 $xml = new SimpleXMLElement('<Channel/>');
+                $xml->addChild("Channel");
                 $xml->Channel->addChild("ChType",$chlist[$n]['ChType']);
                 $xml->Channel->addChild("MajorCh",$chlist[$n]['MAJORCH']);
                 $xml->Channel->addChild("MinorCh",$chlist[$n]['MINORCH']);
