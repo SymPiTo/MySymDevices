@@ -120,6 +120,7 @@ class MySamsungTV extends IPSModule
                 break;
             case "TVKanal":
                 $this->SendDebug('Aktion', 'Kanal: '.$Value , 0);
+                $this->setvalue("TVKanal",  $Value);
                 switch ($Value) {
                     case 0:
                         $ChName = "ARD HD";
