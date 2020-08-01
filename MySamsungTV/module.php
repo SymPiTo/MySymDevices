@@ -1277,10 +1277,10 @@ class MySamsungTV extends IPSModule
         
 
 
-                $ch = "<Channel><ChType>".$chlist[$n]['ChType']."<ChType><MajorCh>".$chlist[$n]['MAJORCH']."<MajorCh><MinorCh>".$chlist[$n]['MINORCH']."<MinorCh><PTC>".$chlist[$n]['PTC']."<PTC><ProgNum>".$chlist[$n]['PROGNUM']."<ProgNum><Channel>";
+                $ch = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
                 //$chlist[$n]['channelXml'] = str_replace( "\/" , "/" , $ch );
                 //$chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
-                $chlist[$n]['channelXml'] = $ch;
+                //$chlist[$n]['channelXml'] = $xml->asXML();
                 
                 // search for icon
                 $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
@@ -1292,7 +1292,7 @@ class MySamsungTV extends IPSModule
             //$chListSer = serialize($chlist);
             //setvalue($this->GetIDForIdent("TVchList"), $chListSer);
             $dataPath = IPS_GetKernelDir() . '/modules/MySymDevices/MySamsungTV/';
-            file_put_contents($dataPath."channels.json",json_encode($chlist));
+            file_put_contents($dataPath."channels.json",json_encode($chlist, JSON_UNESCAPED_SLASHES));
             $this->SendDebug("ChannelList ", "wurde erstellt.", 0);
             return  $chlist;
         }
