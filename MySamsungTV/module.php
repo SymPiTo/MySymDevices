@@ -1276,12 +1276,11 @@ class MySamsungTV extends IPSModule
 
         
                 $xml = new SimpleXMLElement('<Channel/>');
-                $xml->addChild("Channel");
-                $xml->Channel->addChild("ChType",$chlist[$n]['ChType']);
-                $xml->Channel->addChild("MajorCh",$chlist[$n]['MAJORCH']);
-                $xml->Channel->addChild("MinorCh",$chlist[$n]['MINORCH']);
-                $xml->Channel->addChild("PTC",$chlist[$n]['PTC']);
-                $xml->Channel->addChild("ProgNum",$chlist[$n]['PROGNUM']);
+                $xml->addChild("ChType",$chlist[$n]['ChType']);
+                $xml->addChild("MajorCh",$chlist[$n]['MAJORCH']);
+                $xml->addChild("MinorCh",$chlist[$n]['MINORCH']);
+                $xml->addChild("PTC",$chlist[$n]['PTC']);
+                $xml->addChild("ProgNum",$chlist[$n]['PROGNUM']);
 
                 //$ch = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
                 //$chlist[$n]['channelXml'] = str_replace( "\/" , "/" , $ch );
