@@ -1273,10 +1273,19 @@ class MySamsungTV extends IPSModule
                 $chlist[$n]['MINORCH'] = $mc['MINORCH'];
                 $chlist[$n]['PTC'] = $mc['PTC'];
                 $chlist[$n]['PROGNUM'] = $mc['PROGNUM'];
-                $ch = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
-                $chlist[$n]['channelXml'] = str_replace( "\/" , "/" , $ch );
+
+        
+                $xml = new SimpleXMLElement('<Channel/>');
+                $xml->Channel->addChild("ChType",$chlist[$n]['ChType']);
+                $xml->Channel->addChild("MajorCh",$chlist[$n]['MAJORCH']);
+                $xml->Channel->addChild("MinorCh",$chlist[$n]['MINORCH']);
+                $xml->Channel->addChild("PTC",$chlist[$n]['PTC']);
+                $xml->Channel->addChild("ProgNum",$chlist[$n]['PROGNUM']);
+
+                //$ch = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
+                //$chlist[$n]['channelXml'] = str_replace( "\/" , "/" , $ch );
                 //$chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
-                // \/ durch / ersetzen
+                $chlist[$n]['channelXml'] = $xml;
                 
                 // search for icon
                 $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
