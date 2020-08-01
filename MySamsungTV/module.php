@@ -1283,6 +1283,7 @@ class MySamsungTV extends IPSModule
                 $n = $n + 1;        
                 
             } 
+            
             //$chListSer = serialize($chlist);
             //setvalue($this->GetIDForIdent("TVchList"), $chListSer);
             $dataPath = IPS_GetKernelDir() . '/modules/MySymDevices/MySamsungTV/';
