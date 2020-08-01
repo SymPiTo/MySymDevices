@@ -489,7 +489,7 @@ class MySamsungTV extends IPSModule
     public function setChannelbyName(string $ChName) {
 
         $chList = $this->readChannelFile();
-    
+        $this->SendDebug("setChannelbyName ", $chList, 0);
         $searchvalue = $ChName;
         $key = "NAME";
         $array = $chList;
