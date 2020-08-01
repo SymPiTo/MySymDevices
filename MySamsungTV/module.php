@@ -1286,7 +1286,7 @@ class MySamsungTV extends IPSModule
                 //$ch = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
                 //$chlist[$n]['channelXml'] = str_replace( "\/" , "/" , $ch );
                 //$chlist[$n]['channelXml'] = "<Channel><ChType>".$chlist[$n]['ChType']."</ChType><MajorCh>".$chlist[$n]['MAJORCH']."</MajorCh><MinorCh>".$chlist[$n]['MINORCH']."</MinorCh><PTC>".$chlist[$n]['PTC']."</PTC><ProgNum>".$chlist[$n]['PROGNUM']."</ProgNum></Channel>";
-                $chlist[$n]['channelXml'] = $xml;
+                $chlist[$n]['channelXml'] = $xml->asXML();
                 
                 // search for icon
                 $chlist[$n]['ICONURL'] = "images/Sender/".$name.".png";
