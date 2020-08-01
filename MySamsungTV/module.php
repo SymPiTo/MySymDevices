@@ -489,7 +489,7 @@ class MySamsungTV extends IPSModule
     public function setChannelbyName(string $ChName) {
 
         $chList = $this->readChannelFile();
-        $this->SendDebug("setChannelbyName ", $chList, 0);
+        $this->SendDebug("setChannelbyName ", "lese file channel.json", 0);
         $searchvalue = $ChName;
         $key = "NAME";
         $array = $chList;
@@ -1402,7 +1402,7 @@ class MySamsungTV extends IPSModule
         }
         
         
-        Protected function readChannelFile() {
+        public function readChannelFile() {
             // Read JSON file
             $dataPath = IPS_GetKernelDir() . '/modules/MySymDevices/MySamsungTV/';
             $json = file_get_contents($dataPath.'channels.json');
