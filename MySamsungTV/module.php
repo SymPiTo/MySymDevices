@@ -487,11 +487,11 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK    - (Telnet = OK) 
     //////////////////////////////////////////////////////////////////////////////*/  
     public function setChannelbyName(string $ChName) {
-
+        $this->SendDebug("setChannelbyName ", "schalte auf Kanal:".$ChName, 0);
         $chList = $this->readChannelFile();
         $this->SendDebug("setChannelbyName ", "lese file channel.json", 0);
         $searchvalue = $ChName;
-        $key = "NAME";
+        $key = "ChannelName";
         $array = $chList;
         $this->SendDebug("setChannelbyName ", "Suchwert: ". $searchvalue, 0);
         
@@ -1370,7 +1370,7 @@ class MySamsungTV extends IPSModule
        
         Protected function searcharray($value, $key, $array) {
            foreach ($array as $k => $val) {
-                $this->SendDebug("searcharray vergleiche: ", $val[$key]." mit ".  $value  , 0);
+               $this->SendDebug("searcharray vergleiche: ", $val[$key]." mit ".  $value  , 0);
                if ($val[$key] == $value) {
                    $this->SendDebug("Suchergebnis ", $key, 0);
                    return $k;
