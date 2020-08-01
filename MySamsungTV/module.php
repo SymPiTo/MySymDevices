@@ -543,6 +543,7 @@ class MySamsungTV extends IPSModule
            }
            else{
             $this->SendDebug("setChannelbyName ", $channel, 0);
+             
             $this->SetMainTVChannel_MTVA($channel,  2,  '0x01',  0);
            }
         }
@@ -1281,9 +1282,10 @@ class MySamsungTV extends IPSModule
                 $n = $n + 1;        
                 
             } 
-            $chListSer = serialize($chlist);
-            setvalue($this->GetIDForIdent("TVchList"), $chListSer);
-            file_put_contents("/var/lib/symcon/media/channels.json",json_encode($chlist));
+            //$chListSer = serialize($chlist);
+            //setvalue($this->GetIDForIdent("TVchList"), $chListSer);
+            $dataPath = IPS_GetKernelDir() . '/modules/MySymDevices/MySamsungTV/';
+            file_put_contents($dataPath."channels.json",json_encode($chlist));
             $this->SendDebug("ChannelList ", "wurde erstellt.", 0);
             return  $chlist;
         }
