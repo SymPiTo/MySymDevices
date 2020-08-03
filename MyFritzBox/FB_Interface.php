@@ -28,8 +28,6 @@ trait FB_soap
 					       array(
 
 	 
-							'login'      => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
-							'password'   => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD")
 
 							)
 		);
