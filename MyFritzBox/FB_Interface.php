@@ -83,7 +83,7 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 	  Protected function processSoapCall(string $path, string $uri,string $action, array $parameter)
 	  {
 	    try{
-		$ip = $this->ReadPropertyString('IPAddress');
+		$ip = $this->ReadPropertyString('FBX_IP');
 	      $client     = new SoapClient(null, array("location"   => "http://".$ip.":49000".$path,
 
 						       "uri"        => $uri,
