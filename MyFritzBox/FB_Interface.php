@@ -23,7 +23,7 @@ trait FB_soap
 
 					    "urn:dslforum-org:service:LANHostConfigManagement:1",
 
-					    "GetInfo",
+					    "GetAddressRange",
 
 					       array(
 
