@@ -40,6 +40,7 @@ ___________________________________________________________________________
         $this->RegisterPropertyString("IPAddress", "ip");
         $this->RegisterPropertyString("FBX_USERNAME", "user@user.com");
         $this->RegisterPropertyString("FBX_PASSWORD", "");
+
         
         // Register Profiles
         $this->RegisterProfiles();
