@@ -84,11 +84,22 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 	  {
 	    try{
 		$ip = $this->ReadPropertyString('FBX_IP');
-	      $client     = new SoapClient(null, array("location"   => "http://".$ip.":49000".$path,
+	      $client     = new SoapClient(
+					  null, 
+					  array(
+						  		"location"   => "http://".$ip.":49000".$path,
 
 						       "uri"        => $uri,
 
-						       "trace"      => true ));
+							   "trace"      => true, 
+
+							   'noroot' 	=> True,
+
+							   'login'     => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
+
+							   'password'  => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD")
+
+							));
 
 	      return $client->__soapCall($action,$parameter);
 	    }catch(Exception $e){
