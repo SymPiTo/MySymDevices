@@ -1,0 +1,12 @@
+{
+    "id": "{24DF35B0-8DBC-45B8-80D2-28AABC672D86}",
+    "name": "MyFB",
+    "type": 3,
+    "vendor": "PiTo",
+    "aliases": ["My FritzBox"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "FB",
+    "url": ""
+}
