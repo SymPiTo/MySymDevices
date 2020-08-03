@@ -96,7 +96,7 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 							   'login'     => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
 
 							   'password'  => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD"),
-							   'exception' => 0
+							    
 
 							));
 
