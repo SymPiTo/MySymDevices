@@ -85,7 +85,7 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 	      $client     = new SoapClient(
 					  null, 
 					  array(
-						  		"location"   => "http://".$ip.":49000".$path,
+						  		"location"   => "http://192.168.178.1:49000".$path,
 
 						       "uri"        => $uri,
 
