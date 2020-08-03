@@ -27,7 +27,11 @@ trait FB_soap
 
 					       array(
 
- 
+							'location'   => "http://".IPS_GetProperty($this->InstanceID, "FBX_IP").":49000/upnp/control/x_tam",
+							'uri'        => "urn:dslforum-org:service:X_AVM-DE_TAM:1",
+							'noroot'     => True,
+							'login'      => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
+							'password'   => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD")
 
 							)
 		);

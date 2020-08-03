@@ -10,6 +10,16 @@
 			"caption": "IP-Address/Host"
 		},
 		{
+			"name": "FBX_USERNAME",
+			"type": "ValidationTextBox",
+			"caption": "Benutzername"
+		},
+		{
+			"name": "FBX_PASSWORD",
+			"type": "PasswordTextBox",
+			"caption": "Passwort"
+		},
+		{
 			"type": "NumberSpinner",
 			"name": "UpdateInterval",
 			"caption": "UpdateInterval",
