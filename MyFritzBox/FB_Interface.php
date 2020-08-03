@@ -91,13 +91,14 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 
 						       "uri"        => $uri,
 
-							   "trace"      => true, 
+							  
 
 							   'noroot' 	=> True,
 
 							   'login'     => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
 
-							   'password'  => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD")
+							   'password'  => IPS_GetProperty($this->InstanceID, "FBX_PASSWORD"),
+							   'exception' => 0
 
 							));
 
