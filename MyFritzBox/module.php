@@ -35,9 +35,9 @@ ___________________________________________________________________________
 
         //$this->ReadPropertyFloat("NAME", 0.0);
 
-        $this->ReadPropertyInteger("UpdateInterval", 0);
+        $this->RegisterPropertyInteger("UpdateInterval", 0);
 
-        $this->ReadPropertyString("IPAddress", "ip");
+        $this->RegisterPropertyString("IPAddress", "ip");
 
         // Register Profiles
         $this->RegisterProfiles();
