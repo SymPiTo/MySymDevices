@@ -27,9 +27,7 @@ trait FB_soap
 
 					       array(
 
-						      new SoapParam("0"     ,"InstanceID"),
-
-						      new SoapParam($channel,"Channel"   )
+ 
 
 							)
 		);
@@ -42,7 +40,7 @@ trait FB_soap
 # $desc = "tr64desc.xml"; //Hier sind die Infos über die Dienste enthalten
 # SCPD = "lanhostconfigmgmSCPD.xml";  // Hier sind die Infos über die Funktionen und Parameter/Variablen enthalten, sowie die Definition der Variablen Typen.
 # $action="GetInfo";  //Diese Funktion soll ausgeführt werden
-public function FB_getServiceData($fbroot,$descXML,$SCPD)
+public function getServiceData($fbroot,$descXML,$SCPD)
 {
 	global $_IPS;
 
