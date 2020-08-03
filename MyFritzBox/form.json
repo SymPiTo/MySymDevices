@@ -5,7 +5,7 @@
 			"caption": "active"
 		},
 		{
-			"name": "IPAddress",
+			"name": "FBX_IP",
 			"type": "ValidationTextBox",
 			"caption": "IP-Address/Host"
 		},
