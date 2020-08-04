@@ -21,7 +21,7 @@ trait FB_soap
 	    return (int)$this->processSoapCall(
 						"/upnp/control/deviceinfo",
 
-					    "urn:DeviceInfo-com:serviceId:DeviceInfo:1",
+					    "urn:dslforum-org:service:DeviceInfo:1",
 
 					    "GetInfo",
 
