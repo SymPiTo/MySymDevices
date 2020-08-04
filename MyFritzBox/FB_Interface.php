@@ -23,7 +23,7 @@ trait FB_soap
 
 					    "urn:dslforum-org:service:Hosts:1",
 
-					    "GetHostNumberOfEntries",
+					    "GetSpecificHostEntry",
 
 					       array(
 
