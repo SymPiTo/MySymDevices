@@ -16,7 +16,7 @@ trait FB_soap
 					
 	Rückgabewert: 	 Integer Wert 0 - x 
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function GetDHCP_Server()
+	  public function Get_Hosts()
 	  {
 	    return (int)$this->processSoapCall(
 						"/upnp/control/hosts",
