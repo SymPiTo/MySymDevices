@@ -248,7 +248,7 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 
 
 # SOAP-Aktion ausführen
-Public function SoapAction($service,$action,$parameter=null,$user = false,$pass = false)
+Public function MySoapAction($service,$action,$parameter=null,$user = false,$pass = false)
 {
 	global $_IPS;
 	if (($parameter <> null) and (!is_array($parameter)) and (!is_object($parameter)))
