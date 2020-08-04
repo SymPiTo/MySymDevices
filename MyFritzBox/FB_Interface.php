@@ -19,11 +19,11 @@ trait FB_soap
 	  public function GetDHCP_Server()
 	  {
 	    return (int)$this->processSoapCall(
-						"/upnp/control/deviceinfo",
+						"/upnp/control/hosts",
 
-					    "urn:dslforum-org:service:DeviceInfo:1",
+					    "urn:dslforum-org:service:Hosts:1",
 
-					    "GetInfo",
+					    "GetHostNumberOfEntries",
 
 					       array(
 
