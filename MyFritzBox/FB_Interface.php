@@ -242,6 +242,100 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 	  }
 
 
+
+
+
+
+
+# SOAP-Aktion ausführen
+Public function SoapAction($service,$action,$parameter=null,$user = false,$pass = false)
+{
+	global $_IPS;
+	if (($parameter <> null) and (!is_array($parameter)) and (!is_object($parameter)))
+	{
+		if ($_IPS['SENDER'] == "WebFront") echo "Falscher Parameter in soapCall.".PHP_EOL;
+		else IPS_LogMessage("FritzBox","Falscher Parameter in soapCall. Script:".$_IPS['SELF']." - ".IPS_GetName($_IPS['SELF']));
+		return false;
+	}
+
+	if ($service === false) return false;
+	$service['noroot'] = true;
+	if ((defined("FB_DEBUG") and FB_DEBUG) or (defined("FB_DEBUG_ERROR") and FB_DEBUG_ERROR))
+	$service['trace'] = true;
+	else 	$service['trace'] = false;
+	$service['exceptions'] = false;
+	$service['connection_timeout'] = 2;
+	$service['default_socket_timeout'] = 2;
+	if (!($user === false))
+	{
+		$service['login'] = $user;
+		$service['password'] = $pass;
+	}
+	$client = new SoapClient(null,$service);
+
+	for ($i=0;$i<2000;$i++)
+	{
+		if (IPS_SemaphoreEnter("FB_".(string)12834,1))
+		{
+			if ($parameter <> null)
+			{
+			   if (is_array($parameter)) $status = @$client->__soapCall($action,$parameter);
+			   elseif (is_object($parameter)) $status = @$client->{$action}($parameter);
+			}
+			else $status = @$client->{$action}();
+			IPS_SemaphoreLeave("FB_".(string)12834);
+			$i=-1;
+			break;
+		} else {
+		
+		IPS_Sleep(mt_rand(1,5));
+		}
+	}
+	if ($i <> -1)
+	{
+			if ($_IPS['SENDER'] == "WebFront") echo "Konnte Semaphore nicht setzen.".PHP_EOL;
+			else IPS_LogMessage("FritzBox","ERROR: Konnte Semaphore nicht setzen. Script:".$_IPS['SELF']." - ".IPS_GetName($_IPS['SELF']));
+			return false;
+	}
+	if (is_soap_fault($status))
+	{
+		if (defined("FB_DEBUG_ERROR") and FB_DEBUG_ERROR)
+		{
+			IPS_LogMessage('FB_SOAP_FAULT',print_r($status,1));
+			IPS_LogMessage('FB_DEBUG',print_r($client->__getLastRequest(),1));
+		}
+		if ($status->faultstring == "Could not connect to host")
+		{
+		   FB_SetFBOffline();
+		   FB_ErrorCounter();
+		}
+	   return false;
+	}
+
+	if (defined("FB_DEBUG") and FB_DEBUG)
+	{
+		IPS_LogMessage('FB_DEBUG',print_r($status,1));
+		IPS_LogMessage('FB_DEBUG',print_r($client->__getLastRequest(),1));
+	}
+   FB_SetFBOnline();
+   if (is_Null($status)) return true;
+	else return $status;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*//////////////////////////////////////////////////////////////////////////////
 	2018-02´5-01 (TESTED-OK)
 	-------------------------------------------------------------------------------- 	
