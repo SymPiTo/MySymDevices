@@ -87,9 +87,9 @@ public function getServiceData($fbroot,$descXML,$SCPD)
 
 						       "uri"        => $uri,
 
-							  
+							   'trace' 		=> true,
 
-							   'noroot' 	=> True,
+							   'noroot' 	=> true,
 
 							   'login'     => IPS_GetProperty($this->InstanceID, "FBX_USERNAME"),
 
