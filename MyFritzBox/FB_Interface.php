@@ -16,7 +16,7 @@ trait FB_soap
 					
 	Rückgabewert: 	 Integer Wert 0 - x 
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function Get_Hosts()
+	  public function Get_Hosts($MetaData)
 	  {
 	    return (int)$this->processSoapCall(
 						"/upnp/control/hosts",
@@ -26,7 +26,7 @@ trait FB_soap
 					    "GetSpecificHostEntry",
 
 					       array(
-
+							new SoapParam($MetaData       ,"NewMACAddress"   )
 
 
 							)
