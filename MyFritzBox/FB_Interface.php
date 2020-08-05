@@ -98,7 +98,7 @@ public function MygetServiceData($fbroot,$descXML,$SCPD)
 
 							));
 
-	      return $client->GetSpecificHostEntry($parameter);
+	      return $client->__soapCall($action,$parameter);
 	    }catch(Exception $e){
 	      $faultstring = $e->faultstring;
 	      $faultcode   = $e->faultcode;
