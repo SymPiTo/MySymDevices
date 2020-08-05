@@ -3,6 +3,7 @@
 trait FB_soap  
 {
           
+	
 	/*//////////////////////////////////////////////////////////////////////////////
 	2018-02´5-01 (TESTED-OK)
 	--------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ trait FB_soap
 # $desc = "tr64desc.xml"; //Hier sind die Infos über die Dienste enthalten
 # SCPD = "lanhostconfigmgmSCPD.xml";  // Hier sind die Infos über die Funktionen und Parameter/Variablen enthalten, sowie die Definition der Variablen Typen.
 # $action="GetInfo";  //Diese Funktion soll ausgeführt werden
-public function MygetServiceData($fbroot,$descXML,$SCPD)
+public function ReadServiceList($fbroot,$descXML,$SCPD)
 {
 	global $_IPS;
 
