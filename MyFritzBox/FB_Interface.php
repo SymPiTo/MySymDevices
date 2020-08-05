@@ -54,7 +54,7 @@ public function ReadServiceList($fbroot,$descXML,$SCPD)
 	}
 	$xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
 
-	$xmlservice = $xml->xpath("//fb:service" );
+	$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL]" );
 	//$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL='/".$SCPD."']");
 
 	$service['uri'] = (string)$xmlservice[0]->serviceType;
