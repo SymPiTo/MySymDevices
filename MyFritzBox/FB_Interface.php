@@ -18,7 +18,7 @@ trait FB_soap
 	//////////////////////////////////////////////////////////////////////////////*/
 	  public function Get_Hosts($MetaData)
 	  {
-	    return  $this->processSoapCall(
+	    return $this->processSoapCall(
 						"/upnp/control/hosts",
 
 					    "urn:dslforum-org:service:Hosts:1",
@@ -98,7 +98,7 @@ public function MygetServiceData($fbroot,$descXML,$SCPD)
 
 							));
 
-	      return $client->__soapCall($action,$parameter);
+	      return $client->($action,$parameter);
 	    }catch(Exception $e){
 	      $faultstring = $e->faultstring;
 	      $faultcode   = $e->faultcode;
