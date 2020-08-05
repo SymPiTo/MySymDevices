@@ -18,7 +18,7 @@ trait FB_soap
 	//////////////////////////////////////////////////////////////////////////////*/
 	  public function Get_Hosts($MetaData)
 	  {
-	    return (int)$this->processSoapCall(
+	    return  $this->processSoapCall(
 						"/upnp/control/hosts",
 
 					    "urn:dslforum-org:service:Hosts:1",
