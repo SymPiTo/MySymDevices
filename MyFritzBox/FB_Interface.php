@@ -53,11 +53,14 @@ public function ReadServiceList($fbroot,$descXML,$SCPD)
 		return false;
 	}
 	$xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
-	$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL='/".$SCPD."']");
+
+	$xmlservice = $xml->xpath("//fb:service" );
+	//$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL='/".$SCPD."']");
+
 	$service['uri'] = (string)$xmlservice[0]->serviceType;
 	$service['location'] =$fbroot.(string)$xmlservice[0]->controlURL;
 	$service['SCPDURL'] =trim((string)$xmlservice[0]->SCPDURL,"/");
-	return $xml;
+	return $xmlservice;
 }
  
 
