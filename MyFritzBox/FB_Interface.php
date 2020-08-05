@@ -57,7 +57,7 @@ public function ReadServiceList($fbroot,$descXML,$SCPD)
 	$service['uri'] = (string)$xmlservice[0]->serviceType;
 	$service['location'] =$fbroot.(string)$xmlservice[0]->controlURL;
 	$service['SCPDURL'] =trim((string)$xmlservice[0]->SCPDURL,"/");
-	return $service;
+	return $xml;
 }
  
 
