@@ -68,7 +68,7 @@ trait FB_soap
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
-	Funktion 	:	Gibt den DynDNSName von MyFritz zurück
+	Funktion 	:	 
 						 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
@@ -77,10 +77,20 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	 Array
-							[NewEnabled] => 1
-							[NewDeviceRegistered] => 1
-							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
-							[NewPort] => 55759
+						[NewEnabled] => 1
+						[NewName] => Kodi-Alexa-Tablet
+						[NewScheme] => http://
+						[NewPort] => 2340
+						[NewURLPath] => 
+						[NewType] => 
+						[NewIPv4ForwardingWarning] => 0
+						[NewIPv4Addresses] => 192.168.178.25
+						[NewIPv6Addresses] => 
+						[NewIPv6InterfaceIDs] => ::4c4f:e72c:de8e:2776
+						[NewMACAddress] => 88:70:8C:50:A8:63
+						[NewHostName] => Lenovo-PC
+						[NewDynDnsLabel] => lenovo-pc
+						[NewStatus] => 200
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetServiceByIndex($NewIndex ){
 	    return $this->processSoapCall(
@@ -95,9 +105,35 @@ trait FB_soap
 
 							)
 		);
-	  }
+	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+					
+	Rückgabewert: 	 Array
+	 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetClient($ClientIndex ){
+	    return $this->processSoapCall(
+						"/upnp/control/x_voip",
 
+					    "urn:dslforum-org:service:X_VoIP:1",
+
+					    "GetServiceByIndex",
+
+					       array(
+								new SoapParam($ClientIndex   ,"NewX_AVM-DE_ClientIndex" )
+
+							)
+		);
+	}
 
 
 
