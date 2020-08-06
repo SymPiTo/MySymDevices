@@ -60,7 +60,7 @@ trait FB_soap
 					    "GetServiceByIndex",
 
 					       array(
-								new SoapParam($NewIndex            ,"NumberOfServices"         	)
+								new SoapParam($NewIndex   ,"NewIndex" )
 
 							)
 		);
