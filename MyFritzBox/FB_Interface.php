@@ -118,9 +118,45 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	 Array
-	 
+		[NewX_AVM-DE_ClientUsername] => 4962214309070
+		[NewX_AVM-DE_ClientRegistrar] => 192.168.178.1
+		[NewX_AVM-DE_ClientRegistrarPort] => 5060
+		[NewX_AVM-DE_PhoneName] => IP-Symcon
+		[NewX_AVM-DE_OutGoingNumber] => 4309070
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetClient($ClientIndex ){
+	public function GetNumberOfClients(){
+	    return $this->processSoapCall(
+						"/upnp/control/x_voip",
+
+					    "urn:dslforum-org:service:X_VoIP:1",
+
+					    "X_AVM-DE_GetNumberOfClients",
+
+					       array(
+								 
+
+							)
+		);
+	}
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 ClientIndex
+					
+	Rückgabewert: 	 Array
+		[NewX_AVM-DE_ClientUsername] => 4962214309070
+		[NewX_AVM-DE_ClientRegistrar] => 192.168.178.1
+		[NewX_AVM-DE_ClientRegistrarPort] => 5060
+		[NewX_AVM-DE_PhoneName] => IP-Symcon
+		[NewX_AVM-DE_OutGoingNumber] => 4309070
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetClient($ClientIndex){
 	    return $this->processSoapCall(
 						"/upnp/control/x_voip",
 
