@@ -175,7 +175,7 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
-	Parameter:		 none
+	Parameter:		 $NewIndex
 					
 	Rückgabewert: 	 Array
  
@@ -190,7 +190,6 @@ trait FB_soap
 
 					       array(
 							new SoapParam($NewIndex   ,"NewIndex" )
-
 							)
 		);
 	}
