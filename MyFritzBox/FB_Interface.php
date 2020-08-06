@@ -17,7 +17,7 @@ trait FB_soap
 					
 	Rückgabewert: 	 Integer Wert 0 - x 
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function Get_Hosts($MetaData)
+	  public function Get_Hosts()
 	  {
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
