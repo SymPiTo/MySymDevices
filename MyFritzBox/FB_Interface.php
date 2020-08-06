@@ -126,7 +126,7 @@ trait FB_soap
 
 					    "urn:dslforum-org:service:X_VoIP:1",
 
-					    "GetServiceByIndex",
+					    "X_AVM-DE_GetClient",
 
 					       array(
 								new SoapParam($ClientIndex   ,"NewX_AVM-DE_ClientIndex" )
