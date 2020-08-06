@@ -175,14 +175,10 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
-	Parameter:		 ClientIndex
+	Parameter:		 none
 					
 	Rückgabewert: 	 Array
-		[NewX_AVM-DE_ClientUsername] => 4962214309070
-		[NewX_AVM-DE_ClientRegistrar] => 192.168.178.1
-		[NewX_AVM-DE_ClientRegistrarPort] => 5060
-		[NewX_AVM-DE_PhoneName] => IP-Symcon
-		[NewX_AVM-DE_OutGoingNumber] => 4309070
+ 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetInfo_Contacts(){
 	    return $this->processSoapCall(
