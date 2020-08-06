@@ -5,20 +5,22 @@ trait FB_soap
           
 	
 	/*//////////////////////////////////////////////////////////////////////////////
-	2018-02´5-01 (TESTED-OK)
 	--------------------------------------------------------------------------------
-	Funktion 	:	Gibt den Lautstärke Wert zurück
+	Funktion 	:	Gibt den DynDNSName von MyFritz zurück
 						 
-	Befehl		:	GetVolume($channel = 'Master')  
+	Befehl		:	 
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
-	Parameter:		 $channel = 'Master'
+	Parameter:		 none
 					
-	Rückgabewert: 	 Integer Wert 0 - x 
+	Rückgabewert: 	 Array
+							[NewEnabled] => 1
+							[NewDeviceRegistered] => 1
+							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
+							[NewPort] => 55759
 	//////////////////////////////////////////////////////////////////////////////*/
-	  public function Get_Hosts()
-	  {
+	  public function Get_MyFritz_DynDNS(){
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
 
@@ -32,6 +34,53 @@ trait FB_soap
 							)
 		);
 	  }
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	Gibt den DynDNSName von MyFritz zurück
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+					
+	Rückgabewert: 	 Array
+							[NewEnabled] => 1
+							[NewDeviceRegistered] => 1
+							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
+							[NewPort] => 55759
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetServiceByIndex(){
+	    return $this->processSoapCall(
+						"/upnp/control/x_myfritz",
+
+					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
+
+					    "GetServiceByIndex",
+
+					       array(
+							 
+
+							)
+		);
+	  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
