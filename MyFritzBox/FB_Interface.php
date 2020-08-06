@@ -20,15 +20,14 @@ trait FB_soap
 	  public function Get_Hosts($MetaData)
 	  {
 	    return $this->processSoapCall(
-						"/upnp/control/hosts",
+						"/upnp/control/x_myfritz",
 
-					    "urn:dslforum-org:service:Hosts:1",
+					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
 
-					    "GetSpecificHostEntry",
+					    "GetInfo",
 
 					       array(
-							new SoapParam($MetaData       ,"NewMACAddress"   )
-
+							 
 
 							)
 		);
@@ -54,16 +53,20 @@ public function ReadServiceList($fbroot,$descXML,$SCPD)
 	}
 	$xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
 
-	$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL]" );
+	$xmlservices = $xml->xpath("//fb:service" );
 	//$xmlservice = $xml->xpath("//fb:service[fb:SCPDURL='/".$SCPD."']");
-
+	/*
 	$service['uri'] = (string)$xmlservice[0]->serviceType;
 	$service['location'] =$fbroot.(string)$xmlservice[0]->controlURL;
 	$service['SCPDURL'] =trim((string)$xmlservice[0]->SCPDURL,"/");
-	return $xmlservice;
+	*/
+	return $xmlservices;
 }
  
+public function ReadActionList($ServiceList)
+{
 
+}
 	/*//////////////////////////////////////////////////////////////////////////////
 	2018-02´5-01 (TESTED-OK)
 	--------------------------------------------------------------------------------
