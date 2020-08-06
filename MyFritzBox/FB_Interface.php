@@ -180,16 +180,16 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetInfo_Contacts(){
+	public function GetInfo_Tam($NewIndex){
 	    return $this->processSoapCall(
-						"/upnp/control/x_contact",
+						"/upnp/control/x_tam",
 
-					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
+					    "urn:dslforum-org:service:X_AVM-DE_TAM:1",
 
 					    "GetInfo",
 
 					       array(
-								
+							new SoapParam($NewIndex   ,"NewIndex" )
 
 							)
 		);
