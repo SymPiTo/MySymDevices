@@ -51,7 +51,7 @@ trait FB_soap
 							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
 							[NewPort] => 55759
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetServiceByIndex(){
+	public function GetServiceByIndex($NewIndex ){
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
 
@@ -60,7 +60,7 @@ trait FB_soap
 					    "GetServiceByIndex",
 
 					       array(
-							 
+								new SoapParam($NewIndex            ,"NumberOfServices"         	)
 
 							)
 		);
