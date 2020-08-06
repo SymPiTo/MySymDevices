@@ -37,6 +37,37 @@ trait FB_soap
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+					
+	Rückgabewert: 	 Array
+							[NewEnabled] => 1
+							[NewDeviceRegistered] => 1
+							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
+							[NewPort] => 55759
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetNumberOfServices(){
+	    return $this->processSoapCall(
+						"/upnp/control/x_myfritz",
+
+					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
+
+					    "GetNumberOfServices",
+
+					       array(
+								 
+
+							)
+		);
+	  }
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
 	Funktion 	:	Gibt den DynDNSName von MyFritz zurück
 						 
 	Befehl		:	 
