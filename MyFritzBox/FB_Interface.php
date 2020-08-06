@@ -180,7 +180,7 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetInfo_Tam($NewIndex){
+	public function GetInfo_AB($NewIndex){
 	    return $this->processSoapCall(
 						"/upnp/control/x_tam",
 
@@ -195,7 +195,32 @@ trait FB_soap
 	}
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetInfo_wan( ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
 
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+
+					    "GetInfo",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
