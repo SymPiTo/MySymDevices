@@ -325,7 +325,9 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-
+						[NewConnectionStatus] => Connecting
+						[NewLastConnectionError] => ERROR_NONE
+						[NewUptime] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function IP_GetStatusInfo(){
 	    return $this->processSoapCall(
@@ -341,6 +343,34 @@ trait FB_soap
 		);
 	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+						[NewConnectionStatus] => Connecting
+						[NewLastConnectionError] => ERROR_NONE
+						[NewUptime] => 0
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetConnectionTypeInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "GetConnectionTypeInfo",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
