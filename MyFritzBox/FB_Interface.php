@@ -248,6 +248,7 @@ trait FB_soap
 
 					       array(
 							new SoapParam($NewMACAddress   ,"NewMACAddress" )
+							
 							)
 		);
 	}
