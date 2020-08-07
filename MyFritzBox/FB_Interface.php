@@ -327,13 +327,13 @@ trait FB_soap
 	Rückgabewert: 	 Array
 
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function RequestConnection(){
+	public function IP_GetStatusInfo(){
 	    return $this->processSoapCall(
 						"/upnp/control/wanipconnection1",
 
 					    "urn:dslforum-org:service:WANIPConnection:1",
 
-					    "RequestConnection",
+					    "GetStatusInfo",
 
 					       array(
 							 
@@ -356,7 +356,7 @@ trait FB_soap
 
 
 
-	
+
 # Daten eines Dienste aus der FritzBox lesen
 # $fbroot = 'http://'.FB_HOST.':'.FB_PORT; //Adresse + Port (immer 49000)
 # $desc = "tr64desc.xml"; //Hier sind die Infos über die Dienste enthalten
