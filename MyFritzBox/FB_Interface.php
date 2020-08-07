@@ -206,9 +206,39 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
- 
+						[NewEnable] => 1
+						[NewConnectionStatus] => Connected
+						[NewPossibleConnectionTypes] => IP_Routed, IP_Bridged
+						[NewConnectionType] => IP_Routed
+						[NewName] => internet
+						[NewUptime] => 61534
+						[NewUpstreamMaxBitRate] => 691018
+						[NewDownstreamMaxBitRate] => 11335245
+						[NewLastConnectionError] => ERROR_NONE
+						[NewIdleDisconnectTime] => 0
+						[NewRSIPAvailable] => 0
+						[NewUserName] => 1und1/2006-963@online.de
+						[NewNATEnabled] => 1
+						[NewExternalIPAddress] => 92.194.29.159
+						[NewDNSServers] => 2001:1a80::1, 2001:1a80::2,212.202.215.1,212.202.215.2
+						[NewMACAddress] => 34:31:C4:B6:72:E6
+						[NewConnectionTrigger] => AlwaysOn
+						[NewLastAuthErrorInfo] => 
+						[NewMaxCharsUsername] => 128
+						[NewMinCharsUsername] => 3
+						[NewAllowedCharsUsername] => 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._@()#/%[]{}*+§$&=?!:;,
+						[NewMaxCharsPassword] => 64
+						[NewMinCharsPassword] => 3
+						[NewAllowedCharsPassword] => 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._@()#/%[]{}*+§$&=?!:;,
+						[NewTransportType] => PPPoE
+						[NewRouteProtocolRx] => Off
+						[NewPPPoEServiceName] => 
+						[NewRemoteIPAddress] => 
+						[NewPPPoEACName] => srbfra31
+						[NewDNSEnabled] => 1
+						[NewDNSOverrideAllowed] => 1
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetInfo_wan( ){
+	public function GetInfo_connection( ){
 	    return $this->processSoapCall(
 						"/upnp/control/wanpppconn1",
 
@@ -228,7 +258,34 @@ trait FB_soap
 
 
 
+//  33 ------------------------------------------------------------------------
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetDNSServers(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "X_GetDNSServers",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
