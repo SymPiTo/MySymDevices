@@ -354,9 +354,8 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-						[NewConnectionStatus] => Connecting
-						[NewLastConnectionError] => ERROR_NONE
-						[NewUptime] => 0
+						[NewConnectionType] => IP_Routed
+						[NewPossibleConnectionTypes] => IP_Routed, IP_Bridged
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetConnectionTypeInfo(){
 	    return $this->processSoapCall(
@@ -372,6 +371,33 @@ trait FB_soap
 		);
 	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+						[NewConnectionType] => IP_Routed
+						[NewPossibleConnectionTypes] => IP_Routed, IP_Bridged
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function IP_GetInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "GetInfo",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
