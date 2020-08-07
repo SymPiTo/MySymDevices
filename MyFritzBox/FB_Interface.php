@@ -194,6 +194,34 @@ trait FB_soap
 		);
 	}
 
+//  28 ------------------------------------------------------------------------
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetCommonLinkProperties(){
+	    return $this->processSoapCall(
+						"/upnp/control/wancommonifconfig1",
+
+					    "urn:dslforum-org:service:WANCommonInterfaceConfig:1",
+
+					    "GetCommonLinkProperties",
+
+					       array(
+							 
+							)
+		);
+	}
+
 
 //  29 ------------------------------------------------------------------------
 
@@ -208,7 +236,21 @@ trait FB_soap
 	Parameter:		  
 
 	Rückgabewert: Array	  
- 
+					[NewEnable] => 1
+					[NewStatus] => Up
+					[NewDataPath] => Interleaved
+					[NewUpstreamCurrRate] => 763
+					[NewDownstreamCurrRate] => 12442
+					[NewUpstreamMaxRate] => 763
+					[NewDownstreamMaxRate] => 12540
+					[NewUpstreamNoiseMargin] => 210
+					[NewDownstreamNoiseMargin] => 70
+					[NewUpstreamAttenuation] => 120
+					[NewDownstreamAttenuation] => 240
+					[NewATURVendor] => 41564d00
+					[NewATURCountry] => 0400
+					[NewUpstreamPower] => 513
+					[NewDownstreamPower] => 519
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function DSL_GetInfo(){
 	    return $this->processSoapCall(
