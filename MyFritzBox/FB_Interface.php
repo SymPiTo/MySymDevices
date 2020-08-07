@@ -269,7 +269,13 @@ trait FB_soap
 	Parameter:	$NewIndex = 	 
 					
 	Rückgabewert: 	 Array
-						 
+						[NewIPAddress] => 192.168.178.27
+						[NewAddressSource] => DHCP
+						[NewLeaseTimeRemaining] => 0
+						[NewMACAddress] => 30:05:5C:4F:F7:0E
+						[NewInterfaceType] => Ethernet
+						[NewActive] => 1
+						[NewHostName] => Brother-Drucker
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetGenericHostEntry($NewIndex){
 	    return $this->processSoapCall(

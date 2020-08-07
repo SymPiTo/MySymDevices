@@ -58,8 +58,8 @@ ___________________________________________________________________________
         //IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
-        //$variablenID = $this->RegisterPropertyString ($Name, $Standardwert);
-        //IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableString("Hosts", "aktive hosts");
+        IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //Register Timer
@@ -192,9 +192,15 @@ ________________________________________________________________________________
     Returns:    
         none
     ------------------------------------------------------------------------------  */
-    public function xxxx(){
-       
-    }  //xxxx End
+    public function get_hosts(){
+        $No_hosts = $this->GetHostNumberOfEntries();
+            for ($i = 0; $i <= $No_hosts; $i++) {
+                $array = $this->GetGenericHostEntry($i);
+                $hosts = array_merge($hosts, $array);
+
+            }
+        return $hosts;
+    }   
 
 /* 
 _______________________________________________________________________
