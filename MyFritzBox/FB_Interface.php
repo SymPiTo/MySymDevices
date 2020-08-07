@@ -212,9 +212,9 @@ trait FB_soap
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetEthernetLinkStatus(){
 	    return $this->processSoapCall(
-						"/upnp/control/x_tam",
+						"/upnp/control/wanethlinkconfig1",
 
-					    "urn:dslforum-org:service:X_AVM-DE_TAM:1",
+					    "urn:dslforum-org:service:WANEthernetLinkConfig:1",
 
 					    "GetEthernetLinkStatus",
 
