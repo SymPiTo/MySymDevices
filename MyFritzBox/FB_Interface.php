@@ -195,6 +195,36 @@ trait FB_soap
 	}
 
 
+
+//  26 ------------------------------------------------------------------------
+/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function Net_GetInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/lanethernetifcfg",
+
+					    "urn:dslforum-org:service:LANEthernetInterfaceConfig:1",
+
+					    "GetInfo",
+
+					       array(
+							 
+							)
+		);
+	}
+
+
 //  27 ------------------------------------------------------------------------
 
 /*//////////////////////////////////////////////////////////////////////////////
@@ -208,7 +238,16 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-					 
+						[NewDHCPServerConfigurable] => 1
+						[NewDHCPRelay] => 0
+						[NewMinAddress] => 192.168.178.5
+						[NewMaxAddress] => 192.168.178.100
+						[NewReservedAddresses] => 
+						[NewDHCPServerEnable] => 1
+						[NewDNSServers] => 192.168.178.1
+						[NewDomainName] => (none)
+						[NewIPRouters] => 192.168.178.1
+						[NewSubnetMask] => 255.255.255.0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function Host_GetInfo(){
 	    return $this->processSoapCall(
