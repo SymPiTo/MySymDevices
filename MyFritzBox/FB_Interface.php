@@ -233,10 +233,15 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
-	Parameter:		  
+	Parameter:	$NewMACAddress = 	"B8:27:EB:9D:78:B5"  
 					
 	Rückgabewert: 	 Array
- 
+						[NewIPAddress] => 192.168.178.28
+						[NewAddressSource] => DHCP
+						[NewLeaseTimeRemaining] => 0
+						[NewInterfaceType] => Ethernet
+						[NewActive] => 1
+						[NewHostName] => ipspi
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetSpecificHostEntry($NewMACAddress){
 	    return $this->processSoapCall(
@@ -248,7 +253,35 @@ trait FB_soap
 
 					       array(
 							new SoapParam($NewMACAddress   ,"NewMACAddress" )
-							
+
+							)
+		);
+	}
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:	$NewIndex = 	 
+					
+	Rückgabewert: 	 Array
+						 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetGenericHostEntry($NewIndex){
+	    return $this->processSoapCall(
+						"/upnp/control/hosts",
+
+					    "urn:dslforum-org:service:Hosts:1",
+
+					    "GetSpecificHostEntry",
+
+					       array(
+							new SoapParam($NewIndex   ,"NewIndex" )
+
 							)
 		);
 	}
