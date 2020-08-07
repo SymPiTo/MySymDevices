@@ -193,6 +193,7 @@ ________________________________________________________________________________
         none
     ------------------------------------------------------------------------------  */
     public function get_hosts(){
+        $hosts = array();
         $No_hosts = $this->GetHostNumberOfEntries();
             for ($i = 0; $i <= $No_hosts; $i++) {
                 $array = $this->GetGenericHostEntry($i);
