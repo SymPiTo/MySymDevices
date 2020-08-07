@@ -195,6 +195,39 @@ trait FB_soap
 	}
 
 
+//  31 ------------------------------------------------------------------------
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 $NewIndex
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetEthernetLinkStatus(){
+	    return $this->processSoapCall(
+						"/upnp/control/x_tam",
+
+					    "urn:dslforum-org:service:X_AVM-DE_TAM:1",
+
+					    "GetEthernetLinkStatus",
+
+					       array(
+							 
+							)
+		);
+	}
+
+
+
+//  32 ------------------------------------------------------------------------
+
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
@@ -382,8 +415,22 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-						[NewConnectionType] => IP_Routed
+						[NewEnable] => 1
+						[NewConnectionStatus] => Connecting
 						[NewPossibleConnectionTypes] => IP_Routed, IP_Bridged
+						[NewConnectionType] => IP_Routed
+						[NewName] => mstv
+						[NewUptime] => 0
+						[NewLastConnectionError] => ERROR_NONE
+						[NewRSIPAvailable] => 0
+						[NewNATEnabled] => 1
+						[NewExternalIPAddress] => 0.0.0.0
+						[NewDNSServers] => 0.0.0.0, 0.0.0.0
+						[NewMACAddress] => 34:31:C4:B6:72:E8
+						[NewConnectionTrigger] => AlwaysOn
+						[NewRouteProtocolRx] => Off
+						[NewDNSEnabled] => 1
+						[NewDNSOverrideAllowed] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function IP_GetInfo(){
 	    return $this->processSoapCall(
