@@ -277,7 +277,7 @@ trait FB_soap
 
 					    "urn:dslforum-org:service:Hosts:1",
 
-					    "GetSpecificHostEntry",
+					    "GetGenericHostEntry",
 
 					       array(
 							new SoapParam($NewIndex   ,"NewIndex" )
