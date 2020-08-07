@@ -287,9 +287,76 @@ trait FB_soap
 		);
 	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetExternalIPAddress(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "GetExternalIPAddress",
+
+					       array(
+							 
+							)
+		);
+	}
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function RequestConnection(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "RequestConnection",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 # Daten eines Dienste aus der FritzBox lesen
 # $fbroot = 'http://'.FB_HOST.':'.FB_PORT; //Adresse + Port (immer 49000)
 # $desc = "tr64desc.xml"; //Hier sind die Infos über die Dienste enthalten
