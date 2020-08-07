@@ -198,7 +198,6 @@ ________________________________________________________________________________
             for ($i = 0; $i <= $No_hosts; $i++) {
                 $array = $this->GetGenericHostEntry($i);
                 $hosts = array_merge($hosts, $array);
-
             }
         return $hosts;
     }   
