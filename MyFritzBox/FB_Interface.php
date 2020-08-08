@@ -210,7 +210,7 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetCallList(){
+	public function GetCallList($timelimit = 0){
 	    $result = $this->processSoapCall(
 						"/upnp/control/x_contact",
 
@@ -229,7 +229,7 @@ trait FB_soap
             return false;
         }
         $xml = new simpleXMLElement($xml->asXML());
-        $timelimit = 0;
+        //$timelimit = 0;
         $callList_filtered = array();
         foreach ($xml->Call as $call) {
             if($timelimit > 0) { // filter calls by timestamp
