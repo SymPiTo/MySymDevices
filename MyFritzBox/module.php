@@ -46,16 +46,18 @@ ___________________________________________________________________________
         $this->RegisterProfiles();
 
         //Register Variables
-        //$variablenID = $this->RegisterVariableBoolean ($Ident, $Name, $Profil, $Position);
-        //IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "~switch", 2);
+        IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //$variablenID = $this->RegisterVariableFloat ($Ident, $Name, $Profil, $Position);
         //IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
-        //$variablenID = $this->RegisterPropertyInteger ($Name, $Standardwert);
-        //IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterPropertyInteger ($DSLUpRate, "DSL UpStream Rate");
+        IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterPropertyInteger ($DSLDownRate, "DSL DownStream Rate");
+        IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         $variablenID = $this->RegisterVariableString("Hosts", "aktive hosts");
@@ -63,8 +65,8 @@ ___________________________________________________________________________
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //Register Timer
-        //$this->RegisterTimer('Name', 0, '_PREFIX__Scriptname($_IPS[\'TARGET\']);');
-
+        $this->RegisterTimer('update', $this->ReadPropertyInteger("UpdateInterval"), 'FB_update($_IPS[\'TARGET\']);');
+ 
     
 
         //Webfront Actions setzen
@@ -87,11 +89,12 @@ ___________________________________________________________________________
         $this->RegisterMessage($this->InstanceID, FM_DISCONNECT);
 
         if($this->ReadPropertyBoolean("active")){
- 
+            //Timer einschalten
+            $this->SetTimerInterval("update", $this->ReadPropertyInteger("UpdateInterval"));
         }
         else {
             //Timer ausschalten
-            //$this->SetTimerInterval("Name", 0);
+             $this->SetTimerInterval("update", 0);
         }                   
     } //Function: ApplyChanges  End
     /* 
@@ -173,7 +176,7 @@ ___________________________________________________________________________
  
 
 /* 
-_____________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________
     Section: Public Funtions
     Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
     Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wie folgt zur Verfügung gestellt:
@@ -182,15 +185,33 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________ 
 */
     //-----------------------------------------------------------------------------
-    /* Function: get_hosts
+    /* Function:  
     ...............................................................................
-    Beschreibung
+    Beschreibung: listet alle aktiven hosts
     ...............................................................................
     Parameters: 
         none
     ...............................................................................
     Returns:    
-        list of hosts
+        list of hosts as array
+    ------------------------------------------------------------------------------  */
+    public function update(){
+        $this->get_hosts();
+        $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
+        $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
+        $this->SetValue("DSLState", $this->DSL_GetInfo()['NewStatus']);
+    }  
+ 
+    //-----------------------------------------------------------------------------
+    /* Function: get_hosts
+    ...............................................................................
+    Beschreibung: listet alle aktiven hosts
+    ...............................................................................
+    Parameters: 
+        none
+    ...............................................................................
+    Returns:    
+        list of hosts as array
     ------------------------------------------------------------------------------  */
     public function get_hosts(){
         $hosts = array();
