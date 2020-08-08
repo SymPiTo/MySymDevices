@@ -199,7 +199,8 @@ ________________________________________________________________________________
         $this->get_hosts();
         $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
         $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
-        $this->SetValue("DSLState", $this->DSL_GetInfo()['NewStatus']);
+       $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
+        $this->SetValue("DSLState", $DSL);
     }  
  
     //-----------------------------------------------------------------------------
