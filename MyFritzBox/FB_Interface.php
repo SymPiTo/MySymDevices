@@ -216,7 +216,7 @@ trait FB_soap
 
 					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
 
-					    "GetInfo",
+					    "GetCallList",
 
 					       array(
 							 
