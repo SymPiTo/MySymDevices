@@ -68,6 +68,8 @@ ___________________________________________________________________________
         //Register Timer
         $this->RegisterTimer('update', $this->ReadPropertyInteger("UpdateInterval"), 'FB_update($_IPS[\'TARGET\']);');
  
+
+        
     
 
         //Webfront Actions setzen
