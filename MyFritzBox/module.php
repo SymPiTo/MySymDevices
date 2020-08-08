@@ -196,8 +196,8 @@ ________________________________________________________________________________
         $hosts = array();
         $No_hosts = $this->GetHostNumberOfEntries();
             for ($i = 0; $i <= $No_hosts; $i++) {
-                $array = $this->GetGenericHostEntry($i);
-                $hosts = array_merge($hosts, $array);
+                $hosts[$i] = $this->GetGenericHostEntry($i);
+                 
             }
         return $hosts;
     }   
