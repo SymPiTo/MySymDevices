@@ -64,6 +64,10 @@ ___________________________________________________________________________
 
         $variablenID = $this->RegisterVariableString("Hosts", "aktive hosts", "", 4);
         IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableString("callInPhone", "income call No", "", 4);
+        IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableString("callInName", "income call Person", "", 4);
+        IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //Register Timer
