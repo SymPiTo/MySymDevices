@@ -241,7 +241,7 @@ ________________________________________________________________________________
         # The @ before the method call suppresses any warnings that
         # loadHTMLFile might throw because of invalid HTML or URL.
         @$dom->loadHTMLFile($url);
-        $this->debug_print("->", $dom, 0);
+        $this->SendDebug("->", $dom, 0);
         if ($dom->documentURI == null)
         {
             IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Timeout bei Abruf der Webseite ".$url);
@@ -250,7 +250,7 @@ ________________________________________________________________________________
         $finder = new DomXPath($dom);
         $classname="hit clearfix ";
         $nodes = $finder->query("//*[contains(concat(' ', normalize-space(@class), ' '), '$classname')]");
-        $this->debug_print("->", $nodes, 0);
+        $this->SendDebug("->", $nodes, 0);
        
         if ($nodes->length == 0) return false;
         $cNode = $nodes->item(0); //div left
