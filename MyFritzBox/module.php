@@ -261,7 +261,7 @@ ________________________________________________________________________________
         if (!$ahref->hasChildNodes()) return false;
         foreach ($ahref->childNodes as $div)
         {
-            if ($div->nodeName == "a" ) break;
+            if ($div->nodeName == "h2" ) break;
         }
         $record = array(
                         'Name' => trim($div->nodeValue)
