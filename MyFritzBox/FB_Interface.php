@@ -210,7 +210,7 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetCallList($timelimit = 0){
+	public function GetCallList($NoOfCalls = 0){
 	    $result = $this->processSoapCall(
 						"/upnp/control/x_contact",
 
@@ -228,17 +228,16 @@ trait FB_soap
             IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Fehler beim laden der callList!");
             return false;
         }
-        $xml = new simpleXMLElement($xml->asXML());
-        //$timelimit = 0;
-        $callList_filtered = array();
-        foreach ($xml->Call as $call) {
-            if($timelimit > 0) { // filter calls by timestamp
-                $parts = preg_split('/[ .:]/', (string)$call->Date);
-                $callTimestamp = mktime((int)$parts[3], (int)$parts[4], 0, (int)$parts[1], (int)$parts[0], (int)$parts[2]);
-                if($callTimestamp < $timelimit)
-			        continue;
-            }
-            $callList_filtered[] = $call;
+		$xml = new simpleXMLElement($xml->asXML());
+
+		if($NoOfCalls == 0){
+			$NoOfCalls = count($xml);
+		}
+        
+		$callList_filtered = array();
+		for($i = 0; $i < $NoOfCalls; $i++){
+
+            $callList_filtered[$i] = $call[$i];
         }
         return $callList_filtered;
 	}
