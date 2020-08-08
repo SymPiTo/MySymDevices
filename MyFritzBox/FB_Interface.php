@@ -211,7 +211,7 @@ trait FB_soap
  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetCallList(){
-	    return $this->processSoapCall(
+	    $result = $this->processSoapCall(
 						"/upnp/control/x_contact",
 
 					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
@@ -222,6 +222,25 @@ trait FB_soap
 							 
 							)
 		);
+		$xml = @simplexml_load_file($result);
+        if ($xml === false)
+        {
+            IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Fehler beim laden der callList!");
+            return false;
+        }
+        $xml = new simpleXMLElement($xml->asXML());
+        $timelimit = 0;
+        $callList_filtered = array();
+        foreach ($xml->Call as $call) {
+            if($timelimit > 0) { // filter calls by timestamp
+                $parts = preg_split('/[ .:]/', (string)$call->Date);
+                $callTimestamp = mktime((int)$parts[3], (int)$parts[4], 0, (int)$parts[1], (int)$parts[0], (int)$parts[2]);
+                if($callTimestamp < $timelimit)
+			        continue;
+            }
+            $callList_filtered[] = $call;
+        }
+        return $callList_filtered;
 	}
 
 
