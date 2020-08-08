@@ -228,6 +228,43 @@ ________________________________________________________________________________
         return $hosts;
     }   
 
+
+
+
+    public function QueryDasOertlicheDe($phoneNumber)
+    {
+        $record = false;
+        $url = "http://www.dasoertliche.de/Controller?form_name=search_inv&ph=".$phoneNumber;
+        # Create a DOM parser object
+        $dom = new DOMDocument();
+        # Parse the HTML from klicktel
+        # The @ before the method call suppresses any warnings that
+        # loadHTMLFile might throw because of invalid HTML or URL.
+        @$dom->loadHTMLFile($url);
+        if ($dom->documentURI == null)
+        {
+            IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Timeout bei Abruf der Webseite ".$url);
+            return false;
+        }
+        $finder = new DomXPath($dom);
+        $classname="hit clearfix ";
+        $nodes = $finder->query("//*[contains(concat(' ', normalize-space(@class), ' '), '$classname')]");
+        if ($nodes->length == 0) return false;
+        $cNode = $nodes->item(0); //div left
+        if ($cNode->nodeName != 'div') return false;
+        if (!$cNode->hasChildNodes()) return false;
+        $ahref = $cNode->childNodes->item(1); // a href
+        if (!$ahref->hasChildNodes()) return false;
+        foreach ($ahref->childNodes as $div)
+        {
+            if ($div->nodeName == "a" ) break;
+        }
+        $record = array(
+                        'Name' => trim($div->nodeValue)
+                        );
+        return $record;
+    }   
+
 /* 
 _______________________________________________________________________
     Section: Private Funtions
