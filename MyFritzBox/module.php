@@ -199,7 +199,7 @@ ________________________________________________________________________________
                 $hosts[$i] = $this->GetGenericHostEntry($i);
                  
             }
-            $this->SetValue("Hosts", serialize($hosts));
+            $this->setvalue("Hosts", serialize($hosts));
         return $hosts;
     }   
 
