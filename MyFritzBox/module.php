@@ -46,7 +46,7 @@ ___________________________________________________________________________
         $this->RegisterProfiles();
 
         //Register Variables
-        $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "~switch", 2);
+        $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "", 2);
         IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
@@ -54,9 +54,9 @@ ___________________________________________________________________________
         //IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
-        $variablenID = $this->RegisterPropertyInteger ($DSLUpRate, "DSL UpStream Rate");
+        $variablenID = $this->RegisterPropertyInteger ("DSLUpRate", "DSL UpStream Rate");
         IPS_SetInfo ($variablenID, "WSS");
-        $variablenID = $this->RegisterPropertyInteger ($DSLDownRate, "DSL DownStream Rate");
+        $variablenID = $this->RegisterPropertyInteger ("DSLDownRate", "DSL DownStream Rate");
         IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
