@@ -223,7 +223,7 @@ trait FB_soap
 							)
 		);
 		$xml = @simplexml_load_file($result);
-		
+
         if ($xml === false)
         {
             IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Fehler beim laden der callList!");
@@ -238,7 +238,7 @@ trait FB_soap
 		$callList_filtered = array();
 		for($i = 0; $i < $NoOfCalls; $i++){
 
-            $callList_filtered[$i] = $call[$i];
+            $callList_filtered[$i] = $$xml[$i]->Call ;
         }
         return $callList_filtered;
 	}
