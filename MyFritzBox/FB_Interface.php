@@ -207,7 +207,7 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		 none
 					
-	Rückgabewert: 	 Array
+	Rückgabewert: 	 Array 
  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetCallList($NoOfCalls = 0){
@@ -223,6 +223,7 @@ trait FB_soap
 							)
 		);
 		$xml = @simplexml_load_file($result);
+		
         if ($xml === false)
         {
             IPS_LogMessage(IPS_GetObject($this->InstanceID)['ObjectName'], "Fehler beim laden der callList!");
