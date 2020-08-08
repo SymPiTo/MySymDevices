@@ -44,7 +44,8 @@ ___________________________________________________________________________
 
         // Register Profiles
         $this->RegisterProfiles();
-
+ 
+        
         //Register Variables
         $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "", 1);
         IPS_SetInfo ($variablenID, "WSS");
