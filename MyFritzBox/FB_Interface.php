@@ -212,7 +212,7 @@ trait FB_soap
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetCallList(){
 	    return $this->processSoapCall(
-						"/upnp/control/x_contact!",
+						"/upnp/control/x_contact",
 
 					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
 
