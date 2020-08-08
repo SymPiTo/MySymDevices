@@ -238,7 +238,7 @@ trait FB_soap
 		$callList_filtered = array();
 		for($i = 0; $i < $NoOfCalls; $i++){
 
-            $callList_filtered[$i] = $$xml[$i] ;
+            $callList_filtered[$i] = $xml[$i] ;
         }
         return $callList_filtered;
 	}
