@@ -54,9 +54,9 @@ ___________________________________________________________________________
         //IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
-        $variablenID = $this->RegisterVariablInteger ("DSLUpRate", "DSL UpStream Rate");
+        $variablenID = $this->RegisterVariableInteger ("DSLUpRate", "DSL UpStream Rate");
         IPS_SetInfo ($variablenID, "WSS");
-        $variablenID = $this->RegisterVariablInteger ("DSLDownRate", "DSL DownStream Rate");
+        $variablenID = $this->RegisterVariableInteger ("DSLDownRate", "DSL DownStream Rate");
         IPS_SetInfo ($variablenID, "WSS");
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
