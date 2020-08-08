@@ -10,10 +10,11 @@
  *************************************************************************** */
 require_once(__DIR__ . "/FB_Interface.php");
 //require_once __DIR__ . '/../libs/_HELPERCLASS_';  // diverse Klassen
-
+require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 class MyFB extends IPSModule {
 
     use FB_soap;
+    use MyDebugHelper2;
 /* 
 ___________________________________________________________________________ 
     Section: Internal Modul Funtions
