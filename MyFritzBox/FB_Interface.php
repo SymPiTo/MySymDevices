@@ -446,6 +446,52 @@ trait FB_soap
 	}
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:	$NewIndex = 	 
+					
+	Rückgabewert: 	 Array
+						[NewIPAddress] => 192.168.178.27
+						[NewAddressSource] => DHCP
+						[NewLeaseTimeRemaining] => 0
+						[NewMACAddress] => 30:05:5C:4F:F7:0E
+						[NewInterfaceType] => Ethernet
+						[NewActive] => 1
+						[NewHostName] => Brother-Drucker
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetSpecificHostEntryByIP($ip){
+	    return $this->processSoapCall(
+						"/upnp/control/hosts",
+
+					    "urn:dslforum-org:service:Hosts:1",
+
+					    "X_AVM-DE_GetSpecificHostEntryByIP",
+
+					       array(
+							new SoapParam($ip   ,"NewIPAddress" )
+
+							)
+		);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //  26 ------------------------------------------------------------------------
 /*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
