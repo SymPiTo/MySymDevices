@@ -210,7 +210,7 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetGenericForwardingEntry(){
+	public function GetForwardNumberOfEntries(){
 	    return $this->processSoapCall(
 						"/upnp/control/layer3forwarding",
 
