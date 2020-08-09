@@ -218,7 +218,7 @@ trait FB_soap
 					    "GetInfo",
 
 					       array(
-							new SoapParam($NewIndex   ,"NewIndex" )
+							 
 							)
 		);
 	}
