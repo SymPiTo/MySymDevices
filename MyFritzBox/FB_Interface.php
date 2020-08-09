@@ -892,7 +892,7 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 					
-	Rückgabewert: 	 Array
+	Rückgabewert: 	 92.194.17.120
 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetExternalIPAddress( ){
@@ -951,9 +951,22 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-						[NewConnectionStatus] => Connecting
-						[NewLastConnectionError] => ERROR_NONE
-						[NewUptime] => 0
+				[NewEnable] => 1
+				[NewConnectionStatus] => Connecting
+				[NewPossibleConnectionTypes] => IP_Routed, IP_Bridged
+				[NewConnectionType] => IP_Routed
+				[NewName] => mstv
+				[NewUptime] => 0
+				[NewLastConnectionError] => ERROR_NONE
+				[NewRSIPAvailable] => 0
+				[NewNATEnabled] => 1
+				[NewExternalIPAddress] => 0.0.0.0
+				[NewDNSServers] => 0.0.0.0, 0.0.0.0
+				[NewMACAddress] => 34:31:C4:B6:72:E8
+				[NewConnectionTrigger] => AlwaysOn
+				[NewRouteProtocolRx] => Off
+				[NewDNSEnabled] => 1
+				[NewDNSOverrideAllowed] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function Con_GetInfo(){
 	    return $this->processSoapCall(
@@ -972,7 +985,7 @@ trait FB_soap
 
 
 
-	
+
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
@@ -1073,7 +1086,32 @@ trait FB_soap
 	}
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function Con_GetGenericPortMappingEntry( $index ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
+
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "GetGenericPortMappingEntry",
+
+					       array(
+							new SoapParam($index   ,"NewPortMappingIndex" )
+							)
+		);
+	}
 
 
 
