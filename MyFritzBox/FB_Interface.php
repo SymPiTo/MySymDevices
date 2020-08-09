@@ -219,7 +219,7 @@ trait FB_soap
 					    "GetGenericForwardingEntry",
 
 					       array(
-							new SoapParam($NewIndex   ,"NewIndex" )
+							new SoapParam($NewIndex   ,"NewForwardingIndex" )
 							)
 		);
 	}
