@@ -826,9 +826,60 @@ trait FB_soap
 	}
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetGenericPortMappingEntry( $index ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+
+					    "GetGenericPortMappingEntry",
+
+					       array(
+							new SoapParam($index   ,"NewPortMappingIndex" )
+							)
+		);
+	}
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetSpecificPortMappingEntry( $index ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+
+					    "GetSpecificPortMappingEntry",
+
+					       array(
+							new SoapParam($index   ,"NewRemoteHost" )
+							)
+		);
+	}
 
 
 //  33 ------------------------------------------------------------------------
