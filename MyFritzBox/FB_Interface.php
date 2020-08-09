@@ -881,6 +881,62 @@ trait FB_soap
 		);
 	}
 
+	
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetExternalIPAddress( ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+
+					    "GetExternalIPAddress",
+
+					       array(
+							 
+							)
+		);
+	}
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetDNSServers( ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+
+					    "X_GetDNSServers",
+
+					       array(
+							 
+							)
+		);
+	}
+
 
 //  33 ------------------------------------------------------------------------
 
@@ -895,49 +951,28 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-
+						[NewConnectionStatus] => Connecting
+						[NewLastConnectionError] => ERROR_NONE
+						[NewUptime] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetDNSServers(){
+	public function Con_GetInfo(){
 	    return $this->processSoapCall(
 						"/upnp/control/wanipconnection1",
 
 					    "urn:dslforum-org:service:WANIPConnection:1",
 
-					    "X_GetDNSServers",
+					    "GetInfo",
 
 					       array(
 							 
 							)
 		);
-	}
+	} 
 
-	/*//////////////////////////////////////////////////////////////////////////////
-	--------------------------------------------------------------------------------
-	Funktion 	:	 
-						 
-	Befehl		:	 
-	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
-	Parameter:		  
-					
-	Rückgabewert: 	 Array
 
-	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetExternalIPAddress(){
-	    return $this->processSoapCall(
-						"/upnp/control/wanipconnection1",
 
-					    "urn:dslforum-org:service:WANIPConnection:1",
 
-					    "GetExternalIPAddress",
-
-					       array(
-							 
-							)
-		);
-	}
-
+	
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
