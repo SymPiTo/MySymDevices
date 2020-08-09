@@ -1097,7 +1097,14 @@ trait FB_soap
 	Parameter:		  
 					
 	Rückgabewert: 	 Array
-
+		[NewRemoteHost] => 0.0.0.0
+		[NewExternalPort] => 500
+		[NewProtocol] => UDP
+		[NewInternalPort] => 500
+		[NewInternalClient] => 192.168.178.22
+		[NewEnabled] => 1
+		[NewPortMappingDescription] => VPN-IPSEC2
+		[NewLeaseDuration] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function Con_GetGenericPortMappingEntry( $index ){
 	    return $this->processSoapCall(
@@ -1113,7 +1120,39 @@ trait FB_soap
 		);
 	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		  
+					
+	Rückgabewert: 	 Array
+		[NewRemoteHost] => 0.0.0.0
+		[NewExternalPort] => 500
+		[NewProtocol] => UDP
+		[NewInternalPort] => 500
+		[NewInternalClient] => 192.168.178.22
+		[NewEnabled] => 1
+		[NewPortMappingDescription] => VPN-IPSEC2
+		[NewLeaseDuration] => 0
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function Con_GetPortMappingNumberOfEntries(  ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanipconnection1",
 
+					    "urn:dslforum-org:service:WANIPConnection:1",
+
+					    "GetPortMappingNumberOfEntries",
+
+					       array(
+							 
+							)
+		);
+	}
 
 
 
