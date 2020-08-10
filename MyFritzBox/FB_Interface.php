@@ -393,7 +393,7 @@ trait FB_soap
 					    "GetPhonebook",
 
 					       array(
-							new SoapParam($NewIndex   ,"NewPhonebookID" )
+							new SoapParam($NewPhonebookID   ,"NewPhonebookID" )
 							)
 		);
 	}
