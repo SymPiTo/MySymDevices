@@ -297,6 +297,34 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	 Array 
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetInfo_Contact(){
+		return  $this->processSoapCall(
+						"/upnp/control/x_contact",
+
+					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
+
+					    "GetInfo",
+
+					       array(
+							 
+							)
+				);
+ 
+	}
+	
+/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+					
+	Rückgabewert: 	 Array 
             [Id] => 2536
             [Type] => 2
             [Caller] => 017655089540
@@ -384,7 +412,7 @@ trait FB_soap
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetPhonebook($NewPhonebookID){
+	public function GetPhonebook($PhonebookID){
 	    return $this->processSoapCall(
 						"/upnp/control/layer3forwarding",
 
@@ -393,7 +421,7 @@ trait FB_soap
 					    "GetPhonebook",
 
 					       array(
-							new SoapParam($NewPhonebookID   ,"NewPhonebookID" )
+							new SoapParam($PhonebookID   ,"NewPhonebookID" )
 							)
 		);
 	}
