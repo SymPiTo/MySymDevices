@@ -299,7 +299,7 @@ trait FB_soap
 	Rückgabewert: 	 Array 
  
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetInfo_Contact(){
+	public function GetInfoContact(){
 		return  $this->processSoapCall(
 						"/upnp/control/x_contact",
 
