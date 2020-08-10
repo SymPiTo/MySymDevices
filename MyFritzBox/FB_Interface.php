@@ -371,7 +371,32 @@ trait FB_soap
     }
         
  
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 $NewPhonebookID
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetPhonebook($NewPhonebookID){
+	    return $this->processSoapCall(
+						"/upnp/control/layer3forwarding",
 
+					    "urn:dslforum-org:service:Layer3Forwarding:1",
+
+					    "GetPhonebook",
+
+					       array(
+							new SoapParam($NewIndex   ,"NewPhonebookID" )
+							)
+		);
+	}
 
 
 
