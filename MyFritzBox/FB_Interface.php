@@ -353,18 +353,9 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	 Array 
-            [Id] => 2536
-            [Type] => 2
-            [Caller] => 017655089540
-            [Called] => SIP: 339458
-            [CalledNumber] => 339458
-            [Name] => Torsten Handy
-            [Numbertype] => sip
-            [Port] => -1
-            [Date] => 08.08.20 16:47
-            [Duration] => 0:00
+ 
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function GetPhonebookList($NoOfCalls = 0){
+	public function GetPhonebookList(){
 		return  $this->processSoapCall(
 						"/upnp/control/x_contact",
 
