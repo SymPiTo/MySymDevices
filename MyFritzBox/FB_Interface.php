@@ -342,6 +342,48 @@ trait FB_soap
 	}
 
 
+/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+					
+	Rückgabewert: 	 Array 
+            [Id] => 2536
+            [Type] => 2
+            [Caller] => 017655089540
+            [Called] => SIP: 339458
+            [CalledNumber] => 339458
+            [Name] => Torsten Handy
+            [Numbertype] => sip
+            [Port] => -1
+            [Date] => 08.08.20 16:47
+            [Duration] => 0:00
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetPhonebookList($NoOfCalls = 0){
+		return  $this->processSoapCall(
+						"/upnp/control/x_contact",
+
+					    "urn:dslforum-org:service:X_AVM-DE_OnTel:1",
+
+					    "GetPhonebookList",
+
+					       array(
+							 
+							)
+				);
+ 
+        }
+        
+	}
+
+
+
+
 
 
 
@@ -1130,15 +1172,7 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 					
-	Rückgabewert: 	 Array
-		[NewRemoteHost] => 0.0.0.0
-		[NewExternalPort] => 500
-		[NewProtocol] => UDP
-		[NewInternalPort] => 500
-		[NewInternalClient] => 192.168.178.22
-		[NewEnabled] => 1
-		[NewPortMappingDescription] => VPN-IPSEC2
-		[NewLeaseDuration] => 0
+	Rückgabewert: 	 15
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function Con_GetPortMappingNumberOfEntries(  ){
 	    return $this->processSoapCall(
