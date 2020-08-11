@@ -229,7 +229,8 @@ ________________________________________________________________________________
                 $hosts[$i] = $this->GetGenericHostEntry($i);
                  
             }
-            $this->setvalue("Hosts", serialize($hosts));
+
+            $this->setvalue("Hosts", json_encode($hosts));
             $this->SendDebug("get_hosts:",  $hosts, 0);
         return $hosts;
     }   
