@@ -230,6 +230,7 @@ ________________________________________________________________________________
                  
             }
             $this->setvalue("Hosts", serialize($hosts));
+            $this->SendDebug("get_hosts:",  $hosts, 0);
         return $hosts;
     }   
 
