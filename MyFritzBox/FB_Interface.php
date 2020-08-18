@@ -1317,7 +1317,7 @@ public function ReadActionList($ServiceList)
 	      $faultcode   = $e->faultcode;
 	      if(isset($e->detail->UPnPError->errorCode)){
 		$errorCode   = $e->detail->UPnPError->errorCode;
-		throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resoveErrorCode($path,$errorCode).")");
+		throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
 	      }else{
 
 		throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
@@ -1346,11 +1346,11 @@ public function ReadActionList($ServiceList)
 				
 	Rückgabewert: 	Fehler Code
 	//////////////////////////////////////////////////////////////////////////////*/
-	  private function resolveErrorCode(string $path, $errorCode)
+	  private function resolveErrorCode(string $errorCode)
 
 	  {
 
-	   $errorList = array( "/AVTransport/ctrl"      => array(
+	    $errorList = array(
 
 										   "701" => "ERROR_AV_UPNP_AVT_INVALID_TRANSITION",
 
@@ -1388,63 +1388,11 @@ public function ReadActionList($ServiceList)
 
 										   "718" => "ERROR_AV_UPNP_AVT_INVALID_INSTANCE_ID"
 
-										 ),
+		);
 
-			       "/RenderingControl/ctrl" => array(
+	    if (isset($errorList[$errorCode])){
 
-										   "701" => "ERROR_AV_UPNP_RC_INVALID_PRESET_NAME",
-
-										   "702" => "ERROR_AV_UPNP_RC_INVALID_INSTANCE_ID"
-
-										 ),
-
-			       "/ContentDirectory/ctrl"   => array(
-
-										   "701" => "ERROR_AV_UPNP_CD_NO_SUCH_OBJECT",
-
-										   "702" => "ERROR_AV_UPNP_CD_INVALID_CURRENTTAGVALUE",
-
-										   "703" => "ERROR_AV_UPNP_CD_INVALID_NEWTAGVALUE",
-
-										   "704" => "ERROR_AV_UPNP_CD_REQUIRED_TAG_DELETE",
-
-										   "705" => "ERROR_AV_UPNP_CD_READONLY_TAG_UPDATE",
-
-										   "706" => "ERROR_AV_UPNP_CD_PARAMETER_NUM_MISMATCH",
-
-										   "708" => "ERROR_AV_UPNP_CD_BAD_SEARCH_CRITERIA",
-
-										   "709" => "ERROR_AV_UPNP_CD_BAD_SORT_CRITERIA",
-
-										   "710" => "ERROR_AV_UPNP_CD_NO_SUCH_CONTAINER",
-
-										   "711" => "ERROR_AV_UPNP_CD_RESTRICTED_OBJECT",
-
-										   "712" => "ERROR_AV_UPNP_CD_BAD_METADATA",
-
-										   "713" => "ERROR_AV_UPNP_CD_RESTRICTED_PARENT_OBJECT",
-
-										   "714" => "ERROR_AV_UPNP_CD_NO_SUCH_SOURCE_RESOURCE",
-
-										   "715" => "ERROR_AV_UPNP_CD_SOURCE_RESOURCE_ACCESS_DENIED",
-
-										   "716" => "ERROR_AV_UPNP_CD_TRANSFER_BUSY",
-
-										   "717" => "ERROR_AV_UPNP_CD_NO_SUCH_FILE_TRANSFER",
-
-										   "718" => "ERROR_AV_UPNP_CD_NO_SUCH_DESTINATION_RESOURCE",
-
-										   "719" => "ERROR_AV_UPNP_CD_DESTINATION_RESOURCE_ACCESS_DENIED",
-
-										   "720" => "ERROR_AV_UPNP_CD_REQUEST_FAILED"
-
-										 ) ); 
-
-
-
-	    if (isset($errorList[$path][$errorCode])){
-
-	      return $errorList[$path][$errorCode] ;
+	      return $errorList[$errorCode] ;
 
 	    }else{
 
