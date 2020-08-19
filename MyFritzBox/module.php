@@ -205,7 +205,7 @@ ________________________________________________________________________________
     ------------------------------------------------------------------------------  */
     public function update(){
         $portOpen = $this->checkPort("192.168.178.1", "49000");
-        if($portOpe == 0){
+        if($portOpen == 0){
             $this->get_hosts();
             $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
             $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
