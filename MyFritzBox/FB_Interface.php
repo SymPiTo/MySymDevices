@@ -1291,8 +1291,8 @@ public function ReadActionList($ServiceList)
 	//////////////////////////////////////////////////////////////////////////////*/	
 	  Protected function processSoapCall(string $path, string $uri,string $action, array $parameter)
 	  {
-	    try{
 		$ip = $this->ReadPropertyString('FBX_IP');
+		try{
 	      $client     = new SoapClient(
 					  null, 
 					  array(
