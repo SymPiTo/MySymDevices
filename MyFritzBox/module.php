@@ -204,11 +204,18 @@ ________________________________________________________________________________
         list of hosts as array
     ------------------------------------------------------------------------------  */
     public function update(){
-        $this->get_hosts();
-        $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
-        $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
-       $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
-        $this->SetValue("DSLState", $DSL);
+        $portOpen = $this->checkPort("192.168.178.1", "49000");
+        if($portOpe == 0){
+            $this->get_hosts();
+            $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
+            $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
+            $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
+            $this->SetValue("DSLState", $DSL);
+        }
+        else{
+            $this->SendDebug('SocketOpen:', "Port ist blockiert:".$portOpen , 0);
+        }
+
     }  
  
     //-----------------------------------------------------------------------------
@@ -227,7 +234,7 @@ ________________________________________________________________________________
         $No_hosts = $this->GetHostNumberOfEntries();
             for ($i = 0; $i < $No_hosts; $i++) {
                 $hosts[$i] = $this->GetGenericHostEntry($i);
-                 
+                IPS_Sleep(100);
             }
 
             $this->setvalue("Hosts", json_encode($hosts));
@@ -442,6 +449,25 @@ ______________________________________________________________________
                 IPS_SetEventActive($EventID, false);  
         }
     } //Function: RegisterEvent End
+
+
+ 
+    /***************************************************************************
+    * Name:  CheckPort
+    * 
+    * Description: prüft ob ein Port offen/ansprechbar ist
+    *
+    * Parameters:  ip, port
+    * 
+    * Returns:  Error nummber 0 = OK
+    *************************************************************************** */
+    private function CheckPort($ip, $port){
+        $connection = @fsockopen($ip, $port, $errno, $errstr, 20);
+        @fclose($connection);  
+        $this->SendDebug('SocketOpen', $errstr , 0);
+        return $errno;
+    } //Function: End
+
 
 } //end Class
 
