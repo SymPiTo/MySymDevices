@@ -1320,11 +1320,11 @@ public function ReadActionList($ServiceList)
 	      	if(isset($e->detail->UPnPError->errorCode)){
 				$errorCode   = $e->detail->UPnPError->errorCode;
 				//throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
-				$this->SendDebug('SoapError:', $antwort , 0);
+				$this->SendDebug('SoapError:', $faultcode, 0);
 			}
 			else{
 				//throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
-				$this->SendDebug('SoapError:', $antwort , 0);
+				$this->SendDebug('SoapError:', $faultcode , 0);
 	      	}
 
 	    }
