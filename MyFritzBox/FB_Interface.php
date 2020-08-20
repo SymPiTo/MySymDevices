@@ -1311,6 +1311,7 @@ public function ReadActionList($ServiceList)
 
 							));
 			$antwort = $client->__soapCall($action, $parameter);
+			$this->SendDebug('Soap:', "Daten abgrufen" , 0);
 	      	return $antwort;
 		}
 		catch(Exception $e){
