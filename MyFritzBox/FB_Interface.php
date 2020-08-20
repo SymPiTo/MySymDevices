@@ -1310,18 +1310,20 @@ public function ReadActionList($ServiceList)
 							    
 
 							));
-
-	      return $client->__soapCall($action, $parameter);
+			$antwort = $client->__soapCall($action, $parameter);
+	      	return $antwort;
 		}
 		catch(Exception $e){
 	      	$faultstring = $e->faultstring;
 	      	$faultcode   = $e->faultcode;
 	      	if(isset($e->detail->UPnPError->errorCode)){
 				$errorCode   = $e->detail->UPnPError->errorCode;
-				throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
+				//throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
+				$this->SendDebug('SoapError:', $$antwort , 0);
 			}
 			else{
-				throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
+				//throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
+				$this->SendDebug('SoapError:', $$antwort , 0);
 	      	}
 
 	    }
