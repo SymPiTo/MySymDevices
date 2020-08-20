@@ -525,7 +525,7 @@ trait FB_soap
 					    "GetGenericHostEntry",
 
 					       array(
-							new SoapParam($NewIndex   ,"NewIndex" )
+							new SoapParam( (int)$NewIndex, "NewIndex" )
 
 							)
 		);
@@ -1293,7 +1293,7 @@ public function ReadActionList($ServiceList)
 	  {
 		$ip = $this->ReadPropertyString('FBX_IP');
 		try{
-	      $client     = new SoapClient(
+	      	$client     = new SoapClient(
 					  null, 
 					  array(
 						  		"location"   => "http://192.168.178.1:49000".$path,
@@ -1311,18 +1311,18 @@ public function ReadActionList($ServiceList)
 
 							));
 
-	      return $client->__soapCall($action,$parameter);
-	    }catch(Exception $e){
-	      $faultstring = $e->faultstring;
-	      $faultcode   = $e->faultcode;
-	      if(isset($e->detail->UPnPError->errorCode)){
-		$errorCode   = $e->detail->UPnPError->errorCode;
-		throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
-	      }else{
-
-		throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
-
-	      }
+	      return $client->__soapCall($action, $parameter);
+		}
+		catch(Exception $e){
+	      	$faultstring = $e->faultstring;
+	      	$faultcode   = $e->faultcode;
+	      	if(isset($e->detail->UPnPError->errorCode)){
+				$errorCode   = $e->detail->UPnPError->errorCode;
+				throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode." ".$errorCode." (".$this->resolveErrorCode($errorCode).")");
+			}
+			else{
+				throw new Exception("Error during Soap Call: ".$faultstring." ".$faultcode);
+	      	}
 
 	    }
 
