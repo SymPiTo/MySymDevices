@@ -853,6 +853,11 @@ trait FB_soap
 		);
 	}
 
+
+
+
+//  32 ------------------------------------------------------------------------
+
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	WLAN Verbinden
@@ -870,7 +875,7 @@ trait FB_soap
 	    return $this->processSoapCall(
 						"/upnp/control/wanpppconn1",
 
-					    "urn:schemas-upnp-org:service:WANIPConnection:1",
+					    "urn:dslforum-org:service:WANPPPConnection:1",
 
 					    "ForceTermination",
 
@@ -899,7 +904,7 @@ trait FB_soap
 	    return $this->processSoapCall(
 						"/upnp/control/wanpppconn1",
 
-					    "urn:schemas-upnp-org:service:WANIPConnection:1",
+					    "urn:dslforum-org:service:WANPPPConnection:1",
 
 					    "RequestConnection",
 
@@ -910,8 +915,6 @@ trait FB_soap
 		);
 	}
 
-
-//  32 ------------------------------------------------------------------------
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
