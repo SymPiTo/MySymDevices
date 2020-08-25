@@ -234,7 +234,7 @@ ________________________________________________________________________________
             $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
             $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
             $this->SetValue("DSLState", $DSL);
-            $this->SetValue("ExtIP", $this->GetExternalIPAddress);
+            $this->SetValue("ExtIP", $this->GetExternalIPAddress());
             $Istate = $this->GetInfo_connection();
             $c = ($Istate["NewConnectionStatus"]  == "Connected") ? true : false;
             $this->SetValue("INetState", $c);
