@@ -578,13 +578,49 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 	Rückgabewert: 	 Array
- 
+		[NewEnable] => 1
+		[NewStatus] => Up
+		[NewMaxBitRate] => Auto
+		[NewChannel] => 11
+		[NewSSID] => FRITZ!Box Fon WLAN 7490
+		[NewBeaconType] => 11i
+		[NewMACAddressControlEnabled] => 1
+		[NewStandard] => n
+		[NewBSSID] => 34:31:C4:B6:72:E4
+		[NewBasicEncryptionModes] => None
+		[NewBasicAuthenticationMode] => None
+		[NewMaxCharsSSID] => 32
+		[NewMinCharsSSID] => 1
+		[NewAllowedCharsSSID] => 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !"#$%&'()*+,-./:;?@[\]^_`{|}~
+		[NewMinCharsPSK] => 64
+		[NewMaxCharsPSK] => 64
+		[NewAllowedCharsPSK] => 0123456789ABCDEFabcdef
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetInfoWan(){
 	    return $this->processSoapCall(
 						"/upnp/control/wlanconfig1",
 					    "urn:dslforum-org:service:WLANConfiguration:1",
 					    "GetInfo",
+					       array(
+							)
+		);
+	}
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		  
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetWPSInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/wlanconfig1",
+					    "urn:dslforum-org:service:WLANConfiguration:1",
+					    "X_AVM-DE_GetWPSInfo",
 					       array(
 							)
 		);
