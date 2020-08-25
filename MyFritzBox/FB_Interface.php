@@ -555,14 +555,15 @@ trait FB_soap
 	Befehl		:	 schaltet WLAN An / AUS
 	--------------------------------------------------------------------------------
 	Parameter:		  none
-	Rückgabewert: 	  none
+	Rückgabewert: 	  $NewEnable
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function SwitchWLAN(){
+	public function SwitchWLAN($NewEnable){
 	    return $this->processSoapCall(
 						"/upnp/control/wlanconfig1",
 					    "urn:dslforum-org:service:WLANConfiguration:1",
 					    "SetEnable",
-					       array(
+					       	array(
+								new SoapParam($NewEnable,	"NewEnable" )
 							)
 		);
 	}
