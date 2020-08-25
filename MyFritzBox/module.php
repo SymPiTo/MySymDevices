@@ -236,7 +236,7 @@ ________________________________________________________________________________
             $this->SetValue("DSLState", $DSL);
             $this->SetValue("ExtIP", $this->GetExternalIPAddress);
             $Istate = $this->GetInfo_connection();
-            $c = ($Istate == "Connected") ? true : false;
+            $c = ($Istate["NewConnectionStatus"]  == "Connected") ? true : false;
             $this->SetValue("INetState", $c);
 
             $this->get_hosts();
