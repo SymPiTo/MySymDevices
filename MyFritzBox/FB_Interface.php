@@ -614,7 +614,8 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 	Rückgabewert: 	 Array
- 
+		[NewX_AVM-DE_WPSMode] => stop
+		[NewX_AVM-DE_WPSStatus] => off
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetWPSInfo(){
 	    return $this->processSoapCall(
@@ -975,6 +976,27 @@ trait FB_soap
 							)
 		);
 	}
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		  
+	Rückgabewert: Array	  
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetDSLDiagnoseInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/wandslifconfig1",
+					    "urn:dslforum-org:service:WANDSLInterfaceConfig:1",
+					    "X_AVM-DE_GetDSLDiagnoseInfo",
+					        array(
+							)
+		);
+	}
+
 
 
 //  30 ------------------------------------------------------------------------
