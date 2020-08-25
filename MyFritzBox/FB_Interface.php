@@ -397,11 +397,20 @@ trait FB_soap
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
-	Befehl		:	 
+	Befehl		:	 DDNS Server
 	--------------------------------------------------------------------------------
 	Parameter:		none
 	Rückgabewert: 	 Array(
- 
+		[NewEnabled] => 0
+		[NewProviderName] => No-IP.com
+		[NewUpdateURL] => /ducupdate.php?update=username=&pass=&h[]=&ip=
+		[NewDomain] => dpsghdkirchheim.ddns.net
+		[NewStatusIPv4] => undefined
+		[NewStatusIPv6] => undefined
+		[NewUsername] => Torsten.Beck1@gmx.de
+		[NewMode] => ddns_v4
+		[NewServerIPv4] => dynupdate.no-ip.com:8245
+		[NewServerIPv6] => 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetDDNSInfo(){
 	    return $this->processSoapCall(
@@ -560,8 +569,26 @@ trait FB_soap
 
 
 
+//  22 ------------------------------------------------------------------------
 
-
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		  
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetInfoWan(){
+	    return $this->processSoapCall(
+						"/upnp/control/wlanconfig1",
+					    "urn:dslforum-org:service:WLANConfiguration:1",
+					    "GetInfo",
+					       array(
+							)
+		);
+	}
 
 
 
