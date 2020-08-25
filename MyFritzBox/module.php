@@ -229,8 +229,7 @@ ________________________________________________________________________________
     public function update(){
         $portOpen = $this->checkPort("192.168.178.1", "49000");
         if($portOpen == 0){
-            $this->get_hosts();
-            IPS_Sleep(1000);
+
             $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
             $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
             $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
@@ -239,6 +238,9 @@ ________________________________________________________________________________
             $Istate = $this->GetInfo_connection();
             $c = ($Istate == "Connected") ? true : false;
             $this->SetValue("INetState", $c);
+
+            $this->get_hosts();
+            IPS_Sleep(1000);
         }
         else{
             $this->SendDebug('SocketOpen:', "Port ist blockiert:".$portOpen , 0);
