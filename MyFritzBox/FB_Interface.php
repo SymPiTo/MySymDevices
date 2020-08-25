@@ -1046,8 +1046,8 @@ trait FB_soap
 	Funktion 	:	 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
-	Parameter:		  
-	Rückgabewert: Array	  
+	Parameter:		none  
+	Rückgabewert: 	PVC: 1/32
 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetDestinationAddress(){
@@ -1211,6 +1211,41 @@ trait FB_soap
 							)
 		);
 	}
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		  
+	Rückgabewert: 	 Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetStatusInfo_Connection( ){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+					    "GetStatusInfo",
+					       	array(
+							)
+		);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/*//////////////////////////////////////////////////////////////////////////////
