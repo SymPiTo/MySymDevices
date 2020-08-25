@@ -50,7 +50,7 @@ ___________________________________________________________________________
         //Register Variables
         $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "", 1);
         IPS_SetInfo ($variablenID, "WSS");
-        variablenID = $this->RegisterVariableBoolean ("Reboot", "Reboot FB", "", 1);
+        $variablenID = $this->RegisterVariableBoolean ("Reboot", "Reboot FB", "", 1);
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //$variablenID = $this->RegisterVariableFloat ($Ident, $Name, $Profil, $Position);
