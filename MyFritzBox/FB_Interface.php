@@ -203,33 +203,55 @@ trait FB_soap
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
-	Funktion 	:	 
-						 
-	Befehl		:	 
+	Funktion 	:	 DeviceInfo()
+	Befehl		:	 Fritz Box Informationen und Log's auslesen 
 	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
-	Parameter:		none
-					
-	Rückgabewert: 	 Array
- 
+	Parameter:			none
+	Rückgabewert: 	 	Array
+		[NewManufacturerName] => AVM
+		[NewManufacturerOUI] => 00040E
+		[NewModelName] => FRITZ!Box 7490
+		[NewDescription] => FRITZ!Box 7490 113.07.12
+		[NewProductClass] => FRITZ!Box
+		[NewSerialNumber] => 3431C4B672E2
+		[NewSoftwareVersion] => 113.07.12
+		[NewHardwareVersion] => FRITZ!Box 7490
+		[NewSpecVersion] => 1.0
+		[NewProvisioningCode] => 002.000.000.000
+		[NewUpTime] => 1129627
+		[NewDeviceLog] => 25.08.20 05:07:06 IPv6-Präfix wurde erfolgreich aktualisiert. Neues Präfix: 2001:1a81:722d:800::/56
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function DeviceInfo(){
 	    return $this->processSoapCall(
 						"/upnp/control/deviceinfo",
-
 					    "urn:dslforum-org:service:DeviceInfo:1",
-
 					    "GetInfo",
-
-					       array(
-							 
+					       	array(
 							)
 		);
 	}
 
 
+//  1 ------------------------------------------------------------------------
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 Reboot()
+	Befehl		:	 Fritz Box rebooten
+	--------------------------------------------------------------------------------
+	Parameter:			none
+	Rückgabewert: 	 	Array
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function Reboot(){
+	    return $this->processSoapCall(
+						"/upnp/control/deviceconfig",
+					    "urn:dslforum-org:service:DeviceConfig:1",
+					    "Reboot",
+					       	array(
+							)
+		);
+	}
 
 
 
@@ -904,27 +926,8 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	  
-	    [0] => Array
-        (
-            [NewIPAddress] => 192.168.178.27
-            [NewAddressSource] => DHCP
-            [NewLeaseTimeRemaining] => 0
-            [NewMACAddress] => 30:05:5C:4F:F7:0E
-            [NewInterfaceType] => Ethernet
-            [NewActive] => 0
-            [NewHostName] => Brother-Drucker
-        )
-
-    [1] => Array
-        (
-            [NewIPAddress] => 192.168.178.8
-            [NewAddressSource] => DHCP
-            [NewLeaseTimeRemaining] => 864000
-            [NewMACAddress] => 00:05:CD:33:AE:81
-            [NewInterfaceType] => Ethernet
-            [NewActive] => 1
-            [NewHostName] => CEOL
-        )					 
+	    
+				 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function ForceTermination(){
 	    return $this->processSoapCall(
