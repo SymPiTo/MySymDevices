@@ -259,12 +259,11 @@ trait FB_soap
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
-	Funktion 	:	 Reboot()
-	Befehl		:	 Fritz Box rebooten
+	Funktion 	:	 GetDefaultConnectionService()
+	Befehl		:	 
 	--------------------------------------------------------------------------------
 	Parameter:			none
-	Rückgabewert: 	 	none
-
+	Rückgabewert: 	 	1.WANPPPConnection.1
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetDefaultConnectionService(){
 	    return $this->processSoapCall(
@@ -276,30 +275,20 @@ trait FB_soap
 		);
 	}
 
-
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
-						 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
 	Parameter:		none
-					
-	Rückgabewert: 	 Array
- 
+	Rückgabewert: 	 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetForwardNumberOfEntries(){
 	    return $this->processSoapCall(
 						"/upnp/control/layer3forwarding",
-
 					    "urn:dslforum-org:service:Layer3Forwarding:1",
-
 					    "GetForwardNumberOfEntries",
-
 					       array(
-							 
 							)
 		);
 	}
@@ -330,6 +319,35 @@ trait FB_soap
 							)
 		);
 	}
+
+
+//  4 ------------------------------------------------------------------------
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		none
+	Rückgabewert: 	 0
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetInfoMServer(){
+	    return $this->processSoapCall(
+						"/upnp/control/mgmsrv",
+					    "urn:dslforum-org:service:ManagementServer:1",
+					    "GetInfo",
+					       array(
+							)
+		);
+	}
+
+
+
+
+
+
+
+
 
 
 
