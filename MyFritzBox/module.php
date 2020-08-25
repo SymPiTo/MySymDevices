@@ -50,6 +50,7 @@ ___________________________________________________________________________
         //Register Variables
         $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "", 1);
         IPS_SetInfo ($variablenID, "WSS");
+        variablenID = $this->RegisterVariableBoolean ("Reboot", "Reboot FB", "", 1);
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //$variablenID = $this->RegisterVariableFloat ($Ident, $Name, $Profil, $Position);
@@ -64,10 +65,15 @@ ___________________________________________________________________________
 
         $variablenID = $this->RegisterVariableString("Hosts", "aktive hosts", "", 4);
         IPS_SetInfo ($variablenID, "WSS");
-        $variablenID = $this->RegisterVariableString("callInPhone", "income call No", "", 4);
+        $variablenID = $this->RegisterVariableString("callInPhone", "income call No", "", 5);
         IPS_SetInfo ($variablenID, "WSS");
-        $variablenID = $this->RegisterVariableString("callInName", "income call Person", "", 4);
+        $variablenID = $this->RegisterVariableString("callInName", "income call Person", "", 6);
         IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableString("FbDynDns", "FB_DynDNS", "", 7);
+        IPS_SetInfo ($variablenID, "WSS");
+
+
+
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //Register Timer
@@ -78,7 +84,7 @@ ___________________________________________________________________________
     
 
         //Webfront Actions setzen
-        //$this->EnableAction("IDENT der registrierten Variable");
+        $this->EnableAction("Reboot");
     } //Function: Create End
     /* 
     ------------------------------------------------------------ 
@@ -97,6 +103,7 @@ ___________________________________________________________________________
         $this->RegisterMessage($this->InstanceID, FM_DISCONNECT);
 
         if($this->ReadPropertyBoolean("active")){
+            $this->updateOnce();
             //Timer einschalten
             $this->SetTimerInterval("update", $this->ReadPropertyInteger("UpdateInterval"));
         }
@@ -125,9 +132,11 @@ ___________________________________________________________________________
     */ 
     public function RequestAction($Ident, $Value) {     
         switch($Ident) {
-            case "IDENT_Variable":
+            case "Reboot":
                 if ($Value == true){ 
-
+                    $this->Reboot();
+                    IPS_sleep(1000);
+                    $this->setvalue("Reboot",false);
                 }
                 else {
 
@@ -290,6 +299,20 @@ _______________________________________________________________________
     Hilfsfunktionen
 ______________________________________________________________________
 */ 
+
+    //-----------------------------------------------------------------------------
+    /* Function:    updateOnce)=
+    Beschreibung:   wird einmalig ausgeführt wenn Modul auf aktiv geschaltet wird.
+    ...............................................................................
+    Parameters:     none
+    Returns:        none
+    ------------------------------------------------------------------------------  */
+    public function updateOnce(){
+       $result = $this->Get_MyFritz_DynDNS();
+       $this->setvalue("FbDynDns", $result["NewDynDNSName"]);
+    }  
+
+
     /* ----------------------------------------------------------------------------
     Function: createProfile
     ...............................................................................

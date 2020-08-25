@@ -10,13 +10,9 @@ trait FB_soap
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	Gibt den DynDNSName von MyFritz zurück
-						 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
 	Parameter:		 none
-					
 	Rückgabewert: 	 Array
 							[NewEnabled] => 1
 							[NewDeviceRegistered] => 1
@@ -26,45 +22,27 @@ trait FB_soap
 	  public function Get_MyFritz_DynDNS(){
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
-
 					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
-
 					    "GetInfo",
-
-					       array(
-							 
-
+					       	array(
 							)
 		);
 	  }
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
-	Funktion 	:	 
-						 
+	Funktion 	:	 				 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
 	Parameter:		 none
-					
-	Rückgabewert: 	 Array
-							[NewEnabled] => 1
-							[NewDeviceRegistered] => 1
-							[NewDynDNSName] => ylgsiletvcrasj6i.myfritz.net
-							[NewPort] => 55759
+	Rückgabewert: 	 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetNumberOfServices(){
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
-
 					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
-
 					    "GetNumberOfServices",
-
-					       array(
-								 
-
+					       	array(
 							)
 		);
 	  }
@@ -570,6 +548,24 @@ trait FB_soap
 
 
 //  22 ------------------------------------------------------------------------
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 SwitchWLAN()
+	Befehl		:	 schaltet WLAN An / AUS
+	--------------------------------------------------------------------------------
+	Parameter:		  none
+	Rückgabewert: 	  none
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function SwitchWLAN(){
+	    return $this->processSoapCall(
+						"/upnp/control/wlanconfig1",
+					    "urn:dslforum-org:service:WLANConfiguration:1",
+					    "SetEnable",
+					       array(
+							)
+		);
+	}
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
@@ -1096,63 +1092,9 @@ trait FB_soap
 
 //  32 ------------------------------------------------------------------------
 
-	/*//////////////////////////////////////////////////////////////////////////////
-	--------------------------------------------------------------------------------
-	Funktion 	:	Internet neu Verbinden
-						 
-	Befehl		:	 
-	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
-	Parameter:		 none
-					
-	Rückgabewert: 	  
+  
 	    
-				 
-	//////////////////////////////////////////////////////////////////////////////*/
-	public function ForceTermination(){
-	    return $this->processSoapCall(
-						"/upnp/control/wanpppconn1",
 
-					    "urn:dslforum-org:service:WANPPPConnection:1",
-
-					    "ForceTermination",
-
-					       array(
-							 
-
-							)
-		);
-	}         
-
-	  
-	/*//////////////////////////////////////////////////////////////////////////////
-	--------------------------------------------------------------------------------
-	Funktion 	:	WLAN Verbinden abfragen
-						 
-	Befehl		:	 geht noch nicht
-	--------------------------------------------------------------------------------
-	Soap / upnp-command
-	--------------------------------------------------------------------------------
-	Parameter:		 none
-					
-	Rückgabewert: 	  
-							 
-	//////////////////////////////////////////////////////////////////////////////*/
-	public function RequestConnection(){
-	    return $this->processSoapCall(
-						"/upnp/control/wanpppconn1",
-
-					    "urn:dslforum-org:service:WANPPPConnection:1",
-
-					    "RequestConnection",
-
-					       array(
-							 
-
-							)
-		);
-	}
 
 
 	/*//////////////////////////////////////////////////////////////////////////////
@@ -1220,7 +1162,9 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 	Rückgabewert: 	 Array
-
+		[NewConnectionStatus] => Connected
+		[NewLastConnectionError] => ERROR_NONE
+		[NewUptime] => 4546
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetStatusInfo_Connection( ){
 	    return $this->processSoapCall(
@@ -1234,16 +1178,43 @@ trait FB_soap
 
 
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	Internet neu Verbinden
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+	Rückgabewert: 			 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function ForceTermination(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+					    "ForceTermination",
+					       array(
+							)
+		);
+	}         
 
-
-
-
-
-
-
-
-
-
+	  
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	WLAN Verbinden abfragen
+	Befehl		:	 geht noch nicht
+	--------------------------------------------------------------------------------
+	Parameter:		 none
+	Rückgabewert: 	  
+							 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function RequestConnection(){
+	    return $this->processSoapCall(
+						"/upnp/control/wanpppconn1",
+					    "urn:dslforum-org:service:WANPPPConnection:1",
+					    "RequestConnection",
+					       array(
+							)
+		);
+	}
 
 
 
