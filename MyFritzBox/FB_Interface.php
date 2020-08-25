@@ -329,7 +329,17 @@ trait FB_soap
 	Befehl		:	 
 	--------------------------------------------------------------------------------
 	Parameter:		none
-	Rückgabewert: 	 0
+	Rückgabewert: 	 Array(
+		[NewURL] => https://acs2.online.de
+		[NewUsername] => 2006-963
+		[NewPeriodicInformEnable] => 1
+		[NewPeriodicInformInterval] => 86400
+		[NewPeriodicInformTime] => 2018-01-01T15:38:41Z
+		[NewParameterKey] => 
+		[NewParameterHash] => 
+		[NewConnectionRequestURL] => http://[2001:1a81:7002:a21:3631:c4ff:feb6:72e6]:49699/4ca815415439806
+		[NewConnectionRequestUsername] => 
+		[NewUpgradesManaged] => 0
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetInfoMServer(){
 	    return $this->processSoapCall(
@@ -376,6 +386,29 @@ trait FB_soap
 
 					       array(
 							 
+							)
+		);
+	}
+
+
+//  11 ------------------------------------------------------------------------
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		none
+	Rückgabewert: 	 Array(
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetDDNSInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/x_remote",
+					    "urn:dslforum-org:service:X_AVM-DE_RemoteAccess:1",
+					    "GetDDNSInfo",
+					       array(
 							)
 		);
 	}
