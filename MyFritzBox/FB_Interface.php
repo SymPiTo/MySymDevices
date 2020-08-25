@@ -198,6 +198,40 @@ trait FB_soap
 	}
 
 
+
+//  1 ------------------------------------------------------------------------
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+						 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Soap / upnp-command
+	--------------------------------------------------------------------------------
+	Parameter:		none
+					
+	Rückgabewert: 	 Array
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function DeviceInfo(){
+	    return $this->processSoapCall(
+						"/upnp/control/deviceinfo",
+
+					    "urn:dslforum-org:service:DeviceInfo:1",
+
+					    "GetInfo",
+
+					       array(
+							 
+							)
+		);
+	}
+
+
+
+
+
+
 //  2 ------------------------------------------------------------------------
 
 	/*//////////////////////////////////////////////////////////////////////////////
@@ -860,7 +894,7 @@ trait FB_soap
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
-	Funktion 	:	WLAN Verbinden
+	Funktion 	:	Internet neu Verbinden
 						 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
@@ -869,7 +903,27 @@ trait FB_soap
 	Parameter:		 none
 					
 	Rückgabewert: 	  
-							 
+	    [0] => Array
+        (
+            [NewIPAddress] => 192.168.178.27
+            [NewAddressSource] => DHCP
+            [NewLeaseTimeRemaining] => 0
+            [NewMACAddress] => 30:05:5C:4F:F7:0E
+            [NewInterfaceType] => Ethernet
+            [NewActive] => 0
+            [NewHostName] => Brother-Drucker
+        )
+
+    [1] => Array
+        (
+            [NewIPAddress] => 192.168.178.8
+            [NewAddressSource] => DHCP
+            [NewLeaseTimeRemaining] => 864000
+            [NewMACAddress] => 00:05:CD:33:AE:81
+            [NewInterfaceType] => Ethernet
+            [NewActive] => 1
+            [NewHostName] => CEOL
+        )					 
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function ForceTermination(){
 	    return $this->processSoapCall(
@@ -891,7 +945,7 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Funktion 	:	WLAN Verbinden abfragen
 						 
-	Befehl		:	 
+	Befehl		:	 geht noch nicht
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
