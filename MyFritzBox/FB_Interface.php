@@ -985,7 +985,12 @@ trait FB_soap
 	--------------------------------------------------------------------------------
 	Parameter:		  
 	Rückgabewert: Array	  
-
+		[NewX_AVM-DE_DSLDiagnoseState] => NONE
+		[NewX_AVM-DE_CableNokDistance] => -1
+		[NewX_AVM-DE_DSLLastDiagnoseTime] => 0
+		[NewX_AVM-DE_DSLSignalLossTime] => 0
+		[NewX_AVM-DE_DSLActive] => 1
+		[NewX_AVM-DE_DSLSync] => 1
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function GetDSLDiagnoseInfo(){
 	    return $this->processSoapCall(
@@ -1036,6 +1041,26 @@ trait FB_soap
 		);
 	}
 
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:		  
+	Rückgabewert: Array	  
+
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetDestinationAddress(){
+	    return $this->processSoapCall(
+						"/upnp/control/wandsllinkconfig1",
+					    "urn:dslforum-org:service:WANDSLLinkConfig:1",
+					    "GetDestinationAddress",
+					       	array(
+							)
+		);
+	}
+	
+	
 
 //  31 ------------------------------------------------------------------------
 
