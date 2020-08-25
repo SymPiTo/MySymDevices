@@ -555,7 +555,8 @@ trait FB_soap
 	Befehl		:	 schaltet WLAN An / AUS
 	--------------------------------------------------------------------------------
 	Parameter:		  none
-	Rückgabewert: 	  $NewEnable
+	Rückgabewert: 	  $NewEnable = true/false; 
+					  $WLANID = 2  (1)
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function SwitchWLAN($WLANID, $NewEnable){
 	    return $this->processSoapCall(

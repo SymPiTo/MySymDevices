@@ -50,7 +50,10 @@ ___________________________________________________________________________
         //Register Variables
         $variablenID = $this->RegisterVariableBoolean ("DSLState", "DSL Status", "", 1);
         IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableBoolean ("INetState", "Internet Status", "", 1);
+        IPS_SetInfo ($variablenID, "WSS");
         $variablenID = $this->RegisterVariableBoolean ("Reboot", "Reboot FB", "", 1);
+        $variablenID = $this->RegisterVariableBoolean ("ReConnect", "Reconnect DSL", "", 1);
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //$variablenID = $this->RegisterVariableFloat ($Ident, $Name, $Profil, $Position);
@@ -71,7 +74,8 @@ ___________________________________________________________________________
         IPS_SetInfo ($variablenID, "WSS");
         $variablenID = $this->RegisterVariableString("FbDynDns", "FB_DynDNS", "", 7);
         IPS_SetInfo ($variablenID, "WSS");
-
+        $variablenID = $this->RegisterVariableString("ExtIP", "External IP", "", 8);
+        IPS_SetInfo ($variablenID, "WSS");
 
 
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
@@ -85,6 +89,7 @@ ___________________________________________________________________________
 
         //Webfront Actions setzen
         $this->EnableAction("Reboot");
+        $this->EnableAction("ReConnect");
     } //Function: Create End
     /* 
     ------------------------------------------------------------ 
@@ -142,6 +147,15 @@ ___________________________________________________________________________
 
                 }
                 break;
+            case "ReConnect":
+                if ($Value == true){ 
+                    $this->ForceTermination();
+                    IPS_sleep(1000);
+                    $this->setvalue("ReConnect",false);
+                }
+                else {
+
+                }
             default:
                 throw new Exception("Invalid Ident");
             }
@@ -221,6 +235,10 @@ ________________________________________________________________________________
             $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
             $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
             $this->SetValue("DSLState", $DSL);
+            $this->SetValue("ExtIP", $this->GetExternalIPAddress);
+            $Istate = $this->GetInfo_connection();
+            $c = ($Istate == "Connected") ? true : false;
+            $this->SetValue("INetState", $c);
         }
         else{
             $this->SendDebug('SocketOpen:', "Port ist blockiert:".$portOpen , 0);
