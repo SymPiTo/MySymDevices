@@ -557,10 +557,10 @@ trait FB_soap
 	Parameter:		  none
 	Rückgabewert: 	  $NewEnable
 	//////////////////////////////////////////////////////////////////////////////*/
-	public function SwitchWLAN($NewEnable){
+	public function SwitchWLAN($WLANID, $NewEnable){
 	    return $this->processSoapCall(
-						"/upnp/control/wlanconfig1",
-					    "urn:dslforum-org:service:WLANConfiguration:1",
+						"/upnp/control/wlanconfig".$WLANID,
+					    "urn:dslforum-org:service:WLANConfiguration:".$WLANID,
 					    "SetEnable",
 					       	array(
 								new SoapParam($NewEnable,	"NewEnable" )
