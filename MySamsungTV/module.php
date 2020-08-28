@@ -93,11 +93,11 @@ class MySamsungTV extends IPSModule
             if($this->ReadPropertyBoolean("aktiv")){
                 
                 $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
-                $this->SetTimerInterval("watchdog", 60000);
+                //$this->SetTimerInterval("watchdog", 60000);
             }
             else {
                 $this->SetTimerInterval("update", 0);
-                $this->SetTimerInterval("watchdog", 0);
+               // $this->SetTimerInterval("watchdog", 0);
             }
     }
     
