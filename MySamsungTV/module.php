@@ -320,7 +320,7 @@ class MySamsungTV extends IPSModule
         
             $ip = $this->ReadPropertyString('ip');
             $port = "52235";
-            $alive = CheckPort($ip, $port);
+            $alive = $this->CheckPort($ip, $port);
             if ($alive){
                 $this->setvalue("TVPower", true);
                 $vol = $this->getVolume();  
