@@ -78,7 +78,7 @@ class MySamsungTV extends IPSModule
       
         // Timer erstellen
         $this->RegisterTimer("update", $this->ReadPropertyInteger("updateInterval"), 'STV_update($_IPS[\'TARGET\']);');
-        $this->RegisterTimer("watchdog", 60000, 'STV_watchdog($_IPS[\'TARGET\']);');
+       // $this->RegisterTimer("watchdog", 60000, 'STV_watchdog($_IPS[\'TARGET\']);');
         
     }
     
@@ -298,32 +298,7 @@ class MySamsungTV extends IPSModule
 */
         
         
-	/*//////////////////////////////////////////////////////////////////////////////
-	Function:  watchdog()
-	...............................................................................
-	Funktion wird über Timer alle 60 Sekunden gestartet
-         *  call SubFunctions:   
-	...............................................................................
-	Parameter:  none
-	--------------------------------------------------------------------------------
-	SetVariable:    
-	--------------------------------------------------------------------------------
-	return: none  
-	--------------------------------------------------------------------------------
-	Status: checked 2018-06-03
-	//////////////////////////////////////////////////////////////////////////////*/       
-        public function watchdog() {
-            $ip = $this->ReadPropertyString('ip');
-            $alive = Sys_Ping($ip, 1000);
-                $chName = getvalue($this->GetIDForIdent("TVchLName"));
-                $this->getChExtTVlist($chName);
-           if ($alive){
-               $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
-           }
-           else {
-               $this->SetTimerInterval("update", 0);
-           }
-        }
+ 
 
 	/*//////////////////////////////////////////////////////////////////////////////
 	Function:  update()
@@ -340,10 +315,9 @@ class MySamsungTV extends IPSModule
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/       
         public function update() {
-                $this->SendDebug("TVProg ", "Update gestartet", 0);
-
-             
-       
+            $this->SendDebug("TVProg ", "Update gestartet", 0);
+            $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
+        
             $ip = $this->ReadPropertyString('ip');
             $port = "52235";
             $alive = CheckPort($ip, $port);
@@ -361,7 +335,7 @@ class MySamsungTV extends IPSModule
                  */
             }
             else{
-                $this->SetTimerInterval("update", 0);
+                //$this->SetTimerInterval("update", 0);
                 setvalue($this->GetIDForIdent("TVPower"), false);
                 setvalue($this->GetIDForIdent("TVGuide"),"");
                 $SourceList = json_decode(getvalue($this->GetIDForIdent("TVSourceList")), true);
