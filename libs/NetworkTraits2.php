@@ -406,6 +406,27 @@ trait UTF8Coder2
     }
 }
 
-            
+trait MyHelper
+{
+    /***************************************************************************
+    * Name:  CheckPort
+    * 
+    * Description: prüft ob ein Port offen/ansprechbar ist
+    *
+    * Parameters:  ip, port
+    * 
+    * Returns:  Error nummber 0 = OK
+    *************************************************************************** */
+    private function CheckPort($ip, $port){
+        $connection = @fsockopen($ip, $port, $errno, $errstr, 20);
+        @fclose($connection);  
+        $this->SendDebug('SocketOpen', $errstr , 0);
+        if($errno > 0){ 
+            return false;
+        }
+        else{
+            return true;
+        }
+    } //Function: End            
 
-
+}

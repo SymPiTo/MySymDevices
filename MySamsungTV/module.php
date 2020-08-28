@@ -10,7 +10,8 @@ class MySamsungTV extends IPSModule
     
     //externe Klasse einbinden - ueberlagern mit TRAIT.
     use SamsungUPNP,
-        MyDebugHelper2;
+        MyDebugHelper2,
+        MyHelper;
      
     //*****************************************************************************
     /* Function: Standardfunktinen für ein Modul. 
@@ -344,9 +345,10 @@ class MySamsungTV extends IPSModule
              
        
             $ip = $this->ReadPropertyString('ip');
-            $alive = Sys_Ping($ip, 1000);
+            $port = "52235";
+            $alive = CheckPort($ip, $port);
             if ($alive){
-                setvalue($this->GetIDForIdent("TVPower"), true);
+                $this->setvalue("TVPower", true);
                 $vol = $this->getVolume();  
 
                 /*
