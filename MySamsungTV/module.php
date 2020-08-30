@@ -368,7 +368,7 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - (TelNet = OK)
     //////////////////////////////////////////////////////////////////////////////*/  
     public function getVolume() {
-         $vol = $this->GetVolume_RC($channel = 'Master');
+         $vol = $this->GetVolume_MTVA();
         SetValue($this->GetIDForIdent("TVVolume"), (int)$vol);  
         return (int)$vol;
     }   
