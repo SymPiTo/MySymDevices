@@ -2629,7 +2629,13 @@ trait SamsungUPNP {
 
                                                "uri"        => $uri,
 
-                                               "trace"      => true 
+                                               "trace"      => true, 
+
+                                               'noroot' 	=> true,
+                              
+                                               'login'     => IPS_GetProperty($this->InstanceID, ""),
+                              
+                                               'password'  => IPS_GetProperty($this->InstanceID, "0812")
           ));
 
 
