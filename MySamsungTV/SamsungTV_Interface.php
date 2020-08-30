@@ -2835,7 +2835,7 @@ trait SamsungUPNP {
             $src = "192.168.178.28"; # ip des IPS Servers
             //$mac = "B8:27:EB:80:C2:C7"; # mac des Kodi Servers
             $mac = "B8:27:EB:9D:78:B5"; # mac des IPS Servers
-            $remote = "My IPS Raspi";
+            $remote = "ipspi";
             $dst =  $this->ReadPropertyString('ip');
             $app = "iphone..iapp.samsung";
             $tv = "iphone.UE40D8000.iapp.samsung"; # iphone.UE40D8000.iapp.samsung
