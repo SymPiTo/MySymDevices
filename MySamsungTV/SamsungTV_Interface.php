@@ -2633,9 +2633,9 @@ trait SamsungUPNP {
 
                                                'noroot' 	=> true,
                               
-                                               'login'     => IPS_GetProperty($this->InstanceID, ""),
+                                               'login'     =>  "",
                               
-                                               'password'  => IPS_GetProperty($this->InstanceID, "0812")
+                                               'password'  =>  "0812"
           ));
 
 
