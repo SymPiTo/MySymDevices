@@ -54,6 +54,7 @@ ___________________________________________________________________________
         IPS_SetInfo ($variablenID, "WSS");
         $variablenID = $this->RegisterVariableBoolean ("Reboot", "Reboot FB", "", 1);
         $variablenID = $this->RegisterVariableBoolean ("ReConnect", "Reconnect DSL", "", 1);
+        $variablenID = $this->RegisterVariableBoolean ("BootWS", "Workstation einschalten", "", 1);
         //IPS_SetHidden($variablenID, true); //Objekt verstecken
 
         //$variablenID = $this->RegisterVariableFloat ($Ident, $Name, $Profil, $Position);
@@ -90,6 +91,7 @@ ___________________________________________________________________________
         //Webfront Actions setzen
         $this->EnableAction("Reboot");
         $this->EnableAction("ReConnect");
+        $this->EnableAction("BootWS");
     } //Function: Create End
     /* 
     ------------------------------------------------------------ 
@@ -156,6 +158,14 @@ ___________________________________________________________________________
                 else {
 
                 }
+            case "BootWS":
+                if ($Value == true){ 
+                    $this->WakeOnLANByMACAddress("F8:32:E4:BE:03:0B");
+                    $this->setvalue("BootWS",true);
+                }
+                else {
+
+                } 
             default:
                 throw new Exception("Invalid Ident");
             }
