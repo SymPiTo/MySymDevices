@@ -796,13 +796,11 @@ trait FB_soap
 	/*//////////////////////////////////////////////////////////////////////////////
 	--------------------------------------------------------------------------------
 	Funktion 	:	 
-						 
 	Befehl		:	 
 	--------------------------------------------------------------------------------
 	Soap / upnp-command
 	--------------------------------------------------------------------------------
 	Parameter: 
-					
 	Rückgabewert: 	 Array
  
 	//////////////////////////////////////////////////////////////////////////////*/
@@ -823,6 +821,69 @@ trait FB_soap
 
 
 
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:  	$mac = MAC Adress
+	Rückgabewert: 	enabled = true : false  
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function GetAutoWakeOnLANByMACAddress(string $mac){
+	    return $this->processSoapCall(
+						"/upnp/control/hosts",
+					    "urn:dslforum-org:service:Hosts:1",
+					    "X_AVM-DE_GetAutoWakeOnLANByMACAddress",
+					       	array(
+								new SoapParam($mac   , "NewMACAddress" )
+							)
+		);
+	}
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:  	$mac = MAC Adress
+					$enbale = true : false
+	Rückgabewert: 	  
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function SetAutoWakeOnLANByMACAddress(string $mac, bool $enable ){
+	    return $this->processSoapCall(
+						"/upnp/control/hosts",
+					    "urn:dslforum-org:service:Hosts:1",
+					    "X_AVM-DE_SetAutoWakeOnLANByMACAddress",
+					       	array(
+								new SoapParam($mac   , "NewMACAddress" ),
+								new SoapParam($enable   , "NewAutoWOLEnabled" ),
+							)
+		);
+	}
+
+
+	/*//////////////////////////////////////////////////////////////////////////////
+	--------------------------------------------------------------------------------
+	Funktion 	:	 
+	Befehl		:	 
+	--------------------------------------------------------------------------------
+	Parameter:  	$mac = MAC Adress
+	Rückgabewert: 	  
+ 
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function WakeOnLANByMACAddress(string $mac ){
+	    return $this->processSoapCall(
+						"/upnp/control/hosts",
+					    "urn:dslforum-org:service:Hosts:1",
+					    "X_AVM-DE_WakeOnLANByMACAddress",
+					       	array(
+								new SoapParam($mac   , "NewMACAddress" )
+							)
+		);
+	}
 
 
 
