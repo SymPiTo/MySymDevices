@@ -239,7 +239,6 @@ ________________________________________________________________________________
     public function update(){
         $portOpen = $this->checkPort("192.168.178.1", "49000");
         if($portOpen == 0){
-
             $this->SetValue("DSLUpRate", $this->DSL_GetInfo()['NewUpstreamCurrRate']);
             $this->SetValue("DSLDownRate", $this->DSL_GetInfo()['NewDownstreamCurrRate']);
             $DSL = ($this->DSL_GetInfo()['NewStatus'] == "Up" ? true : false); 
@@ -251,6 +250,16 @@ ________________________________________________________________________________
 
             $this->get_hosts();
             IPS_Sleep(1000);
+            $hostlist = $this->GetValue('Hosts');
+            $hosts = json_decode($hostlist, true);
+            $key = array_search('192.168.178.32',array_column($hosts, 'NewIPAddress')); 
+            $status = $hosts[$key]['NewActive'];
+            if($status){
+                $this->SetValue('BootWS', true);
+            }
+            else{
+                $this->SetValue('BootWS', false);
+            }
         }
         else{
             $this->SendDebug('SocketOpen:', "Port ist blockiert:".$portOpen , 0);
