@@ -335,8 +335,11 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $sz3 = $output['szLine']['value'][2];
                 if (empty($sz3)){$sz3 = '- - - -';}
                 $sz4 = "";
+                $this->SendDebug("1CeolSZ4: ", $sz4, 0);
                 if(isset($output['szLine']['value'][3])){
+                   
                     $sz4 = $output['szLine']['value'][3];
+                    $this->SendDebug("2CeolSZ4: ", $sz4, 0);
                 };
                 $sz5 = "";
                 if(isset($output['szLine']['value'][4])){
@@ -360,8 +363,8 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolSZ2", substr($sz2, 0,60));
                 $this->SetValue("CeolSZ3", $sz3);
                 $this->SendDebug("CeolSZ3: ", $sz3, 0);
-                
-                $this->SendDebug("CeolSZ4: ", $sz4, 0);
+
+                $this->SendDebug("3CeolSZ4: ", $sz4, 0);
                 $this->SetValue("CeolSZ4", $sz4);
                 
                 $this->SetValue("CeolSZ5", $sz5);
