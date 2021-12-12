@@ -333,12 +333,24 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $sz2 = utf8_decode($output['szLine']['value'][1]);
                 if (empty($sz2)){$sz2 = '- - - -';}
                 $sz3 = $output['szLine']['value'][2];
-                if (empty($sz3)){$sz2 = '- - - -';}
-                $sz4 = $output['szLine']['value'][3];
-                $sz5 = $output['szLine']['value'][4];
-                $sz6 = $output['szLine']['value'][5];
-                $sz7 = $output['szLine']['value'][6];
-                $sz8 = $output['szLine']['value'][6];
+                if (empty($sz3)){$sz3 = '- - - -';}
+                if(isset($output['szLine']['value'][3])){
+                    $sz4 = $output['szLine']['value'][3];
+                };
+                if(isset($output['szLine']['value'][4])){
+                    $sz5 = $output['szLine']['value'][4];
+                };
+                if(isset($output['szLine']['value'][5])){
+                    $sz6 = $output['szLine']['value'][5];
+                };
+                if(isset($output['szLine']['value'][6])){
+                    $sz7 = $output['szLine']['value'][6];
+                };
+                if(isset($output['szLine']['value'][7])){
+                    $sz8 = $output['szLine']['value'][7];
+                };
+               
+           
                 $this->SetValue("CeolSZ1", $sz1);
                 $this->SetValue("CeolSZ2", substr($sz2, 0,60));
                 $this->SetValue("CeolSZ3", $sz3);
