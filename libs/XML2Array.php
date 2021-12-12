@@ -1,6 +1,6 @@
 <?php
 /*//////////////////////////////////////////////////////////////////////////////
-UPNP_Function_XML2Array V1.0                              2015 by André Liebmann
+UPNP_Function_XML2Array V1.0                              2015 by Andrï¿½ Liebmann
 21.07.2015
 --------------------------------------------------------------------------------
 XML zu Array - Konvertierung (Open Source)
@@ -47,6 +47,7 @@ trait XML2Array {
      * @return DOMDocument
      */
     public static function &createArray($input_xml) {
+		
         $xml = self::getXMLRoot();
 		if(is_string($input_xml)) {
 			$parsed = $xml->loadXML($input_xml);
