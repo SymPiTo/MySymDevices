@@ -1,7 +1,7 @@
 <?php
 //zugehoerige Unter-Klassen    
 require_once(__DIR__ . "/DenonCeol_Interface.php");
-require_once(__DIR__ . "/../libs/XML2Array.php");
+//require_once(__DIR__ . "/../libs/XML2Array.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 require_once(__DIR__ . "/DiscoverTrait.php");
 
@@ -9,7 +9,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
     class DenonCeol extends IPSModule {
         //externe Klasse einbinden - ueberlagern mit TRAIT
         use CEOLupnp;
-        use XML2Array;
+        //use XML2Array;
         use MyDebugHelper2;
         use DiscoveryServerTrait;              
         
@@ -303,10 +303,10 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 }
                 //MainZoneStatus auslesen   
                 $output = $this->Get_MainZone_Status();
-                $power = ($output['item']['Power']['value']);
-                $InputFuncSelect = ($output['item']['InputFuncSelect']['value']);
-                $MasterVolume = ($output['item']['MasterVolume']['value']);
-                $Mute = ($output['item']['Mute']['value']);
+                $power = ($output['Power']['value']);
+                $InputFuncSelect = ($output['InputFuncSelect']['value']);
+                $MasterVolume = ($output['MasterVolume']['value']);
+                $Mute = ($output['Mute']['value']);
                 if ($power == 'ON'){
                         $_power = true;
                 }
@@ -329,16 +329,16 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolMute", $_mute);
                 //AudioStatus auslesen
                 $output = $this->get_audio_status();		
-                $sz1 = $output['item']['szLine']['value'][0];
-                $sz2 = utf8_decode($output['item']['szLine']['value'][1]);
+                $sz1 = $output['szLine']['value'][0];
+                $sz2 = utf8_decode($output['szLine']['value'][1]);
                 if (empty($sz2)){$sz2 = '- - - -';}
-                $sz3 = $output['item']['szLine']['value'][2];
+                $sz3 = $output['szLine']['value'][2];
                 if (empty($sz3)){$sz2 = '- - - -';}
-                $sz4 = $output['item']['szLine']['value'][3];
-                $sz5 = $output['item']['szLine']['value'][4];
-                $sz6 = $output['item']['szLine']['value'][5];
-                $sz7 = $output['item']['szLine']['value'][6];
-                $sz8 = $output['item']['szLine']['value'][6];
+                $sz4 = $output['szLine']['value'][3];
+                $sz5 = $output['szLine']['value'][4];
+                $sz6 = $output['szLine']['value'][5];
+                $sz7 = $output['szLine']['value'][6];
+                $sz8 = $output['szLine']['value'][6];
                 $this->SetValue("CeolSZ1", $sz1);
                 $this->SetValue("CeolSZ2", substr($sz2, 0,60));
                 $this->SetValue("CeolSZ3", $sz3);
@@ -349,7 +349,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolSZ8", $sz8);
                 
                 
-                $Source = $output['item']['NetFuncSelect']['value'];
+                $Source = $output['NetFuncSelect']['value'];
                 $this->SendDebug("get Source: ", $Source, 0);
                 switch ($Source){
                         case "IRADIO":
@@ -471,12 +471,13 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 		$url = "http://$host:80/goform/formMainZone_MainZoneXmlStatus.xml";
 		$cmd = "";
 		$xml = $this->curl_get($url, $cmd);
-	$this->SendDebug('Get_MainZone_Status: XMLcreateArray_IN:', $xml, 0);
-        $output = XML2Array::createArray($xml);
-    $this->SendDebug('Get_MainZone_Status: XMLcreateArray_OUT:', $output, 0);
+	//$this->SendDebug('Get_MainZone_Status: XMLcreateArray_IN:', $xml, 0);
+        //$output = XML2Array::createArray($xml);
+        $output = json_decode(json_encode((array)simplexml_load_string($xml)),true);
+    //$this->SendDebug('Get_MainZone_Status: XMLcreateArray_OUT:', $output, 0);
                 //$this->SendDebug("MainZone: ", $output, 0);
 		//$status = ($output['item']['Power']['value']);
-                $this->SendDebug("MainZoneStatus: ", $xml, 0);
+        $this->SendDebug("MainZoneStatus: ", $xml, 0);
 		return $output;
 	}	
         
@@ -509,10 +510,11 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 		$url = "http://$host:80/goform/formNetAudio_StatusXml.xml";
 		$cmd = "";
 		$xml = $this->curl_get($url, $cmd);
-    $this->SendDebug('get_audio_status:XMLcreateArray_IN: ', $xml, 0);
+    //$this->SendDebug('get_audio_status:XMLcreateArray_IN: ', $xml, 0);
 		//$this->SendDebug("AudioStatus: ", $xml, 0);
-		$output = XML2Array::createArray($xml);
-    $this->SendDebug('get_audio_status:XMLcreateArray_OUT: ', $output, 0);
+		//$output = XML2Array::createArray($xml);
+        $output = json_decode(json_encode((array)simplexml_load_string($xml)),true);
+    //$this->SendDebug('get_audio_status:XMLcreateArray_OUT: ', $output, 0);
 		return $output;
 	}	 
 
@@ -600,10 +602,12 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 			$power=false;
 		}
 		$xml = $this->curl_get($url, $cmd);
-    $this->SendDebug('SetPower:XMLcreateArray_IN: ', $xml, 0);
-		$output = XML2Array::createArray($xml);
-    $this->SendDebug('SetPower:XMLcreateArray_IN: ', $output, 0);
- 		$status = ($output['item']['Power']['value']);
+    //$this->SendDebug('SetPower:XMLcreateArray_IN: ', $xml, 0);
+		//$output = XML2Array::createArray($xml);
+        $output = json_decode(json_encode((array)simplexml_load_string($xml)),true);
+    //$this->SendDebug('SetPower:XMLcreateArray_IN: ', $output, 0);
+ 		//$status = ($output['item']['Power']['value']);
+         $status = ($output['Power']['value']);
          $this->SetValue("CeolPower", $power);
 		return $status;	
 	}        
@@ -760,10 +764,12 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $host = $this->ReadPropertyString('IPAddress');
             $url = "http://$host:80/goform/formiPhoneAppVolume.xml";
             $xml = $this->curl_get($url, $cmd);
-        $this->SendDebug('SetVolumeDB:XMLcreateArray_IN: ', $xml, 0);
-            $output = XML2Array::createArray($xml);
-        $this->SendDebug('SetVolumeDB:XMLcreateArray_IN: ', $output, 0);
-            $VolDB = ($output['item']['MasterVolume']['value']);
+        //$this->SendDebug('SetVolumeDB:XMLcreateArray_IN: ', $xml, 0);
+            //$output = XML2Array::createArray($xml);
+            $output = json_decode(json_encode((array)simplexml_load_string($xml)),true);
+        //$this->SendDebug('SetVolumeDB:XMLcreateArray_IN: ', $output, 0);
+            //$VolDB = ($output['item']['MasterVolume']['value']);
+            $VolDB = ($output['MasterVolume']['value']);
             $this->SetValue("CeolVolume", $Wert);
             $vol =  (intval($Wert) + 79)*10;
             $this->SetValue("CeolVol", $vol);
