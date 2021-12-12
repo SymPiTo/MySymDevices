@@ -540,7 +540,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
     //$this->SendDebug('get_audio_status:XMLcreateArray_IN: ', $xml, 0);
 		//$this->SendDebug("AudioStatus: ", $xml, 0);
 		//$output = XML2Array::createArray($xml);
-        $output = json_decode(json_encode((array)simplexml_load_string(utf8_decode($xml))),true);
+        $output = utf8_decode(json_decode(json_encode((array)simplexml_load_string($xml)),true));
     //$this->SendDebug('get_audio_status:XMLcreateArray_OUT: ', $output, 0);
 		return $output;
 	}	 
