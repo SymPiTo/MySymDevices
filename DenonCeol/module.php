@@ -365,15 +365,15 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SendDebug("CeolSZ3: ", $sz3, 0);
 
                 $this->SendDebug("3CeolSZ4: ", $sz4, 0);
-                $this->SetValue("CeolSZ4", $sz4);
+                $this->SetValue("CeolSZ4", (string)$sz4);
                 
-                $this->SetValue("CeolSZ5", $sz5);
+                $this->SetValue("CeolSZ5", (string)$sz5);
                 $this->SendDebug("CeolSZ5: ", $sz5, 0);
-                $this->SetValue("CeolSZ6", $sz6);
+                $this->SetValue("CeolSZ6", (string)$sz6);
                 $this->SendDebug("CeolSZ6: ", $sz6, 0);
-                $this->SetValue("CeolSZ7", $sz7);
+                $this->SetValue("CeolSZ7", (string)$sz7);
                 $this->SendDebug("CeolSZ7: ", $sz7, 0);
-                $this->SetValue("CeolSZ8", $sz8);
+                $this->SetValue("CeolSZ8", (string)$sz8);
                 $this->SendDebug("CeolSZ8e: ", $sz8, 0);
                 
                 
