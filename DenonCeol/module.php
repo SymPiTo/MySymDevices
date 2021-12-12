@@ -342,11 +342,17 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolSZ1", $sz1);
                 $this->SetValue("CeolSZ2", substr($sz2, 0,60));
                 $this->SetValue("CeolSZ3", $sz3);
+                $this->SendDebug("CeolSZ3: ", $sz3, 0);
                 $this->SetValue("CeolSZ4", $sz4);
+                $this->SendDebug("CeolSZ4: ", $sz4, 0);
                 $this->SetValue("CeolSZ5", $sz5);
+                $this->SendDebug("CeolSZ5: ", $sz5, 0);
                 $this->SetValue("CeolSZ6", $sz6);
+                $this->SendDebug("CeolSZ6: ", $sz6, 0);
                 $this->SetValue("CeolSZ7", $sz7);
+                $this->SendDebug("CeolSZ7: ", $sz7, 0);
                 $this->SetValue("CeolSZ8", $sz8);
+                $this->SendDebug("CeolSZ8e: ", $sz8, 0);
                 
                 
                 $Source = $output['NetFuncSelect']['value'];
