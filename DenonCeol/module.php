@@ -329,7 +329,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolMute", $_mute);
                 //AudioStatus auslesen
                 $output = $this->get_audio_status();		
-                $sz1 = $output['szLine']['value'][0];
+                $sz1 = utf8_decode($output['szLine']['value'][0]);
                 $sz2 = utf8_decode($output['szLine']['value'][1]);
                 if (empty($sz2)){$sz2 = '- - - -';}
                 $sz3 = $output['szLine']['value'][2];
