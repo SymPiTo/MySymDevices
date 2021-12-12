@@ -336,25 +336,24 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 if (empty($sz3)){$sz3 = '- - - -';}
                 $sz4 = "- - - -";
                 $this->SendDebug("1CeolSZ4: ", $sz4, 0);
-                if(isset($output['szLine']['value'][3])){
-                   
+                if( in_array( "3" ,$output ) ){                   
                     $sz4 = $output['szLine']['value'][3];
                     $this->SendDebug("2CeolSZ4: ", $sz4, 0);
                 };
                 $sz5 = "- - - -";
-                if(isset($output['szLine']['value'][4])){
+                if( in_array( "4" ,$output ) ){ 
                     $sz5 = $output['szLine']['value'][4];
                 };
                 $sz6 = "- - - -";
-                if(isset($output['szLine']['value'][5])){
+                if( in_array( "5" ,$output ) ){ 
                     $sz6 = $output['szLine']['value'][5];
                 };
                 $sz7 = "- - - -";
-                if(isset($output['szLine']['value'][6])){
+                if( in_array( "6" ,$output ) ){ 
                     $sz7 = $output['szLine']['value'][6];
                 };
                 $sz8 = "- - - -";
-                if(isset($output['szLine']['value'][7])){
+                if( in_array( "7" ,$output ) ){ 
                     $sz8 = $output['szLine']['value'][7];
                 };
                
@@ -365,15 +364,15 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SendDebug("CeolSZ3: ", $sz3, 0);
 
                 $this->SendDebug("3CeolSZ4: ", $sz4, 0);
-                $this->SetValue("CeolSZ4", (string)$sz4);
+                $this->SetValue("CeolSZ4", $sz4);
                 
-                $this->SetValue("CeolSZ5", (string)$sz5);
+                $this->SetValue("CeolSZ5", $sz5);
                 $this->SendDebug("CeolSZ5: ", $sz5, 0);
-                $this->SetValue("CeolSZ6", (string)$sz6);
+                $this->SetValue("CeolSZ6", $sz6);
                 $this->SendDebug("CeolSZ6: ", $sz6, 0);
-                $this->SetValue("CeolSZ7", (string)$sz7);
+                $this->SetValue("CeolSZ7", $sz7);
                 $this->SendDebug("CeolSZ7: ", $sz7, 0);
-                $this->SetValue("CeolSZ8", (string)$sz8);
+                $this->SetValue("CeolSZ8", $sz8);
                 $this->SendDebug("CeolSZ8e: ", $sz8, 0);
                 
                 
