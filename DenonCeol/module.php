@@ -334,26 +334,26 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 if (empty($sz2)){$sz2 = '- - - -';}
                 $sz3 = $output['szLine']['value'][2];
                 if (empty($sz3)){$sz3 = '- - - -';}
-                $sz4 = "";
+                $sz4 = "- - - -";
                 $this->SendDebug("1CeolSZ4: ", $sz4, 0);
                 if(isset($output['szLine']['value'][3])){
                    
                     $sz4 = $output['szLine']['value'][3];
                     $this->SendDebug("2CeolSZ4: ", $sz4, 0);
                 };
-                $sz5 = "";
+                $sz5 = "- - - -";
                 if(isset($output['szLine']['value'][4])){
                     $sz5 = $output['szLine']['value'][4];
                 };
-                $sz6 = "";
+                $sz6 = "- - - -";
                 if(isset($output['szLine']['value'][5])){
                     $sz6 = $output['szLine']['value'][5];
                 };
-                $sz7 = "";
+                $sz7 = "- - - -";
                 if(isset($output['szLine']['value'][6])){
                     $sz7 = $output['szLine']['value'][6];
                 };
-                $sz8 = "";
+                $sz8 = "- - - -";
                 if(isset($output['szLine']['value'][7])){
                     $sz8 = $output['szLine']['value'][7];
                 };
