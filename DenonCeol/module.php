@@ -360,8 +360,10 @@ require_once(__DIR__ . "/DiscoverTrait.php");
                 $this->SetValue("CeolSZ2", substr($sz2, 0,60));
                 $this->SetValue("CeolSZ3", $sz3);
                 $this->SendDebug("CeolSZ3: ", $sz3, 0);
-                $this->SetValue("CeolSZ4", $sz4);
+                
                 $this->SendDebug("CeolSZ4: ", $sz4, 0);
+                $this->SetValue("CeolSZ4", $sz4);
+                
                 $this->SetValue("CeolSZ5", $sz5);
                 $this->SendDebug("CeolSZ5: ", $sz5, 0);
                 $this->SetValue("CeolSZ6", $sz6);
