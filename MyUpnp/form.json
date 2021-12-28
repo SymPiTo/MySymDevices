@@ -1,9 +1,16 @@
 {
-	"elements": [{
+	"elements": [
+		{
 		"name": "active",
 		"type": "CheckBox",
 		"caption": "active"
-	}],
+		},
+		{
+            "type": "SelectScript",
+            "name": "ID_SSDP",
+            "caption": "SSDP Control (Device Discovery Instanz ID)."
+        }
+	],
 	"actions": [{
 			"type": "Button",
 			"label": "Search Upnp Clients.",

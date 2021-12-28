@@ -84,7 +84,7 @@ class MyUpnp extends IPSModule {
         parent::Create();
         
         $this->RegisterPropertyBoolean("active", false);
-
+        $this->RegisterPropertyInteger("ID_SSDP", 59291);
         //$this->RegisterProfiles();
         
         // Category anlegen
@@ -213,7 +213,7 @@ class MyUpnp extends IPSModule {
         $this->RegisterVariableInteger("upnp_SaveAsPlayList", "BrowseSaveAsPlayList", "");
         $this->EnableAction("upnp_SaveAsPlayList");    
         
-        $variablenID = $this->RegisterVariableString("upnp_ClientArray", "Client:Array");
+        $variablenID = $this->RegisterVariableString("upnp_ClientArray", "Client:Array", "", 2);
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ClientControlURL", "Client:ControlURL");
         $variablenID = $this->RegisterVariableString("upnp_ClientIcon", "Client:Icon");
@@ -226,7 +226,7 @@ class MyUpnp extends IPSModule {
         $this->RegisterVariableString("upnp_ClientPort", "Client:Port");
         $this->RegisterVariableString("upnp_ClientRenderingControlURL", "Client:RenderingControlURL");
         
-        $variablenID = $this->RegisterVariableString("upnp_ServerArray", "Server:Array");
+        $variablenID = $this->RegisterVariableString("upnp_ServerArray", "Server:Array", "", 1);
         IPS_SetInfo ($variablenID, "WSS"); 
         $this->RegisterVariableString("upnp_ServerContentDirectory", "Server:ContentDirectory");
         $variablenID = $this->RegisterVariableString("upnp_ServerIcon", "Server:Icon");
