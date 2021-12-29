@@ -866,6 +866,7 @@ class MyUpnp extends IPSModule {
         $this->SendDebug("PLAY ", "Status auf PLAY setzten", 0); 
 
         $tracks = $this->GetValue("upnp_NoTracks");
+        $this->SendDebug("PLAY Anzahl Tracks: ", $tracks, 0);
         for($track=0; $track < $tracks; $track++) {
             //track holen und zugeh. res und meta daten laden
             $res = $xml->$track->resource; // gibt resource des Titels aus
