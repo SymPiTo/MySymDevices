@@ -881,8 +881,10 @@ class MyUpnp extends IPSModule {
          
 
             $Playlist = $Playlist.",".$res;
+            
         }
-        $this->SendDebug("PLAY List Array ", $Playlist, 0);
+        $list = explode(",", $Playlist);
+        $this->SendDebug("PLAY List Array ", $list, 0);
             $this->SetTimerInterval('upnp_PlayInfo', 0);
             $this->SendDebug("PLAY ", "Timer anhalten.", 0);
             //Stream ausführen	
