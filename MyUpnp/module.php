@@ -869,7 +869,7 @@ class MyUpnp extends IPSModule {
         $this->SendDebug("PLAY Anzahl Tracks: ", $tracks, 0);
        
 
-        for($i=1; $i < $tracks; $i++) {
+        for($i=0; $i < $tracks; $i++) {
             //track holen und zugeh. res und meta daten laden
             $track = "Track".$i;
             $res = $xml->$track->resource; // gibt resource des Titels aus
@@ -879,8 +879,12 @@ class MyUpnp extends IPSModule {
             //UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
             //IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
          
-
-            $Playlist = $Playlist.",".$res;
+            if($i == 0){
+                $Playlist= $res;
+            } else{
+                $Playlist = $Playlist.",".$res;
+            }
+            
             
         }
         $list = explode(",", $Playlist);
