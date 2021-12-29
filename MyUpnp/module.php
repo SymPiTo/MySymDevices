@@ -806,8 +806,8 @@ class MyUpnp extends IPSModule {
                 //}
             
  		//Transport starten
-         $this->SendDebug("PLAY DeviceName", $this->GetValue("Client:Name"), 0);
-        if($this->GetValue("Client:Name") == "SonosK"){
+         $this->SendDebug("PLAY DeviceName", $this->GetValue("upnp_ClientName"), 0);
+        if($this->GetValue("upnp_ClientName") == "SonosK"){
             SNS_SetTransportURI(33732, $res);
             $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
         }else {
@@ -829,7 +829,7 @@ class MyUpnp extends IPSModule {
 
 
 		//Stream ausführen	
-        if($this->GetValue("Client:Name") == "SonosK"){
+        if($this->GetValue("upnp_ClientName") == "SonosK"){
             SNS_Play(33732);
             $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
         } else {
