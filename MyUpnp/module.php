@@ -878,13 +878,13 @@ class MyUpnp extends IPSModule {
             $this->SendDebug("PLAY ", $metadata, 0);
             //UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
             //IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
-            $this->SetTimerInterval('upnp_PlayInfo', 0);
-            $this->SendDebug("PLAY ", "Timer anhalten.", 0);
+         
 
             $Playlist[$i] = $res;
         }
-         
-
+        $this->SendDebug("PLAY List Array ", $Playlist, 0);
+            $this->SetTimerInterval('upnp_PlayInfo', 0);
+            $this->SendDebug("PLAY ", "Timer anhalten.", 0);
             //Stream ausführen	
             SNS_PlayFiles(33732, json_encode($Playlist), 0);
             $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
