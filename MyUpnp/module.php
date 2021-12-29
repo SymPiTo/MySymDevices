@@ -773,6 +773,10 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function play(){	
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->PlaySNS();
+        } else {
+
 		//IPSLog("start play", "play");
 		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
 		$ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
@@ -806,17 +810,9 @@ class MyUpnp extends IPSModule {
                 //}
             
  		//Transport starten
-         $this->SendDebug("PLAY DeviceName", $this->GetValue("upnp_ClientName"), 0);
-        if($this->GetValue("upnp_ClientName") == "SonosK"){
-            //SNS_SetTransportURI(33732, $res);
-            $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
-            $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
-        }else {
-            $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+             $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
             $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
-        }
-            
-            
+   
         //auf Anfangsposition stellen.
             //wenn Sequece Schalter true dann auf LoopStart Position stellen
             if($this->GetValue("upnp_Seq")){
@@ -830,14 +826,11 @@ class MyUpnp extends IPSModule {
 
 
 		//Stream ausführen	
-        if($this->GetValue("upnp_ClientName") == "SonosK"){
-            //SNS_Play(33732);
-            $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
-            $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
-        } else {
+  
+         
             $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
             $this->SendDebug("PLAY ", 'Play_AV', 0);
-        }
+      
 		    
            
             
@@ -845,7 +838,56 @@ class MyUpnp extends IPSModule {
 		//IPS_SetEventActive($this->GetIDForIdent("upnp_PlayInfo"), true);  // Aktivert Ereignis
             $this->SetTimerInterval('upnp_PlayInfo', 1000);
             $this->SendDebug("PLAY ", 'Position-Timer aktivieren', 0);
+                    
+        }
 	}
+
+    //*****************************************************************************
+	/* Function: PlaySNS()
+	...............................................................................
+	SNS Playlist abspielen
+	...............................................................................
+	Parameters:  
+            none.
+	--------------------------------------------------------------------------------
+	Returns:  
+            none
+	--------------------------------------------------------------------------------
+	Status:  
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function PlaySNS(){	
+        $PlaylistName =  getvalue($this->GetIDForIdent("upnp_PlaylistName"));
+        $PlaylistFile = $PlaylistName.'.xml';
+        $mediatype = getvalue($this->GetIDForIdent("upnp_MediaType"));
+		$xml = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/".$PlaylistFile);
+        $this->SendDebug("PLAY ", "Play-Liste lade".$PlaylistFile, 0); 
+        // Status auf Play stellen
+        setvalue($this->GetIDForIdent("upnp_Status"), 1);
+        $this->SendDebug("PLAY ", "Status auf PLAY setzten", 0); 
+
+        $tracks = $this->GetValue("upnp_NoTracks");
+        for($track=0; $track < tracks; $track++) {
+            //track holen und zugeh. res und meta daten laden
+            $res = $xml->$track->resource; // gibt resource des Titels aus
+            $this->SendDebug("PLAY ", $res, 0);
+            $metadata = $xml->$track->metadata; // gibt resource des Titels aus
+            $this->SendDebug("PLAY ", $metadata, 0);
+            //UPNP_GetPositionInfo_Playing abschalten zum Ausführen des Transitioning
+            //IPS_SetScriptTimer($this->GetIDForIdent("upnp_PlayInfo"), 0);
+            $this->SetTimerInterval('upnp_PlayInfo', 0);
+            $this->SendDebug("PLAY ", "Timer anhalten.", 0);
+
+            //Transport starten
+            SNS_SetTransportURI(33732, $res);
+            $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
+
+            //Stream ausführen	
+            SNS_Play(33732);
+            $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
+        }
+        // Postion Timer starten
+    }
+
 
 	//*****************************************************************************
 	/* Function: PlayNextTrack()
