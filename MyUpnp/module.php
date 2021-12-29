@@ -514,7 +514,7 @@ class MyUpnp extends IPSModule {
 		--------------------------------------------------------------------------------
 		*/
 		if ($member == "client"){
-			SetValue($this->GetIDForIdent("upnp_ClientArray"), 'suche Devices ...');
+			$this->SetValue("upnp_ClientArray", 'suche Devices ...');
 			$SSDP_Search_Array = $this->mSearch($ST_MR);
 			//IPSLog('mSearch Ergebnis ',$SSDP_Search_Array);
 			
@@ -524,18 +524,18 @@ class MyUpnp extends IPSModule {
 		 	$UPNP_Device_Array = $this->create_UPNP_Device_Array($SSDP_Array); 
 			//IPSLog('create Device Ergebnis ',$UPNP_Device_Array);
 			//Ergebnis wird als ARRAY in ID_CLIENT_ARRAY in Subfunctions gespeichert;
-			$array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
+			$array = $this->GetValue("upnp_ClientArray");
 			if ($array){$result = true;}
 			else{$result = false;}
 		}
 		if ($member == "server"){
-			setvalue($this->GetIDForIdent("upnp_ServerArray"), 'suche Server ...');
+			$this->setvalue("upnp_ServerArray", 'suche Server ...');
 			$SSDP_Search_Array = $this->mSearch($ST_MS);
 			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
 			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
 		 	$UPNP_Server_Array = $this->create_UPNP_Server_Array($SSDP_Array); 
 			//Ergebnis wird als ARRAY in ID_Server_ARRAY in Subfunctions gespeichert;
-			$array = getvalue($this->GetIDForIdent("upnp_ServerArray"));
+			$array = $this->GetValue("upnp_ServerArray");
 			if ($array){$result = true;}
 			else{$result = false;}
 		}

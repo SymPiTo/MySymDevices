@@ -612,19 +612,19 @@ require_once(__DIR__ . "/DiscoverTrait.php");
 	--------------------------------------------------------------------------------
 	HTTP-Command: http://192.168.178.29:80/goform/formiPhoneAppPower.xml?1+PowerOn
 	--------------------------------------------------------------------------------
-	return: $status = 'on' / 'Standby'  // 0 / 1 
+	return: $status = 'on' / 'Standby'  // 0 / 1  as boolean
 	--------------------------------------------------------------------------------
 	Status: checked 2018-06-03
 	//////////////////////////////////////////////////////////////////////////////*/        
-	Public function SetPower(string $status){
+	Public function SetPower($state){
 		$host = $this->ReadPropertyString('IPAddress');
 		$url = "http://$host:80/goform/formiPhoneAppPower.xml";
-		if ($status == "On"){
+		if ($state == true){
                     $this->SendDebug('SetPower', 'Power: '.'einschalten', 0);
 			$cmd = '1+PowerOn';
 			$power=true;
 		}
-		if ($status == "Standby"){
+		if ($state == false){
 			$cmd = '1+PowerStandby';
 			$power=false;
 		}
