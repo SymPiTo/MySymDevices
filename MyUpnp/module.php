@@ -892,7 +892,7 @@ class MyUpnp extends IPSModule {
             $this->SetTimerInterval('upnp_PlayInfo', 0);
             $this->SendDebug("PLAY ", "Timer anhalten.", 0);
             //Stream ausführen	
-            SNS_PlayFiles(33732, json_encode(Array($list)), 0);
+            SNS_PlayFiles(33732, json_encode($list), 0);
             $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
         
          
