@@ -881,15 +881,15 @@ class MyUpnp extends IPSModule {
             $this->SetTimerInterval('upnp_PlayInfo', 0);
             $this->SendDebug("PLAY ", "Timer anhalten.", 0);
 
-            //Transport starten
-            SNS_SetTransportURI(33732, $res);
-            $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
+            $Playlist[$i] = $res;
+        }
+         
 
             //Stream ausführen	
-            SNS_Play(33732);
+            SNS_PlayFiles(33732, json_encode($Playlist), 0);
             $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
-        }
-        // Postion Timer starten
+        
+         
     }
 
 
