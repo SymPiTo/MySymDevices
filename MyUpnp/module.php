@@ -808,11 +808,13 @@ class MyUpnp extends IPSModule {
  		//Transport starten
         if($this->Getvalue(46310) == "SonosK"){
             SNS_SetTransportURI(33732, $res);
+            $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
         }else {
             $this->SetAVTransportURI($ClientIP, $ClientPort, $ControlURL, (string) $res, (string) $metadata);
+            $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
         }
             
-            $this->SendDebug("PLAY ", 'SetAVTransportURI', 0);
+            
         //auf Anfangsposition stellen.
             //wenn Sequece Schalter true dann auf LoopStart Position stellen
             if($this->GetValue("upnp_Seq")){
@@ -828,11 +830,13 @@ class MyUpnp extends IPSModule {
 		//Stream ausführen	
         if($this->Getvalue(46310) == "SonosK"){
             SNS_Play(33732);
+            $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
         } else {
             $this->Play_AV($ClientIP, $ClientPort, $ControlURL);
+            $this->SendDebug("PLAY ", 'Play_AV', 0);
         }
 		    
-            $this->SendDebug("PLAY ", 'Play_AV', 0);
+           
             
 		// Postion Timer starten
 		//IPS_SetEventActive($this->GetIDForIdent("upnp_PlayInfo"), true);  // Aktivert Ereignis
