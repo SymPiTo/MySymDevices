@@ -806,6 +806,7 @@ class MyUpnp extends IPSModule {
                 //}
             
  		//Transport starten
+         $this->SendDebug("PLAY DeviceName", $this->Getvalue(46310), 0);
         if($this->Getvalue(46310) == "SonosK"){
             SNS_SetTransportURI(33732, $res);
             $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
