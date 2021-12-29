@@ -566,9 +566,12 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('Send','setze Client '.$ClientName , 0);
             $Client_Array[$key]['DeviceActiveIcon'] = "image/button_ok_blue_80x80.png";
             */
-            $array = getvalue($this->GetIDForIdent("upnp_ClientArray"));
+            $array = $this->getvalue("upnp_ClientArray");
             $Client_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
-            
+            $ctClient = count($Client_Array);
+            if($key > $ctClient){$key = $ctClient-1;}
+            if($key < 0){$key = 0;}
+
             $ClientIP                   = $Client_Array[$key]['DeviceIP'];
             $ClientPort                 = $Client_Array[$key]['DevicePort'];
             $friendlyName               = $Client_Array[$key]['FriendlyName'];
@@ -612,9 +615,11 @@ class MyUpnp extends IPSModule {
 		$Server_Array = json_decode($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
                 */
-                $array = getvalue($this->GetIDForIdent("upnp_ServerArray"));
+                $array = $this->getvalue("upnp_ServerArray");
                 $Server_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
-                
+                $ctServer = count($Server_Array);
+                if($key > $ctServer){$key = $ctServer-1;}
+                if($key < 0){$key = 0;}
 		$Server_Array[$key]['ServerActiveIcon'] = "image/button_ok_blue_80x80.png";
 		$ServerIP                   = $Server_Array[$key]['ServerIP'];
 		$ServerPort                 = $Server_Array[$key]['ServerPort'];
