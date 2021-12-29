@@ -566,7 +566,7 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('Send','setze Client '.$ClientName , 0);
             $Client_Array[$key]['DeviceActiveIcon'] = "image/button_ok_blue_80x80.png";
             */
-            $array = $this->getvalue("upnp_ClientArray");
+            $array = $this->GetValue("upnp_ClientArray");
             $Client_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
             $ctClient = count($Client_Array);
             if($key > $ctClient){$key = $ctClient-1;}
@@ -615,7 +615,7 @@ class MyUpnp extends IPSModule {
 		$Server_Array = json_decode($array);
 		$key = $this->search_key($which_key, $which_value, $Server_Array);
                 */
-                $array = $this->getvalue("upnp_ServerArray");
+                $array = $this->GetValue("upnp_ServerArray");
                 $Server_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
                 $ctServer = count($Server_Array);
                 if($key > $ctServer-1){$key = $ctServer-1;}
@@ -806,8 +806,8 @@ class MyUpnp extends IPSModule {
                 //}
             
  		//Transport starten
-         $this->SendDebug("PLAY DeviceName", $this->Getvalue("Client:Name"), 0);
-        if($this->Getvalue("Client:Name") == "SonosK"){
+         $this->SendDebug("PLAY DeviceName", $this->GetValue("Client:Name"), 0);
+        if($this->GetValue("Client:Name") == "SonosK"){
             SNS_SetTransportURI(33732, $res);
             $this->SendDebug("PLAY ", 'SNS_SetAVTransportURI', 0);
         }else {
@@ -823,13 +823,13 @@ class MyUpnp extends IPSModule {
                 $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );   
             }
             else{
-                $position = $this->getvalue("upnp_RelTime");
+                $position = $this->GetValue("upnp_RelTime");
                 $this->Seek_AV($ClientIP,  $ClientPort,  $ControlURL, $position );  
             }
 
 
 		//Stream ausführen	
-        if($this->Getvalue(46310) == "SonosK"){
+        if($this->GetValue("Client:Name") == "SonosK"){
             SNS_Play(33732);
             $this->SendDebug("PLAY ", 'SNS_Play_AV', 0);
         } else {
