@@ -618,7 +618,7 @@ class MyUpnp extends IPSModule {
                 $array = $this->getvalue("upnp_ServerArray");
                 $Server_Array = json_decode($array, JSON_OBJECT_AS_ARRAY);
                 $ctServer = count($Server_Array);
-                if($key > $ctServer){$key = $ctServer-1;}
+                if($key > $ctServer-1){$key = $ctServer-1;}
                 if($key < 0){$key = 0;}
 		$Server_Array[$key]['ServerActiveIcon'] = "image/button_ok_blue_80x80.png";
 		$ServerIP                   = $Server_Array[$key]['ServerIP'];
