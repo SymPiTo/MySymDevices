@@ -175,7 +175,7 @@ trait upnp {
              nur Fehler Code
 	Status: checked
 	//////////////////////////////////////////////////////////////////////////////*/
-	Protected function Stop_AV(string $ClientIP, string $ClientPort, string $ClientControlURL){
+	Public function Stop_AV(string $ClientIP, string $ClientPort, string $ClientControlURL){
 		//IPSLog('start stop_AV Funktion ',$ClientControlURL);
 	    return $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
 	
