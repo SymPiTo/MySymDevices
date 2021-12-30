@@ -951,8 +951,21 @@ class MyUpnp extends IPSModule {
          
     }
 
-    public function StartPosTimer(){
-        $this->SetTimerInterval('upnp_PlayInfo', 1000);
+    //*****************************************************************************
+	/* Function: StartPosTimer()
+	...............................................................................
+	Timer starten oder Stoppen
+	...............................................................................
+	Parameters:  
+            time
+	--------------------------------------------------------------------------------
+	Returns:  
+            none
+	--------------------------------------------------------------------------------
+	Status:  
+	//////////////////////////////////////////////////////////////////////////////*/
+    public function StartPosTimer($time){
+        $this->SetTimerInterval('upnp_PlayInfo', $time);
         $this->SendDebug("PLAY ", 'Position-Timer aktivieren', 0);
     }
 
