@@ -9,7 +9,11 @@
             "type": "SelectScript",
             "name": "ID_SSDP",
             "caption": "SSDP Control (Device Discovery Instanz ID)."
-        }
+        },
+		{ 	"type": "SelectModule", 
+			"name": "SonosModuleID", 
+			"caption": "Sonos Player" , 
+			"moduleID": "{52F6586D-A1C7-AAC6-309B-E12A70F6EEF6}"}
 	],
 	"actions": [{
 			"type": "Button",

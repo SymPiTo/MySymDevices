@@ -85,6 +85,7 @@ class MyUpnp extends IPSModule {
         
         $this->RegisterPropertyBoolean("active", false);
         $this->RegisterPropertyInteger("ID_SSDP", 59291);
+        $this->RegisterPropertyInteger("SonosModuleID", 33732);
         //$this->RegisterProfiles();
         
         // Category anlegen
@@ -1109,7 +1110,7 @@ class MyUpnp extends IPSModule {
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
             $this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
             // Status auf Pause stellen
-            setvalue($this->GetIDForIdent("upnp_Status"), 2);
+            $this->setvalue("upnp_Status", 2);
         }
 	}
 
@@ -1127,7 +1128,7 @@ class MyUpnp extends IPSModule {
     public function PauseSNS() {
         SNS_Pause(33732);
         // Status auf Pause stellen
-        setvalue($this->GetIDForIdent("upnp_Status"), 2);
+        $this->setvalue("upnp_Status", 2);
     }
 
 	
