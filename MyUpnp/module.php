@@ -1653,7 +1653,7 @@ class MyUpnp extends IPSModule {
                 @$actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
             }
             @$AlbumArtURI = (string)$didlXml->item[0]->xpath('upnp:albumArtURI')[0];
-            $genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
+            @$genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
             //$date = (string)$didlXml->item[0]->xpath('dc:date')[0];
 
             setvalue($this->GetIDForIdent("upnp_Artist"),  $creator);
