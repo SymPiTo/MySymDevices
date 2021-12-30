@@ -653,28 +653,56 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setVolume(string $value){
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->setVolumeSNS();
+        } else {
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
             $RenderingControlURL = getvalue($this->GetIDForIdent("upnp_ClientRenderingControlURL"));
             $UpnpVol = $this->GetVolume();
-             
+                
             switch ($value){
                 case 'up':
                     $vol = intval($UpnpVol) + 5;
                     $this->SetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL, (string)$vol);
-                
                     break;
                 case 'down':
                     $vol = intval($UpnpVol) - 5;
                     $this->SetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL, (string)$vol);
-                
                     break;
                 default :
                     $this->SetVolume_AV($ClientIP, $ClientPort, $RenderingControlURL, $value);
             }
-            
-                    
-        }
+        }         
+    }
+
+	//*****************************************************************************
+	/* Function: setVolumeSNS($value)
+	...............................................................................
+	UPNP Client Lautstärke einstellen
+        ...............................................................................
+	Parameters: 
+            $value - 'up' // 'down' // 21
+	--------------------------------------------------------------------------------
+	Returns:  
+            none.
+	--------------------------------------------------------------------------------
+	Status:  
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function setVolumeSNS(string $value){
+        $SNSVol = $this->GetValue("Volume");
+        switch ($value){
+            case 'up':
+                $vol = intval($SNSVol) + 1;
+                break;
+            case 'down':
+                    $vol = intval($SNSVol) - 1;  
+                break;
+            default :
+                $vol = intval($value);
+        }   
+        SNS_SetVolume(33732, $vol);  
+    }
 
 	//*****************************************************************************
 	/* Function: setPlayMode($Playmode)
@@ -690,27 +718,27 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setPlayMode(string $Playmode){
-            $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
-            $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
-            $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
-                switch ($Playmode){
-                    case 'NORMAL':
-                        $value = 0;
-                        break;
-                    case 'RANDOM':
-                         $value = 1;
-                        break;
-                    case 'REPEAT_ONE':
-                         $value = 2;
-                        break;
-                    case 'REPEAT_ALL';
-                        $value = 3;
-                        break;
-                }    
-                $this->Playmode_AV( $ClientIP,  $ClientPort,  $ControlURL,  $Playmode);
-                SetValue($this->GetIDForIdent("upnp_PlayMode"),$value);
-                $this->SendDebug("set PlayMode to : ", $Playmode , 0);
-        }        
+        $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
+        $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
+        $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
+            switch ($Playmode){
+                case 'NORMAL':
+                    $value = 0;
+                    break;
+                case 'RANDOM':
+                    $value = 1;
+                    break;
+                case 'REPEAT_ONE':
+                    $value = 2;
+                    break;
+                case 'REPEAT_ALL';
+                    $value = 3;
+                    break;
+            }    
+        $this->Playmode_AV( $ClientIP,  $ClientPort,  $ControlURL,  $Playmode);
+        SetValue($this->GetIDForIdent("upnp_PlayMode"),$value);
+        $this->SendDebug("set PlayMode to : ", $Playmode , 0);
+    }        
         
 	//*****************************************************************************
 	/* Function: setMute($value)
@@ -726,37 +754,76 @@ class MyUpnp extends IPSModule {
 	Status:   checked 1.7.2018
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setMute($value){	
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->MuteSNS();
+        } else {	
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
             $RenderingControlURL = getvalue($this->GetIDForIdent("upnp_ClientRenderingControlURL"));
             switch ($value){
-		case 'on':
-                    $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '1');
-                    SetValue($this->GetIDForIdent("upnp_Mute"), true);
-                    break;
-		case 'off':
-                    $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '0');
-                    SetValue($this->GetIDForIdent("upnp_Mute"), false);
-                    break;
- 		case 'toggle':
-                    $state = GetValue($this->GetIDForIdent("upnp_Mute"));
+                case 'on':
+                            $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '1');
+                            SetValue($this->GetIDForIdent("upnp_Mute"), true);
+                            break;
+                case 'off':
+                            $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '0');
+                            SetValue($this->GetIDForIdent("upnp_Mute"), false);
+                            break;
+                case 'toggle':
+                            $state = GetValue($this->GetIDForIdent("upnp_Mute"));
+                            if($state){
+                                $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '0');
+                                SetValue($this->GetIDForIdent("upnp_Mute"), false);
+                            }
+                            else {
+                                $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '1');
+                                SetValue($this->GetIDForIdent("upnp_Mute"), true);
+                            }
+                            break;
+                        default :
+                            $this->SendDebug("Error_setMute: ", 'wrong parameter.', 0);
+              }
+        }    
+    }
+        
+	//*****************************************************************************
+	/* Function: MuteSNS($value)
+	...............................................................................
+	UPNP Client Stumm schalten
+        ...............................................................................
+	Parameters: 
+            $value - 'on' 'off' 'toggle'
+	--------------------------------------------------------------------------------
+	Returns:  
+            none
+	--------------------------------------------------------------------------------
+	Status:   checked 1.7.2018
+	//////////////////////////////////////////////////////////////////////////////*/
+	public function MuteSNS($value){	
+        switch ($value){
+            case 'on':
+                SNS_SetMute(33732, true);             
+                SetValue($this->GetIDForIdent("upnp_Mute"), true);
+                break;
+            case 'off':
+                SNS_SetMute(33732, false);           
+                SetValue($this->GetIDForIdent("upnp_Mute"), false);
+                break;
+            case 'toggle':
+                $state = GetValue($this->GetIDForIdent("upnp_Mute"));
                     if($state){
-                        $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '0');
+                        SNS_SetMute(33732, false);         
                         SetValue($this->GetIDForIdent("upnp_Mute"), false);
                     }
                     else {
-                        $this->SetMute_AV($ClientIP, $ClientPort, $RenderingControlURL, '1');
+                        SNS_SetMute(33732, true);        
                         SetValue($this->GetIDForIdent("upnp_Mute"), true);
-                    }
-                    break;
-                default :
-                    $this->SendDebug("Error_setMute: ", 'wrong parameter.', 0);
-              }    
-        }
-        
-
-
-
+                        }
+                break;
+            default :
+                $this->SendDebug("Error_setMute: ", 'wrong parameter.', 0);
+        }    
+    }       
 
 
 	//*****************************************************************************
@@ -943,18 +1010,21 @@ class MyUpnp extends IPSModule {
 
 	//*****************************************************************************
 	/* Function: Stop()
-        --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
         * Stream stoppen
         * Track Zähler zurücksetzen
         * Positions - Timer ausschalten
-        ...............................................................................
+    ...............................................................................
 	Parameters: 
             none.
 	--------------------------------------------------------------------------------
 	Returns:  
               none.
-        //////////////////////////////////////////////////////////////////////////////*/
+    //////////////////////////////////////////////////////////////////////////////*/
 	public function stop(){	
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->StopSNS();
+        } else {
             $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
@@ -1009,69 +1079,161 @@ class MyUpnp extends IPSModule {
 		//if($class == "object.item.imageItem.photo"){
 				//IPS_SetScriptTimer(UPNP_SlideShow, 0); //GetPositionInfo abschalten
 		//}
-                
+        }        
 	}
-	
+	//*****************************************************************************
+	/* Function: StopSNS()
+    --------------------------------------------------------------------------------
+        * Stream stoppen
+        * Track Zähler zurücksetzen
+        * Positions - Timer ausschalten
+        ...............................................................................
+	Parameters: 
+            none.
+	--------------------------------------------------------------------------------
+	Returns:  
+              none.
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function StopSNS(){	
+        $this->SendDebug('STOP', 'Stream stoppen', 0);
+        /*Timer abschalten--------------------------------------------------------*/
+        $this->SetTimerInterval('upnp_PlayInfo', 0);
+        /*Stream stoppen--------------------------------------------------------*/
+        SNS_Stop(33732);
+        /* Transport Status abfragen */
+        
+        //Player Status STOP setzen
+        setvalue($this->GetIDForIdent("upnp_Status"), 3);
+    }
 	
 	//*****************************************************************************
 	/* Function: Pause()
-        --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
          Pause
-        ...............................................................................
+    ...............................................................................
 	Parameters: 
             none.
 	--------------------------------------------------------------------------------
 	Returns:
             none.
-        //////////////////////////////////////////////////////////////////////////////*/
-	public function pause()
-	{	
-		$ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
-		$ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
-		$ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
-        $this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
-        // Status auf Pause stellen
-        setvalue($this->GetIDForIdent("upnp_Status"), 2);
+    //////////////////////////////////////////////////////////////////////////////*/
+	public function pause() {
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->PauseSNS();
+        } else {	
+            $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
+            $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
+            $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort"));
+            $this->Pause_AV($ClientIP, $ClientPort, $ControlURL);
+            // Status auf Pause stellen
+            setvalue($this->GetIDForIdent("upnp_Status"), 2);
+        }
 	}
 
+	//*****************************************************************************
+	/* Function: Pause()
+    --------------------------------------------------------------------------------
+         Pause
+    ...............................................................................
+	Parameters: 
+            none.
+	--------------------------------------------------------------------------------
+	Returns:
+            none.
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function PauseSNS() {
+        SNS_Pause(33732);
+        // Status auf Pause stellen
+        setvalue($this->GetIDForIdent("upnp_Status"), 2);
+    }
 
 	
 	//*****************************************************************************
 	/* Function: Next()
-        --------------------------------------------------------------------------------
-        ...............................................................................
+    --------------------------------------------------------------------------------
+    ...............................................................................
 	Parameters: 
             none.
 	--------------------------------------------------------------------------------
 	Returns:
             none.
-        //////////////////////////////////////////////////////////////////////////////*/
-	public function next()
-	{	
+    //////////////////////////////////////////////////////////////////////////////*/
+	public function next() {
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->NextSNS();
+        } else {		
+            // Status auf Next stellen
+            setvalue($this->GetIDForIdent("upnp_Status"), 4);
+            $maxTrack = GetValue($this->GetIDForIdent("upnp_NoTracks")); 
+            $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
+            if($currentTrack < $maxTrack-1){
+                $this->SendDebug('next', $currentTrack."- ".$maxTrack, 0);
+                $newTrack = $currentTrack + 1;
+                SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
+                //RealTime zurücksetzen, da play von Anfang des Tracks
+                SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+                $this->stop();
+                $this->play();
+            }
+            else {
+                // es ist bereits der letzte Track
+                $this->SendDebug('next', "das ist bereits der Letzte Track", 0);
+            }
+        }
+	}	
+
+	//*****************************************************************************
+	/* Function: NextSNS()
+    --------------------------------------------------------------------------------
+     ...............................................................................
+	Parameters: 
+            none.
+	--------------------------------------------------------------------------------
+	Returns:
+            none.
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function NextSNS() {
         // Status auf Next stellen
         setvalue($this->GetIDForIdent("upnp_Status"), 4);
-        $maxTrack = GetValue($this->GetIDForIdent("upnp_NoTracks")); 
-        $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
-        if($currentTrack < $maxTrack-1){
-            $this->SendDebug('next', $currentTrack."- ".$maxTrack, 0);
-            $newTrack = $currentTrack + 1;
-            SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
-            //RealTime zurücksetzen, da play von Anfang des Tracks
-            SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
-            $this->stop();
-            $this->play();
-        }
-        else {
-            // es ist bereits der letzte Track
-            $this->SendDebug('next', "das ist bereits der Letzte Track", 0);
-        }
-
-	}	
-	
+        SNS_Next(33732);
+    }	
 	
 	
 	//*****************************************************************************
 	/* Function: Previous()
+    -------------------------------------------------------------------------------
+        springe zum vorherigem Track 
+    ...............................................................................
+	Parameters:
+            none.
+       --------------------------------------------------------------------------------
+	Returns:
+            none.
+    //////////////////////////////////////////////////////////////////////////////*/
+	public function previous() {
+        if($this->GetValue("upnp_ClientName")=="SonosK"){
+            $this->PreviousSNS();
+        } else {	
+            // Status auf Next stellen
+            setvalue($this->GetIDForIdent("upnp_Status"), 4);
+            $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
+            if($currentTrack > 0){
+                $newTrack = $currentTrack - 1;
+                SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
+                //RealTime zurücksetzen, da play von Anfang des Tracks
+                SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
+                $this->stop();
+                $this->play();
+            }
+            else {
+                // es gibt  nur einen Track
+            }
+        }
+	}	
+
+	
+	//*****************************************************************************
+	/* Function: PreviousSNS()
         -------------------------------------------------------------------------------
         springe zum vorherigem Track 
         ...............................................................................
@@ -1081,36 +1243,24 @@ class MyUpnp extends IPSModule {
 	Returns:
             none.
         //////////////////////////////////////////////////////////////////////////////*/
-	public function previous()
-	{	
+    public function PreviousSNS() {
         // Status auf Next stellen
         setvalue($this->GetIDForIdent("upnp_Status"), 4);
-        $currentTrack = GetValue($this->GetIDForIdent("upnp_Track")); 
-        if($currentTrack > 0){
-            $newTrack = $currentTrack - 1;
-            SetValue($this->GetIDForIdent("upnp_Track"), $newTrack);
-            //RealTime zurücksetzen, da play von Anfang des Tracks
-            SetValue($this->GetIDForIdent("upnp_RelTime"), "0:00:00");
-            $this->stop();
-            $this->play();
-        }
-        else {
-            // es gibt  nur einen Track
-        }
+        SNS_Previous(33732);
+      
+    }	
 
-	}	
-        
 	//*****************************************************************************
 	/* Function: seekForward()
-        -------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------
         spult Lied um 20 Sekunden vor
-        ...............................................................................
+    ...............................................................................
 	Parameters:
             none.
-        --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
 	Returns:
             none.
-        //////////////////////////////////////////////////////////////////////////////*/
+    //////////////////////////////////////////////////////////////////////////////*/
 	public function seekForward(){	
             $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
             $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
@@ -1124,17 +1274,18 @@ class MyUpnp extends IPSModule {
             $this->SendDebug('seekForward', $position, 0);
             $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, $position);
     }
+
     //*****************************************************************************
 	/* Function: seekStart()
-        -------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------
         spult Lied zum Anfang
-        ...............................................................................
+    ...............................................................................
 	Parameters:
             none.
-        --------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
 	Returns:
             none.
-        //////////////////////////////////////////////////////////////////////////////*/
+    //////////////////////////////////////////////////////////////////////////////*/
 	public function seekStart(){	
         $ControlURL = getvalue($this->GetIDForIdent("upnp_ClientControlURL"));
         $ClientIP 	= getvalue($this->GetIDForIdent("upnp_ClienIP"));
@@ -1143,7 +1294,8 @@ class MyUpnp extends IPSModule {
          
         $this->SendDebug('seekStartPosition', $position, 0);
         $this->Seek_AV($ClientIP, $ClientPort, $ControlURL, (string) $position);
-}
+    }   
+
 	//*****************************************************************************
 	/* Function: seekForward()
         -------------------------------------------------------------------------------
@@ -1610,9 +1762,6 @@ class MyUpnp extends IPSModule {
             return false;
         }
         
-
-
-
 	}
 
 
@@ -1805,7 +1954,7 @@ class MyUpnp extends IPSModule {
 
 		$Kernel = str_replace("\\", "/", IPS_GetKernelDir());
 
-/* ---------------- Start ID = Rootverzeichnis von upnp Sever --------------- */
+        /* ---------------- Start ID = Rootverzeichnis von upnp Sever --------------- */
 		$container[0]['id'] = '0';
 		$n = 0;
 		$i = 0;
@@ -1961,6 +2110,7 @@ class MyUpnp extends IPSModule {
         return $container;
 
 	}
+
 	//*****************************************************************************
 	/* Function: syncDB($container)
 	...............................................................................
@@ -2233,83 +2383,82 @@ class MyUpnp extends IPSModule {
 
 	//*****************************************************************************
 	/* Function: createPlaylist($id, $PlaylistNo)
-        ...............................................................................
+    ...............................................................................
         Erzeugt eine Playliste aus dem Container mit der ID und 
         bennent sie nach Servername + PlaylistNo
         "AVM0001.xml"
-        ...............................................................................
-        Parameters:  
+    ...............................................................................
+    Parameters:  
             $id         - Container ID.
             $PlaylistNo - Playlist Nummer z.Bsp "0001".
  	--------------------------------------------------------------------------------
 	Returns:    
             * schreibt FILE.
                 * $Kernel."media/Multimedia/Playlist/Musik/".$PlaylistName.".xml"].  
-        --------------------------------------------------------------------------------
-        Status: 
-        //////////////////////////////////////////////////////////////////////////////*/
-        Public function createPlaylist(string $id, string $mediatype, string $PlaylistNo){
-                //IPSLog("Starte Funktion CREATEPLAYLIST mit Parameter ", $id.' - '.$PlaylistNo);
-                $PlaylistArray = array();
+    --------------------------------------------------------------------------------
+    Status: 
+    //////////////////////////////////////////////////////////////////////////////*/
+    Public function createPlaylist(string $id, string $mediatype, string $PlaylistNo){
+        //IPSLog("Starte Funktion CREATEPLAYLIST mit Parameter ", $id.' - '.$PlaylistNo);
+        $PlaylistArray = array();
 
+        //es wird der angewählte Server durchsucht
+        $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
+        //IPSLog('ServerName', $ServerName);
+        //------------------------------------------------
+        // alle media files in Ordner mit ID  = $id suchen
+        //------------------------------------------------
+        $result = $this->browseContainerServer($id);
 
-                //es wird der angewählte Server durchsucht
-                $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
-                //IPSLog('ServerName', $ServerName);
-                //------------------------------------------------
-                // alle media files in Ordner mit ID  = $id suchen
-                //------------------------------------------------
-                $result = $this->browseContainerServer($id);
+        //Browse als XML-Datei zwischenspeichern
 
-                //Browse als XML-Datei zwischenspeichern
-
-                //Numerische Keys durch Track[Nr.] ersetzen-------------------------------------
-                $prefix = "Track";
-                $BrowselistArray = $this->rekey_array( $result , $prefix );
+        //Numerische Keys durch Track[Nr.] ersetzen-------------------------------------
+        $prefix = "Track";
+        $BrowselistArray = $this->rekey_array( $result , $prefix );
                 
-                //print_r ($BrowselistArray);
+        //print_r ($BrowselistArray);
 
-                $xml = new SimpleXMLElement('<Playlist/>');
-                $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
+        $xml = new SimpleXMLElement('<Playlist/>');
+        $xml = Array2XML::createXML('Playlist' , $BrowselistArray);
                 
-                $Kernel = $this->Kernel();
+        $Kernel = $this->Kernel();
                 
-                $PlaylistName = $ServerName.$PlaylistNo;                
-                $Playlist = $xml->saveXML();
+        $PlaylistName = $ServerName.$PlaylistNo;                
+        $Playlist = $xml->saveXML();
                 
-                //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
+        //XML-Datei in \\IPS-RASPI\varlibsymcon\media\Multimedia\Playlist\$mediatype
                
-                $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
-                fwrite($handle, $Playlist);
-                fclose($handle);
+        $handle = fopen($Kernel."media/Multimedia/Playlist/".$mediatype."/".$PlaylistName.".xml", "w");
+        fwrite($handle, $Playlist);
+        fclose($handle);
                
-                $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
-        }
+        $this->SendDebug('UPNP Playlist erstellt: ', $PlaylistName, 0);
+    }
 
 
 
 	//*****************************************************************************
 	/* Function: createAllPlaylist($mediatype)
-        ...............................................................................
+    ...............................................................................
         Vorbedingung:
         getContainerServer(string $Mediatype)
         muss vorher ausgeführt worden sein,
         
         Erzeugt alle Playlisten vom Typ Mediatype  
         bennent sie nach Servername + PlaylistNo + .xml
-        ...............................................................................
-        Parameters:  
+    ...............................................................................
+    Parameters:  
             $mediatype - "Musik" // "Audio" // "Video" // "Foto"
  	--------------------------------------------------------------------------------
 	Returns: 
             * schreibt FILES (Playlisten)
                 * _$Kernel."media/Multimedia/Playlist/Musik/".$ServerName."PlaylistNo".xml_.
-        --------------------------------------------------------------------------------
-        Status: 
-        //////////////////////////////////////////////////////////////////////////////*/
-        Public function createAllPlaylist(string $mediatype){
-            $this->Meldung( 'erzeuge Playlisten!');
-                $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
+    --------------------------------------------------------------------------------
+    Status: 
+    //////////////////////////////////////////////////////////////////////////////*/
+    Public function createAllPlaylist(string $mediatype){
+        $this->Meldung( 'erzeuge Playlisten!');
+        $ServerName = getvalue($this->GetIDForIdent("upnp_ServerName"));
 
                 /*
                 if ($mediatype == 'Fotos'){
@@ -2323,25 +2472,22 @@ class MyUpnp extends IPSModule {
                 }
                 */
 
- 
-           
-                    //Retrieve the serialized string.
-                    $Kernel = $this->Kernel();
-                    $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/".$mediatype."/".$ServerName."_".$mediatype."_Container.con");
-                    //Unserialize the string back into an array.
-                    $MediaContainer = unserialize($fileContents);
-                    //load DB
-                    $dbXML = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
+        //Retrieve the serialized string.
+        $Kernel = $this->Kernel();
+        $fileContents = file_get_contents($Kernel."media/Multimedia/Playlist/".$mediatype."/".$ServerName."_".$mediatype."_Container.con");
+        //Unserialize the string back into an array.
+        $MediaContainer = unserialize($fileContents);
+        //load DB
+        $dbXML = simplexml_load_file($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DB.xml");
 
-                    foreach ($MediaContainer as $key => $value) {
-                            $id = $value['id'];		
-                            $PlaylistNo = substr($value['title'],0,4);
-                            $this->createPlaylist($id, $mediatype, $PlaylistNo);
-                            $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
-                    }
-                    $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
-       
+        foreach ($MediaContainer as $key => $value) {
+            $id = $value['id'];		
+            $PlaylistNo = substr($value['title'],0,4);
+            $this->createPlaylist($id, $mediatype, $PlaylistNo);
+            $this->Meldung('erzeuge Playlist: '.$ServerName.$PlaylistNo.'.mp3');
         }
+        $this->Meldung( 'Fertig - alle Playlisten erzeugt!');
+    }
 
 
 
@@ -2378,60 +2524,57 @@ class MyUpnp extends IPSModule {
                             
 	//*****************************************************************************
 	/* Function: rekey_array($input, $prefix)
-        ...............................................................................
-        umbenennen der im Array enthaltenen numerischen Keys mit einem Präfix
-        ...............................................................................
+     ...............................................................................
+    umbenennen der im Array enthaltenen numerischen Keys mit einem Präfix
+    ...............................................................................
         Parameters: 
             *  $input - ""
             *  $prefix - "" 
  	--------------------------------------------------------------------------------
 	Returns: 
-        -----------------------------------------------------------------------------
-        Status: 
-        *****************************************************************************/
-        Public function rekey_array($input, $prefix)
-                {
-                $out = array();
-                foreach($input as $i => $v)
-                        {
-                        if(is_numeric($i))
-                                {
-                                $out[$prefix . $i] = $v;
-                                continue;
-                                }
-                        $out[$i] = $v;
-                        }
-                        return $out;
-                }
+    -----------------------------------------------------------------------------
+    Status: 
+    *****************************************************************************/
+    Public function rekey_array($input, $prefix){
+        $out = array();
+        foreach($input as $i => $v){
+            if(is_numeric($i)){
+                $out[$prefix . $i] = $v;
+                continue;
+            }
+            $out[$i] = $v;
+        }
+        return $out;
+    }
 
 
                             
 	//*****************************************************************************
 	/* Function: ping($IP, $Port, $timeout)
-        ...............................................................................
-        Ping
-        ...............................................................................
-        Parameters: 
+     ...............................................................................
+    Ping
+    ...............................................................................
+    Parameters: 
             *  $IP - IP Adresse
             *  $Port - Port
             *  $timeout - timeout Zeit in ms
  	--------------------------------------------------------------------------------
 	Returns: 
-        -----------------------------------------------------------------------------
-        Status: 
-        *****************************************************************************/
-        Protected function ping($IP, $Port, $timeout){
-            $fsock = @fsockopen($IP, $Port, $errno, $errstr, $timeout);
-            //socket_set_timeout($fsock, $timeout);
-            if ( ! $fsock ){
-                $this->SendDebug('Send', $IP.'ist nicht erreichbar!', 0);
-                return ("false");
-            }
-            else{
-                $this->Meldung($IP.": erreichbar\r\n\r\n");
-                return ("true");
-            }
+    -----------------------------------------------------------------------------
+    Status: 
+    *****************************************************************************/
+    Protected function ping($IP, $Port, $timeout){
+        $fsock = @fsockopen($IP, $Port, $errno, $errstr, $timeout);
+        //socket_set_timeout($fsock, $timeout);
+        if ( ! $fsock ){
+            $this->SendDebug('Send', $IP.'ist nicht erreichbar!', 0);
+            return ("false");
         }
+        else{
+            $this->Meldung($IP.": erreichbar\r\n\r\n");
+            return ("true");
+        }
+    }
 
 
 	//*****************************************************************************
@@ -2452,72 +2595,72 @@ class MyUpnp extends IPSModule {
             *  $value - auszuschliessender Wert
  	--------------------------------------------------------------------------------
 	Returns: 
-         * bereinigtes array
-        -----------------------------------------------------------------------------
-        Status: 
-        *****************************************************************************/
-        Protected function search_exclude_value($array, $key, $value){
-            $results = array();
-            if (is_array($array)){
-                if (isset($array[$key]) && $array[$key] !== $value){
-                    $results[] = $array;
-                    foreach ($array as $subarray){
-                        $results = array_merge($results, search_exclude_value($subarray, $key, $value));
-                    }
+     * bereinigtes array
+    -----------------------------------------------------------------------------
+    Status: 
+    *****************************************************************************/
+    Protected function search_exclude_value($array, $key, $value){
+        $results = array();
+        if (is_array($array)){
+            if (isset($array[$key]) && $array[$key] !== $value){
+                $results[] = $array;
+                foreach ($array as $subarray){
+                    $results = array_merge($results, search_exclude_value($subarray, $key, $value));
                 }
             }
-            else{
-                // Array empty - search clients and Server
-                $this->SendDebug("Array empty", "Starte Suchlauf für Clients und/oder Server", 0);
-            }
-            return $results;
         }
+        else{
+            // Array empty - search clients and Server
+            $this->SendDebug("Array empty", "Starte Suchlauf für Clients und/oder Server", 0);
+        }
+        return $results;
+    }
 
         
 	//*****************************************************************************
 	/* Function:  search_key($which_key, $which_value, $array)
-        ...............................................................................
-        den $key des Elternelementes in einem mehrdimensionalen Array finden
-        ...............................................................................
-        Parameter:  
-            * $which_key =    = zu durchsuchedes ArrayFeld = ['FriendlyName']
-            * $which_value    = Suchwert = z.Bsp "CEOL"
-            * $array          = zu durchsuchendes Array
-        --------------------------------------------------------------------------------
-        return:  
-            * key = gefundener Datensatz index
-        --------------------------------------------------------------------------------
-        Status  checked 11.6.2018
-        //////////////////////////////////////////////////////////////////////////////*/
-        Protected function search_key($which_key, $which_value, $array){
-            foreach ($array as $key => $value){
-                if($value[$which_key] === $which_value){
-                    return $key;
-                }
-                else{
-                    //$this->SendDebug('Send', $which_value.' in Key: '.$key.' not found', 0);
+    ...............................................................................
+    den $key des Elternelementes in einem mehrdimensionalen Array finden
+    ...............................................................................
+    Parameter:  
+        * $which_key =    = zu durchsuchedes ArrayFeld = ['FriendlyName']
+        * $which_value    = Suchwert = z.Bsp "CEOL"
+        * $array          = zu durchsuchendes Array
+    --------------------------------------------------------------------------------
+    return:  
+        * key = gefundener Datensatz index
+    --------------------------------------------------------------------------------
+    Status  checked 11.6.2018
+    //////////////////////////////////////////////////////////////////////////////*/
+    Protected function search_key($which_key, $which_value, $array){
+        foreach ($array as $key => $value){
+            if($value[$which_key] === $which_value){
+                return $key;
+            }
+            else{
+                //$this->SendDebug('Send', $which_value.' in Key: '.$key.' not found', 0);
 
-                }
             }
         }
+    }
 
 	//*****************************************************************************
 	/* Function: Kernel()
-        ...............................................................................
-        Stammverzeichnis von IP Symcon
-        ...............................................................................
-        Parameter:  
+    ...............................................................................
+    Stammverzeichnis von IP Symcon
+    ...............................................................................
+    Parameter:  
 
-        --------------------------------------------------------------------------------
-        return:  
+    --------------------------------------------------------------------------------
+    return:  
 
-        --------------------------------------------------------------------------------
-        Status  checked 11.6.2018
-        //////////////////////////////////////////////////////////////////////////////*/
-        Protected function Kernel(){ 
-            $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
-            return $Kernel;
-        }
+    --------------------------------------------------------------------------------
+    Status  checked 11.6.2018
+    //////////////////////////////////////////////////////////////////////////////*/
+    Protected function Kernel(){ 
+        $Kernel = str_replace("\\", "/", IPS_GetKernelDir());
+        return $Kernel;
+    }
         
 	Protected function IPSLog($Text, $array) {
 		$Directory=""; 
@@ -2554,7 +2697,7 @@ class MyUpnp extends IPSModule {
 		fwrite($FileHandle, $Text.": ");
 		fwrite($FileHandle, $comma_seperated."\r\n");
 		fclose($FileHandle);
-        }
+    }
         
 
      /* ----------------------------------------------------------------------------
