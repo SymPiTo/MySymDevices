@@ -1640,7 +1640,7 @@ class MyUpnp extends IPSModule {
             }
             if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
             {
-                        $TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
+                        @$TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
             }
             else{
                 $TrackNo =  0;
