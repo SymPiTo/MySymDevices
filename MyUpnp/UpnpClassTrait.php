@@ -640,7 +640,19 @@ trait upnp {
 
 
 
+    public function ClearQueue(string $ClientIP, string $ClientPort, string $ClientControlURL){
+        return $this->processSoapCall($ClientIP, $ClientPort, $ClientControlURL,
+            '/MediaRenderer/AVTransport/Control',
 
+            'urn:schemas-upnp-org:service:AVTransport:1',
+
+            'RemoveAllTracksFromQueue',
+
+            array(
+                new SoapParam('0', 'InstanceID')
+			)
+        );
+    }
  
 	
 
