@@ -654,7 +654,7 @@ class MyUpnp extends IPSModule {
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setVolume(string $value){
         if($this->GetValue("upnp_ClientName")=="SonosK"){
-            $this->setVolumeSNS();
+            $this->setVolumeSNS($value);
         } else {
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
@@ -693,10 +693,10 @@ class MyUpnp extends IPSModule {
         $SNSVol = $this->GetValue("Volume");
         switch ($value){
             case 'up':
-                $vol = intval($SNSVol) + 1;
+                $vol = intval($SNSVol) + 2;
                 break;
             case 'down':
-                    $vol = intval($SNSVol) - 1;  
+                    $vol = intval($SNSVol) - 2;  
                 break;
             default :
                 $vol = intval($value);
