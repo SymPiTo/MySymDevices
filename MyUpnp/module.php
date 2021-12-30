@@ -653,6 +653,7 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setVolume(string $value){
+        $this->SendDebug('UPNP_setVolume: ', $value, 0);
         if($this->GetValue("upnp_ClientName")=="SonosK"){
             $this->setVolumeSNS($value);
         } else {
