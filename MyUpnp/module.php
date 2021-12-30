@@ -755,7 +755,7 @@ class MyUpnp extends IPSModule {
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setMute($value){	
         if($this->GetValue("upnp_ClientName")=="SonosK"){
-            $this->MuteSNS();
+            $this->MuteSNS($value);
         } else {	
             $ClientIP   = getvalue($this->GetIDForIdent("upnp_ClienIP"));
             $ClientPort = getvalue($this->GetIDForIdent("upnp_ClientPort")); 
@@ -800,29 +800,8 @@ class MyUpnp extends IPSModule {
 	Status:   checked 1.7.2018
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function MuteSNS($value){	
-        switch ($value){
-            case 'on':
-                SNS_SetMute(33732, true);             
-                SetValue($this->GetIDForIdent("upnp_Mute"), true);
-                break;
-            case 'off':
-                SNS_SetMute(33732, false);           
-                SetValue($this->GetIDForIdent("upnp_Mute"), false);
-                break;
-            case 'toggle':
-                $state = GetValue($this->GetIDForIdent("upnp_Mute"));
-                    if($state){
-                        SNS_SetMute(33732, false);         
-                        SetValue($this->GetIDForIdent("upnp_Mute"), false);
-                    }
-                    else {
-                        SNS_SetMute(33732, true);        
-                        SetValue($this->GetIDForIdent("upnp_Mute"), true);
-                        }
-                break;
-            default :
-                $this->SendDebug("Error_setMute: ", 'wrong parameter.', 0);
-        }    
+        SNS_SetMute(33732, $value);             
+        SetValue($this->GetIDForIdent("upnp_Mute"), $value);
     }       
 
 
