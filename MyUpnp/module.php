@@ -691,13 +691,16 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	public function setVolumeSNS(string $value){
+        $this->SendDebug('UPNP_setVolumeSNS: ', $value, 0);
         $SNSVol = $this->GetValue("Volume");
         switch ($value){
             case 'up':
                 $vol = intval($SNSVol) + 2;
+                $this->SendDebug('UPNP_setVolume_UP: ', $vol, 0);
                 break;
             case 'down':
                     $vol = intval($SNSVol) - 2;  
+                    $this->SendDebug('UPNP_setVolume_DOWN: ', $vol, 0);
                 break;
             default :
                 $vol = intval($value);
