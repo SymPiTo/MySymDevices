@@ -1142,6 +1142,7 @@ class MyUpnp extends IPSModule {
             none.
     //////////////////////////////////////////////////////////////////////////////*/
 	public function next() {
+        $this->SendDebug('UPNP_next: ', "wurde aufgerufen.", 0);
         if($this->GetValue("upnp_ClientName")=="SonosK"){
             $this->NextSNS();
         } else {		
@@ -1176,6 +1177,7 @@ class MyUpnp extends IPSModule {
             none.
     //////////////////////////////////////////////////////////////////////////////*/
     public function NextSNS() {
+        $this->SendDebug('UPNP_NextSNS: ', "wurde aufgerufen.", 0);
         // Status auf Next stellen
         setvalue($this->GetIDForIdent("upnp_Status"), 4);
         SNS_Next(33732);
