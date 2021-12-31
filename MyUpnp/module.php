@@ -1662,10 +1662,7 @@ class MyUpnp extends IPSModule {
                 else{
                     @$actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
                 }
-                if(array_key_exists(0, $didlXml->item[0]->xpath('r:albumArtist')))
-                {
-                    $actor = (string)$didlXml->item[0]->xpath('r:albumArtist')[0];
-                }
+
                 @$AlbumArtURI = (string)$didlXml->item[0]->xpath('upnp:albumArtURI')[0];
                 @$genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
                 //$date = (string)$didlXml->item[0]->xpath('dc:date')[0];
