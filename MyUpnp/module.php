@@ -1628,7 +1628,7 @@ class MyUpnp extends IPSModule {
             
             libxml_use_internal_errors(true);
             $didlXml = simplexml_load_string($b); 
-            if ($sxe === false) {
+            if ($didlXml === false) {
                 $this->SetTimerInterval('upnp_PlayInfo', 0); // Timer ausschalten
                 $this->SendDebug("progress-Fehlermeldung ", "Laden des XML fehlgeschlagen\n",0);
                 foreach(libxml_get_errors() as $error) {
