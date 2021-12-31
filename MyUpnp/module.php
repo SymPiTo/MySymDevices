@@ -1625,57 +1625,72 @@ class MyUpnp extends IPSModule {
             $this->SendDebug("progress ", ' GetRelTIME PositionInfo: '.$RelTime, 0);
             $TrackMeta = (string) $GetPositionInfo['TrackMetaData'];
             $b = htmlspecialchars_decode($TrackMeta);
-             
+            
+            libxml_use_internal_errors(true);
             $didlXml = simplexml_load_string($b); 
-            $this->SendDebug("progress-DIDL INFO ", $TrackMeta , 0);
-            $creator = (string)$didlXml->item[0]->xpath('dc:creator')[0];
-            $title = (string) $didlXml->item[0]->xpath('dc:title')[0];
-
-            if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:album')))
-            {
-                        $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
-            }
-            else{
-                $album = (string)$didlXml->item[0]->xpath('dc:description')[0];
-            }
-            if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
-            {
-                        @$TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
-            }
-            else{
-                $TrackNo =  0;
-            }
-            if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:artist')))
-            {
-                        $actor = (string)$didlXml->item[0]->xpath('upnp:artist')[0];
-            }
-            else{
-                @$actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
-            }
-            @$AlbumArtURI = (string)$didlXml->item[0]->xpath('upnp:albumArtURI')[0];
-            @$genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
-            //$date = (string)$didlXml->item[0]->xpath('dc:date')[0];
-
-            setvalue($this->GetIDForIdent("upnp_Artist"),  $creator);
-            setvalue($this->GetIDForIdent("upnp_Title"),  $title);
-            setvalue($this->GetIDForIdent("upnp_Album"),  $album);		
-            setvalue($this->GetIDForIdent("upnp_TrackNo"),  $TrackNo);
-            setvalue($this->GetIDForIdent("upnp_Actor"),  $actor);
-            //setvalue($this->GetIDForIdent("upnp_Date"),  $date);
-            //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), (string) $AlbumArtURI);
-            setvalue($this->GetIDForIdent("upnp_Genre"),  $genre);
-                function get_time_difference($Duration, $RelTime){
-                        $duration = explode(":", $Duration);
-                        $reltime = explode(":", $RelTime);
-                        $time_difference = round((((($reltime[0] * 3600) + ($reltime[1] * 60) + ($reltime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
-                        return ($time_difference);
+            if ($sxe === false) {
+                $this->SetTimerInterval('upnp_PlayInfo', 0); // Timer ausschalten
+                $this->SendDebug("progress-Fehlermeldung ", "Laden des XML fehlgeschlagen\n",0);
+                foreach(libxml_get_errors() as $error) {
+                  
+                    $this->SendDebug("progress-Fehlermeldung ", $error->message, 0);
                 }
-            if($Duration == "0:00:00"){
-                    $Duration = (string) $GetPositionInfo['AbsTime']; //AbsTime
+                return "";
+            } else{
+                $this->SendDebug("progress-DIDL INFO ", $TrackMeta , 0);
+                $creator = (string)$didlXml->item[0]->xpath('dc:creator')[0];
+                $title = (string) $didlXml->item[0]->xpath('dc:title')[0];
+
+                if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:album')))
+                {
+                    $album = (string)$didlXml->item[0]->xpath('upnp:album')[0];
+                }
+                else{
+                    $album = (string)$didlXml->item[0]->xpath('dc:description')[0];
+                }
+                if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:originalTrackNumber')))
+                {
+                    @$TrackNo = (string)$didlXml->item[0]->xpath('upnp:originalTrackNumber')[0];
+                }
+                else{
+                    $TrackNo =  0;
+                }
+                if(array_key_exists(0, $didlXml->item[0]->xpath('upnp:artist')))
+                {
+                    $actor = (string)$didlXml->item[0]->xpath('upnp:artist')[0];
+                }
+                else{
+                    @$actor = (string)$didlXml->item[0]->xpath('upnp:actor')[0];
+                }
+                if(array_key_exists(0, $didlXml->item[0]->xpath('r:albumArtist')))
+                {
+                    $actor = (string)$didlXml->item[0]->xpath('r:albumArtist')[0];
+                }
+                @$AlbumArtURI = (string)$didlXml->item[0]->xpath('upnp:albumArtURI')[0];
+                @$genre = (string)$didlXml->item[0]->xpath('upnp:genre')[0];
+                //$date = (string)$didlXml->item[0]->xpath('dc:date')[0];
+
+                setvalue($this->GetIDForIdent("upnp_Artist"),  $creator);
+                setvalue($this->GetIDForIdent("upnp_Title"),  $title);
+                setvalue($this->GetIDForIdent("upnp_Album"),  $album);		
+                setvalue($this->GetIDForIdent("upnp_TrackNo"),  $TrackNo);
+                setvalue($this->GetIDForIdent("upnp_Actor"),  $actor);
+                //setvalue($this->GetIDForIdent("upnp_Date"),  $date);
+                //setvalue($this->GetIDForIdent("upnp_AlbumArtUri"), (string) $AlbumArtURI);
+                setvalue($this->GetIDForIdent("upnp_Genre"),  $genre);
+                    function get_time_difference($Duration, $RelTime){
+                            $duration = explode(":", $Duration);
+                            $reltime = explode(":", $RelTime);
+                            $time_difference = round((((($reltime[0] * 3600) + ($reltime[1] * 60) + ($reltime[2]))* 100) / (($duration[0] * 3600) + ($duration[1] * 60) + ($duration[2]))), 0, PHP_ROUND_HALF_UP);
+                            return ($time_difference);
+                    }
+                if($Duration == "0:00:00"){
+                        $Duration = (string) $GetPositionInfo['AbsTime']; //AbsTime
+                }
+                $Progress = get_time_difference($Duration, $RelTime);
+                SetValueInteger($this->GetIDForIdent("upnp_Progress"), $Progress);
+                return $Progress;
             }
-            $Progress = get_time_difference($Duration, $RelTime);
-            SetValueInteger($this->GetIDForIdent("upnp_Progress"), $Progress);
-            return $Progress;
 	}
 
 
