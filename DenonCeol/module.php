@@ -973,7 +973,7 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             $this->SendDebug('Switch Radio to Channel:', $Channel, 0);
             $cmd = 'FV'.'%20'.$Channel;
             $this->send_cmd($cmd);
-            $this->SetValue("CeolFavChannel", intval($Channel)-1);
+            $this->SetValue("CeolFavChannel", intval($Channel));
             return $Channel;
 	}	        
        
@@ -1889,7 +1889,7 @@ ______________________________________________________________________
        $Assoc[5]['text'] = "WDR 5";
        $Assoc[6]['text'] = "HR 3";
        $Assoc[7]['text'] = "SWR 3";
-       $Assoc[8]['text'] = "SWR 4";
+       $Assoc[8]['text'] = "NDR 2";
        $Name = "DenonCeol_Channel";
        $Vartype = 1;
        $MaxValue = 8;
