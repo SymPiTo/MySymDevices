@@ -35,7 +35,7 @@ class MySamsungTV extends IPSModule
         $testarr["position"] = "hj";
         $testarr["station"] = "hj";
         $testarr["station_id"] = "hj";
-        $test = json_encode( $testarr);
+        $test = "[".json_encode( $testarr)."]";
         $this->RegisterPropertyString("TVStations", $test);
 
         //Variable anlegen.
