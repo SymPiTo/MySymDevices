@@ -1202,7 +1202,13 @@ class MySamsungTV extends IPSModule
         $ip = $this->ReadPropertyString('ip');
         $port = "52235";
         $alive = $this->CheckPort($ip, $port);
-        if(!$alive){return false;}
+        if(!$alive){
+            $this->SendDebug("ChannelList ", "TV ist nicht erreichbar", 0);
+            return false;
+        }
+        else{
+            $this->SendDebug("ChannelList ", "TV ist erreichbar", 0);
+        }
 
         $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){ 
