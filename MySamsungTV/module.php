@@ -101,7 +101,8 @@ class MySamsungTV extends IPSModule
                 $testarr["position"] = "Torsten";
                 $testarr["station"] = "Ela";
                 $testarr["station_id"] = "Pierre";
-                $test = "[".json_encode( $testarr)."]";
+                $TVStations = "[".json_encode( $testarr)."]";
+
                 $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
                 //$this->SetTimerInterval("watchdog", 60000);
             }
