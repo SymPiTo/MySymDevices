@@ -49,7 +49,78 @@
             "name": "PowerSwitch_ID",
             "type": "SelectObject",
             "caption": "FunkSchaltdose Objekt selektieren."
+        },
+
+
+
+        {
+            "type": "ExpansionPanel",
+            "caption": "TuneIn stations",
+            "items": [
+                {
+                    "type": "List",
+                    "name": "TVStations",
+                    "caption": "TuneIn stations",
+                    "rowCount": 20,
+                    "add":       true,
+                    "delete":    true,
+                    "sort":      {
+                        "column":     "position",
+                        "direction":  "ascending"
+                    },
+                    "columns": [
+                        {
+                            "name": "position",
+                            "caption": "Station",
+                            "width": "100px",
+                            "save":   true,
+                            "visible":  true,
+                            "add":      0,
+                            "edit":    {
+                                "type":  "NumberSpinner"}
+                        },
+                        {
+                            "name":    "station",
+                            "caption": "Station Name",
+                            "width": "200px",
+                            "save":   true,
+                            "add":    "",
+                            "edit":    {
+                                "type": "ValidationTextBox"}
+                        },
+                        {
+                            "name": "station_id",
+                            "caption":  "Station ID",
+                            "width": "auto",
+                            "save": true,
+                            "add":     "",
+                            "edit":     {
+                                "type": "ValidationTextBox"
+                            },
+                            "visible": true
+                        }
+                    ]
+                }
+            ]
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ],
     "actions": [{
             "type": "Label",
