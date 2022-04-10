@@ -1203,9 +1203,10 @@ class MySamsungTV extends IPSModule
         $port = "52235";
         $alive = $this->CheckPort($ip, $port);
         if(!$alive){return false;}
-        
+
         $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){ 
+            $this->SendDebug("ChannelList ", "beginne mit Sender auslesen", 0);
             $chURL =  $this->GetChannelListURL_MTVA();
             $url = $chURL["ChannelListURL"];
             $input = file_get_contents($url);
