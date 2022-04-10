@@ -50,17 +50,14 @@
             "type": "SelectObject",
             "caption": "FunkSchaltdose Objekt selektieren."
         },
-
-
-
         {
             "type": "ExpansionPanel",
-            "caption": "TuneIn stations",
+            "caption": "TV Stationen",
             "items": [
                 {
                     "type": "List",
                     "name": "TVStations",
-                    "caption": "TuneIn stations",
+                    "caption": "TV Stations",
                     "rowCount": 20,
                     "add":       true,
                     "delete":    true,

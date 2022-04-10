@@ -32,7 +32,9 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyInteger("updateInterval", 10000);	
         //$this->RegisterPropertyInteger("devicetype", 1);
         //$this->RegisterPropertyInteger("PowerSwitch_ID", 0);
-        
+        $StationArr =[];
+        $this->RegisterPropertyString("TVStations", $StationArr);
+
         //Variable anlegen.
         $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
         IPS_SetInfo ($variablenID, "WSS"); 
