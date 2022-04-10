@@ -1,5 +1,5 @@
 <?php
-//zugehoerige TRAIT-Klassen    TEST xxxy
+//zugehoerige TRAIT-Klassen    
 require_once(__DIR__ . "/SamsungTV_Interface.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 
@@ -1198,6 +1198,12 @@ class MySamsungTV extends IPSModule
     Status:  17.07.2018 - OK  - Telnet NOK
     //////////////////////////////////////////////////////////////////////////////*/  
     public function buildChannelList() {
+        #check if TV is reachable
+        $ip = $this->ReadPropertyString('ip');
+        $port = "52235";
+        $alive = $this->CheckPort($ip, $port);
+        if(!$alive){return false;}
+        
         $telnet = $this->ReadPropertyBoolean("telnet");
         if($telnet == false){ 
             $chURL =  $this->GetChannelListURL_MTVA();
@@ -1432,4 +1438,7 @@ class MySamsungTV extends IPSModule
 //            }
             return $status;	
         }  
+
+
+ 
 }
