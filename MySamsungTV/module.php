@@ -32,8 +32,9 @@ class MySamsungTV extends IPSModule
         $this->RegisterPropertyInteger("updateInterval", 10000);	
         //$this->RegisterPropertyInteger("devicetype", 1);
         //$this->RegisterPropertyInteger("PowerSwitch_ID", 0);
-        
-        $this->RegisterPropertyString("TVStations", "[]");
+        $testarr = ["a", "b", "c"];
+        $test = json_encode( $testarr);
+        $this->RegisterPropertyString("TVStations", $test);
 
         //Variable anlegen.
         $variablenID = $this->RegisterVariableString("TVchList", "ChannelList");
@@ -93,7 +94,7 @@ class MySamsungTV extends IPSModule
 	//Never delete this line!
         parent::ApplyChanges();
 
-        $StationArr =["hjh", "kll", "klk"];
+        
             if($this->ReadPropertyBoolean("aktiv")){
                 
                 $this->SetTimerInterval("update", $this->ReadPropertyInteger("updateInterval"));
