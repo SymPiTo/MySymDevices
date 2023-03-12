@@ -2,7 +2,7 @@
 //zugehoerige TRAIT-Klassen    
 require_once(__DIR__ . "/SamsungTV_Interface.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
-
+require_once(__DIR__ . "/../libs/MyHelper.php");
 
 
 class MySamsungTV extends IPSModule
@@ -10,8 +10,8 @@ class MySamsungTV extends IPSModule
     
     //externe Klasse einbinden - ueberlagern mit TRAIT.
     use SamsungUPNP,
-        MyDebugHelper2,
-        MyHelper;
+        DebugHelper,
+        NMapHelper;
      
     //*****************************************************************************
     /* Function: Standardfunktinen für ein Modul. 
@@ -340,7 +340,7 @@ class MySamsungTV extends IPSModule
         
             $ip = $this->ReadPropertyString('ip');
             $port = "52235";
-            $alive = $this->CheckPort($ip, $port);
+            $alive = $this->checkPortState($ip, $port);
             if ($alive){
                 $this->setvalue("TVPower", true);
                 $vol = $this->getVolume();  
@@ -1221,7 +1221,7 @@ class MySamsungTV extends IPSModule
         #check if TV is reachable
         $ip = $this->ReadPropertyString('ip');
         $port = "52235";
-        $alive = $this->CheckPort($ip, $port);
+        $alive = $this->checkPortState($ip, $port);
         if(!$alive){
             $this->SendDebug("ChannelList ", "TV ist nicht erreichbar", 0);
             return false;

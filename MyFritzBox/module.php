@@ -9,12 +9,12 @@
  * Version: _VERSION_
  *************************************************************************** */
 require_once(__DIR__ . "/FB_Interface.php");
-//require_once __DIR__ . '/../libs/_HELPERCLASS_';  // diverse Klassen
+require_once(__DIR__ . "/../libs/MyHelper.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
 class MyFB extends IPSModule {
 
     use FB_soap;
-    use MyDebugHelper2;
+    use DebugHelper;
 /* 
 ___________________________________________________________________________ 
     Section: Internal Modul Funtions
@@ -248,6 +248,10 @@ ________________________________________________________________________________
             $c = ($Istate["NewConnectionStatus"]  == "Connected") ? true : false;
             $this->SetValue("INetState", $c);
 
+            //$this->detectPhone();
+
+
+
             $this->get_hosts();
             IPS_Sleep(1000);
             $hostlist = $this->GetValue('Hosts');
@@ -291,6 +295,35 @@ ________________________________________________________________________________
         return $hosts;
     }   
 
+
+	#------------------------------------------------------------------------------
+	# Function: detectPhone                                                     
+	#...............................................................................
+	# Beschreibung : erkennt wenn sich ein bestimmtes (MAC) SmartPhone ins WLAN 
+    # einlogt.                                 
+	#...............................................................................
+	# Parameters:                                                                   
+	#    $mac	- MAC Adresse                                                                        
+	#...............................................................................
+	# Returns :                                                                     
+	#------------------------------------------------------------------------------  */
+    public function detectPhone(){
+            //Torsten Smartphone
+             //"3C:05:18:0D:16:87");
+         
+             $hostlist = $this->GetValue('Hosts');
+             $hosts = json_decode($hostlist, true);
+             $key = array_search('3C:05:18:0D:16:87',array_column($hosts, 'NewMACAddress')); 
+             $TBphone = $hosts[$key]['NewActive'];
+
+
+             if($TBphone == 1){
+                $this->LogMessage("Torsten Smartphone hat sich ins WLAN eingeloggt.", KL_WARNING);
+            }
+            else{
+                $this->LogMessage("Torsten Smartphone hat sich vom WLAN ausgeloggt.", KL_WARNING);
+            }
+    }
 
 
 

@@ -26,9 +26,54 @@
 		}
 
 	],
-	"actions": [{
-		"type": "Button",
-		"label": "Search Server.",
-		"onClick": "CEOL_discoverServer($id);"
-	}]
+	"actions": [
+		{
+			"type": "Button",
+			"label": "Search Server.",
+			"onClick": "CEOL_discoverServer($id);"
+		},
+		{
+			"name": "Proceed",
+			"type": "Label",
+			"caption": "updated"
+		},
+		{
+			"type": "RowLayout",
+			"items": [
+				{
+					"type": "ColumnLayout",
+					"items": 
+					[
+						{
+							"type": "Button",
+							"label": "Sync Music Library.",
+							"onClick": "UPNP_syncLib($id, 'Musik');"
+						},
+						{
+							"name": "SyncMedia",
+							"type": "Label",
+							"caption": "not syncronised."
+						}
+					]
+				},
+				{
+					"type": "ColumnLayout",
+					"items": 
+					[
+						{
+							"type": "Button",
+							"label": "Sync Audiobook Library.",
+							"onClick": "UPNP_syncLib($id, 'Audio');"
+						},
+						{
+							"name": "SyncAudiobook",
+							"type": "Label",
+							"caption": "not syncronised."
+						}
+					]
+				}
+			]
+		}
+
+	]
 }

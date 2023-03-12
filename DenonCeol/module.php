@@ -1,175 +1,209 @@
 <?php
+/***************************************************************************
+ * Title: DenonCEOL
+ *
+ * Author: PiTo
+ * 
+ * GITHUB: <https://github.com/SymPiTo/MySymDevices/tree/master/DenonCeol>
+ * 
+ * Version: 1.0.1  20220604
+ *************************************************************************** */
+# ___________________________________________________________________________ 
+#    Section: Beschreibung
+#    Das Modul dient zur Steuerung des Denon CEOL Players.
+#    Über eine UPNP Schnittstelle.
+#    
+# ___________________________________________________________________________ 
+
+
+ 
+ 
+
+
 //zugehoerige Unter-Klassen    
 require_once(__DIR__ . "/DenonCeol_Interface.php");
-//require_once(__DIR__ . "/../libs/XML2Array.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
-require_once(__DIR__ . "/DiscoverTrait.php");
+//require_once(__DIR__ . "/DiscoverTrait.php"); - ersetzt durch Lib trais UpnpHelper
+require_once(__DIR__ . "/../libs/MyHelper.php");
+require_once(__DIR__ . "/../libs/UpnpHelper.php");
 
-    // Klassendefinition
-    class DenonCeol extends IPSModule {
-        //externe Klasse einbinden - ueberlagern mit TRAIT
-        use CEOLupnp;
-        //use XML2Array;
-        use MyDebugHelper2;
-        use DiscoveryServerTrait;              
+// Klassendefinition
+class DenonCeol extends IPSModule {
+    //externe Klasse einbinden - ueberlagern mit TRAIT
+    use CEOLupnp;
+    use DebugHelper, ProfileHelper, NMapHelper;
+    //use DiscoveryServerTrait; 
+    use  UpnpDeviceDiscovery;        
         
-        // Der Konstruktor des Moduls
-        // Überschreibt den Standard Kontruktor von IPS
-        public function __construct($InstanceID) {
-            // Diese Zeile nicht löschen
-            parent::__construct($InstanceID);
+
+# ___________________________________________________________________________ 
+#    Section: Internal Modul Functions
+#    Die folgenden Funktionen sind Standard Funktionen zur Modul Erstellung.
+# ___________________________________________________________________________ 
+
+  
+
+
+    #-----------------------------------------------------------# 
+    #    Function: Create                                       #
+    #    Create() Wird ausgeführt, beim Anlegen der Instanz.    #
+    #             Wird ausgeführt beim symcon Neustart          #
+    #-----------------------------------------------------------#   
+    public function Create() {
+        // Diese Zeile nicht löschen.
+        parent::Create();
             
-                        
+        // Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
+        $this->RegisterPropertyBoolean("active", false);
+        $this->RegisterPropertyBoolean("LastFM", false);
+        $this->RegisterPropertyString("IPAddress", "");
+        $this->RegisterPropertyInteger("UpdateInterval", 5000);
            
-        }
+        // Register Profiles
+        $this->RegisterProfiles();
+
+        //Status Variable anlegen
+        $variablenID = $this->RegisterVariableString("CeolSrcName", "Source Name");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("CeolSource", "Source", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableBoolean("CeolPower", "Power");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("CeolVolume", "Volume", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("CeolVol", "Vol", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableBoolean("CeolMute", "Mute");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ1", "Line1");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ2", "Line2");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ3", "Line3");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ4", "Line4"); 
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ5", "Line5");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ6", "Line6");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ7", "Line7");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "Sender", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
+        IPS_SetInfo ($variablenID, "WSS"); 
+                   
+        //UPNP Variable
+        $this->RegisterVariableString("Ceol_ServerArray", "Server:Array");
+                
+        $variablenID = $this->RegisterVariableString("Ceol_ServerContentDirectory", "Server:ContentDirectory");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_ServerIcon", "Server:Icon");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_ServerIP", "Server:IP");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("Ceol_ServerKey", "Server:Key", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_ServerName", "Server:Name");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_ServerPort", "Server:Port");
+        IPS_SetInfo ($variablenID, "WSS"); 
+    
+        $variablenID = $this->RegisterVariableString("Ceol_Artist", "DIDL_Artist [dc:creator]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Album", "DIDL_Album [upnp:album]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Title", "DIDL_Titel [dc:title]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Actor", "DIDL_Actor [upnp:actor]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Genre", "DIDL_Genre [upnp:genre]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Date", "DIDL_Date [dc:date]");
+        IPS_SetInfo ($variablenID, "WSS"); 
+            
+        $variablenID = $this->RegisterVariableInteger("Ceol_PlayMode", "PlayMode", "UPNP_Playmode");
+        IPS_SetInfo ($variablenID, "WSS"); 
+
+        $variablenID = $this->RegisterVariableInteger("Ceol_PlayStatus", "PlayStatus", "Media_Status");
+        IPS_SetInfo ($variablenID, "WSS"); 
+
+        $variablenID = $this->RegisterVariableInteger("Ceol_NoTracks", "No of tracks", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_PlaylistName", "PlaylistName");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $this->RegisterVariableString("Ceol_Playlist_XML", "Playlist_XML");  
+                
+        $variablenID = $this->RegisterVariableInteger("Ceol_Progress", "Progress", "UPNP_Progress");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableInteger("Ceol_Track", "Pos:Track", "");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_Transport_Status", "Pos:Transport_Status");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_RelTime", "RelTime");
+        IPS_SetInfo ($variablenID, "WSS"); 
+        $variablenID = $this->RegisterVariableString("Ceol_TrackDuration", "TrackDuration");
+        IPS_SetInfo ($variablenID, "WSS"); 
+            
+
+        // Aktiviert die Standardaktion der Statusvariable im Webfront
+        $this->EnableAction("CeolPower");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolPower"), "~Switch");
+        $this->EnableAction("CeolMute");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolMute"), "~Switch");
+        $this->EnableAction("CeolSource");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolSource"), "DenonCEOL_Source");
+        $this->EnableAction("CeolVolume");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume"), "DenonCEOL_Volume");
+        $this->EnableAction("CeolVol");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
+        $this->EnableAction("CeolFavChannel");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol_Channel");
+        $this->EnableAction("Ceol_PlayMode");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
+        $this->EnableAction("Ceol_PlayStatus");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayStatus"), "Media_Status");
+
+        // Objekte unsichbar machen in webfront
+        IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
+        IPS_SetHidden($this->GetIDForIdent("Ceol_ServerContentDirectory"), true); //Objekt verstecken
+        IPS_SetHidden($this->GetIDForIdent("Ceol_ServerKey"), true); //Objekt verstecken
+        IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
+        IPS_SetHidden($this->GetIDForIdent("Ceol_Playlist_XML"), true); //Objekt verstecken
+            
+            
+        // Timer erstellen
+        $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'CEOL_update($_IPS[\'TARGET\']);');
+        // Progress Timer erstellen
+        $this->RegisterTimer("Ceol_PlayInfo", 0,  'CEOL_GetPosInfo(' . $this->InstanceID . ');');
+
+    }
         
-        // Create() wird einmalig beim Erstellen einer neuen Instanz ausgeführt
-        // Überschreibt die interne IPS_Create($id) Funktion
-        public function Create() {
-            // Diese Zeile nicht löschen.
-            parent::Create();
-            
-            // Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
-            $this->RegisterPropertyBoolean("active", false);
-            $this->RegisterPropertyBoolean("LastFM", false);
-            $this->RegisterPropertyString("IPAddress", "");
-            $this->RegisterPropertyInteger("UpdateInterval", 5000);
-           
-            // Register Profiles
-            $this->RegisterProfiles();
+    #------------------------------------------------------------------#
+    #     Function: ApplyChanges()                                     #
+    #     Einträge vor ApplyChanges() werden sowohl beim Systemstart   #
+    #     als auch beim Ändern der Parameter in der Form ausgeführt.   #    
+    #     ApplyChanges() Wird ausgeführt, beim Systemstart, beim       #
+    #     Anlegen der Instanz.                                         #
+    #     und beim ändern der Parameter in der Form .                  #
+    #------------------------------------------------------------------#   
 
-            //Status Variable anlegen
-            $variablenID = $this->RegisterVariableString("CeolSrcName", "Source Name");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolSource", "Source", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableBoolean("CeolPower", "Power");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolVolume", "Volume", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolVol", "Vol", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableBoolean("CeolMute", "Mute");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ1", "Line1");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ2", "Line2");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ3", "Line3");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ4", "Line4"); 
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ5", "Line5");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ6", "Line6");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ7", "Line7");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolSZ8", "Line8"); 
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("CeolFavChannel", "Sender", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("CeolArtPicUrl", "ArtPicUrl"); 
-            IPS_SetInfo ($variablenID, "WSS"); 
-            
-                
-            //UPNP Variable
-            $this->RegisterVariableString("Ceol_ServerArray", "Server:Array");
-                
-            $variablenID = $this->RegisterVariableString("Ceol_ServerContentDirectory", "Server:ContentDirectory");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_ServerIcon", "Server:Icon");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_ServerIP", "Server:IP");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("Ceol_ServerKey", "Server:Key", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_ServerName", "Server:Name");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_ServerPort", "Server:Port");
-            IPS_SetInfo ($variablenID, "WSS"); 
-
-            
-            $variablenID = $this->RegisterVariableString("Ceol_Artist", "DIDL_Artist [dc:creator]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Album", "DIDL_Album [upnp:album]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Title", "DIDL_Titel [dc:title]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Actor", "DIDL_Actor [upnp:actor]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_AlbumArtUri", "DIDL_AlbumArtURI [upnp:albumArtURI]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Genre", "DIDL_Genre [upnp:genre]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Date", "DIDL_Date [dc:date]");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            
-            $variablenID = $this->RegisterVariableInteger("Ceol_PlayMode", "PlayMode", "UPNP_Playmode");
-            IPS_SetInfo ($variablenID, "WSS"); 
-
-            $variablenID = $this->RegisterVariableInteger("Ceol_PlayStatus", "PlayStatus", "Media_Status");
-            IPS_SetInfo ($variablenID, "WSS"); 
-
-            $variablenID = $this->RegisterVariableInteger("Ceol_NoTracks", "No of tracks", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_PlaylistName", "PlaylistName");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $this->RegisterVariableString("Ceol_Playlist_XML", "Playlist_XML");  
-                
-            $variablenID = $this->RegisterVariableInteger("Ceol_Progress", "Progress", "UPNP_Progress");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableInteger("Ceol_Track", "Pos:Track", "");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_Transport_Status", "Pos:Transport_Status");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_RelTime", "RelTime");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            $variablenID = $this->RegisterVariableString("Ceol_TrackDuration", "TrackDuration");
-            IPS_SetInfo ($variablenID, "WSS"); 
-            
-
-
-            // Aktiviert die Standardaktion der Statusvariable im Webfront
-            $this->EnableAction("CeolPower");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolPower"), "~Switch");
-            $this->EnableAction("CeolMute");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolMute"), "~Switch");
-            $this->EnableAction("CeolSource");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolSource"), "DenonCEOL_Source");
-            $this->EnableAction("CeolVolume");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVolume"), "DenonCEOL_Volume");
-            $this->EnableAction("CeolVol");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolVol"), "DenonCEOL_Vol");
-            $this->EnableAction("CeolFavChannel");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("CeolFavChannel"), "DenonCeol_Channel");
-            $this->EnableAction("Ceol_PlayMode");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayMode"), "UPNP_Playmode");
-            $this->EnableAction("Ceol_PlayStatus");
-            IPS_SetVariableCustomProfile($this->GetIDForIdent("Ceol_PlayStatus"), "Media_Status");
-
-            // Objekte unsichbar machen in webfront
-            IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
-            IPS_SetHidden($this->GetIDForIdent("Ceol_ServerContentDirectory"), true); //Objekt verstecken
-            IPS_SetHidden($this->GetIDForIdent("Ceol_ServerKey"), true); //Objekt verstecken
-            IPS_SetHidden($this->GetIDForIdent("Ceol_ServerArray"), true); //Objekt verstecken
-            IPS_SetHidden($this->GetIDForIdent("Ceol_Playlist_XML"), true); //Objekt verstecken
-            
-            
-            
-            
-            //
-            // Timer erstellen
-            $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'CEOL_update($_IPS[\'TARGET\']);');
-            // Progress Timer erstellen
-            $this->RegisterTimer("Ceol_PlayInfo", 0,  'CEOL_GetPosInfo(' . $this->InstanceID . ');');
-
-        }
-        
-        // ApplyChanges() wird einmalig aufgerufen beim Erstellen einer neuen Instanz und
-        // bei Änderungen der Formular Parameter (form.json) (nach Übernahme Bestätigung)
-        // Überschreibt die intere IPS_ApplyChanges($id) Funktion
         public function ApplyChanges() {
+            $this->RegisterMessage(0, IPS_KERNELSTARTED);
+            $this->RegisterMessage(0, IPS_KERNELSHUTDOWN);
+            $this->RegisterMessage(0, FM_DISCONNECT);   //Schnittstellenüberwachung
+            $this->RegisterMessage(0, FM_CONNECT);      //Schnittstellenüberwachung
+
+            if (IPS_GetKernelRunlevel() <> KR_READY) {
+                $this->LogMessage("ApplyChanges: Kernel is not ready! Kernel Runlevel = ".IPS_GetKernelRunlevel(), KL_ERROR);
+                //ApplyChanges wird über MessageSink nachgestartet.
+                return;
+            }
             // Diese Zeile nicht löschen
             parent::ApplyChanges();
 
@@ -185,77 +219,123 @@ require_once(__DIR__ . "/DiscoverTrait.php");
             }
         }
  
-        public function RequestAction($Ident, $Value) {
-            switch($Ident) {
-                case "CeolPower":
-                    //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
-                    //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
+
+    #------------------------------------------------------------# 
+    #  Function: MessageSink                                     #
+    #  MessageSink() wird nur bei registrierten                  #
+    #  NachrichtenIDs/SenderIDs-Kombinationen aufgerufen.        #
+    #------------------------------------------------------------#    
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+        $this->SendDebug("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message);
+
+        switch ($Message) {
+            case IPS_KERNELSTARTED:
+                $this->ApplyChanges();
+            break;
+            case IPS_KERNELSHUTDOWN:
+                $this->LogMessage("WSS_MessageSink: Kernel runtergefahren-", KL_MESSAGE);
+                //Timerausschalten ausschalten.
+                $this->SetTimerInterval("Update", 0);
+                $this->SetTimerInterval("Ceol_PlayInfo", 0);
+                break;
+            case FM_DISCONNECT: 
+                $this->LogMessage("WSS_MessageSink: Socket Disconnected", KL_WARNING);
+                //Timer ausschalten
+                $this->SetTimerInterval("Update", 0);
+                $this->SetTimerInterval("Ceol_PlayInfo", 0);
+                break;
+            case FM_CONNECT:
+                $this->LogMessage("WSS_MessageSink: Socket connected", KL_MESSAGE);
+                $this->ApplyChanges();
+                break;
+            default:
+                # code...
+                break;
+        }
+    } //Function: MessageSink End
+
+
+
+    #------------------------------------------------------------# 
+    #    Function: RequestAction                                 #
+    #        RequestAction() wird von schaltbaren Variablen      #
+    #        aufgerufen.                                         #
+    #------------------------------------------------------------#
+
+    public function RequestAction($Ident, $Value) {
+        switch($Ident) {
+            case "CeolPower":
+                //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
+                //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
                 
-                    //$this->SetPower($Value);
-                    //Neuen Wert in die Statusvariable schreiben
-                    //SetValue($this->GetIDForIdent($Ident), $Value);
-                        if($Value){
-                            $host = $this->ReadPropertyString('IPAddress');
-                            $url = "http://$host:80/goform/formiPhoneAppPower.xml";
-                            $cmd = '1+PowerOn';
-                            $xml = $this->curl_get($url, $cmd);
-                            $this->SetMute_AV('0');
-                            $this->setvalue("CeolMute", false);
-                        }
-                        else{
-                            $host = $this->ReadPropertyString('IPAddress');
-                            $url = "http://$host:80/goform/formiPhoneAppPower.xml";
-                            $cmd = '1+PowerStandby';
-                            $xml = $this->curl_get($url, $cmd);
-                        }
-                    break;
-                case "CeolSrcName":
+                //$this->SetPower($Value);
+                //Neuen Wert in die Statusvariable schreiben
+                //SetValue($this->GetIDForIdent($Ident), $Value);
+                if($Value){
+                    $host = $this->ReadPropertyString('IPAddress');
+                    $url = "http://$host:80/goform/formiPhoneAppPower.xml";
+                    $cmd = '1+PowerOn';
+                    $xml = $this->curl_get($url, $cmd);
+                    $this->SetMute_AV('0');
+                    $this->setvalue("CeolMute", false);
+                }
+                else {
+                    $host = $this->ReadPropertyString('IPAddress');
+                    $url = "http://$host:80/goform/formiPhoneAppPower.xml";
+                    $cmd = '1+PowerStandby';
+                    $xml = $this->curl_get($url, $cmd);
+                }
+                break;
+            case "CeolSrcName":
  
-                    break;
-                case "CeolSource":
-                    $this->SelectSource($value);
-                    $this->SendDebug("Source: ", $value, 0);
-                    break;
-                case "CeolVolume":
-                    break;
-                case "CeolVol":
-                    $curVol = $this->getvalue("CeolVol");
-                    if($Value === $curVol + 10){
-                        $this->IncVolume();
-                    }
-                    elseif($Value === $curVol - 10){
-                        $this->DecVolume();
-                    }
-                    else{
-                        $this->SetVolumeDB($Value);
-                    }
-                    //$this->setvalue("CeolVol", $Value);
+                break;
+            case "CeolSource":
+                $this->SelectSource($value);
+                $this->SendDebug("Source: ", $value, 0);
+                break;
+            case "CeolVolume":
+                break;
+            case "CeolVol":
+                $curVol = $this->getvalue("CeolVol");
+                if($Value === $curVol + 10){
+                    $this->IncVolume();
+                }
+                elseif($Value === $curVol - 10){
+                    $this->DecVolume();
+                }
+                else{
+                    $this->SetVolumeDB($Value);
+                }
+                //$this->setvalue("CeolVol", $Value);
 
-                    break;
-                case "CeolMute":
-                        if($Value){
-                            $this->SetMute_AV('1');
-                            $this->setvalue("CeolMute", true);
-                        }
-                        else{
-                            $this->SetMute_AV('0');
-                            $this->setvalue("CeolMute", false);
-                        }
-                    break;
-                case "CeolFavChannel":
-                    $this->setValue("CeolFavChannel", $Value);
-                    break;
-                default:
-                    throw new Exception("Invalid Ident");
-            }
+                break;
+            case "CeolMute":
+                if($Value){
+                    $this->SetMute_AV('1');
+                    $this->setvalue("CeolMute", true);
+                }
+                else{
+                    $this->SetMute_AV('0');
+                    $this->setvalue("CeolMute", false);
+                }
+                break;
+            case "CeolFavChannel":
+                $this->setValue("CeolFavChannel", $Value);
+                break;
+            default:
+                throw new Exception("Invalid Ident");
+        }
 
-        } 
+    } 
         
         
         
         
         
-        
+    public function testcopy(){
+            
+         
+    } 
         
         
         
@@ -1000,7 +1080,8 @@ o                    http://192.168.2.99/img/album%20art_S.png
             $cmd = "";
             $xml = $this->curl_get($url, $cmd);
             $Cover ='<img src='.$url. ' width=320px height=280px scrolling="no">';	
-            setvalue(38066 /*[Denon-CEOL\_Cover]*/, $Cover);	
+            //setvalue(38066 /*[Denon-CEOL\_Cover]*/, $Cover);	
+            $this->setvalue("CeolArtPicUrl", $Cover);
             return $xml;
 	}	
 
@@ -1526,7 +1607,8 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	//*****************************************************************************
 	/* Function: discoverServer()
 	...............................................................................
-	Sucht alle UPNP  Server
+	Sucht alle UPNP  Server.
+    Aktion wird in der Modul-Instanzkonfiguration ausgeführt.
 	...............................................................................
 	Parameters:  
             none
@@ -1552,13 +1634,24 @@ o                    http://192.168.2.99/img/album%20art_S.png
 	public function discoverServer(){
 		$ST_MS = "urn:schemas-upnp-org:device:MediaServer:1";
         $this->setvalue("Ceol_ServerArray", '');
-			$SSDP_Search_Array = $this->mSearch($ST_MS);
-			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
-			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
-		 	$Server_Array = $this->create_Server_Array($SSDP_Array); 
- 
-             $this->setvalue("Ceol_ServerArray", $Server_Array);
-           
+        $this->UpdateFormField("Proceed", "caption", "starte suche...");
+        
+        
+
+        $Server_JSON = $this->searchUPNP("server");
+        $this->UpdateFormField("Proceed", "caption", "Suche abgeschlossen.");
+        $this->setvalue("Ceol_ServerArray", $Server_JSON);
+
+        $Server_Array = json_decode($Server_JSON, true);
+      
+        $server = "";
+        foreach ($Server_Array as $key => $value) {
+          
+                $server = $server."Server $key: ".$value["FriendlyName"].", ";
+            
+        }
+       
+        $this->UpdateFormField("Proceed", "caption", $server);
  	 
 	}        
         
@@ -1812,51 +1905,7 @@ o                    http://192.168.2.99/img/album%20art_S.png
     Hilfsfunktionen
 ______________________________________________________________________
 */ 
-    /* ----------------------------------------------------------------------------
-    Function: createProfile
-    ...............................................................................
-    Erstellt ein neues Profil und ordnet es einer Variablen zu.
-    ...............................................................................
-    Parameters: 
-        $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype, $VarIdent, $Assoc
-     * $Vartype: 0 boolean, 1 int, 2 float, 3 string,
-     * $Assoc: array mit statustexte
-     *         $assoc[0] = "aus";
-     *         $assoc[1] = "ein";
-     *  
-    ..............................................................................
-    Returns:   
-        none
-    ------------------------------------------------------------------------------- */
-    protected function createProfile(string $Name, int $Vartype, $Assoc, $Icon="",  $Prefix="",  $Suffix="",   $MinValue=0 ,  $MaxValue,  $StepSize,  $Digits=0){
-        if (!IPS_VariableProfileExists($Name)) {
-            IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
-            if(!is_Null($Icon)){
-                IPS_SetVariableProfileIcon($Name, $Icon);
-            }
-            if(!is_Null($Prefix)){
-                IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-            }
-            if(!is_Null($Digits)){
-                IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
-            }
-            if(!is_Null($MinValue)){
-                IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
-            }
-            if(!is_Null($Assoc)){
-                foreach ($Assoc as $key => $data) {
-                    IPS_SetVariableProfileAssociation($Name, $data['value'], $data['text'], $data['icon']="", $data['color']=-1);  
-                }
-            }
-        } 
-        else {
-            $profile = IPS_GetVariableProfile($Name);
-            if ($profile['ProfileType'] != $Vartype){
-                // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
-            }
-        }
-    }	//Function: createProfile End
-    
+
     
     
     /* ----------------------------------------------------------------------------
@@ -1891,11 +1940,13 @@ ______________________________________________________________________
        $Assoc[7]['text'] = "SWR 3";
        $Assoc[8]['text'] = "NDR 2";
        $Name = "DenonCeol_Channel";
-       $Vartype = 1;
-       $MaxValue = 8;
+       $icon = NULL;
+       $vartype = 1;
+       $maxvalue = 8;
        if (!IPS_VariableProfileExists($Name)){
-           $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=0, $Digits=0);  
+           $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
        }
+
         /*   Profile "Media_Status";  */ 
         $Assoc[0]['value'] = 0;
         $Assoc[1]['value'] = 1;
@@ -1916,10 +1967,11 @@ ______________________________________________________________________
         $Assoc[7]['text'] = "StartOver";
         $Assoc[8]['text'] = "Stop";
         $Name = "Media_Status";
-        $Vartype = 1;
-        $MaxValue = 8;
+        $icon = NULL;
+        $vartype = 1;
+        $maxvalue = 8;
         if (!IPS_VariableProfileExists($Name)){
-            $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=1, $Digits=0);  
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
         }
        /*   Profile "Media_Status";  */ 
         $Assoc[0]['value'] = 0;
@@ -1941,10 +1993,11 @@ ______________________________________________________________________
         $Assoc[7]['text'] = "StartOver";
         $Assoc[8]['text'] = "Stop";
         $Name = "Media_Status";
-        $Vartype = 1;
-        $MaxValue = 8;
+        $vartype = 1;
+        $icon = NULL;
+        $maxvalue = 8;
         if (!IPS_VariableProfileExists($Name)){
-            $this->createProfile($Name, $Vartype,  $Assoc, $Icon="", $Prefix="", $Suffix="", $MinValue=0, $MaxValue, $StepSize=1, $Digits=0);  
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
         }
        /*   Profile "DenonCEOL_Source";  */ 
         $Assoc[0]['value'] = 0;
@@ -1960,10 +2013,11 @@ ______________________________________________________________________
         $Assoc[4]['text'] = "AUX A";
         $Assoc[5]['text'] = "AUX D";
         $Name = "DenonCEOL_Source";
-        $Vartype = 1;
-        $MaxValue = 8;
+        $vartype = 1;
+        $icon = NULL;
+        $maxvalue = 8;
         if (!IPS_VariableProfileExists($Name)){
-            $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
         }
        /*   Profile "UPNP_Playmode";  */ 
        $Assoc[0]['value'] = 0;
@@ -1975,36 +2029,42 @@ ______________________________________________________________________
        $Assoc[2]['text'] = "REPEAT_ONE";
        $Assoc[3]['text'] = "REPEAT_ALL";
        $Name = "UPNP_Playmode";
-       $Vartype = 1;
-       $MaxValue = 3;
+       $icon = NULL;
+       $vartype = 1;
+       $maxvalue = 3;
        if (!IPS_VariableProfileExists($Name)){
-           $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
        }
        /*   Profile "DenonCEOL_Volume";  */ 
        $Assoc = NULL;
-        $Name = "DenonCEOL_Volume";
-       $Vartype = 1;
-       $Suffix = "%";
-       $MinValue = 0;
-       $MaxValue = 100;
-       $StepSize = 1;
+       $Name = "DenonCEOL_Volume";
+       $vartype = 1;
+       $suffix = "%";
+       $minvalue = 0;
+       $maxvalue = 100;
+       $stepsize = 1;
        if (!IPS_VariableProfileExists($Name)){
-           $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
        }
-              /*   Profile "DenonCEOL_Vol";  */ 
-              $Assoc = NULL;
-              $Name = "DenonCEOL_Vol";
-             $Vartype = 1;
-             $Suffix = "%";
-             $MinValue = 0;
-             $MaxValue = 10;
-             $StepSize = 10;
-             $Digits = 0;
-             if (!IPS_VariableProfileExists($Name)){
-                 $this->createProfile($Name, $Vartype,  $Assoc, "", $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
-             }
+        
+       /*   Profile "DenonCEOL_Vol";  */ 
+        $Assoc = NULL;
+        $Name = "DenonCEOL_Vol";
+        $vartype = 1;
+        $icon = NULL;
+        $suffix = "%";
+        $minvalue = 0;
+        $maxvalue = 10;
+        $stepsize = 10;
+        $digits = 0;
+        if (!IPS_VariableProfileExists($Name)){
+            $this->RegisterProfile($vartype, $Name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $Assoc = null);
+        }
     } //Function: RegisterProfiles End
 
     
+
+ 
+
+
 } // Ende Klasse
-?>

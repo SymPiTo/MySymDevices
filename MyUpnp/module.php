@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/UpnpDiscoveryClassTrait.php");
 require_once(__DIR__ . "/UpnpClassTrait.php");
 require_once(__DIR__ . "/../libs/NetworkTraits2.php");
-            
+require_once(__DIR__ . "/../libs/MyHelper.php");          
 require_once(__DIR__ . "/../libs/Array2XML.php");  // diverse Klassen
 
 /*
@@ -24,7 +24,7 @@ class MyUpnp extends IPSModule {
          */
     use upnp,
         UpnpDiscoveryClassTrait,
-        MyDebugHelper2 ;
+        DebugHelper;
     
     /* Constructor: 
     Der Konstruktor des Moduls
@@ -1843,6 +1843,12 @@ class MyUpnp extends IPSModule {
 	Status:  
     //////////////////////////////////////////////////////////////////////////////*/
     Public function FindPlexID(){
+        //Media Ordner Namen
+        $MediaFolderVideo = "MyVideos";
+        $MediaFolderMusic = "Musik";
+        $MediaFolderPhoto = "Fotos";
+        $MediaFolderAudiobook = "Audio";
+
         $ServerName = $this->GetValue("upnp_ServerName");
         if($ServerName == "Plex"){
             $ServerContentDirectory = $this->GetValue("upnp_ServerContentDirectory");
@@ -1869,6 +1875,7 @@ class MyUpnp extends IPSModule {
             $Result_xml = $BrowseResult['Result'] ;
             $liste = $this->BrowseList($Result_xml);
             //Ergebnisse aus Object ID 0
+            //Es gibt nur diese 3 Hauptkategorien
             foreach($liste as $typ){
                         switch ($typ['title']) {
                             case 'Video':
@@ -1895,16 +1902,16 @@ class MyUpnp extends IPSModule {
                 $liste = $this->BrowseList($Result_xml);
                 foreach($liste as $typ){
                             switch ($typ['title']) {
-                                case 'Videos':
+                                case $MediaFolderVideo:
                                     $OID['video'] = $typ['id']; 
                                     break;
-                                case 'Musik':
+                                case  $MediaFolderMusic:
                                     $OID['music'] = $typ['id'];
                                     break;
-                                case 'Fotos':
+                                case $MediaFolderPhoto:
                                     $OID['photo'] = $typ['id'];
                                     break;
-                                case 'AudioBook':
+                                case $MediaFolderAudiobook:
                                     $OID['audio'] = $typ['id'];
                                     break;
                             } 
@@ -1975,11 +1982,29 @@ class MyUpnp extends IPSModule {
 	Status:  
 	//////////////////////////////////////////////////////////////////////////////*/
 	Public function getContainerServer(string $Mediatype){
-        $this->Meldung( 'suche Verzeichnisse"');
-		$ServerContentDirectory = GetValue($this->GetIDForIdent("upnp_ServerContentDirectory"));
-		$ServerIP= GetValue($this->GetIDForIdent("upnp_ServerIP"));
-		$ServerPort = GetValue($this->GetIDForIdent("upnp_ServerPort"));
-		$ServerName = GetValue($this->GetIDForIdent("upnp_ServerName"));
+        $this->Meldung( 'Lese Serverdaten');
+        $this->SendDebug('UPNP: ', "Lese Severdaten aus Variablen.", 0);
+        $ServerName = $this->GetValue("upnp_ServerName");
+        if ($ServerName == ""){
+            $this->SendDebug('UPNP: ', "Servername nicht gefunden.", 0);
+            return false;
+        }
+		$ServerContentDirectory = $this->GetValue("upnp_ServerContentDirectory");
+        if ($ServerName == ""){
+            $this->SendDebug('UPNP: ', "ServerContentDirectory nicht gefunden.", 0);
+            return false;
+        }
+		$ServerIP= $this->GetValue("upnp_ServerIP");
+        if ($ServerName == ""){
+            $this->SendDebug('UPNP: ', "ServerIP nicht vorhanden.", 0);
+            return false;
+        }
+		$ServerPort = $this->GetValue("upnp_ServerPort");
+        if ($ServerName == ""){
+            $this->SendDebug('UPNP: ', "ServerPort nicht vorhanden.", 0);
+            return false;
+        }
+
         $Meldung = "Starte Funktion: getContainerServer mit : ".$Mediatype. " - ".$ServerName ;
         $this->SendDebug('UPNP: ', $Meldung, 0);
 		//Suchvariablen-----------------------------------------------------------------
@@ -2213,6 +2238,13 @@ class MyUpnp extends IPSModule {
         $handle = fopen($this->Kernel()."media/Multimedia/Playlist/".$mediatype."/DBasJson.txt", "w");
         fwrite($handle, $json);
         fclose($handle);
+        
+        //file in SymGUI kopieren
+        // Store the path of source file
+        $source = $this->Kernel().'media/Multimedia/Playlist/'.$mediatype.'/DBasJson.txt'; 
+        // Store the path of destination file
+        $destination = $this->Kernel().'modules/MySymGUI/MyIpsWebHook/www/js/DB'.$mediatype.'.json'; 
+        
         $this->Meldung( 'Datenbank wurde aktualisiert!');
         return true;
     }

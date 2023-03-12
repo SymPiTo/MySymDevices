@@ -1,0 +1,13 @@
+{
+	"id": "{402AC3E0-DB33-48D7-BA79-9416FD112B0C}",
+	"name": "MyComfee",
+	"type": 3,
+	"vendor": "PiTo",
+	"aliases": ["Comfee"],
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "COMF"
+}
+
+  

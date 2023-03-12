@@ -1,0 +1,28 @@
+{
+	"elements": [
+	{
+		"type" : "CheckBox",
+		"name": "active",
+		"caption": "active"
+	},
+	{
+		"type" : "ValidationTextBox",
+		"name": "ip",
+		"caption": "IP-Adresse"
+	},
+	{
+		"type" : "ValidationTextBox",
+		"name": "user",
+		"caption": "Benutzername"
+	},
+	{
+		"type" : "PasswordTextBox",
+		"name": "pw",
+		"caption": "Passwort"
+	}
+	],
+	"actions": [
+	],
+	"status": [
+	]
+}

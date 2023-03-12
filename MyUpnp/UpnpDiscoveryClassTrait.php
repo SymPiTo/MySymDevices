@@ -405,8 +405,8 @@ trait UpnpDiscoveryClassTrait {
     /* **************************************************************************** */
     Protected function create_UPNP_Device_Array($Device_SSDPArray) {
 
-        $LoadArray = GetValue($this->GetIDForIdent("upnp_ClientArray"));
-        $Device_Array = unserialize($LoadArray);
+        //$LoadArray = GetValue($this->GetIDForIdent("upnp_ClientArray"));
+        //$Device_Array = unserialize($LoadArray);
         //$this->stdout(print_r($Device_Array));
        
 
