@@ -7,7 +7,7 @@
  #                                                                              #
  # GITHUB: <https://github.com/SymPiTo/MySymDevices/tree/master/MyComfee>       #
  #                                                                              #
- # Version: 0.0.1  20230321                                                     #
+ # Version: 1.0.0  20230407                                                     #
  #******************************************************************************#
  # _____________________________________________________________________________#
  #    Section: Beschreibung                                                     #
@@ -36,12 +36,18 @@ class MyComfee extends IPSModule{
 
 		# Properties registrieren
 		$this->RegisterPropertyBoolean('active', 'false');
+		$this->RegisterPropertyInteger('interval', 0);
 		$this->RegisterPropertyString('ip', '192.168.178.46');
 		$this->RegisterPropertyString('user', '');
 		$this->RegisterPropertyString('pw', '');
+		$this->RegisterPropertyInteger('FBid', 0);
 
+		# Attribute registrieren
+		$this->RegisterAttributeInteger("actIntervalTime", 0);
 	
 		# Variablen registrieren
+		//Diese Variable kann über fritzBox Module getriggert werden
+		$this->RegisterVariableBoolean('alive', 'Host is Online', '', 0);
 		$this->RegisterVariableBoolean('connected', 'Connected', '', 0);
 		$this->RegisterVariableBoolean('power', 'Power', '', 1);
 		$this->RegisterVariableInteger('curhumid', 'current_humidity', '', 2);
@@ -59,7 +65,8 @@ class MyComfee extends IPSModule{
 		$this->RegisterVariableString('id', 'Comfee_ID', "", 14);
 
 
-		$this->RegisterTimer('LoopTimer', 0, '');
+		$this->RegisterTimer('UpdateTimer', 0, 'COMF_Update($_IPS[\'TARGET\']);');
+		//$this->RegisterTimer('UpdateTimer', 10, '$this->Update();');
 	}
 	
 	#--------------------------------------------------------------------------------#
@@ -80,24 +87,31 @@ class MyComfee extends IPSModule{
 		}
 		//Never delete this line!
 		parent::ApplyChanges();
-		$dis = $this->Discover();
-		if($dis == false){
+		if($this->ReadPropertyBoolean('active')){
+			$this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger('interval'));
+			$dis = $this->Discover();
+			if($dis == false){
+				
+			}
+			else{
+				$this->setvalue('id', ltrim($dis['id']));
+				$this->setvalue('power', $dis['running']);
+				$this->setvalue('curhumid', $dis['humid%']);
+				$this->setvalue('targethumid', $dis['target%']);
+				$this->setvalue('mode', $dis['mode']);
+				$this->setvalue('fanspeed', $dis['fan']);
+				$this->setvalue('ion', $dis['ion']);
+				$this->setvalue('tankfull', $dis['tank']);
+				$this->setvalue('filter', $dis['filter']);
+				$this->setvalue('pumpstate', $dis['pump']);
+				$this->setvalue('Sleepmode', $dis['sleep']);
+				$this->setvalue('defrost', $dis['defrost']);
+				$this->setvalue('errorcode', $dis['error']);
+				$this->setvalue('temp', $dis['temp']);
+			}
 		}
 		else{
-			$this->setvalue('id', ltrim($dis['id']));
-			$this->setvalue('power', $dis['running']);
-			$this->setvalue('curhumid', $dis['humid%']);
-			$this->setvalue('targethumid', $dis['target%']);
-			$this->setvalue('mode', $dis['mode']);
-			$this->setvalue('fanspeed', $dis['fan']);
-			$this->setvalue('ion', $dis['ion']);
-			$this->setvalue('tankfull', $dis['tank']);
-			$this->setvalue('filter', $dis['filter']);
-			$this->setvalue('pumpstate', $dis['pump']);
-			$this->setvalue('Sleepmode', $dis['sleep']);
-			$this->setvalue('defrost', $dis['defrost']);
-			$this->setvalue('errorcode', $dis['error']);
-			$this->setvalue('temp', $dis['temp']);
+			$this->SetTimerInterval("UpdateTimer", 0);
 		}
 	}
 	
@@ -139,68 +153,44 @@ class MyComfee extends IPSModule{
 # Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wie folgt zur Verfügung gestellt.      
 # GS_XYFunktion($Instance_id, ... );                                                                                      
 #________________________________________________________________________________________________________________________
-
 	#-----------------------------------------------------------------------------
-	# Function: Discover                                                      
+	# Function: update()                                                      
 	#...............................................................................
-	# Beschreibung : 
-	#   Ermittelt die ID, token und key des Comfee unter angegebener IP Adresse
-	#	midea-beautiful-air-cli discover --account ACCOUNT_EMAIL --password PASSWORD --address 192.0.2.3 --credentials                                  
+	# Beschreibung : timer gesteuerte Wertabfrage                                 
 	#...............................................................................
 	# Parameters:                                                                   
-	#    none                                                                                                                                                                                                                  
+	#    none                                                                                                                            
 	#...............................................................................
-	# Returns :  Array[]  
-	#	[id] =>  144036023368954
-    #	[addr] =>  192.168.178.46
-    #	[s/n] =>  000000P0000000Q104D6F4A133DA0000
-    #	[model] =>  Dehumidifier
-    #	[ssid] =>  net_a1_33DA
-    #	[online] =>  True
-    #	[name] =>  Entfeuchter_33DA
-    #	[running] =>  False
-    #	[humid%] =>  70
-    #	[target%] =>  55
-    #	[temp] =>  19.0
-    #	[fan] =>  60
-    #	[tank] =>  False
-    #	[mode] =>  2
-    #	[ion] =>  False
-    #	[filter] =>  False
-    #	[pump] =>  False
-    #	[defrost] =>  False
-    #	[sleep] =>  False
-    #	[error] =>  0
-    #	[supports] =>  {'fan_speed': 7, 'auto': 1, 'dry_clothes': 1}
-    #	[version] =>  3
-    #	[token] =>  8028555C6CC74CEC5C4B831EE015242154337D2B5A919B221B104DB6AB3AFE77D9206F7CF16D43CB407BB21E5D8B08E1153035D4B08A21E41352C073ADC7F100
-    #	[key] =>  2a7d23d1bf0f44d4b7c39635fe7b66770ee474314d0040f98ec23bb9448c12b1                                                                  
+	# Returns : none                                                                     
 	#------------------------------------------------------------------------------  
-	Public Function Discover() {
-		$user = " --account ".$this->ReadPropertyString("user");
-		$pw = " --password ".$this->ReadPropertyString("pw");
-		$ip =  " --ip ".$this->ReadPropertyString("ip");
-
-		//prüfen ob Comfee erreichbar ist
-		if(Sys_Ping($this->ReadPropertyString("ip"), 1000)){
-			$this->SetValue('connected', true);
-			//Discovery - get token and key and Appliance ID
-			$command = "/usr/local/bin/midea-beautiful-air-cli discover".$user.$pw.$ip." --credentials";
-			$out = shell_exec($command);
-			$arr = explode("\n", $out);
-			foreach($arr as $key=>$line){
-				$x = explode("=", $line);
-				if(count($x)>1){
-					$discover[trim($x[0])] = $x[1];
-				}
-			}
-			return $discover;
+	public Function Update() {
+		$intervalTime = $this->ReadPropertyInteger("interval");
+		#FritzBox Onlineabfrage
+		if($this->ReadPropertyInteger("FBid")>0){
+			$onlineState = Getvalue($this->ReadPropertyInteger("FBid"));
+			$this->SetValue("alive", $onlineState);
 		}
 		else{
-			$this->SetValue('disconnected', false);
-			return false;
+			$this->SetValue("alive", $this->GetValue("connected"));
 		}
+		#Wenn Online dann Statusabfrage
+		if($this->GetValue("alive")){
+			$this->Get_Status();
+			if($this->ReadAttributeInteger("actIntervalTime") > $This->ReadPropertyInteger('interval')){
+				$this->WriteAttributeInteger("actIntervalTime", $intervalTime);
+				$this->SetTimerInterval("UpdateTimer", $intervalTime);
+			}
+		}
+		else{
+			#Timerintervall verzehnfachen, wenn keine Verbindung
+			$this->WriteAttributeInteger("actIntervalTime", $intervalTime * 10);
+			$this->SetTimerInterval("UpdateTimer", $intervalTime * 10);
+
+		}
+
 	}
+
+
 	#-----------------------------------------------------------------------------
 	# Function: Set_Power                                                      
 	#...............................................................................
@@ -285,75 +275,7 @@ class MyComfee extends IPSModule{
 		return $this->RaspCmd("--pump", json_encode($cond));
 	}
 
- 	#-----------------------------------------------------------------------------
-	# Function: Get_Status                                                      
-	#...............................................................................
-	# Beschreibung : get status of Comfee with Appliance ID 
-	# 				(ID bleibt immer erhalten ist an cloud gebunden)                                  
-	#...............................................................................
-	# Parameters: none                                                                                                                                        
-	#...............................................................................
-	# Returns : Array[]     
-	#	[id] =>  144036023368954
-    #	[addr] =>  Unknown
-    #	[s/n] =>  000000P0000000Q104D6F4A133DA0000
-    #	[model] =>  Dehumidifier
-    #	[ssid] =>  None
-    #	[online] =>  True
-    #	[name] =>  Entfeuchter_33DA
-    #	[running] =>  True
-    #	[humid%] =>  62
-    #	[target%] =>  55
-    #	[temp] =>  18.0
-    #	[fan] =>  40
-    #	[tank] =>  False
-    #	[mode] =>  2
-    #	[ion] =>  False
-    #	[filter] =>  False
-    #	[pump] =>  False
-    #	[defrost] =>  False
-    #	[sleep] =>  False
-    #	[error] =>  0
-    #	[supports] =>  {'fan_speed': 7, 'auto': 1, 'dry_clothes': 1}
-    #	[version] =>  3                                                               
-	#------------------------------------------------------------------------------  
-	public Function Get_Status() {
-		$Comfee_id = $this->GetValue('id');
-		$user = $this->ReadPropertyString('user');
-		$pw =  $this->ReadPropertyString('pw');
 
-		//prüfen ob Comfee erreichbar ist
-		if(Sys_Ping($this->ReadPropertyString("ip"), 1000)){
-			$command = "/usr/local/bin/midea-beautiful-air-cli status"." --id ".$Comfee_id." --account ".$user." --password ".$pw." --cloud";
-			$out = shell_exec($command);
-			$arr = explode("\n", $out);
-			foreach($arr as $key=>$line){
-				$x = explode("=", $line);
-				if(count($x)>1){
-					$status[trim($x[0])] = $x[1];
-				}
-			}
-			$this->setvalue('id', $status['id']);
-			$this->setvalue('power', $status['running']);
-			$this->setvalue('curhumid', $status['humid%']);
-			$this->setvalue('targethumid', $status['target%']);
-			$this->setvalue('mode', $status['mode']);
-			$this->setvalue('fanspeed', $status['fan']);
-			$this->setvalue('ion', $status['ion']);
-			$this->setvalue('tankfull', $status['tank']);
-			$this->setvalue('filter', $status['filter']);
-			$this->setvalue('pumpstate', $status['pump']);
-			$this->setvalue('Sleepmode', $status['sleep']);
-			$this->setvalue('defrost', $status['defrost']);
-			$this->setvalue('errorcode', $status['error']);
-			$this->setvalue('temp', $status['temp']);
-			return $status;
-		}
-		else{
-			$this->SetValue('connected', false);
-			return false;
-		}
-	}
 
 	
 #________________________________________________________________________________________________________________________
@@ -390,6 +312,129 @@ class MyComfee extends IPSModule{
 		}
 	}
 
- 
+	#-----------------------------------------------------------------------------
+	# Function: Discover                                                      
+	#...............................................................................
+	# Beschreibung : 
+	#   Ermittelt die ID, token und key des Comfee unter angegebener IP Adresse
+	#	midea-beautiful-air-cli discover --account ACCOUNT_EMAIL --password PASSWORD --address 192.0.2.3 --credentials                                  
+	#...............................................................................
+	# Parameters:                                                                   
+	#    none                                                                                                                                                                                                                  
+	#...............................................................................
+	# Returns :  Array[]  
+	#	[id] =>  144036023368954
+    #	[addr] =>  192.168.178.46
+    #	[s/n] =>  000000P0000000Q104D6F4A133DA0000
+    #	[model] =>  Dehumidifier
+    #	[ssid] =>  net_a1_33DA
+    #	[online] =>  True
+    #	[name] =>  Entfeuchter_33DA
+    #	[running] =>  False
+    #	[humid%] =>  70
+    #	[target%] =>  55
+    #	[temp] =>  19.0
+    #	[fan] =>  60
+    #	[tank] =>  False
+    #	[mode] =>  2
+    #	[ion] =>  False
+    #	[filter] =>  False
+    #	[pump] =>  False
+    #	[defrost] =>  False
+    #	[sleep] =>  False
+    #	[error] =>  0
+    #	[supports] =>  {'fan_speed': 7, 'auto': 1, 'dry_clothes': 1}
+    #	[version] =>  3
+    #	[token] =>  8028555C6CC74CEC5C4B831EE015242154337D2B5A919B221B104DB6AB3AFE77D9206F7CF16D43CB407BB21E5D8B08E1153035D4B08A21E41352C073ADC7F100
+    #	[key] =>  2a7d23d1bf0f44d4b7c39635fe7b66770ee474314d0040f98ec23bb9448c12b1                                                                  
+	#------------------------------------------------------------------------------  
+	Protected Function Discover() {
+		$user = " --account ".$this->ReadPropertyString("user");
+		$pw = " --password ".$this->ReadPropertyString("pw");
+		$ip =  " --ip ".$this->ReadPropertyString("ip");
 
+		//prüfen ob Comfee erreichbar ist
+		if(Sys_Ping($this->ReadPropertyString("ip"), 1000)){
+			$this->SetValue('connected', true);
+			//Discovery - get token and key and Appliance ID
+			$command = "/usr/local/bin/midea-beautiful-air-cli discover".$user.$pw.$ip." --credentials";
+			$out = shell_exec($command);
+			$arr = explode("\n", $out);
+			foreach($arr as $key=>$line){
+				$x = explode("=", $line);
+				if(count($x)>1){
+					$discover[trim($x[0])] = $x[1];
+				}
+			}
+			return $discover;
+		}
+		else{
+			$this->SetValue('connected', false);
+			return false;
+		}
+	}
+ 	#-----------------------------------------------------------------------------
+	# Function: Get_Status                                                      
+	#...............................................................................
+	# Beschreibung : get status of Comfee with Appliance ID 
+	# 				(ID bleibt immer erhalten ist an cloud gebunden)                                  
+	#...............................................................................
+	# Parameters: none                                                                                                                                        
+	#...............................................................................
+	# Returns : Array[]     
+	#	[id] =>  144036023368954
+    #	[addr] =>  Unknown
+    #	[s/n] =>  000000P0000000Q104D6F4A133DA0000
+    #	[model] =>  Dehumidifier
+    #	[ssid] =>  None
+    #	[online] =>  True
+    #	[name] =>  Entfeuchter_33DA
+    #	[running] =>  True
+    #	[humid%] =>  62
+    #	[target%] =>  55
+    #	[temp] =>  18.0
+    #	[fan] =>  40
+    #	[tank] =>  False
+    #	[mode] =>  2
+    #	[ion] =>  False
+    #	[filter] =>  False
+    #	[pump] =>  False
+    #	[defrost] =>  False
+    #	[sleep] =>  False
+    #	[error] =>  0
+    #	[supports] =>  {'fan_speed': 7, 'auto': 1, 'dry_clothes': 1}
+    #	[version] =>  3                                                               
+	#------------------------------------------------------------------------------  
+	Protected Function Get_Status() {
+		$Comfee_id = $this->GetValue('id');
+		$user = $this->ReadPropertyString('user');
+		$pw =  $this->ReadPropertyString('pw');
+
+		$command = "/usr/local/bin/midea-beautiful-air-cli status"." --id ".$Comfee_id." --account ".$user." --password ".$pw." --cloud";
+		$out = shell_exec($command);
+		$arr = explode("\n", $out);
+		foreach($arr as $key=>$line){
+			$x = explode("=", $line);
+			if(count($x)>1){
+				$status[trim($x[0])] = $x[1];
+			}
+		}
+		$this->setvalue('id', $status['id']);
+		$this->setvalue('power', $status['running']);
+		$this->setvalue('curhumid', $status['humid%']);
+		$this->setvalue('targethumid', $status['target%']);
+		$this->setvalue('mode', $status['mode']);
+		$this->setvalue('fanspeed', $status['fan']);
+		$this->setvalue('ion', $status['ion']);
+		$this->setvalue('tankfull', $status['tank']);
+		$this->setvalue('filter', $status['filter']);
+		$this->setvalue('pumpstate', $status['pump']);
+		$this->setvalue('Sleepmode', $status['sleep']);
+		$this->setvalue('defrost', $status['defrost']);
+		$this->setvalue('errorcode', $status['error']);
+		$this->setvalue('temp', $status['temp']);
+		$this->setvalue('connected', $status['online']);
+		
+		return $status;
+	}
 }

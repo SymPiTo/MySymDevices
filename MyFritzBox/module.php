@@ -34,7 +34,7 @@ ___________________________________________________________________________
         //Register Properties from form.json
         $this->RegisterPropertyBoolean("active", false);
 
-        //$this->ReadPropertyFloat("NAME", 0.0);
+        
 
         $this->RegisterPropertyInteger("UpdateInterval", 0);
 
@@ -42,6 +42,7 @@ ___________________________________________________________________________
         $this->RegisterPropertyString("FBX_USERNAME", "user@user.com");
         $this->RegisterPropertyString("FBX_PASSWORD", "");
 
+        $this->RegisterPropertyString("HostsOnline", "[]");
 
         // Register Profiles
         $this->RegisterProfiles();

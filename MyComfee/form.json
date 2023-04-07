@@ -6,6 +6,11 @@
 		"caption": "active"
 	},
 	{
+		"type" : "NumberSpinner",
+		"name": "interval",
+		"caption": "Update Time [ms]"
+	},
+	{
 		"type" : "ValidationTextBox",
 		"name": "ip",
 		"caption": "IP-Adresse"
@@ -19,7 +24,13 @@
 		"type" : "PasswordTextBox",
 		"name": "pw",
 		"caption": "Passwort"
+	},
+	{
+		"type" : "SelectVariable",
+		"name": "FBid",
+		"caption": "Fritzbox_Host_Comfee_Online"
 	}
+
 	],
 	"actions": [
 	],

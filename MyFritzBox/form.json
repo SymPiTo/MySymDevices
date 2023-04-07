@@ -27,8 +27,43 @@
 		},
 		{
 			"type": "Label",
-			"label": "--------------------------------------------------"
+			"label": "Add/Delete Online variables, which are set to modules"
+		},
+		{
+			"type": "List",
+			"name": "HostsOnline",
+			"caption": "Host Online Supervision",
+			"rowCount": 5,
+			"add": true,
+			"delete": true,
+			"sort": {
+			  "column": "ID",
+			  "direction": "ascending"
+			},
+			"columns": [
+				{
+					"name": "ID",
+					"label": "ID",
+					"width": "300px",
+					"add": 0,
+					"edit": {
+						"type": "SelectVariable"
+					}
+				},
+				{
+					"name": "IP",
+					"label": "IP-Adress",
+					"width": "auto",
+					"add": 0,
+					"edit": {
+						"type": "ValidationTextBox"
+					}
+				}
+			],
+			"values": [{
+	  
+			}]
 		}
-
+	
 	]
 }
