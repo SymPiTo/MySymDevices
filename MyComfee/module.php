@@ -15,8 +15,12 @@
  #    Luftenfeuchters			                                                #
  #    Steuerung über Python Command line                                        #
  # _____________________________________________________________________________#
-;
-class MyComfee extends IPSModule{
+ 
+ require_once(__DIR__ . "/../libs/MyHelper.php");
+
+ class MyComfee extends IPSModule{
+	#Traits aufrufen
+	use ProfileHelper;
 
 #______________________________________________________________________________________________________________________________________________
 #           Section: Internal Module Functions                                                                                                 
@@ -45,15 +49,43 @@ class MyComfee extends IPSModule{
 		# Attribute registrieren
 		$this->RegisterAttributeInteger("actIntervalTime", 0);
 	
+ 
+
+		$associations = [ 
+			[1, 'Wireless', '', 0x00FF00],
+			[2, 'Entfeuchten', '', 0x00FF00],
+			[3, 'SMD', '', 0x00FF00],
+			[4, 'Trocknen', '', 0x00FF00]
+        ];
+        $name = "COMF.Mode";
+        $vartype = 1;
+        $minvalue = 1;
+        $maxvalue = 4;
+        $stepsize = 1;
+    	$this->RegisterProfile($vartype, $name, $icon = null, $prefix = '', $suffix = '', $minvalue, $maxvalue, $stepsize, $digits = 0, $associations);
+
+		$associations = [ 
+			[40, 'Low', '', 0x00FF00],
+			[60, 'Mid', '', 0x00FF00],
+			[80, 'High', '', 0x00FF00]
+        ];
+        $name = "COMF.FanSpeed";
+        $vartype = 1;
+        $minvalue = 20;
+        $maxvalue = 80;
+        $stepsize = 20;
+    	$this->RegisterProfile($vartype, $name, $icon = null, $prefix = '', $suffix = '', $minvalue, $maxvalue, $stepsize, $digits = 0, $associations);
+
+
 		# Variablen registrieren
 		//Diese Variable kann über fritzBox Module getriggert werden
 		$this->RegisterVariableBoolean('alive', 'Host is Online', '', 0);
 		$this->RegisterVariableBoolean('connected', 'Connected', '', 0);
-		$this->RegisterVariableBoolean('power', 'Power', '', 1);
+		$this->RegisterVariableBoolean('power', 'Power', '~Switch', 1);
 		$this->RegisterVariableInteger('curhumid', 'current_humidity', '', 2);
 		$this->RegisterVariableInteger('targethumid', 'target_humidity', '', 3);
-		$this->RegisterVariableInteger('mode', 'mode', '', 4);
-		$this->RegisterVariableInteger('fanspeed', 'Fan Speed', '', 5);
+		$this->RegisterVariableInteger('mode', 'mode', 'COMF.Mode', 4);
+		$this->RegisterVariableInteger('fanspeed', 'Fan Speed', 'COMF.FanSpeed', 5);
 		$this->RegisterVariableBoolean('ion', 'ion', '', 6);
 		$this->RegisterVariableBoolean('tankfull', 'Tank_Full', '', 7);
 		$this->RegisterVariableBoolean('filter', 'Filter_Replacement', '', 8);
@@ -62,11 +94,17 @@ class MyComfee extends IPSModule{
 		$this->RegisterVariableBoolean('defrost', 'Defrosting', '', 11);
 		$this->RegisterVariableString('errorcode', 'Error_Code', '', 12);
 		$this->RegisterVariableInteger('temp', 'Temperature', '', 13);
-		$this->RegisterVariableString('id', 'Comfee_ID', "", 14);
+		$varID = $this->RegisterVariableString('id', 'Comfee_ID', "", 14);
+		IPS_SetHidden($varID, true); //Objekt verstecken
 
 
 		$this->RegisterTimer('UpdateTimer', 0, 'COMF_Update($_IPS[\'TARGET\']);');
 		//$this->RegisterTimer('UpdateTimer', 10, '$this->Update();');
+
+		//Webfront Actions setzen
+		$this->EnableAction("power");
+		$this->EnableAction("mode");
+		$this->EnableAction("fanspeed");
 	}
 	
 	#--------------------------------------------------------------------------------#
@@ -127,6 +165,68 @@ class MyComfee extends IPSModule{
 		parent::Destroy();
 
 	}	
+
+
+	#------------------------------------------------------------------#
+	#       Function: RequestAction()                                  #
+	#       RequestAction() IPS Standard Funktion                      #
+	#       wird von schaltbaren Variablen aufgerufen                  #
+	#------------------------------------------------------------------#
+	public function RequestAction($Ident, $Value) {     
+		switch($Ident) {
+			case "power":
+				if ($Value == true){ 
+					$this->Set_Power(true);
+					$this->setvalue("power",true);
+				}
+				else {
+					$this->Set_Power(false);
+					$this->setvalue("power",false);
+				}
+				break;
+			case "mode":
+				switch ($Value){
+					case 0:
+						break;
+					case 1:
+						$this->Set_OpMode(1);
+						$this->SetValue("mode",1);
+						break;
+					case 2:
+						$this->Set_OpMode(2);
+						$this->SetValue("mode",2);
+						break;
+					case 3:
+						$this->Set_OpMode(3);
+						$this->SetValue("mode",3);
+						break;
+					case 4:
+						$this->Set_OpMode(4);
+						$this->SetValue("mode",4);
+						break;
+				}
+				break;
+				case "fanspeed":
+					switch ($Value){
+						case 40:
+							$this->Set_FanSpeed(40);
+							$this->SetValue("fanspeed",40);
+							break;
+						case 60:
+							$this->Set_FanSpeed(60);
+							$this->SetValue("fanspeed",60);
+							break;
+						case 80:
+							$this->Set_FanSpeed(80);
+							$this->SetValue("fanspeed",80);
+							break;
+					}
+					break;
+			default:
+				throw new Exception("Invalid Ident");
+		}
+	} //Function: RequestAction End
+
 	#--------------------------------------------------------------------------------------------#
 	#       Function: MessageSink()                                                              #
 	#       MessageSink() IPS Standard Funktion                                                  #
@@ -176,7 +276,7 @@ class MyComfee extends IPSModule{
 		#Wenn Online dann Statusabfrage
 		if($this->GetValue("alive")){
 			$this->Get_Status();
-			if($this->ReadAttributeInteger("actIntervalTime") > $This->ReadPropertyInteger('interval')){
+			if($this->ReadAttributeInteger("actIntervalTime") > $intervalTime){
 				$this->WriteAttributeInteger("actIntervalTime", $intervalTime);
 				$this->SetTimerInterval("UpdateTimer", $intervalTime);
 			}
@@ -245,6 +345,7 @@ class MyComfee extends IPSModule{
 	# Returns : none                                                                     
 	#------------------------------------------------------------------------------  
 	public Function Set_FanSpeed(int $speed) {
+		//TODO: wenn Dry Mode 4 ein ist kann FanSpeed nicht umgeschaltete werden!
 		return $this->RaspCmd("--fan-speed", strval($speed));
 	}
 

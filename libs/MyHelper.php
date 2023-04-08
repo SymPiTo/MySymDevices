@@ -160,28 +160,22 @@ trait ProfileHelper {
     #.......................................................................................#
     # Returns:    none                                                                      #
     #---------------------------------------------------------------------------------------#
-    #   $Assoc[0]['value'] = "Kalt";
-    #   $Assoc[1]['value'] = "Anwärmen";
-    #   $Assoc[2]['value'] = "Heizen";
-    #   $Assoc[3]['value'] = "Störung";
-    #   $Assoc[0]['icon'] =  NULL;
-    #   $Assoc[1]['icon'] =  NULL;
-    #   $Assoc[2]['icon'] = NULL;
-    #   $Assoc[3]['icon'] = NULL;
-    #   $Assoc[0]['color'] = "0xFFFF00";
-    #   $Assoc[1]['color'] = "0xFFA500";
-    #   $Assoc[2]['color'] = "0xFF0000";
-    #   $Assoc[3]['color'] = "0x0000FF";
-    #   $Name = "Heat.Status";
-    #   $Vartype = 1;
-    #   $Icon = NULL;
-    #   $Prefix = NULL;
-    #   $Suffix = NULL;
-    #   $MinValue = 0;
-    #   $MaxValue = 4;
-    #   $StepSize = 1;
-    #   $Digits = NULL;
-    protected function RegisterProfile($vartype, $name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $associations = null)
+    #   $associations = [
+    #    [0, $this->Translate('very dry'), '', 0xFF0000],
+    #    [1, $this->Translate('dry'), '', 0x00FF00],
+    #    [2, $this->Translate('water plant'), '', 0x00FF00],
+    #    [3, $this->Translate('enough water'), '', 0x00FF00],
+    #   ];
+    #   $name = "Heat.Status";
+    #   $vartype = 1;
+    #   $icon = NULL;
+    #   $prefix = NULL;
+    #   $suffix = NULL;
+    #   $minvalue = 0;
+    #   $maxvalue = 4;
+    #   $stepsize = 1;
+    #   $digits = NULL;
+    protected function RegisterProfile($vartype, $name, $icon = null, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $associations = null)
     {
         if (!IPS_VariableProfileExists($name)) {
             switch ($vartype) {

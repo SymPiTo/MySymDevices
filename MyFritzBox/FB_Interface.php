@@ -40,7 +40,7 @@ trait FB_soap
 	public function GetNumberOfServices(){
 	    return $this->processSoapCall(
 						"/upnp/control/x_myfritz",
-					    "urn:X_AVM-DE_MyFritz-com:serviceId:X_AVM-DE_MyFritz:1",
+					    "urn:dslforum-org:service:X_AVM-DE_MyFritz:1",
 					    "GetNumberOfServices",
 					       	array(
 							)
