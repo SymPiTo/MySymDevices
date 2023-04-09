@@ -7,7 +7,7 @@
  #                                                                              #
  # GITHUB: <https://github.com/SymPiTo/MySymDevices/tree/master/MyComfee>       #
  #                                                                              #
- # Version: 1.0.0  20230407                                                     #
+ # Version: 1.0.2  20230409                                                     #
  #******************************************************************************#
  # _____________________________________________________________________________#
  #    Section: Beschreibung                                                     #
@@ -105,6 +105,7 @@
 		$this->EnableAction("power");
 		$this->EnableAction("mode");
 		$this->EnableAction("fanspeed");
+		$this->EnableAction('targethumid');
 	}
 	
 	#--------------------------------------------------------------------------------#
@@ -210,17 +211,21 @@
 					switch ($Value){
 						case 40:
 							$this->Set_FanSpeed(40);
-							$this->SetValue("fanspeed",40);
+							$this->SetValue("fanspeed", 40);
 							break;
 						case 60:
 							$this->Set_FanSpeed(60);
-							$this->SetValue("fanspeed",60);
+							$this->SetValue("fanspeed", 60);
 							break;
 						case 80:
 							$this->Set_FanSpeed(80);
-							$this->SetValue("fanspeed",80);
+							$this->SetValue("fanspeed", 80);
 							break;
 					}
+					break;
+				case 'targethumid':
+					$this->Set_Humidity($Value);
+					$this->SetValue('targethumid', $Value);
 					break;
 			default:
 				throw new Exception("Invalid Ident");
@@ -232,9 +237,7 @@
 	#       MessageSink() IPS Standard Funktion                                                  #
 	#       auf System-oder eigen definierten Meldungen reagieren.                               #
 	#--------------------------------------------------------------------------------------------#
-	
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data){
-
 		Switch($Message) {
 		Case IPS_KERNELSTARTED:
 			$this->LogMessage('MessageSink: Kernel hochgefahren', KL_MESSAGE);
@@ -242,7 +245,8 @@
 			break;
 		Case IPS_KERNELSHUTDOWN:
 			$this->LogMessage('MessageSink: Kernel runtergefahren', KL_MESSAGE);
-			//Timer ausschalten ausschalten.
+			# Timer ausschalten ausschalten.
+			$this->SetTimerInterval("UpdateTimer", 0);
 			break;
 		}
 	}
@@ -256,7 +260,7 @@
 	#-----------------------------------------------------------------------------
 	# Function: update()                                                      
 	#...............................................................................
-	# Beschreibung : timer gesteuerte Wertabfrage                                 
+	# Beschreibung : Timer gesteuerte Wertabfrage                                 
 	#...............................................................................
 	# Parameters:                                                                   
 	#    none                                                                                                                            
@@ -345,8 +349,12 @@
 	# Returns : none                                                                     
 	#------------------------------------------------------------------------------  
 	public Function Set_FanSpeed(int $speed) {
-		//TODO: wenn Dry Mode 4 ein ist kann FanSpeed nicht umgeschaltete werden!
-		return $this->RaspCmd("--fan-speed", strval($speed));
+		if($this->GetValue('mode' != 4)){
+			return $this->RaspCmd("--fan-speed", strval($speed));
+		}
+		else{
+			return false;
+		}
 	}
 
 	#-----------------------------------------------------------------------------
