@@ -40,6 +40,7 @@
 
 		# Properties registrieren
 		$this->RegisterPropertyBoolean('active', 'false');
+		$this->RegisterPropertyBoolean('wss', 'false');
 		$this->RegisterPropertyInteger('interval', 0);
 		$this->RegisterPropertyString('ip', '192.168.178.46');
 		$this->RegisterPropertyString('user', '');
@@ -126,6 +127,22 @@
 		}
 		//Never delete this line!
 		parent::ApplyChanges();
+		# Variable für WebsocketServer Übertragung freigeben.
+		if($this->ReadPropertyBoolean('wss')){ 
+			IPS_SetInfo ($this->GetIDForIdent("power"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("connected"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("curhumid"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("targethumid"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("mode"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("fanspeed"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("tankfull"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("filter"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("pumpstate"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("Sleepmode"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("defrost"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("errorcode"), "WSS"); 
+			IPS_SetInfo ($this->GetIDForIdent("temp"), "WSS"); 
+		}
 		if($this->ReadPropertyBoolean('active')){
 			$this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger('interval'));
 			$dis = $this->Discover();

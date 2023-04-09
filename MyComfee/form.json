@@ -6,6 +6,11 @@
 		"caption": "active"
 	},
 	{
+		"type" : "CheckBox",
+		"name": "wss",
+		"caption": "WebSocket Freigabe."
+	},
+	{
 		"type" : "NumberSpinner",
 		"name": "interval",
 		"caption": "Update Time [ms]"
