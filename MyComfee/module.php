@@ -296,11 +296,17 @@
 		}
 		#Wenn Online dann Statusabfrage
 		if($this->GetValue("alive")){
-			$this->Get_Status();
-			if($this->ReadAttributeInteger("actIntervalTime") > $intervalTime){
-				$this->WriteAttributeInteger("actIntervalTime", $intervalTime);
-				$this->SetTimerInterval("UpdateTimer", $intervalTime);
+			$status = $this->Get_Status();
+			if($status != false){
+				if($this->ReadAttributeInteger("actIntervalTime") > $intervalTime){
+					$this->WriteAttributeInteger("actIntervalTime", $intervalTime);
+					$this->SetTimerInterval("UpdateTimer", $intervalTime);
+				}
 			}
+			else{
+				$this->SetValue("alive", false);
+			}
+
 		}
 		else{
 			#Timerintervall verzehnfachen, wenn keine Verbindung
@@ -531,36 +537,43 @@
     #	[supports] =>  {'fan_speed': 7, 'auto': 1, 'dry_clothes': 1}
     #	[version] =>  3                                                               
 	#------------------------------------------------------------------------------  
-	Protected Function Get_Status() {
+	Public Function Get_Status() {
 		$Comfee_id = $this->GetValue('id');
 		$user = $this->ReadPropertyString('user');
 		$pw =  $this->ReadPropertyString('pw');
 
 		$command = "/usr/local/bin/midea-beautiful-air-cli status"." --id ".$Comfee_id." --account ".$user." --password ".$pw." --cloud";
 		$out = shell_exec($command);
-		$arr = explode("\n", $out);
-		foreach($arr as $key=>$line){
-			$x = explode("=", $line);
-			if(count($x)>1){
-				$status[trim($x[0])] = $x[1];
+		if($out != NULL){
+			$arr = explode("\n", $out);
+			foreach($arr as $key=>$line){
+				$x = explode("=", $line);
+				if(count($x)>1){
+					$status[trim($x[0])] = $x[1];
+				}
 			}
+			$this->setvalue('id', $status['id']);
+			$this->setvalue('power', $status['running']);
+			$this->setvalue('curhumid', $status['humid%']);
+			$this->setvalue('targethumid', $status['target%']);
+			$this->setvalue('mode', $status['mode']);
+			$this->setvalue('fanspeed', $status['fan']);
+			$this->setvalue('ion', $status['ion']);
+			$this->setvalue('tankfull', $status['tank']);
+			$this->setvalue('filter', $status['filter']);
+			$this->setvalue('pumpstate', $status['pump']);
+			$this->setvalue('Sleepmode', $status['sleep']);
+			$this->setvalue('defrost', $status['defrost']);
+			$this->setvalue('errorcode', $status['error']);
+			$this->setvalue('temp', $status['temp']);
+			$this->setvalue('connected', $status['online']);
+			
+			return $status;	
 		}
-		$this->setvalue('id', $status['id']);
-		$this->setvalue('power', $status['running']);
-		$this->setvalue('curhumid', $status['humid%']);
-		$this->setvalue('targethumid', $status['target%']);
-		$this->setvalue('mode', $status['mode']);
-		$this->setvalue('fanspeed', $status['fan']);
-		$this->setvalue('ion', $status['ion']);
-		$this->setvalue('tankfull', $status['tank']);
-		$this->setvalue('filter', $status['filter']);
-		$this->setvalue('pumpstate', $status['pump']);
-		$this->setvalue('Sleepmode', $status['sleep']);
-		$this->setvalue('defrost', $status['defrost']);
-		$this->setvalue('errorcode', $status['error']);
-		$this->setvalue('temp', $status['temp']);
-		$this->setvalue('connected', $status['online']);
+		else{
+			return false;
+		}
 		
-		return $status;
+		
 	}
 }
