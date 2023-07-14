@@ -292,6 +292,7 @@
 		}
 		else{
 			$this->SetValue("alive", false);
+			$this->setvalue('connected', false);
 		}
 		#Wenn Online dann Statusabfrage
 		if($this->GetValue("alive")){
@@ -303,7 +304,7 @@
 				}
 			}
 			else{
-				$this->SetValue("alive", false);
+				//$this->SetValue("alive", false);
 			}
 
 		}
