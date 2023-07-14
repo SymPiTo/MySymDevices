@@ -1,44 +1,36 @@
 {
 	"elements": [
-	{
-		"type" : "CheckBox",
-		"name": "active",
-		"caption": "active"
-	},
-	{
-		"type" : "CheckBox",
-		"name": "wss",
-		"caption": "WebSocket Freigabe."
-	},
-	{
-		"type" : "NumberSpinner",
-		"name": "interval",
-		"caption": "Update Time [ms]"
-	},
-	{
-		"type" : "ValidationTextBox",
-		"name": "ip",
-		"caption": "IP-Adresse"
-	},
-	{
-		"type" : "ValidationTextBox",
-		"name": "user",
-		"caption": "Benutzername"
-	},
-	{
-		"type" : "PasswordTextBox",
-		"name": "pw",
-		"caption": "Passwort"
-	},
-	{
-		"type" : "SelectVariable",
-		"name": "FBid",
-		"caption": "Fritzbox_Host_Comfee_Online"
-	}
-
+		{
+			"type": "CheckBox",
+			"name": "active",
+			"caption": "active"
+		},
+		{
+			"type": "CheckBox",
+			"name": "wss",
+			"caption": "WebSocket Freigabe."
+		},
+		{
+			"type": "NumberSpinner",
+			"name": "interval",
+			"caption": "Update Time [ms]"
+		},
+		{
+			"type": "ValidationTextBox",
+			"name": "ip",
+			"caption": "IP-Adresse"
+		},
+		{
+			"type": "ValidationTextBox",
+			"name": "user",
+			"caption": "Benutzername"
+		},
+		{
+			"type": "PasswordTextBox",
+			"name": "pw",
+			"caption": "Passwort"
+		}
 	],
-	"actions": [
-	],
-	"status": [
-	]
+	"actions": [],
+	"status": []
 }

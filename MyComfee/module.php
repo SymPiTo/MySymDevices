@@ -79,7 +79,7 @@
 
 		# Variablen registrieren
 		//Diese Variable kann über fritzBox Module getriggert werden
-		$this->RegisterVariableBoolean('alive', 'Host is Online', '', 0);
+		$this->RegisterVariableBoolean('alive', 'Host is Alive', '', 0);
 		$this->RegisterVariableBoolean('connected', 'Connected', '', 0);
 		$this->RegisterVariableBoolean('power', 'Power', '~Switch', 1);
 		$this->RegisterVariableInteger('curhumid', 'current_humidity', '', 2);
