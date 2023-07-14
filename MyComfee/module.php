@@ -42,11 +42,10 @@
 		$this->RegisterPropertyBoolean('active', 'false');
 		$this->RegisterPropertyBoolean('wss', 'false');
 		$this->RegisterPropertyInteger('interval', 0);
-		$this->RegisterPropertyString('ip', '192.168.178.46');
+		$this->RegisterPropertyString('ip', '');
 		$this->RegisterPropertyString('user', '');
 		$this->RegisterPropertyString('pw', '');
-		$this->RegisterPropertyInteger('FBid', 0);
-
+		
 		# Attribute registrieren
 		$this->RegisterAttributeInteger("actIntervalTime", 0);
 	
@@ -143,7 +142,7 @@
 			IPS_SetInfo ($this->GetIDForIdent("errorcode"), "WSS"); 
 			IPS_SetInfo ($this->GetIDForIdent("temp"), "WSS"); 
 		}
-		if($this->ReadPropertyBoolean('active')){
+		if($this->ReadPropertyBoolean('active') and $this->ReadPropertyString('ip')<>''){
 			$this->SetTimerInterval("UpdateTimer", $this->ReadPropertyInteger('interval'));
 			$dis = $this->Discover();
 			if($dis == false){
@@ -286,13 +285,13 @@
 	#------------------------------------------------------------------------------  
 	public Function Update() {
 		$intervalTime = $this->ReadPropertyInteger("interval");
-		#FritzBox Onlineabfrage
-		if($this->ReadPropertyInteger("FBid")>0){
-			$onlineState = Getvalue($this->ReadPropertyInteger("FBid"));
-			$this->SetValue("alive", $onlineState);
+		# Onlineabfrage
+
+		if(Sys_Ping($this->ReadPropertyString("ip"), 1000)){
+			$this->SetValue("alive", true);
 		}
 		else{
-			$this->SetValue("alive", $this->GetValue("connected"));
+			$this->SetValue("alive", false);
 		}
 		#Wenn Online dann Statusabfrage
 		if($this->GetValue("alive")){
