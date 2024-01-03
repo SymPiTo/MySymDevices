@@ -95,16 +95,21 @@
             }
             */
  /* */
+            //Modul für Device erstellen
             $AddValue['create'] = [
-               
                 [
                     'moduleID'      => '{B5AC32DF-F37A-5BA2-AAFC-3435878AD70A}',
                     'configuration' => [
-                        'Host' => $AddValue['IPAddress'],
-                        'Port' => (int) 1234,
-                        'Open' => true,
+                        'ip' => $AddValue['IPAddress'],
+                        'port' => (int) 1234,
+                        'open' => true,
                     ],
-                ],
+                    "statusVariables" => [
+                        "Minimum" => [
+                            "name" => "Alternativer Name für Minimum"
+                            ]
+                    ]
+                ]
                 
             ];
            

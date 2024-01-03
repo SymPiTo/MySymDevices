@@ -1,0 +1,14 @@
+{
+    "id": "{B5AC32DF-F37A-5BA2-AAFC-3435878AD70A}",
+    "name": "MyUPNPDevice",
+    "type": 3,
+    "vendor": "PiTo",
+    "aliases": [
+        "MyUPNPServerClient"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "UPNPD",
+    "url": ""
+}

@@ -39,7 +39,11 @@
 		parent::Create();
 
         # Properties registrieren
-		$this->RegisterPropertyBoolean('active', 'false');
+		$this->RegisterPropertyBoolean('open', 'false');
+		$this->RegisterPropertyString('ip', '');
+		$this->RegisterPropertyInteger('port', 0);
+
+		$this->RegisterVariableString('Minimum', 'Minimum', '', 1);
     }
 
 	#--------------------------------------------------------------------------------#
