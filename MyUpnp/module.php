@@ -514,34 +514,27 @@ class MyUpnp extends IPSModule {
 		$ST_RC = "urn:schemas-upnp-org:service:RenderingControl:1";
 		--------------------------------------------------------------------------------
 		*/
-		if ($member == "client"){
-			$this->SetValue("upnp_ClientArray", 'suche Devices ...');
-			$SSDP_Search_Array = $this->mSearch($ST_MR);
-			//IPSLog('mSearch Ergebnis ',$SSDP_Search_Array);
-			
-			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
-			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
-			
-		 	$UPNP_Device_Array = $this->create_UPNP_Device_Array($SSDP_Array); 
-			//IPSLog('create Device Ergebnis ',$UPNP_Device_Array);
-			//Ergebnis wird als ARRAY in ID_CLIENT_ARRAY in Subfunctions gespeichert;
-			$array = $this->GetValue("upnp_ClientArray");
-			if ($array){$result = true;}
-			else{$result = false;}
-		}
-		if ($member == "server"){
-			$this->setvalue("upnp_ServerArray", 'suche Server ...');
-			$SSDP_Search_Array = $this->mSearch($ST_MS);
-			$SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
-			//IPSLog('bereinigtes mSearch Ergebnis ',$SSDP_Array);
-		 	$UPNP_Server_Array = $this->create_UPNP_Server_Array($SSDP_Array); 
-			//Ergebnis wird als ARRAY in ID_Server_ARRAY in Subfunctions gespeichert;
-			$array = $this->GetValue("upnp_ServerArray");
-			if ($array){$result = true;}
-			else{$result = false;}
-		}
-		//IPSLog('FERTIG ', $result);
-		return($result);
+        switch ($member) {
+            case "client":
+                $this->SetValue("upnp_ClientArray", 'suche Devices ...');
+                $SSDP_Search_Array = $this->mSearch($ST_MR);
+                $SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
+                $UPNP_Device_Array = $this->create_UPNP_Device_Array($SSDP_Array); 
+                $array = $this->GetValue("upnp_ClientArray");
+                $result = $array ? true : false;
+                break;
+            case "server":
+                $this->setvalue("upnp_ServerArray", 'suche Server ...');
+                $SSDP_Search_Array = $this->mSearch($ST_MS);
+                $SSDP_Array = $this->array_multi_unique($SSDP_Search_Array);
+                $UPNP_Server_Array = $this->create_UPNP_Server_Array($SSDP_Array); 
+                $array = $this->GetValue("upnp_ServerArray");
+                $result = $array ? true : false;
+                break;
+            default:
+                $result = false;
+        }
+        return $result;
 	}
 
 

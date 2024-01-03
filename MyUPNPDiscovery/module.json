@@ -1,0 +1,15 @@
+{
+    "id": "{070265DE-A54F-6135-61C8-FE08BFFDEAEA}",
+    "name": "UPNP Device Discovery",
+    "type": 5,
+    "vendor": "tobe",
+    "aliases": [
+        "UPNP Client",
+        "UPNP Server"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "UPNP",
+    "url": ""
+}
