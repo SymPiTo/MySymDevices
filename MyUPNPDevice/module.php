@@ -20,7 +20,7 @@
 
  class MyUPNPDevice extends IPSModule{
 	#Traits aufrufen
-	use ProfileHelper;
+	//use ProfileHelper;
     use DebugHelper;
 
 #______________________________________________________________________________________________________________________________________________
@@ -37,6 +37,9 @@
 	*/
 	public function Create() {
 		parent::Create();
+
+        # Properties registrieren
+		$this->RegisterPropertyBoolean('active', 'false');
     }
 
 	#--------------------------------------------------------------------------------#
