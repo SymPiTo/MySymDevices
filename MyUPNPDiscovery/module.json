@@ -2,10 +2,9 @@
     "id": "{070265DE-A54F-6135-61C8-FE08BFFDEAEA}",
     "name": "UPNP Device Discovery",
     "type": 5,
-    "vendor": "tobe",
+    "vendor": "PiTo",
     "aliases": [
-        "UPNP Client",
-        "UPNP Server"
+        "MyUPNP Discovery"
     ],
     "parentRequirements": [],
     "childRequirements": [],
