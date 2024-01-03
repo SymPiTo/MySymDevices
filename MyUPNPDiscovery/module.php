@@ -61,8 +61,7 @@
 	
     public function GetConfigurationForm()
     {
-        //SSDP Suchlauf ausführen - Netz nach devices suchen
-        $Devices = $this->DiscoverDevices();
+      
         //Daten aus der form.json holen und in array variable speichern
         $Form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
 
@@ -71,16 +70,18 @@
         $Values = [];
 
         //suche alle UPNP fähigen Geräte im lokalen Netz
-        $discoveredDevices = $this->DiscoverDevices();
+        $discoveredDevices = @$this->DiscoverDevices();
 
-        foreach ($Devices as $IPAddress => $Device) {
+        foreach ($discoveredDevices as $key => $Device) {
             $AddValue = [
-                'IPAddress'  => $IPAddress,
-                'type'       => $Device[0],
-                'name'       => 'Onkyo/Pioneer AVR Splitter (' . $Device[0] . ')',
+                'IPAddress'  => $Device['IP'],
+                'type'       => $Device['deviceType'],
+                'name'       => $Device['friendlyName'],
                 'instanceID' => 0,
             ];
-            $InstanceID = array_search($IPAddress, $IPSDevices);
+
+            
+            /*$InstanceID = array_search($IPAddress, $IPSDevices);
             if ($InstanceID === false) {
                 $InstanceID = array_search(strtolower($Device[4]), $IPSDevices);
                 if ($InstanceID !== false) {
@@ -92,27 +93,24 @@
                 $AddValue['name'] = IPS_GetName($InstanceID);
                 $AddValue['instanceID'] = $InstanceID;
             }
+            */
+ /* */
             $AddValue['create'] = [
+               
                 [
-                    'moduleID'      => '{251DAC2C-5B1F-4B1F-B843-B22D518F553E}',
-                    'configuration' => new stdClass(),
-                ],
-                [
-                    'moduleID'      => '{EB1697D1-2A88-4A1A-89D9-807D73EEA7C9}',
-                    'configuration' => new stdClass(),
-                ],
-                [
-                    'moduleID'      => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',
+                    'moduleID'      => '{B5AC32DF-F37A-5BA2-AAFC-3435878AD70A}',
                     'configuration' => [
                         'Host' => $AddValue['IPAddress'],
-                        'Port' => (int) $Device[1],
+                        'Port' => (int) 1234,
                         'Open' => true,
                     ],
                 ],
+                
             ];
+           
             $Values[] = $AddValue;
         }
-
+/*
         foreach ($IPSDevices as $InstanceID => $IPAddress) {
             $Values[] = [
                 'IPAddress'  => $IPAddress,
@@ -121,6 +119,7 @@
                 'instanceID' => $InstanceID,
             ];
         }
+*/  
         $Form['actions'][0]['values'] = $Values;
 
         $this->SendDebug('FORM', json_encode($Form), 0);
@@ -128,6 +127,8 @@
 
         return json_encode($Form);
     }
+
+
 
     private function GetIPSInstances(): array
     {
@@ -149,6 +150,19 @@
         return $Devices;
     }
 
+    #-----------------------------------------------------------------------------
+	# Function: DiscoverDevices                                                      
+	#...............................................................................
+	# Beschreibung : This method is responsible for discovering UPNP devices by sending a UDP broadcast message and parsing the response.                     
+	#...............................................................................
+	# Parameters:                                                                   
+    # @param array $array An array of items, where each item is an associative array with an 'IP' key.
+    # @return array An array containing unique items from the input array based on the 'IP' key.                                                                                                                                 
+	#...............................................................................
+	# Returns : array   
+    #   An array of discovered UPNP devices, where each device is represented by an associative array with keys for IP address, port, 
+    #   and other device-specific information.                                                               
+	#------------------------------------------------------------------------------  
     private function DiscoverDevices(): array
     {
         /*
@@ -195,11 +209,30 @@
         */
         //ID der SDDP Kern-Instanz
         //Suche nach allen UPNP fägigen Geräte
-        $result = YC_SearchDevices(59291, "ssdp:all");
-        //wichtige Daten aussortieren und doppelte entfernen
-        
-        
-        return $DeviceData;
+        $Devices = YC_SearchDevices(59291, "ssdp:all");
+        //gefundene UPN Devices array zuordnen
+        foreach ($Devices  as $key => $Device){
+            if(substr($Device['ST'],0,4) == "upnp"){
+                $items[$key]['IP'] = $Device['IPv4'];  
+                $items[$key]['Description'] = $Device['Location'];
+                $items[$key]['Type'] = $Device['ST'];
+            } 
+        }
+        //remove duplicate IP's
+        $filteredItems = $this->removeDuplicatesByIP($items);
+        //Description auslesen
+        foreach ($filteredItems as $key=>$item) {
+            $devicesArray[$key] = $this->getDescription($item['Description']);
+            $parsedUrl = parse_url($item['Description']);
+            $devicesArray[$key]['IP'] = $parsedUrl['host'];
+            $devicesArray[$key]['Port'] = ($parsedUrl['port'] ?? '-');
+        }
+        //alle Devices aussortieren die nich Player oder Server sind
+        $filteredDevices = array_filter($devicesArray, function ($device) {
+            return !empty($device) && isset($device['deviceType']) && $device['deviceType'] !== 'Basic';
+        }); 
+
+        return $filteredDevices;
     }
 
     #-----------------------------------------------------------------------------
@@ -273,26 +306,26 @@
 
         if ($xmlObject) {
             // Access other elements in the default namespace
-            $device['URLBase'] = (string)$xmlObject->URLBase;
-            $device['friendlyName'] = (string)$xmlObject->device->friendlyName;
-            $str = (string)$xmlObject->device->deviceType;
+            $device['URLBase'] = (string) ($xmlObject->URLBase ?? '-');
+            $device['friendlyName'] = (string) ($xmlObject->device->friendlyName ?? '-');
+            $str = (string) ($xmlObject->device->deviceType ?? '');
             preg_match('/device:([A-Za-z0-9_-]+):1/',$str, $type);
             $device['deviceType'] = $type[1];
-            $device['manufacturer'] = (string)$xmlObject->device->manufacturer;
-            $device['modelName'] = (string)$xmlObject->device->modelName;
-            $device['modelNumber'] = (string)$xmlObject->device->modelNumber;
-            $device['icon'] = (string)$xmlObject->device->iconList->icon->url;
+            $device['manufacturer'] = (string) ($xmlObject->device->manufacturer ?? '-');
+            $device['modelName'] = (string) ($xmlObject->device->modelName ?? '-');
+            $device['modelNumber'] = (string) ($xmlObject->device->modelNumber ?? '-');
+            $device['icon'] = (string) ($xmlObject->device->iconList->icon->url ?? '-');
 
             if (isset($xmlObject->device->serviceList->service)) {
                 // Überprüfe, ob der Schlüssel [service] vorhanden ist
                 foreach ($xmlObject->device->serviceList->service as $service) {
                     // Iteriere durch alle [service]-Einträge
                     $serviceData = [
-                        'Service Type' => (string) $service->serviceType,
-                        'Service ID' => (string) $service->serviceId,
-                        'SCPDURL' => (string) $service->SCPDURL,
-                        'Control URL' => (string) $service->controlURL,
-                        'Event Sub URL' => (string) $service->eventSubURL,
+                        'Service Type' => (string) $service->serviceType ?? '',
+                        'Service ID' => (string) $service->serviceId ?? '',
+                        'SCPDURL' => (string) $service->SCPDURL ?? '',
+                        'Control URL' => (string) $service->controlURL ?? '',
+                        'Event Sub URL' => (string) $service->eventSubURL ?? '',
                     ];
 
                     $device['service'][] = $serviceData;

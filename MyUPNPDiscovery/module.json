@@ -1,6 +1,6 @@
 {
     "id": "{070265DE-A54F-6135-61C8-FE08BFFDEAEA}",
-    "name": "UPNP Device Discovery",
+    "name": "MyUPNPDiscovery",
     "type": 5,
     "vendor": "PiTo",
     "aliases": [
